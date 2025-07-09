@@ -250,9 +250,9 @@ Perfecto, te propongo la lista de **conceptos adicionales de C++ moderno organiz
 
 Esta organización temática permite introducir de forma gradual los conceptos de C++ moderno que tus alumnos necesitarán antes o durante la explicación de patrones de diseño, evitando saturarlos y dándoles el contexto necesario para entender:
 
-✅ Cómo se diseñan estructuras robustas en C++ moderno
-✅ Cómo se abstrae el comportamiento sin comprometer la seguridad de tipos
-✅ Cómo gestionar la complejidad y la memoria en programas grandes
+* Cómo se diseñan estructuras robustas en C++ moderno
+* Cómo se abstrae el comportamiento sin comprometer la seguridad de tipos
+* Cómo gestionar la complejidad y la memoria en programas grandes
 
 
 ¿Quieres que te proponga un orden didáctico concreto para introducir estas temáticas antes o durante tu módulo de patrones de diseño? Puedo ayudarte a integrarlo como una extensión natural del curso.
