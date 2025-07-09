@@ -181,14 +181,14 @@ Perfecto, aquí tienes un resumen estructurado, pensado para que veas claramente
 
 Para abordar patrones de diseño en C++ moderno es esencial que los alumnos hayan visto:
 
-✔ Clases, constructores, encapsulamiento
-✔ Herencia y polimorfismo
-✔ Punteros inteligentes (`std::unique_ptr`, `std::shared_ptr`)
-✔ Inicialización uniforme
-✔ RAII
-✔ `static` y variables locales estáticas
-✔ `std::function` y lambdas (para patrones con callbacks)
-✔ Containers de la STL (`std::vector`, `std::list`, etc.)
+* Clases, constructores, encapsulamiento
+* Herencia y polimorfismo
+* Punteros inteligentes (`std::unique_ptr`, `std::shared_ptr`)
+* Inicialización uniforme
+* RAII
+* `static` y variables locales estáticas
+* `std::function` y lambdas (para patrones con callbacks)
+* Containers de la STL (`std::vector`, `std::list`, etc.)
 
 
 ¿Quieres que te prepare un mapa de ruta para tu curso donde primero se enseñen esos conceptos y luego se introduzcan los patrones gradualmente?
@@ -202,48 +202,48 @@ Perfecto, te propongo la lista de **conceptos adicionales de C++ moderno organiz
 
 ### **1. Profundización en Programación Orientada a Objetos (POO)**
 
-✔ Clases abstractas
-✔ Métodos virtuales y `override`
-✔ Interfaces puras (`virtual` ... `= 0`)
-✔ Composición frente a herencia (preferencia y aplicaciones)
-✔ Relaciones de dependencia entre clases
-✔ Acceso y control de instancias (constructores privados)
+* Clases abstractas
+* Métodos virtuales y `override`
+* Interfaces puras (`virtual` ... `= 0`)
+* Composición frente a herencia (preferencia y aplicaciones)
+* Relaciones de dependencia entre clases
+* Acceso y control de instancias (constructores privados)
 
 
 ### **2. Gestión Avanzada de Recursos y Memoria**
 
-✔ Uso práctico y seguro de `std::unique_ptr` y `std::shared_ptr`
-✔ Clonación de objetos (copias profundas y superficiales)
-✔ Gestión de recursos en objetos compuestos
-✔ RAII aplicado a estructuras dinámicas
-✔ Uso de `std::move` y semántica de movimiento
+* Uso práctico y seguro de `std::unique_ptr` y `std::shared_ptr`
+* Clonación de objetos (copias profundas y superficiales)
+* Gestión de recursos en objetos compuestos
+* RAII aplicado a estructuras dinámicas
+* Uso de `std::move` y semántica de movimiento
 
 
 ### **3. Funciones Avanzadas y Abstracción de Comportamiento**
 
-✔ `std::function` y su aplicación para callbacks y estrategias
-✔ Uso de lambdas y closures para encapsular comportamiento
-✔ `std::bind` para pasar funciones miembro como argumentos
-✔ Clases functoras (objetos que se comportan como funciones)
-✔ Inicialización de atributos con lambdas o funciones
+* `std::function` y su aplicación para callbacks y estrategias
+* Uso de lambdas y closures para encapsular comportamiento
+* `std::bind` para pasar funciones miembro como argumentos
+* Clases functoras (objetos que se comportan como funciones)
+* Inicialización de atributos con lambdas o funciones
 
 
 ### **4. Técnicas de Diseño de Interfaces**
 
-✔ Encadenamiento de métodos (`return *this`)
-✔ Inicialización flexible de objetos (patrones tipo Builder)
-✔ Conversión de interfaces (Adapter)
-✔ Separación de implementación y uso (Principio de inversión de dependencias)
-✔ Control de visibilidad y accesibilidad en interfaces públicas
+* Encadenamiento de métodos (`return *this`)
+* Inicialización flexible de objetos (patrones tipo Builder)
+* Conversión de interfaces (Adapter)
+* Separación de implementación y uso (Principio de inversión de dependencias)
+* Control de visibilidad y accesibilidad en interfaces públicas
 
 
 ### **5. Buenas Prácticas y Principios de Diseño**
 
-✔ Principio de responsabilidad única
-✔ Principio abierto/cerrado (extensible sin modificar)
-✔ Evitar dependencias rígidas (Inyección de dependencias básica)
-✔ Uso de RAII y punteros inteligentes en estructuras complejas
-✔ Evitar fugas de memoria y accesos indebidos
+* Principio de responsabilidad única
+* Principio abierto/cerrado (extensible sin modificar)
+* Evitar dependencias rígidas (Inyección de dependencias básica)
+* Uso de RAII y punteros inteligentes en estructuras complejas
+* Evitar fugas de memoria y accesos indebidos
 
 
 ## **Conclusión**
@@ -324,16 +324,16 @@ Este módulo puede verse como una "Extensión avanzada de POO y buenas práctica
 
 Ya estarías en condiciones de introducir un módulo formal de **Patrones de Diseño en C++ Moderno**, donde podrías ver patrones como:
 
-✔ Singleton
-✔ Factory Method
-✔ Abstract Factory
-✔ Builder
-✔ Prototype
-✔ Adapter
-✔ Decorator
-✔ Observer
-✔ Strategy
-✔ Composite
+* Singleton
+* Factory Method
+* Abstract Factory
+* Builder
+* Prototype
+* Adapter
+* Decorator
+* Observer
+* Strategy
+* Composite
 
 
 ## **¿Quieres que te prepare este "Módulo de Profundización" ya estructurado en formato de índice o directamente materiales didácticos de cada apartado?** Puedo empezar por lo que tú prefieras.
