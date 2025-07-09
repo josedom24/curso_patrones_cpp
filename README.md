@@ -7,10 +7,10 @@
 
 2. Funciones Avanzadas y Abstracción de Comportamiento
 
-    Uso de lambdas para comportamiento flexible
-    std::function para callbacks o comportamientos configurables
-    Clases functoras y lambdas como objetos de primera clase
-    Ejercicios simples que simulan estrategias o filtros
+    * Uso de lambdas para comportamiento flexible
+    * std::function para callbacks o comportamientos configurables
+    * Clases functoras y lambdas como objetos de primera clase
+    * Ejercicios simples que simulan estrategias o filtros
 
 
 3. Gestión de Recursos en Programas Complejos
