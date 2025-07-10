@@ -167,3 +167,95 @@ int main() {
 ---
 
 ¿Quieres que prepare ahora un esquema similar para otro patrón (como Factory Method, Observer, Decorator…)?
+
+
+
+
+
+
+
+
+Buena pregunta. Veámoslo con calma. La frase:
+
+> "**`std::function` y lambdas: se pueden usar para extender o modificar comportamiento del singleton**"
+
+significa que puedes usar funciones anónimas (lambdas) o contenedores de funciones (`std::function`) para que el **Singleton sea más flexible y configurable**, en lugar de tener un comportamiento rígido.
+
+---
+
+## 📌 ¿Por qué querríamos eso?
+
+Porque a veces no quieres que el Singleton tenga un comportamiento fijo “tallado en piedra”. En su lugar, puede ser útil permitir que el usuario **inyecte o registre comportamiento personalizado** en tiempo de ejecución, como funciones de procesamiento, filtros, callbacks, etc.
+
+---
+
+## 🔧 ¿Cómo se hace?
+
+Usando `std::function` como atributo del Singleton, puedes permitir que se le asigne cualquier función o lambda que respete una cierta firma.
+
+---
+
+## 🧪 Ejemplo práctico
+
+Supón que tu Singleton es un logger, y quieres permitir al usuario definir **cómo se imprime cada mensaje**.
+
+```cpp
+#include <iostream>
+#include <functional>
+#include <string>
+
+class Logger {
+private:
+    Logger() = default;
+
+    std::function<void(const std::string&)> estrategia_log = 
+        [](const std::string& mensaje) {
+            std::cout << "[DEFAULT] " << mensaje << '\n';
+        };
+
+public:
+    Logger(const Logger&) = delete;
+    Logger& operator=(const Logger&) = delete;
+
+    static Logger& instancia() {
+        static Logger instancia_unica;
+        return instancia_unica;
+    }
+
+    void log(const std::string& mensaje) {
+        estrategia_log(mensaje); // uso del std::function
+    }
+
+    void establecerEstrategia(std::function<void(const std::string&)> nueva_funcion) {
+        estrategia_log = nueva_funcion;
+    }
+};
+
+int main() {
+    // Uso por defecto
+    Logger::instancia().log("Mensaje normal");
+
+    // Cambiar el comportamiento del log con una lambda
+    Logger::instancia().establecerEstrategia([](const std::string& msg) {
+        std::cerr << "[ERROR] " << msg << '\n';
+    });
+
+    Logger::instancia().log("Este mensaje va a std::cerr");
+}
+```
+
+---
+
+## ✅ Ventajas
+
+* **Extensibilidad sin modificar la clase** (`OCP`: Open/Closed Principle).
+* Puedes inyectar funciones de prueba, filtros, adaptadores, etc.
+* Aumenta la **reutilización** y la flexibilidad.
+
+---
+
+## 🧠 Conclusión
+
+Incorporar `std::function` y lambdas en un Singleton es una forma de hacerlo **más dinámico, configurable y extensible**. Ya no es un objeto “cerrado”, sino que su comportamiento puede adaptarse **en tiempo de ejecución** sin necesidad de subclasificar o modificar su código fuente.
+
+¿Te gustaría que prepare una plantilla de Singleton configurable con `std::function`, lista para reutilizar?
