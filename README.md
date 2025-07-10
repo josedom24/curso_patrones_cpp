@@ -12,10 +12,9 @@
     * Clases functoras y lambdas como objetos de primera clase
     * Ejercicios simples que simulan estrategias o filtros
 
-
 3. Gestión de Recursos en Programas Complejos
 
-    * Revisión de RAII aplicado a objetos complejos
+    * Semántica de copia y movimiento
     * Uso práctico de `std::unique_ptr` y `std::shared_ptr` en clases
     * Clonación de objetos (copias profundas y superficiales)
     * Ejemplos de composición de objetos con punteros inteligentes
