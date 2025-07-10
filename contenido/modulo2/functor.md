@@ -119,23 +119,3 @@ Para terminar este aprtado tenemos que tener en cuenta:
 * Las **lambdas** son preferibles cuando se necesita una **definición local, breve y sin reutilización**.
 * Ambos mecanismos se comportan como **objetos invocables** y pueden utilizarse con `std::function`, algoritmos estándar o funciones personalizadas.
 
-
-### Ejercicio sugerido
-
-**Enunciado:**
-Implemente una clase `FiltroMultiplo` que sea una functora que filtre e imprima solo los valores múltiplos de un número dado. Luego, utilice una lambda equivalente para hacer lo mismo.
-
-**Ejemplo de uso:**
-
-```cpp
-FiltroMultiplo filtro(3);
-filtro(6);  // Imprime 6
-filtro(7);  // No imprime
-
-auto lambda = [](int x) { if (x % 3 == 0) std::cout << x << '\n'; };
-lambda(9);  // Imprime 9
-```
-
----
-
-¿Deseas que te proporcione la solución de este ejercicio o seguimos con el último apartado: **Ejercicios simples que simulan estrategias o filtros**?
