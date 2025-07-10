@@ -433,7 +433,6 @@ Me parece una excelente aproximación para un curso de patrones de diseño en C+
 ### 1. **Introducción y propósito**
 
 * Breve explicación sobre **qué problema resuelve** el patrón.
-* Situaciones o contextos en los que es útil.
 * Ejemplos cotidianos o analogías simples para anclar el concepto.
 
 ### 2. **Motivación y casos de uso**
@@ -467,7 +466,7 @@ Me parece una excelente aproximación para un curso de patrones de diseño en C+
 * Explicar paso a paso qué hace cada parte del código.
 * Mostrar variantes si las hay o alternativas recomendadas.
 
-### 6. **Ventajas, desventajas y consideraciones**
+### 6. **Ventaja y desventajas**
 
 * Beneficios que aporta el patrón.
 * Posibles inconvenientes o sobrecostes.

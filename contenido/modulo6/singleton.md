@@ -1,10 +1,6 @@
-Aquí tienes el material didáctico completo sobre el patrón de diseño **Singleton**, estructurado según tu esquema propuesto:
+# Singleton
 
----
-
-# 🧩 Patrón de Diseño: Singleton
-
-## 1. Introducción y propósito
+## Introducción y propósito
 
 El patrón **Singleton** garantiza que **una clase tenga una única instancia** y proporciona un **punto de acceso global** a ella.
 
@@ -12,55 +8,36 @@ El patrón **Singleton** garantiza que **una clase tenga una única instancia** 
 
 Evita que se creen múltiples instancias de una clase cuando solo debe existir una. Por ejemplo, en sistemas donde debe haber:
 
-* Un único gestor de configuración
-* Un único logger (registro de eventos)
-* Un único acceso a base de datos o sistema de archivos
+* Un único gestor de configuración.
+* Un único logger (registro de eventos).
+* Un único acceso a base de datos o sistema de archivos.
 
-### Analogía simple
-
-Piensa en un **presidente** de un país: solo debe haber **uno**. Todas las decisiones pasan por esa figura central, y no tiene sentido tener múltiples presidentes activos al mismo tiempo.
-
----
-
-## 2. Motivación y casos de uso
+## Motivación y casos de uso
 
 ### Escenarios donde es útil
 
-* Controladores globales de recursos (logger, base de datos, configuración)
-* Gestión centralizada de estado (modo debug, preferencias del usuario)
-* Acceso compartido a hardware o servicios únicos (impresora, red)
+* Controladores globales de recursos (logger, base de datos, configuración).
+* Gestión centralizada de estado (modo debug, preferencias del usuario).
+* Acceso compartido a hardware o servicios únicos (impresora, red).
 
 ### Problemas que ayuda a evitar
 
-* Duplicación de recursos costosos
-* Confusión o inconsistencias por múltiples instancias no sincronizadas
-* Dependencia innecesaria de múltiples copias de un objeto que debería ser único
+* Duplicación de recursos costosos.
+* Confusión o inconsistencias por múltiples instancias no sincronizadas.
+* Dependencia innecesaria de múltiples copias de un objeto que debería ser único.
 
 ### Ámbitos de aplicación
 
-* Interfaces gráficas (gestor de eventos)
-* Motores de videojuegos (controlador de escenas)
-* Sistemas embebidos (controladores de hardware únicos)
+* Interfaces gráficas (gestor de eventos).
+* Motores de videojuegos (controlador de escenas).
+* Sistemas embebidos (controladores de hardware únicos).
 
----
+## Relación con principios SOLID y buenas prácticas
 
-## 3. Relación con principios SOLID y buenas prácticas
+* **SRP** (Responsabilidad Única): La clase Singleton tiene una única responsabilidad: controlar su propia instancia.
+* **OCP** (Abierto/Cerrado): Se puede extender su comportamiento sin modificar cómo se accede a la instancia.
 
-| Principio                           | Relación                                                                           |
-| ----------------------------------- | ---------------------------------------------------------------------------------- |
-| **SRP** (Responsabilidad Única)     | La clase Singleton tiene una única responsabilidad: controlar su propia instancia. |
-| **OCP** (Abierto/Cerrado)           | Se puede extender su comportamiento sin modificar cómo se accede a la instancia.   |
-| **DIP** (Inversión de dependencias) | Puede romper DIP si se abusa del acceso global (ver desventajas).                  |
-
-**Otros conceptos modernos relacionados:**
-
-* RAII: La instancia puede gestionar recursos y liberar correctamente si se usa con `std::unique_ptr`.
-* Smart pointers: permiten controlar el ciclo de vida de la instancia (lazy initialization).
-* `std::function` y lambdas: se pueden usar para extender o modificar comportamiento del singleton.
-
----
-
-## 4. Diagrama y estructura
+## Diagrama y estructura
 
 ### UML simplificado
 
@@ -78,9 +55,7 @@ Piensa en un **presidente** de un país: solo debe haber **uno**. Todas las deci
 * `instancia()` es un método estático que devuelve una referencia a la instancia única.
 * El constructor es privado para impedir otras construcciones.
 
----
-
-## 5. Implementación en C++ moderno
+## Implementación en C++ moderno
 
 ```cpp
 #include <iostream>
@@ -112,37 +87,28 @@ int main() {
 }
 ```
 
-### Explicación paso a paso
-
 * `Logger()` es **privado**: evita que se creen instancias desde fuera.
-* `instancia()` devuelve una referencia a una **instancia estática local**, creada la primera vez que se llama.
+* `instancia()` devuelve una referencia a una **instancia estática local**, con eso conseguimos dos propiedades importantes:
+    * **Lazy Initialization (Inicialización perezosa)**: El objeto se crea solo cuando se necesita por primera vez, en lugar de hacerlo al inicio del programa.
+    * **Thread-safe (Seguro para múltiples hilos)**: El código puede ejecutarse correctamente en un entorno con múltiples hilos sin riesgo **de condiciones de carrera (race conditions)**. Si varios hilos llaman a `getInstance()` al mismo tiempo, solo uno de ellos debe crear la instancia, y los demás deben obtener la misma instancia sin errores.
 * Se eliminan la copia y la asignación (`= delete`) para evitar que otros dupliquen la instancia.
 
----
+## Ventajas, desventajas y consideraciones
 
-## 6. Ventajas, desventajas y consideraciones
-
-### ✅ Ventajas
+### Ventajas
 
 * Control total sobre la única instancia.
 * Inicialización perezosa (`lazy initialization`).
 * Thread-safe en C++11+ sin necesidad de mecanismos adicionales.
 
-### ❌ Desventajas
+### Desventajas
 
-* El acceso global puede fomentar **acoplamiento** innecesario (anti-patrón global).
-* Dificulta pruebas unitarias si se accede directamente (no se puede inyectar una instancia falsa).
-* Puede violar el principio de inversión de dependencias si se abusa del patrón.
+* El acceso global puede fomentar **acoplamiento** innecesario (anti-patrón global). Debido a que se comporta como una variable global disfrazada, y el uso de variables globales es considerado un **anti-patrón**.
+* Dificulta pruebas unitarias si se accede directamente (no se puede inyectar una instancia falsa que simule su comportamiento).
+* Puede violar el principio de inversión de dependencias si se abusa del patrón, ya que acceder al objeto está acoplándose directamente a una implementación concreta , lo cual viola el principio.
 
-### 🛠️ Consideraciones prácticas
 
-* Usar solo cuando realmente se necesita **una única instancia**.
-* Considerar pasar la instancia como dependencia si se necesita **flexibilidad y testeo**.
-* Evitar el uso de Singleton como **almacén de estados globales no controlados**.
-
----
-
-## 7. Ejemplos de aplicación real o mini-proyectos
+## Ejemplos de aplicación real 
 
 ### Mini-proyectos
 
@@ -154,20 +120,14 @@ int main() {
 
 > Implementa una clase `Configuracion` como singleton, que cargue y exponga valores desde un archivo `.ini` simulado. Asegúrate de que no puede ser copiada ni instanciada directamente.
 
----
 
-## 8. Resumen y puntos clave
+## Resumen y puntos clave
 
 * El patrón Singleton **garantiza una única instancia** de una clase.
 * Controla la creación usando un **constructor privado** y un **método estático**.
 * Útil para representar **recursos globales o compartidos**.
 * Debe usarse con cuidado: el acceso global puede **romper principios de diseño** si se abusa.
 * La implementación moderna en C++ es sencilla y segura gracias a las **variables locales estáticas** (C++11+).
-
----
-
-¿Quieres que prepare ahora un esquema similar para otro patrón (como Factory Method, Observer, Decorator…)?
-
 
 
 
