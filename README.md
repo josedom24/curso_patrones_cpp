@@ -5,12 +5,12 @@
     * ¿Qué son los patrones de diseño
     * Patrones de diseño con C++ moderno
 
-2. Funciones Avanzadas y Abstracción de Comportamiento
+2. Funciones avanzadas y abstracción de comportamiento
 
-    * Uso de lambdas para comportamiento flexible
-    * std::function para callbacks o comportamientos configurables
-    * Clases functoras y lambdas como objetos de primera clase
-    * Ejercicios simples que simulan estrategias o filtros
+    * [Uso de lambdas para comportamiento flexible](contenido/modulo2/lambda.md)
+    * [`std::function` para callbacks o comportamientos configurables](contenido/modulo2/function.md)
+    * [Clases functoras y lambdas como objetos de primera clase](contenido/modulo2/functor.md)
+    * [Ejercicios sobre abstracción de comportamiento](contenido/modulo2/ejercicios.md)
 
 3. Gestión de Recursos en Programas Complejos
 
