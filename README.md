@@ -22,7 +22,6 @@
 
 4. Profundización en POO y Diseño de Interfaces
 
-    * Instancia estática de clase
     * Clases abstractas y métodos virtuales
     * Interfaces puras (`virtual` ... `= 0`)
     * Uso correcto de `override`
