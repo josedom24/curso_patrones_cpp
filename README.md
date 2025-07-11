@@ -38,7 +38,7 @@
 
 6. Patrones Creacionales
 
-    * Singleton
+    * [Singleton](contenido/modulo6/singleton.md)
     * Factory Method
     * Abstract Factory
     * Builder
