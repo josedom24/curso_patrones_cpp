@@ -38,7 +38,7 @@
 
 6. Patrones Creacionales
 
-    * Singleton (con gestión de memoria segura y thread-safety)
+    * Singleton
     * Factory Method
     * Abstract Factory
     * Builder

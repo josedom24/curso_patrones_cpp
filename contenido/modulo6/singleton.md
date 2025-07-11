@@ -107,57 +107,11 @@ int main() {
 * Dificulta pruebas unitarias si se accede directamente (no se puede inyectar una instancia falsa que simule su comportamiento).
 * Puede violar el principio de inversión de dependencias si se abusa del patrón, ya que acceder al objeto está acoplándose directamente a una implementación concreta , lo cual viola el principio.
 
+## Configuración del comportamiento
 
-## Ejemplos de aplicación real 
+A veces no queremos que el Singleton tenga un comportamiento fijo. En su lugar, puede ser útil permitir que el usuario **inyecte o registre comportamiento personalizado** en tiempo de ejecución, como funciones de procesamiento, filtros, callbacks, etc.
 
-### Mini-proyectos
-
-* **Logger de eventos** con opción de niveles (`info`, `error`, `debug`)
-* **Gestor de configuración** que se carga una vez desde un archivo
-* **Controlador de acceso a base de datos** simulado
-
-### Ejercicio propuesto
-
-> Implementa una clase `Configuracion` como singleton, que cargue y exponga valores desde un archivo `.ini` simulado. Asegúrate de que no puede ser copiada ni instanciada directamente.
-
-
-## Resumen y puntos clave
-
-* El patrón Singleton **garantiza una única instancia** de una clase.
-* Controla la creación usando un **constructor privado** y un **método estático**.
-* Útil para representar **recursos globales o compartidos**.
-* Debe usarse con cuidado: el acceso global puede **romper principios de diseño** si se abusa.
-* La implementación moderna en C++ es sencilla y segura gracias a las **variables locales estáticas** (C++11+).
-
-
-
-
-
-
-
-Buena pregunta. Veámoslo con calma. La frase:
-
-> "**`std::function` y lambdas: se pueden usar para extender o modificar comportamiento del singleton**"
-
-significa que puedes usar funciones anónimas (lambdas) o contenedores de funciones (`std::function`) para que el **Singleton sea más flexible y configurable**, en lugar de tener un comportamiento rígido.
-
----
-
-## 📌 ¿Por qué querríamos eso?
-
-Porque a veces no quieres que el Singleton tenga un comportamiento fijo “tallado en piedra”. En su lugar, puede ser útil permitir que el usuario **inyecte o registre comportamiento personalizado** en tiempo de ejecución, como funciones de procesamiento, filtros, callbacks, etc.
-
----
-
-## 🔧 ¿Cómo se hace?
-
-Usando `std::function` como atributo del Singleton, puedes permitir que se le asigne cualquier función o lambda que respete una cierta firma.
-
----
-
-## 🧪 Ejemplo práctico
-
-Supón que tu Singleton es un logger, y quieres permitir al usuario definir **cómo se imprime cada mensaje**.
+Usando `std::function` como atributo del Singleton, puedes permitir que se le asigne cualquier función o lambda que respete una cierta firma. Veamos un ejemplo donde vamos a construir  un logger siguiendo el aptrón Singleton, que permita al usuario definir **cómo se imprime cada mensaje**:
 
 ```cpp
 #include <iostream>
@@ -204,18 +158,9 @@ int main() {
 }
 ```
 
----
 
-## ✅ Ventajas
 
-* **Extensibilidad sin modificar la clase** (`OCP`: Open/Closed Principle).
-* Puedes inyectar funciones de prueba, filtros, adaptadores, etc.
-* Aumenta la **reutilización** y la flexibilidad.
+## Ejercicio propuesto
 
----
+Implementa una clase `Configuracion` como Singleton, que cargue y exponga valores desde un archivo `.ini` simulado. Asegúrate de que no puede ser copiada ni instanciada directamente.
 
-## 🧠 Conclusión
-
-Incorporar `std::function` y lambdas en un Singleton es una forma de hacerlo **más dinámico, configurable y extensible**. Ya no es un objeto “cerrado”, sino que su comportamiento puede adaptarse **en tiempo de ejecución** sin necesidad de subclasificar o modificar su código fuente.
-
-¿Te gustaría que prepare una plantilla de Singleton configurable con `std::function`, lista para reutilizar?
