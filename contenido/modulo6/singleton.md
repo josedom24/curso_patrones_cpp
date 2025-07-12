@@ -4,7 +4,7 @@
 
 El patrón **Singleton** garantiza que **una clase tenga una única instancia** y proporciona un **punto de acceso global** a ella.
 
-### Problema que resuelve
+## Problema que resuelve
 
 Evita que se creen múltiples instancias de una clase cuando solo debe existir una. Por ejemplo, en sistemas donde debe haber:
 
@@ -12,34 +12,19 @@ Evita que se creen múltiples instancias de una clase cuando solo debe existir u
 * Un único logger (registro de eventos).
 * Un único acceso a base de datos o sistema de archivos.
 
-## Motivación y casos de uso
-
-### Escenarios donde es útil
+Algunos escenarios donde es útil:
 
 * Controladores globales de recursos (logger, base de datos, configuración).
 * Gestión centralizada de estado (modo debug, preferencias del usuario).
 * Acceso compartido a hardware o servicios únicos (impresora, red).
 
-### Problemas que ayuda a evitar
+Nos ayuda a evitar:
 
 * Duplicación de recursos costosos.
 * Confusión o inconsistencias por múltiples instancias no sincronizadas.
 * Dependencia innecesaria de múltiples copias de un objeto que debería ser único.
 
-### Ámbitos de aplicación
-
-* Interfaces gráficas (gestor de eventos).
-* Motores de videojuegos (controlador de escenas).
-* Sistemas embebidos (controladores de hardware únicos).
-
-## Relación con principios SOLID y buenas prácticas
-
-* **SRP** (Responsabilidad Única): La clase Singleton tiene una única responsabilidad: controlar su propia instancia.
-* **OCP** (Abierto/Cerrado): Se puede extender su comportamiento sin modificar cómo se accede a la instancia.
-
-## Diagrama y estructura
-
-### UML simplificado
+## Diagrama UML y estructura
 
 ```
 ┌──────────────────────┐
@@ -93,15 +78,13 @@ int main() {
     * **Thread-safe (Seguro para múltiples hilos)**: El código puede ejecutarse correctamente en un entorno con múltiples hilos sin riesgo **de condiciones de carrera (race conditions)**. Si varios hilos llaman a `getInstance()` al mismo tiempo, solo uno de ellos debe crear la instancia, y los demás deben obtener la misma instancia sin errores.
 * Se eliminan la copia y la asignación (`= delete`) para evitar que otros dupliquen la instancia.
 
-## Ventajas, desventajas y consideraciones
-
-### Ventajas
+## Ventajas
 
 * Control total sobre la única instancia.
 * Inicialización perezosa (`lazy initialization`).
 * Thread-safe en C++11+ sin necesidad de mecanismos adicionales.
 
-### Desventajas
+## Desventajas
 
 * El acceso global puede fomentar **acoplamiento** innecesario (anti-patrón global). Debido a que se comporta como una variable global disfrazada, y el uso de variables globales es considerado un **anti-patrón**.
 * Dificulta pruebas unitarias si se accede directamente (no se puede inyectar una instancia falsa que simule su comportamiento).
@@ -157,8 +140,6 @@ int main() {
     Logger::instancia().log("Este mensaje va a std::cerr");
 }
 ```
-
-
 
 ## Ejercicio propuesto
 
