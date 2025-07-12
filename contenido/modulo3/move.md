@@ -342,7 +342,7 @@ int main() {
     return 0;
 }
 ```
-
+* **`std::make_unique`** es una función que facilita la creación de punteros inteligentes de tipo `std::unique_ptr`. Es una forma más segura y concisa de crear un `unique_ptr` sin tener que usar el operador `new` directamente.
 * **`std::unique_ptr`** maneja automáticamente la memoria. Esto significa que no tenemos que preocuparnos por liberar la memoria en el destructor ni gestionar las copias o los movimientos de manera manual.
 * Cuando **`Buffer` es copiado o movido**, **`std::unique_ptr` se encarga de copiar o mover el puntero automáticamente**:
     * Si copiamos el objeto, el **`unique_ptr` realiza una copia del recurso** (esto generalmente no es posible con `unique_ptr` sin transferir la propiedad, pero la STL tiene un comportamiento específico para este caso).

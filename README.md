@@ -24,10 +24,10 @@
 
     * [Ampliación de constructores: control de creación y copia de objetos](contenido/modulo4/constructor.md)
     * [Clases abstractas y métodos virtuales](contenido/modulo4/constructor.md)
-    * [Interfaces puras](contenido/modulo4/abstracta.md)
-    * Uso correcto de `override`
-    * Ejemplos básicos de polimorfismo
-    * Separación entre interfaz y detalle de implementación
+    * [Interfaces puras y uso correcto de `override`](contenido/modulo4/abstracta.md)
+    * [Separación entre interfaz y detalle de implementación](contenido/modulo4/separacion.md)
+    * Ejercicios sobre profundización de POO
+     
 
 5. Técnicas de Diseño de Interfaces y Fluidez
 

@@ -1,6 +1,5 @@
 # Interfaces puras
 
-
 En programación orientada a objetos, una **interfaz** es un conjunto de funciones públicas que una clase expone y que define **qué puede hacer** un objeto, sin especificar **cómo lo hace**. En C++, no existe un tipo especial llamado `interface` como en otros lenguajes (Java, C#), pero se puede representar mediante **clases abstractas puras**, es decir, clases que contienen exclusivamente **métodos virtuales puros**.
 
 Estas clases proporcionan una forma robusta de diseñar software flexible, extensible y desacoplado, favoreciendo principios como **programar contra interfaces y no contra implementaciones**.
