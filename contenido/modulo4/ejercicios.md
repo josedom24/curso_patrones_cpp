@@ -10,13 +10,16 @@ Implemente una clase `Configuracion` que represente los parámetros de configura
 
 ## Ejercicio 2: Jerarquía de clases
 
-Define una jerarquía de clases para representar diferentes tipos de **instrumentos musicales**. Todos los instrumentos deben poder "tocar", pero cada uno lo hará de manera diferente.
+Define una jerarquía de clases para representar diferentes tipos de **instrumentos musicales**. Todos los instrumentos deben poder "tocar", pero cada uno lo hará de manera diferente. Además, se desea impedir que ciertos tipos de instrumentos sean heredados o modificados en su comportamiento una vez definidos.
 
 1. Define una **clase abstracta** `Instrumento` que contenga un método virtual puro llamado `tocar() const`.
 2. Deriva dos clases concretas: `Piano` y `Guitarra`, que implementen el método `tocar()` con un mensaje específico para cada instrumento.
-3. Crea una colección de instrumentos (usando `std::vector<std::unique_ptr<Instrumento>>`) e incluye instancias de `Piano` y `Guitarra`.
+
+   * Marca estos métodos con la cláusula `override` para indicar que sobrescriben el método virtual.
+   * Además, en la clase `Piano`, marca el método `tocar()` como `final` para **evitar que se pueda sobrescribir en clases derivadas de `Piano`**.
+3. Crea una colección de instrumentos usando `std::vector<std::unique_ptr<Instrumento>>` e incluye instancias de `Piano` y `Guitarra`.
 4. Recorre la colección y llama al método `tocar()` de cada instrumento.
-5. Usa correctamente `override` y un destructor virtual en la clase base.
+5. Asegúrate de que la clase base `Instrumento` tenga un **destructor virtual**, para garantizar una destrucción adecuada.
 
 ## Ejercicios 3: Interfaces puras
 

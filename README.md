@@ -25,6 +25,7 @@
     * [Ampliación de constructores: control de creación y copia de objetos](contenido/modulo4/constructor.md)
     * [Clases abstractas y métodos virtuales](contenido/modulo4/constructor.md)
     * [Interfaces puras y uso correcto de `override`](contenido/modulo4/abstracta.md)
+    * [Uso de `override` y `final`](contenido/modulo4/override.md)
     * [Separación entre interfaz y detalle de implementación](contenido/modulo4/separacion.md)
     * Ejercicios sobre profundización de POO
      
