@@ -26,6 +26,7 @@
     * [Clases abstractas y métodos virtuales](contenido/modulo4/constructor.md)
     * [Interfaces puras y uso correcto de `override`](contenido/modulo4/abstracta.md)
     * [Uso de `override` y `final`](contenido/modulo4/override.md)
+    * Devolución de interfaces o punteros inteligentes
     * [Separación entre interfaz y detalle de implementación](contenido/modulo4/separacion.md)
     * Ejercicios sobre profundización de POO
      
@@ -33,8 +34,8 @@
 5. Técnicas de Diseño de Interfaces y Fluidez
 
     * Encadenamiento de métodos (`return *this`)
-    * Inicialización flexible de objetos (builder básico)
-    * Ocultación de detalles internos (PImpl idiom si quieres ir más lejos)
+    * Inicialización flexible de objetos (builder básico) ???
+    * Ocultación de detalles internos (PImpl idiom si quieres ir más lejos)  ???
     * Ejercicios de creación controlada de objetos
 
 6. Patrones Creacionales
