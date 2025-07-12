@@ -430,66 +430,41 @@ Me parece una excelente aproximación para un curso de patrones de diseño en C+
 
 ## Mi propuesta de estructura para explicar **cada patrón de diseño**:
 
-### 1. **Introducción y propósito**
+### **Introducción y propósito**
 
 * Breve explicación sobre **qué problema resuelve** el patrón.
 * Ejemplos cotidianos o analogías simples para anclar el concepto.
 
-### 2. **Motivación y casos de uso**
+### **Problemas que resuelve**
 
 * Escenarios reales o comunes en desarrollo de software donde el patrón ayuda.
 * Qué problemas concretos previene o mejora (p.ej. acoplamiento, duplicación, falta de flexibilidad).
 * Qué tipo de sistemas o módulos se benefician más (interfaces gráficas, bases de datos, servicios, etc.).
 
-### 3. **Relación con principios SOLID y buenas prácticas**
-
-* Explicación de qué **principio SOLID** o principio de diseño se está aplicando o reforzando.
-* Por ejemplo:
-
-  * **SRP (Single Responsibility Principle)**: un patrón que ayuda a dividir responsabilidades.
-  * **OCP (Open/Closed Principle)**: extender sin modificar código.
-  * **LSP (Liskov Substitution Principle)**: asegurar reemplazo seguro de clases derivadas.
-  * **ISP (Interface Segregation Principle)**: interfaces específicas y pequeñas.
-  * **DIP (Dependency Inversion Principle)**: desacoplar dependencias y usar abstracciones.
-* También relación con otros conceptos modernos (por ejemplo: RAII, smart pointers, `std::function`, lambdas).
-
-### 4. **Diagrama y estructura**
+## 4. **Diagrama UML y estructura**
 
 * Mostrar un diagrama UML básico o esquema de clases/objetos para visualizar relaciones.
 * Enumerar y explicar brevemente los componentes clave (clases, interfaces, objetos).
 * Cómo interactúan y cuál es su responsabilidad.
 
-### 5. **Implementación en C++ moderno**
+### **Implementación en C++ moderno**
 
 * Código de ejemplo claro, breve y didáctico.
 * Usar características modernas cuando aporten claridad o seguridad (smart pointers, lambdas, `std::unique_ptr`, `std::shared_ptr`, `constexpr`, `auto`).
 * Explicar paso a paso qué hace cada parte del código.
 * Mostrar variantes si las hay o alternativas recomendadas.
 
-### 6. **Ventaja y desventajas**
+###  **Ventaja y desventajas**
 
 * Beneficios que aporta el patrón.
 * Posibles inconvenientes o sobrecostes.
 * Cuándo no es recomendable usarlo.
 * Consejos prácticos para usarlo correctamente.
 
-### 7. **Ejemplos de aplicación real o mini-proyectos**
+### **Ejemplos de aplicación real o mini-proyectos**
 
 * Propuestas de ejercicios o mini proyectos que usan el patrón.
 * Cómo extender el patrón a casos más complejos.
 
-### 8. **Resumen y puntos clave**
-
-* Resumen breve de la utilidad y cuándo aplicarlo.
-* Recordatorio de los principios SOLID involucrados.
-* Enlaces o referencias para profundizar.
-
 ---
 
-## ¿Quieres?
-
-Puedo ayudarte a generar plantillas para cada patrón con esta estructura. Así tienes un esquema homogéneo y completo para todo el curso.
-
----
-
-¿Te interesa que te proponga un esquema global del curso con esta estructura para todos los patrones? ¿O prefieres que empecemos directamente con un patrón concreto?
