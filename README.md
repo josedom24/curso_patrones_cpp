@@ -17,8 +17,7 @@
     * [Semántica de copia y movimiento](contenido/modulo3/move.md)
     * [Uso práctico de `std::unique_ptr` y `std::shared_ptr` en clases](contenido/modulo3/small_pointer.md)
     * Clonación de objetos (copias profundas y superficiales)
-    * Ejemplos de composición de objetos con punteros inteligentes
-
+    * Composición de objetos con punteros inteligentes
 
 4. Profundización en POO y Diseño de Interfaces
 
