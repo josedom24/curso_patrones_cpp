@@ -4,7 +4,7 @@
 
 El patrón **Factory Method** es un patrón creacional que permite **delegar la creación de objetos a subclases**, en lugar de instanciarlos directamente con `new`. Su propósito es **desacoplar la lógica de creación del uso** del objeto, facilitando así la extensión y reutilización del código.
 
-## Problema que resuelve
+## Problemas que resuelve
 
 * ¿Qué ocurre si el código que usa objetos también debe conocer todos sus constructores y detalles internos? Se produce un fuerte acoplamiento y una menor flexibilidad. Factory Method evita esto.
 
@@ -150,7 +150,4 @@ int main() {
 * Aplica este patrón cuando la creación es variable, no si hay solo un tipo de producto.
 * Úsalo junto a otros patrones como Singleton (para la fábrica) o Prototype (para clones).
 
-## Ejercicio propuesto
-
-Crea una clase `Carta` con variantes `CartaAtaque`, `CartaDefensa`, etc. Usa una fábrica `FábricaCartas` que genera cartas distintas en cada nivel.
 

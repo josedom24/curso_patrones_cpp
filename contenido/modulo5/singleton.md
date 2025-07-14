@@ -140,8 +140,3 @@ int main() {
     Logger::instancia().log("Este mensaje va a std::cerr");
 }
 ```
-
-## Ejercicio propuesto
-
-Implementa una clase `Configuracion` como Singleton, que cargue y exponga valores desde un archivo `.ini` simulado. Asegúrate de que no puede ser copiada ni instanciada directamente.
-
