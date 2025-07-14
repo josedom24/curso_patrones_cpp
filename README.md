@@ -29,25 +29,18 @@
     * [Devolución de interfaces mediante punteros inteligentes](contenido/modulo4/devolucion.md)
     * [Separación entre interfaz y detalle de implementación](contenido/modulo4/separacion.md)
     * Fluidez de métodos (`return *this`)
+    * Inicialización flexible de objetos
     * [Ejercicios sobre profundización de POO](contenido/modulo4/ejercicios.md)
      
+5. Patrones Creacionales
 
-5. Técnicas de Diseño de Interfaces y Fluidez
-
-    * 
-    * Inicialización flexible de objetos (builder básico) ???
-    * Ocultación de detalles internos (PImpl idiom si quieres ir más lejos)  ???
-    * Ejercicios de creación controlada de objetos
-
-6. Patrones Creacionales
-
-    * [Singleton](contenido/modulo6/singleton.md)
-    * Factory Method
+    * [Singleton](contenido/modulo5/singleton.md)
+    * [Factory Method](contenido/modulo5/factory_method.md)
     * Abstract Factory
     * Builder
     * Prototype (incluyendo uso seguro de copias y clonación)
 
-7. Patrones Estructurales
+6. Patrones Estructurales
 
     * Adapter
     * Decorator (composición moderna con punteros inteligentes)
@@ -56,7 +49,7 @@
     * Bridge
     * Proxy
 
-8. Patrones de Comportamiento
+7. Patrones de Comportamiento
 
     * Strategy (usando plantillas y polimorfismo moderno)
     * Observer (con `std::function` y lambdas como callbacks)
