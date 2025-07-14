@@ -35,7 +35,7 @@
 
     * [Singleton](contenido/modulo5/singleton.md)
     * [Factory Method](contenido/modulo5/factory_method.md)
-    * Abstract Factory
+    * [Abstract Factory](contenido/modulo5/abstract_factory.md)
     * Builder
     * Prototype (incluyendo uso seguro de copias y clonación)
 
@@ -58,5 +58,5 @@
     * Visitor
     * State
     
-    
+8. Proyecto final
 
