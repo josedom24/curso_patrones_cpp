@@ -11,6 +11,7 @@
     * [`std::function` para callbacks o comportamientos configurables](contenido/modulo2/function.md)
     * [Clases functoras y lambdas como objetos de primera clase](contenido/modulo2/functor.md)
     * [Ejercicios sobre abstracción de comportamiento](contenido/modulo2/ejercicios.md)
+    * [Plantilla de clase: `std::optional`](contenido/modulo2/plantilla.md)
 
 3. Gestión de Recursos en Programas Complejos
 
