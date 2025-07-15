@@ -27,7 +27,7 @@
     * [Uso de `override` y `final`](contenido/modulo4/override.md)
     * [Devolución de interfaces mediante punteros inteligentes](contenido/modulo4/devolucion.md)
     * [Separación entre interfaz y detalle de implementación](contenido/modulo4/separacion.md)
-    * Fluidez de métodos (`return *this`)
+    * [Fluidez de métodos](contenido/modulo4/fluidez.md)
     * Inicialización flexible de objetos
     * [Ejercicios sobre profundización de POO](contenido/modulo4/ejercicios.md)
      
