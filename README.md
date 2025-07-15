@@ -37,7 +37,7 @@
     * [Singleton](contenido/modulo5/singleton.md)
     * [Factory Method](contenido/modulo5/factory_method.md)
     * [Abstract Factory](contenido/modulo5/abstract_factory.md)
-    * Builder
+    * [Builder](contenido/modulo5/builder.md)
     * Prototype (incluyendo uso seguro de copias y clonación)
 
 6. Patrones Estructurales
