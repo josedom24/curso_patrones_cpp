@@ -1,4 +1,4 @@
-# Clonación de objetos: Copias superficiales y profundas
+# Clonación de objetos: copias superficiales y profundas
 
 En el diseño e implementación de software orientado a objetos, es común la necesidad de **duplicar un objeto** para preservar su estado o generar una variante sin modificar el original. Este proceso se conoce como **clonación**. En C++ moderno, esta tarea se ve reflejada en la implementación de constructores y operadores de copia, así como en la definición explícita de métodos de clonación.
 
