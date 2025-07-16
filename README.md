@@ -13,25 +13,27 @@
     * [Ejercicios sobre abstracción de comportamiento](contenido/modulo2/ejercicios.md)
     * [Plantilla de clase: `std::optional`](contenido/modulo2/plantilla.md)
 
-3. Gestión de Recursos en Programas Complejos
 
-    * [Semántica de copia y movimiento](contenido/modulo3/move.md)
-    * [Uso práctico de `std::unique_ptr` y `std::shared_ptr` en clases](contenido/modulo3/small_pointer.md)
+3. Profundización en POO y diseño de interfaces
+
+    * [Ampliación de constructores: control de creación y copia de objetos](contenido/modulo3/constructor.md)
+    * [Clases abstractas y métodos virtuales](contenido/modulo3/constructor.md)
+    * [Interfaces puras y uso correcto de `override`](contenido/modulo3/abstracta.md)
+    * [Uso de `override` y `final`](contenido/modulo3/override.md)
+    * [Devolución de interfaces mediante punteros inteligentes](contenido/modulo3/devolucion.md)
+    * [Separación entre interfaz y detalle de implementación](contenido/modulo3/separacion.md)
+    * [Fluidez de métodos](contenido/modulo3/fluidez.md)
+    * Inicialización flexible de objetos
+    * [Ejercicios sobre profundización de POO](contenido/modulo3/ejercicios.md)
+
+4. Gestión de Recursos en Programas Complejos
+
+    * [Semántica de copia y movimiento](contenido/modulo4/move.md)
+    * [Uso práctico de `std::unique_ptr` y `std::shared_ptr` en clases](contenido/modulo4/small_pointer.md)
     * Clonación de objetos (copias profundas y superficiales)
     * Composición de objetos con punteros inteligentes
 
-4. Profundización en POO y Diseño de Interfaces
 
-    * [Ampliación de constructores: control de creación y copia de objetos](contenido/modulo4/constructor.md)
-    * [Clases abstractas y métodos virtuales](contenido/modulo4/constructor.md)
-    * [Interfaces puras y uso correcto de `override`](contenido/modulo4/abstracta.md)
-    * [Uso de `override` y `final`](contenido/modulo4/override.md)
-    * [Devolución de interfaces mediante punteros inteligentes](contenido/modulo4/devolucion.md)
-    * [Separación entre interfaz y detalle de implementación](contenido/modulo4/separacion.md)
-    * [Fluidez de métodos](contenido/modulo4/fluidez.md)
-    * Inicialización flexible de objetos
-    * [Ejercicios sobre profundización de POO](contenido/modulo4/ejercicios.md)
-     
 5. Patrones Creacionales
 
     * [Singleton](contenido/modulo5/singleton.md)
