@@ -26,11 +26,11 @@
     * Inicialización flexible de objetos
     * [Ejercicios sobre profundización de POO](contenido/modulo3/ejercicios.md)
 
-4. Gestión de Recursos en Programas Complejos
+4. Gestión avanzado de recursos 
 
     * [Semántica de copia y movimiento](contenido/modulo4/move.md)
     * [Uso práctico de `std::unique_ptr` y `std::shared_ptr` en clases](contenido/modulo4/small_pointer.md)
-    * Clonación de objetos (copias profundas y superficiales)
+    * [Clonación de objetos: copias superficiales y profundas](contenido/modulo4/clonacion.md)
     * Composición de objetos con punteros inteligentes
 
 
@@ -40,7 +40,7 @@
     * [Factory Method](contenido/modulo5/factory_method.md)
     * [Abstract Factory](contenido/modulo5/abstract_factory.md)
     * [Builder](contenido/modulo5/builder.md)
-    * Prototype (incluyendo uso seguro de copias y clonación)
+    * Prototype
 
 6. Patrones Estructurales
 
