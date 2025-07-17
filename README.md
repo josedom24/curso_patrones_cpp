@@ -2,7 +2,7 @@
 
 1. Principios SOLID y patrones de diseño
     * SOLID: Principios de diseño orientado a objetos
-    * ¿Qué son los patrones de diseño
+    * ¿Qué son los patrones de diseño?
     * Patrones de diseño con C++ moderno
 
 2. Funciones avanzadas y abstracción de comportamiento
@@ -43,8 +43,8 @@
 
 6. Patrones Estructurales
 
-    * Adapter
-    * Decorator (composición moderna con punteros inteligentes)
+    * [Adapter](contenido/modulo6/adapter.md)
+    * [Decorator](contenido/modulo6/decorator.md)
     * Composite
     * Facade
     * Bridge
