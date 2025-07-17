@@ -12,7 +12,7 @@
     * [Clases functoras y lambdas como objetos de primera clase](contenido/modulo2/functor.md)
     * [Ejercicios sobre abstracción de comportamiento](contenido/modulo2/ejercicios.md)
     * [Plantilla de clase: `std::optional`](contenido/modulo2/plantilla.md)
-
+    * Uso de std::variant y std::visit para patrones de diseño
 
 3. Profundización en POO y diseño de interfaces
 
@@ -59,6 +59,8 @@
     * Iterator (introduciendo ranges de C++20 si se desea)
     * Visitor
     * State
+    * Memento (opcional)
+    * Chain of Responsibility (opcional)
     
 8. Proyecto final
 
