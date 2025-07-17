@@ -468,3 +468,69 @@ Me parece una excelente aproximación para un curso de patrones de diseño en C+
 
 ---
 
+# Un ínidce nuveo (17/julio)
+
+1. **Introducción a C++ moderno y patrones de diseño**
+
+   * Principios SOLID y patrones de diseño
+   * ¿Qué son los patrones de diseño?
+   * Patrones de diseño con C++ moderno
+
+2. **Funciones avanzadas y abstracción de comportamiento**
+
+   * Uso de lambdas para comportamiento flexible
+   * std::function para callbacks o comportamientos configurables
+   * Clases functoras y lambdas como objetos de primera clase
+   * Ejercicios sobre abstracción de comportamiento
+   * Plantilla de clase: std::optional
+   * Uso de `std::variant` y `std::visit` para patrones de diseño
+
+3. **Profundización en POO y diseño de interfaces**
+
+   * Ampliación de constructores: control de creación y copia de objetos
+   * Clases abstractas y métodos virtuales
+   * Interfaces puras y uso correcto de override
+   * Uso de override y final
+   * Devolución de interfaces mediante punteros inteligentes
+   * Separación entre interfaz y detalle de implementación
+   * Fluidez de métodos
+   * Ejercicios sobre profundización de POO
+
+4. **Gestión avanzada de recursos**
+
+   * Semántica de copia y movimiento
+   * Uso práctico de std::unique\_ptr y std::shared\_ptr en clases
+   * Clonación de objetos: copias superficiales y profundas
+   * Composición de objetos con punteros inteligentes
+
+5. **Patrones Creacionales**
+
+   * Singleton
+   * Factory Method
+   * Abstract Factory
+   * Builder
+   * Prototype
+
+6. **Patrones Estructurales**
+
+   * Adapter
+   * Decorator
+   * Composite
+   * Facade
+   * Bridge
+   * Proxy
+
+7. **Patrones de Comportamiento**
+
+   * Strategy (usando plantillas y polimorfismo moderno)
+   * Observer (con std::function y lambdas como callbacks)
+   * Command
+   * Template Method
+   * Iterator (introduciendo ranges de C++20)
+   * Visitor
+   * State
+   * Memento (opcional)
+   * Chain of Responsibility (opcional)
+
+8. **Proyecto final**
+
