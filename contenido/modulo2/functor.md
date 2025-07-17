@@ -112,8 +112,9 @@ int main() {
 * **Lambdas** son funciones anónimas y compactas, útiles para definir comportamiento directamente en línea.
 * **`std::function`** permite aceptar cualquier tipo de función o callable (functor, lambda, puntero a función) con una firma específica (`void(int)` en este caso).
 * La función `aplicar` demuestra cómo abstraer comportamiento y aplicarlo de forma genérica a una colección de datos (`std::vector`).
+* 
 
-Para terminar este aprtado tenemos que tener en cuenta:
+Para terminar este apartado tenemos que tener en cuenta:
 
 * Las **functoras** son más adecuadas cuando se necesita mantener **estado complejo**, extender comportamiento mediante **herencia**, o reutilizar el tipo.
 * Las **lambdas** son preferibles cuando se necesita una **definición local, breve y sin reutilización**.

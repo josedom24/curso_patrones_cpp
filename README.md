@@ -23,7 +23,6 @@
     * [Devolución de interfaces mediante punteros inteligentes](contenido/modulo3/devolucion.md)
     * [Separación entre interfaz y detalle de implementación](contenido/modulo3/separacion.md)
     * [Fluidez de métodos](contenido/modulo3/fluidez.md)
-    * Inicialización flexible de objetos
     * [Ejercicios sobre profundización de POO](contenido/modulo3/ejercicios.md)
 
 4. Gestión avanzado de recursos 
@@ -31,7 +30,7 @@
     * [Semántica de copia y movimiento](contenido/modulo4/move.md)
     * [Uso práctico de `std::unique_ptr` y `std::shared_ptr` en clases](contenido/modulo4/small_pointer.md)
     * [Clonación de objetos: copias superficiales y profundas](contenido/modulo4/clonacion.md)
-    * Composición de objetos con punteros inteligentes
+    * [Composición de objetos con punteros inteligentes](contenido/modulo4/composicion.md)
 
 
 5. Patrones Creacionales
