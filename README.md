@@ -39,7 +39,7 @@
     * [Factory Method](contenido/modulo5/factory_method.md)
     * [Abstract Factory](contenido/modulo5/abstract_factory.md)
     * [Builder](contenido/modulo5/builder.md)
-    * Prototype
+    * [Prototype](contenido/modulo5/prototype.md)
 
 6. Patrones Estructurales
 
