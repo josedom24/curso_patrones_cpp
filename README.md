@@ -1,7 +1,8 @@
 # Curso de patrones de diseño con C++ moderno
 
 1. Principios SOLID y patrones de diseño
-    * SOLID: Principios de diseño orientado a objetos
+    * [Principios básicos de diseño](contenido/modulo01/basicos.md)
+    * [SOLID: Principios de diseño orientado a objetos](contenido/modulo01/solid.md)
     * ¿Qué son los patrones de diseño?
     * Patrones de diseño con C++ moderno
 
