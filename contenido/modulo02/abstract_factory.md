@@ -1,167 +1,99 @@
-# Abstract Factory
+# Factory Method (Método fábrica)
 
-## Introducción y propósito
+## Introducción y propósito del patrón
 
-El patrón **Abstract Factory** proporciona una interfaz para crear **familias de objetos relacionados** sin especificar sus clases concretas.
+El patrón **Factory Method** es un patrón de diseño creacional que tiene como objetivo definir una **interfaz para la creación de objetos**, delegando en las **subclases** la decisión de qué clase concreta instanciar. A pesar de que el objeto sigue creándose mediante una operación de construcción (`new`), el patrón encapsula esa creación dentro de un método especial llamado **método fábrica**.
 
-## Problemas que resuelve
+Este patrón permite al código cliente **trabajar con objetos a través de su interfaz común**, sin acoplarse directamente a sus clases concretas, facilitando la extensibilidad y el mantenimiento del software.
 
-Evita que el código cliente conozca las clases concretas que debe instanciar. Así se promueve el **principio de inversión de dependencias**: el cliente depende de abstracciones, no de implementaciones.
+## Problema que resuelve
 
-Algunos escenario reales donde lo podemos utilizar:
+En aplicaciones complejas, a menudo es necesario crear objetos que comparten una interfaz común, pero cuyas **implementaciones concretas pueden variar** según el contexto, configuración o plataforma.
 
-* **Interfaces gráficas** con temas o estilos (Windows, macOS, Linux).
-* **Drivers multiplataforma** o acceso a distintos motores de base de datos.
-* **Juegos** donde hay familias de enemigos, terrenos y objetos por cada mundo o nivel.
+Un caso típico ocurre cuando se empieza con una única clase concreta, y más adelante se desea **incorporar nuevas variantes de un objeto** (por ejemplo, distintos tipos de transporte, botones gráficos, o conexiones a diferentes bases de datos). Si el código cliente está fuertemente acoplado a las clases concretas mediante instanciaciones directas (`new`), **modificar o extender el comportamiento implica alterar el código existente**, violando principios como el de *abierto/cerrado*.
 
-## Diagrama UML y estructura
+Además, mantener múltiples ramas condicionales (`if` o `switch`) para decidir qué clase instanciar puede ensuciar el código, hacerlo difícil de mantener y propenso a errores.
+
+## Solución que propone
+
+El patrón Factory Method propone mover la lógica de creación de objetos a una **jerarquía de clases creadoras**, donde:
+
+* La **clase base (creadora)** declara un método fábrica que retorna un objeto de una interfaz común.
+* Las **subclases** sobrescriben ese método para **instanciar una clase concreta** del producto deseado.
+
+De esta forma:
+
+* El **código cliente depende únicamente de la interfaz de la clase base**, sin acoplarse a las implementaciones concretas.
+* La **extensión de nuevos tipos de objetos** se logra mediante subclases, sin modificar el código existente.
+* Se favorece la **reutilización y flexibilidad**.
+
+## Diagrama y estructura conceptual
+
+**Estructura conceptual del patrón Factory Method:**
 
 ```
-           +----------------------+
-           | AbstractFactory      |
-           +----------------------+
-           | +createChair()       |
-           | +createSofa()        |
-           +----------------------+
-                   /\
-                  /  \
-      +----------------------+     +----------------------+
-      | ModernFactory        |     | ClassicFactory       |
-      +----------------------+     +----------------------+
-      | +createChair()       |     | +createChair()       |
-      | +createSofa()        |     | +createSofa()        |
-      +----------------------+     +----------------------+
+  +------------------------+
+  |      Creador           |<-------------------------+
+  |------------------------|                          |
+  | + factoryMethod()      |                          |
+  | + lógicaNegocio()      |                          |
+  +------------------------+                          |
+            ^                                         |
+            |                                         |
+  +------------------------+             +--------------------------+
+  | CreadorConcretoA       |             |  CreadorConcretoB        |
+  |------------------------|             |--------------------------|
+  | + factoryMethod()      |             | + factoryMethod()        |
+  +------------------------+             +--------------------------+
 
-           +---------------------+
-           | AbstractChair       |
-           +---------------------+
-           | +sitOn()            |
-           +---------------------+
-                   /\
-                  /  \
-      +----------------------+     +----------------------+
-      | ModernChair           |     | ClassicChair         |
-      +----------------------+     +----------------------+
-
-(Idem para Sofa)
+        |                                          |
+        |                                          |
+        v                                          v
++------------------+                    +------------------+
+| ProductoConcretoA|                    | ProductoConcretoB|
++------------------+                    +------------------+
+        ^                                          ^
+        |                                          |
+    +-------------------- Interfaz Producto --------------------+
+    | +operación()                                            |
+    +---------------------------------------------------------+
 ```
 
+**Elementos principales:**
 
-* `AbstractFactory`: Declara los métodos para crear productos abstractos.                          |
-* `ConcreteFactory`: Implementa la creación de una familia concreta de productos.                  |
-* `AbstractProduct`: Interfaz común para una familia de productos (ej. `Chair`, `Sofa`).           |
-* `ConcreteProduct`: Implementación específica de un producto (ej. `ModernChair`, `ClassicChair`). |
-* El cliente usa solo la interfaz abstracta para crear y usar productos.                   |
+* **Producto (interfaz)**: Define una interfaz común para todos los objetos que puede producir el creador.
+* **Productos concretos**: Implementan la interfaz del producto.
+* **Creador**: Declara el método fábrica (`factoryMethod`) y contiene la lógica de negocio que depende del producto.
+* **Creadores concretos**: Sobrescriben el método fábrica para devolver instancias de productos concretos.
 
+## Relación con los principios SOLID
 
-## Implementación en C++ moderno
+El patrón Factory Method se alinea con varios principios de diseño orientado a objetos, en particular:
 
-Veamos un ejemplo: Muebles modernos y clásicos
+* **Principio de responsabilidad única (SRP)**: Separa la responsabilidad de crear objetos del resto de la lógica de negocio.
+* **Principio de abierto/cerrado (OCP)**: Permite agregar nuevos tipos de productos mediante nuevas subclases, sin modificar el código existente.
+* **Principio de sustitución de Liskov (LSP)**: Los productos concretos pueden ser utilizados por el cliente a través de su interfaz sin que este conozca su tipo concreto.
+* **Principio de inversión de dependencias (DIP)**: El código cliente depende de abstracciones (interfaces) en lugar de clases concretas.
 
-```cpp
-#include <iostream>
-#include <memory>
+## 6. Ventajas y desventajas
 
-// Productos abstractos
-struct Chair {
-    virtual void sitOn() const = 0;
-    virtual ~Chair() = default;
-};
+### Ventajas
 
-struct Sofa {
-    virtual void lieOn() const = 0;
-    virtual ~Sofa() = default;
-};
+* **Desacopla el código cliente de las clases concretas**, lo que facilita el mantenimiento y la evolución del sistema.
+* **Permite la extensión del sistema** sin modificar el código cliente, simplemente creando nuevas subclases creadoras.
+* **Centraliza la creación de objetos** complejos o que requieren lógica de inicialización particular.
+* **Fomenta el uso de polimorfismo**, permitiendo cambiar dinámicamente el tipo de producto utilizado.
 
-// Productos concretos - Modernos
-struct ModernChair : public Chair {
-    void sitOn() const override { std::cout << "Sitting on a modern chair.\n"; }
-};
+### Desventajas
 
-struct ModernSofa : public Sofa {
-    void lieOn() const override { std::cout << "Lying on a modern sofa.\n"; }
-};
+* Puede **aumentar la complejidad del diseño**, ya que requiere definir múltiples clases: una jerarquía de productos y otra de creadores.
+* En aplicaciones sencillas, su uso puede ser **innecesariamente sofisticado**.
+* Si el número de variantes de producto es muy grande, el número de subclases creadoras puede crecer considerablemente, generando cierta **sobrecarga estructural**.
 
-// Productos concretos - Clásicos
-struct ClassicChair : public Chair {
-    void sitOn() const override { std::cout << "Sitting on a classic chair.\n"; }
-};
+## Aplicaciones reales 
 
-struct ClassicSofa : public Sofa {
-    void lieOn() const override { std::cout << "Lying on a classic sofa.\n"; }
-};
-
-// Fábrica abstracta
-struct FurnitureFactory {
-    virtual std::unique_ptr<Chair> createChair() const = 0;
-    virtual std::unique_ptr<Sofa> createSofa() const = 0;
-    virtual ~FurnitureFactory() = default;
-};
-
-// Fábricas concretas
-struct ModernFurnitureFactory : public FurnitureFactory {
-    std::unique_ptr<Chair> createChair() const override {
-        return std::make_unique<ModernChair>();
-    }
-
-    std::unique_ptr<Sofa> createSofa() const override {
-        return std::make_unique<ModernSofa>();
-    }
-};
-
-struct ClassicFurnitureFactory : public FurnitureFactory {
-    std::unique_ptr<Chair> createChair() const override {
-        return std::make_unique<ClassicChair>();
-    }
-
-    std::unique_ptr<Sofa> createSofa() const override {
-        return std::make_unique<ClassicSofa>();
-    }
-};
-
-// Cliente
-void clientCode(const FurnitureFactory& factory) {
-    auto chair = factory.createChair();
-    auto sofa = factory.createSofa();
-    chair->sitOn();
-    sofa->lieOn();
-}
-
-int main() {
-    ModernFurnitureFactory modernFactory;
-    ClassicFurnitureFactory classicFactory;
-
-    std::cout << "Cliente con muebles modernos:\n";
-    clientCode(modernFactory);
-
-    std::cout << "\nCliente con muebles clásicos:\n";
-    clientCode(classicFactory);
-}
-```
-
-* `Chair` y `Sofa` son interfaces base (clases abstractas).
-* `ModernChair` y `ClassicChair` son implementaciones concretas.
-* `FurnitureFactory` es la interfaz de la fábrica.
-* Cada fábrica concreta devuelve objetos que **pertenecen a una misma familia**.
-* El cliente (`clientCode`) usa solo la interfaz abstracta, sin conocer detalles concretos.
-
-## Ventajas
-
-* Alto nivel de **desacoplamiento**.
-* Facilita añadir nuevas familias de productos (nuevos estilos).
-* Favorece la **consistencia entre productos** de una misma familia.
-* Ideal para sistemas extensibles y configurables.
-* Facilita el reemplazo de familias de objetos.
-
-## Desventajas
-
-* Puede generar **muchas clases** (una por cada producto y fábrica).
-* Añadir un nuevo tipo de producto requiere cambios en todas las fábricas existentes.
-* A veces, **sobreingeniería** si solo se necesita una fábrica simple (usar Factory Method en ese caso).
-
-## Buenas prácticas
-
-* Usar `std::unique_ptr` para gestión automática de memoria.
-* Separar claramente productos abstractos y concretos.
-* Documentar bien las familias de productos.
-
+* **Interfaces gráficas multiplataforma**: donde los componentes UI (botones, menús, diálogos) deben adaptarse a distintos entornos (Windows, Linux, Web), pero compartir un comportamiento común.
+* **Aplicaciones de logística**: diferentes medios de transporte (camión, barco, avión) con una interfaz común y lógica de envío diferente.
+* **Motores de videojuegos**: donde distintos objetos del juego (enemigos, armas, obstáculos) pueden crearse a través de métodos fábrica según el nivel o entorno.
+* **Conexiones a bases de datos**: selección dinámica del tipo de conexión (MySQL, PostgreSQL, SQLite) mediante una interfaz común y un método fábrica.
+* **Aplicaciones empresariales extensibles**: frameworks que permiten a los usuarios extender el comportamiento mediante la sobrescritura de métodos de creación.

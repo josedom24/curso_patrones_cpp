@@ -8,8 +8,8 @@
 
 2. Patrones Creacionales
 
-    * Patrón Factory Method
-    * Ejemplo de patrón Factory Method con C++
+    * [Patrón Factory Method (Método fábrica)](contenido/modulo02/abstract_factory.md)
+    * [Ejemplo de patrón Factory Method con C++](contenido/modulo02/abstract_factory2.md)
     * Patrón Abstract Factory
     * Ejemplo de patrón Abstract Factory con C++
     * Patrón Builder
