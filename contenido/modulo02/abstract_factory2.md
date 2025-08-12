@@ -135,3 +135,75 @@ Explicación del código:
 * Esta implementación es fácilmente extensible: agregar un nuevo tipo de transporte solo requiere una nueva clase concreta y una subclase de `Logistica`.
 * Gracias al uso de punteros inteligentes, se evita la gestión manual de memoria.
 * La separación entre creación de objetos y uso de objetos se mantiene clara y modular.
+
+
+## El código sin patrón
+
+Si eliminamos el patrón **Factory Method**, básicamente quitamos la abstracción `Logistica` y el método `crearTransporte()` que decide qué producto instanciar.
+En su lugar, el cliente crea directamente el tipo de transporte que necesita y lo usa.
+
+El código resultaría más simple pero **menos flexible**, porque cada cambio de tipo de transporte obliga a modificar el código cliente.
+
+Aquí te dejo una versión equivalente **sin** Factory Method:
+
+```cpp
+#include <iostream>
+#include <memory>
+#include <string>
+
+// === Interfaz del producto ===
+class Transporte {
+public:
+    virtual void entregar() const = 0;
+    virtual ~Transporte() = default;
+};
+
+// === Productos concretos ===
+class Camion : public Transporte {
+public:
+    void entregar() const override {
+        std::cout << "Entrega realizada por camión.\n";
+    }
+};
+
+class Barco : public Transporte {
+public:
+    void entregar() const override {
+        std::cout << "Entrega realizada por barco.\n";
+    }
+};
+
+class Avion : public Transporte {
+public:
+    void entregar() const override {
+        std::cout << "Entrega realizada por avión.\n";
+    }
+};
+
+// === Función común sin clase creadora ===
+void planificarEntrega(std::unique_ptr<Transporte> transporte) {
+    std::cout << "Iniciando planificación de entrega...\n";
+    transporte->entregar();
+}
+
+int main() {
+    std::cout << "=== Entrega terrestre ===\n";
+    planificarEntrega(std::make_unique<Camion>());
+
+    std::cout << "\n=== Entrega marítima ===\n";
+    planificarEntrega(std::make_unique<Barco>());
+
+    std::cout << "\n=== Entrega aérea ===\n";
+    planificarEntrega(std::make_unique<Avion>());
+
+    return 0;
+}
+```
+
+### Cambios clave
+
+1. **Se eliminan `Logistica` y sus subclases**: ya no hay jerarquía de creadores.
+2. **La creación de los objetos concretos (`Camion`, `Barco`, `Avion`) se hace directamente en `main()`**.
+3. **La función `planificarEntrega` recibe un `std::unique_ptr<Transporte>`** para mantener la lógica común de planificación.
+4. **Menos código y más directo**, pero **más acoplado** al conocimiento de qué transporte instanciar.
+
