@@ -1,153 +1,39 @@
 # Factory Method
 
-## Introducción y propósito
+## Definición
 
-El patrón **Factory Method** es un patrón creacional que permite **delegar la creación de objetos a subclases**, en lugar de instanciarlos directamente con `new`. Su propósito es **desacoplar la lógica de creación del uso** del objeto, facilitando así la extensión y reutilización del código.
+El **Factory Method** es un patrón de diseño creacional que delega la creación de objetos a una interfaz o clase base, permitiendo que las subclases decidan qué tipo concreto de objeto instanciar. Su objetivo es desacoplar el código cliente del proceso exacto de creación de los objetos.
 
-## Problemas que resuelve
+## Problemas que intenta solucionar
 
-* ¿Qué ocurre si el código que usa objetos también debe conocer todos sus constructores y detalles internos? Se produce un fuerte acoplamiento y una menor flexibilidad. Factory Method evita esto.
+El patrón aborda principalmente estas situaciones:
 
-* Cuando una clase necesita crear objetos, pero **no sabe de antemano qué tipo exacto necesita**.
-* Cuando se necesita **una familia de productos relacionados**, pero con la posibilidad de variar el tipo en tiempo de ejecución.
+* El código cliente depende de clases concretas cuya creación debería estar oculta.
+* La lógica de creación puede variar según el contexto, y mezclarla con el código cliente reduce la flexibilidad.
+* Se requiere extender el sistema con nuevos tipos de productos sin modificar el código existente (evitando violar *Open/Closed Principle*).
+* Se quiere centralizar o controlar la creación de objetos, por ejemplo para aplicar inicializaciones específicas.
+* Se busca evitar el uso extensivo de `if`/`switch` para seleccionar la clase concreta a instanciar.
 
-Algunos escenarios donde es útil:
+## Cómo lo soluciona
 
-* Interfaces gráficas que deben crear botones o ventanas dependiendo del sistema operativo.
-* Motores de juegos que generan enemigos o elementos distintos por nivel.
-* Frameworks que permiten a terceros definir sus propias clases derivadas y delegan en ellas la creación de instancias.
+El Factory Method aporta estas soluciones:
 
-## Diagrama UML y estructura
+* Define un **método de creación** (factory method) en una interfaz o clase base.
+* Permite que las **subclases sobrescriban** ese método para crear el tipo concreto de producto necesario.
+* Aísla el código cliente del conocimiento de qué clases específicas se están instanciando.
+* Facilita la **extensibilidad**: añadir un nuevo tipo concreto solo requiere crear una nueva subclase con su propio método de creación.
+* Refuerza el principio *Open/Closed* y la separación clara entre **uso** y **creación** de objetos.
 
-```
-        +------------------+
-        |  Product         |<---------------------+
-        +------------------+                      |
-        | +operation()     |                      |
-        +------------------+                      |
-                 ^                                 |
-                 |                                 |
-     +---------------------+           +----------------------+
-     | ConcreteProductA     |           | ConcreteProductB     |
-     +---------------------+           +----------------------+
+## Ejemplos concretos
 
-        +---------------------+
-        | Creator             |
-        +---------------------+
-        | +createProduct()    |<--------------------+
-        +---------------------+                     |
-                 ^                                   |
-                 |                                   |
-     +-------------------------+         +---------------------------+
-     | ConcreteCreatorA        |         | ConcreteCreatorB          |
-     +-------------------------+         +---------------------------+
-     | +createProduct()        |         | +createProduct()          |
-     +-------------------------+         +---------------------------+
-```
-
-
-* **Product**: Es una clase abstracta, interfaz pura que define la interfaz común para los objetos que serán creados por el método fábrica.
-* **ConcreteProductA** y **ConcreteProductB**: Son clases concretas, que implementan la interfaz `Product`. Son las clases reales que se instancian. Sobrescriben `operation()` con lógica específica.
-* **Creator**: Es una clase abstracta, interfaz pura (*Interfaz de factoría*) que declara el método fábrica `createProduct()`, que devuelve un `Product`. Usa de **punteros inteligentes** (`std::unique_ptr`) para retorno de objetos polimórficos.
-* **ConcreteCreatorA** y **ConcreteCreatorB**: Son clases concretas que implementan el método fábrica `createProduct()` y devuelven instancias concretas (`ConcreteProductA` o `ConcreteProductB`).
-
-Relación entre las clases:
-
-* `ConcreteProductA` y `ConcreteProductB` **heredan** de `Product`.
-* `ConcreteCreatorA` y `ConcreteCreatorB` **heredan** de `Creator`.
-* `Creator` tiene un método `createProduct()` que será **implementado por sus subclases** para devolver distintos `ConcreteProduct`.
-
-
-## Implementación en C++ moderno
-
-### Paso 1: Definir la interfaz del producto
-
-```cpp
-class Producto {
-public:
-    virtual void usar() const = 0;
-    virtual ~Producto() = default;
-};
-```
-
-### Paso 2: Implementar productos concretos
-
-```cpp
-class ProductoA : public Producto {
-public:
-    void usar() const override {
-        std::cout << "Usando Producto A\n";
-    }
-};
-
-class ProductoB : public Producto {
-public:
-    void usar() const override {
-        std::cout << "Usando Producto B\n";
-    }
-};
-```
-
-### Paso 3: Definir la interfaz del creador
-
-```cpp
-class Creador {
-public:
-    virtual std::unique_ptr<Producto> crearProducto() const = 0;
-    virtual ~Creador() = default;
-
-    void operacion() const {
-        auto producto = crearProducto(); // fábrica
-        producto->usar();                // uso del producto
-    }
-};
-```
-
-### Paso 4: Crear fábricas concretas
-
-```cpp
-class CreadorA : public Creador {
-public:
-    std::unique_ptr<Producto> crearProducto() const override {
-        return std::make_unique<ProductoA>();
-    }
-};
-
-class CreadorB : public Creador {
-public:
-    std::unique_ptr<Producto> crearProducto() const override {
-        return std::make_unique<ProductoB>();
-    }
-};
-```
-
-### Paso 5: Usar el patrón
-
-```cpp
-int main() {
-    std::unique_ptr<Creador> creador = std::make_unique<CreadorA>();
-    creador->operacion();  // Usando Producto A
-
-    creador = std::make_unique<CreadorB>();
-    creador->operacion();  // Usando Producto B
-}
-```
-
-## Ventajas
-
-* Permite **crear productos sin conocer sus clases concretas**.
-* Favorece la extensión mediante nuevas subclases.
-* Facilita el testing y el desacoplamiento.
-
-## Desventajas
-
-* Introduce **más clases y abstracciones**, lo que puede dificultar la lectura si el patrón no se justifica.
-* Puede ser **innecesario** en casos simples donde basta con `new`.
-
-## Buenas prácticas
-
-* Devuelve objetos mediante `std::unique_ptr` o `std::shared_ptr`.
-* Aplica este patrón cuando la creación es variable, no si hay solo un tipo de producto.
-* Úsalo junto a otros patrones como Singleton (para la fábrica) o Prototype (para clones).
-
+* **Sistema de registros o logs**: Crear diferentes tipos de *loggers* (a consola, a archivo, a red) sin que el código cliente sepa cuál instancia concreta usa.
+* **Motores gráficos o juegos**: Crear distintos tipos de enemigos, proyectiles o elementos del escenario dependiendo del nivel o dificultad.
+* **Lectores y escritores de archivos**: Seleccionar automáticamente un parser distinto (JSON, XML, CSV…) según el tipo de archivo detectado.
+* **Aplicaciones con interfaz gráfica**: Crear widgets específicos según el sistema operativo (Windows, macOS, Linux) sin cambiar el código de la interfaz común.
+* **Conexiones a bases de datos**: Elegir el conector concreto (SQLite, PostgreSQL, MySQL) en función de la configuración.
+* **Sistemas de notificación**: Crear objetos que envían mensajes por distintos canales (email, SMS, webhooks) dependiendo del contexto.
+* **Frameworks de comunicación en red**: Instanciar diferentes clases para gestionar protocolos concretos (HTTP, TCP, UDP) sin exponer los detalles.
+* **Sistemas de plugins o extensiones**: Permitir que nuevas funcionalidades se añadan registrando nuevas fábricas sin modificar el core.
+* **Aplicaciones de trazado o análisis**: Crear distintos algoritmos o estrategias de procesamiento a partir de una interfaz común, elegidos según parámetros de configuración.
+* **Generadores de reportes**: Producir informes PDF, HTML o texto plano usando diferentes clases, todas creadas a partir de un único punto de entrada.
 

@@ -10,8 +10,8 @@
 
     * [Patrón Factory Method (Método fábrica)](contenido/modulo02/abstract_factory.md)
     * [Ejemplo de patrón Factory Method con C++](contenido/modulo02/abstract_factory2.md)
-    * Patrón Abstract Factory
-    * Ejemplo de patrón Abstract Factory con C++
+    * [Patrón Abstract Factory](contenido/modulo02/abstract_factory.md)
+    * [Ejemplo de patrón Abstract Factory con C++](contenido/modulo02/abstract_factory2.md)
     * Patrón Builder
     * Ejemplo de patrón Builder con C++
     * Patrón Prototype
