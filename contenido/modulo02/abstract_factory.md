@@ -1,99 +1,81 @@
-# Factory Method (Método fábrica)
+# Abstract Factory
 
-## Introducción y propósito del patrón
+## Definición
 
-El patrón **Factory Method** es un patrón de diseño creacional que tiene como objetivo definir una **interfaz para la creación de objetos**, delegando en las **subclases** la decisión de qué clase concreta instanciar. A pesar de que el objeto sigue creándose mediante una operación de construcción (`new`), el patrón encapsula esa creación dentro de un método especial llamado **método fábrica**.
+El **Abstract Factory** es un patrón de diseño creacional que proporciona una **interfaz para crear familias de objetos relacionados entre sí**, sin especificar sus clases concretas.
 
-Este patrón permite al código cliente **trabajar con objetos a través de su interfaz común**, sin acoplarse directamente a sus clases concretas, facilitando la extensibilidad y el mantenimiento del software.
+Cuando hablamos de **familia de productos**, nos referimos a un **conjunto coherente de tipos** que están pensados para usarse juntos porque comparten un contexto común. Por ejemplo:
 
-## Problema que resuelve
+* En una interfaz gráfica: *Botón*, *Ventana* y *Cuadro de texto* para un mismo sistema operativo o tema visual.
+* En un motor de bases de datos: *Conexión*, *Comando* y *Transacción* para un mismo tipo de base de datos.
 
-En aplicaciones complejas, a menudo es necesario crear objetos que comparten una interfaz común, pero cuyas **implementaciones concretas pueden variar** según el contexto, configuración o plataforma.
+El objetivo del patrón es que el código cliente pueda trabajar con **familias completas de productos compatibles** (p.ej., todos “estilo Windows” o todos “estilo Linux”) sin conocer las clases concretas ni mezclar productos de familias diferentes.
 
-Un caso típico ocurre cuando se empieza con una única clase concreta, y más adelante se desea **incorporar nuevas variantes de un objeto** (por ejemplo, distintos tipos de transporte, botones gráficos, o conexiones a diferentes bases de datos). Si el código cliente está fuertemente acoplado a las clases concretas mediante instanciaciones directas (`new`), **modificar o extender el comportamiento implica alterar el código existente**, violando principios como el de *abierto/cerrado*.
+## Problemas que intenta solucionar
 
-Además, mantener múltiples ramas condicionales (`if` o `switch`) para decidir qué clase instanciar puede ensuciar el código, hacerlo difícil de mantener y propenso a errores.
+El patrón Abstract Factory resulta útil cuando:
 
-## Solución que propone
+* Se necesitan crear **conjuntos completos de objetos relacionados** (familias) que deben ser coherentes entre sí.
+* Se quiere **evitar mezclar productos de distintas familias**, por ejemplo un botón “tema oscuro” con una ventana “tema claro”.
+* El código cliente **no debería depender de clases concretas**, sino solo de interfaces o tipos abstractos.
+* Se prevé que en el futuro se necesitarán **nuevas familias completas** (por ejemplo, un nuevo tema visual o un nuevo proveedor de base de datos).
+* Se quiere centralizar la **selección de la familia activa** (p.ej., según configuración, sistema operativo, modo “light/dark”, etc.) en un único punto del sistema.
 
-El patrón Factory Method propone mover la lógica de creación de objetos a una **jerarquía de clases creadoras**, donde:
+## Cómo lo soluciona
 
-* La **clase base (creadora)** declara un método fábrica que retorna un objeto de una interfaz común.
-* Las **subclases** sobrescriben ese método para **instanciar una clase concreta** del producto deseado.
+Abstract Factory aporta las siguientes ideas:
 
-De esta forma:
+* Define una **fábrica abstracta** que declara métodos para crear **cada producto de la familia**
+  (por ejemplo: `createButton()`, `createWindow()`, `createCheckbox()`).
+* Cada **fábrica concreta** implementa esos métodos devolviendo **variantes concretas pero compatibles** de la familia
+  (por ejemplo: `WindowsButton`, `WindowsWindow`, `WindowsCheckbox` frente a `LinuxButton`, `LinuxWindow`, `LinuxCheckbox`).
+* El código cliente **solo conoce la fábrica abstracta y las interfaces de los productos**, no las clases concretas.
+* Cambiar de familia (por ejemplo, “Windows” a “Linux”, o “tema claro” a “tema oscuro”) se reduce a **cambiar la fábrica concreta** que se instancia.
+* La incorporación de una nueva familia se hace creando una **nueva fábrica concreta** y los productos correspondientes, sin modificar el código cliente, respetando el principio de *Open/Closed*.
 
-* El **código cliente depende únicamente de la interfaz de la clase base**, sin acoplarse a las implementaciones concretas.
-* La **extensión de nuevos tipos de objetos** se logra mediante subclases, sin modificar el código existente.
-* Se favorece la **reutilización y flexibilidad**.
+## Ejemplos concretos
 
-## Diagrama y estructura conceptual
+En todos los ejemplos, se indican explícitamente las **familias de productos** implicadas:
 
-**Estructura conceptual del patrón Factory Method:**
+* **Interfaces gráficas multi-plataforma**
+  *Familias:*
 
-```
-  +------------------------+
-  |      Creador           |<-------------------------+
-  |------------------------|                          |
-  | + factoryMethod()      |                          |
-  | + lógicaNegocio()      |                          |
-  +------------------------+                          |
-            ^                                         |
-            |                                         |
-  +------------------------+             +--------------------------+
-  | CreadorConcretoA       |             |  CreadorConcretoB        |
-  |------------------------|             |--------------------------|
-  | + factoryMethod()      |             | + factoryMethod()        |
-  +------------------------+             +--------------------------+
+  * Familia “Windows”: `WindowsButton`, `WindowsWindow`, `WindowsMenu`.
+  * Familia “Linux”: `LinuxButton`, `LinuxWindow`, `LinuxMenu`.
+    Una fábrica abstracta de widgets permite crear todos los componentes de interfaz para un sistema operativo concreto, manteniendo coherencia visual y de comportamiento.
 
-        |                                          |
-        |                                          |
-        v                                          v
-+------------------+                    +------------------+
-| ProductoConcretoA|                    | ProductoConcretoB|
-+------------------+                    +------------------+
-        ^                                          ^
-        |                                          |
-    +-------------------- Interfaz Producto --------------------+
-    | +operación()                                            |
-    +---------------------------------------------------------+
-```
+* **Sistemas de temas visuales (light/dark theme)**
+  *Familias:*
 
-**Elementos principales:**
+  * Familia “Tema claro”: `LightButton`, `LightDialog`, `LightScrollbar`.
+  * Familia “Tema oscuro”: `DarkButton`, `DarkDialog`, `DarkScrollbar`.
+    Cambiando la fábrica de temas se generan automáticamente todos los controles con el estilo apropiado sin tocar el resto del código.
 
-* **Producto (interfaz)**: Define una interfaz común para todos los objetos que puede producir el creador.
-* **Productos concretos**: Implementan la interfaz del producto.
-* **Creador**: Declara el método fábrica (`factoryMethod`) y contiene la lógica de negocio que depende del producto.
-* **Creadores concretos**: Sobrescriben el método fábrica para devolver instancias de productos concretos.
+* **Acceso a bases de datos con múltiples proveedores**
+  *Familias:*
 
-## Relación con los principios SOLID
+  * Familia “SQLite”: `SQLiteConnection`, `SQLiteCommand`, `SQLiteTransaction`.
+  * Familia “PostgreSQL”: `PgConnection`, `PgCommand`, `PgTransaction`.
+    La fábrica abstracta de acceso a datos crea objetos adecuados para cada proveedor, evitando mezclar, por ejemplo, una conexión MySQL con un comando PostgreSQL.
 
-El patrón Factory Method se alinea con varios principios de diseño orientado a objetos, en particular:
+* **Motores de juegos con estilos de mundo diferentes**
+  *Familias:*
 
-* **Principio de responsabilidad única (SRP)**: Separa la responsabilidad de crear objetos del resto de la lógica de negocio.
-* **Principio de abierto/cerrado (OCP)**: Permite agregar nuevos tipos de productos mediante nuevas subclases, sin modificar el código existente.
-* **Principio de sustitución de Liskov (LSP)**: Los productos concretos pueden ser utilizados por el cliente a través de su interfaz sin que este conozca su tipo concreto.
-* **Principio de inversión de dependencias (DIP)**: El código cliente depende de abstracciones (interfaces) en lugar de clases concretas.
+  * Familia “Fantasía medieval”: `MedievalEnemy`, `MedievalWeapon`, `MedievalEnvironmentObject`.
+  * Familia “Ciencia ficción”: `SciFiEnemy`, `SciFiWeapon`, `SciFiEnvironmentObject`.
+    Cada fábrica crea el conjunto completo de elementos del mundo coherentes con una ambientación concreta.
 
-## 6. Ventajas y desventajas
+* **Sistemas de generación de documentos en diferentes formatos**
+  *Familias:*
 
-### Ventajas
+  * Familia “HTML”: `HtmlParagraph`, `HtmlTable`, `HtmlImage`.
+  * Familia “PDF”: `PdfParagraph`, `PdfTable`, `PdfImage`.
+    Una fábrica abstracta de componentes de documento permite construir informes usando una misma interfaz, generando luego toda la salida en el formato elegido.
 
-* **Desacopla el código cliente de las clases concretas**, lo que facilita el mantenimiento y la evolución del sistema.
-* **Permite la extensión del sistema** sin modificar el código cliente, simplemente creando nuevas subclases creadoras.
-* **Centraliza la creación de objetos** complejos o que requieren lógica de inicialización particular.
-* **Fomenta el uso de polimorfismo**, permitiendo cambiar dinámicamente el tipo de producto utilizado.
+* **Frameworks de notificación multi-canal con estilos coherentes**
+  *Familias:*
 
-### Desventajas
+  * Familia “Notificación básica”: `BasicEmailNotification`, `BasicSmsNotification`, `BasicPushNotification`.
+  * Familia “Notificación corporativa”: `CorporateEmailNotification`, `CorporateSmsNotification`, `CorporatePushNotification`.
+    Cada fábrica crea una familia de canales con el mismo estilo de contenido y formato (por ejemplo, textos más formales en la familia corporativa).
 
-* Puede **aumentar la complejidad del diseño**, ya que requiere definir múltiples clases: una jerarquía de productos y otra de creadores.
-* En aplicaciones sencillas, su uso puede ser **innecesariamente sofisticado**.
-* Si el número de variantes de producto es muy grande, el número de subclases creadoras puede crecer considerablemente, generando cierta **sobrecarga estructural**.
-
-## Aplicaciones reales 
-
-* **Interfaces gráficas multiplataforma**: donde los componentes UI (botones, menús, diálogos) deben adaptarse a distintos entornos (Windows, Linux, Web), pero compartir un comportamiento común.
-* **Aplicaciones de logística**: diferentes medios de transporte (camión, barco, avión) con una interfaz común y lógica de envío diferente.
-* **Motores de videojuegos**: donde distintos objetos del juego (enemigos, armas, obstáculos) pueden crearse a través de métodos fábrica según el nivel o entorno.
-* **Conexiones a bases de datos**: selección dinámica del tipo de conexión (MySQL, PostgreSQL, SQLite) mediante una interfaz común y un método fábrica.
-* **Aplicaciones empresariales extensibles**: frameworks que permiten a los usuarios extender el comportamiento mediante la sobrescritura de métodos de creación.

@@ -1,209 +1,240 @@
-# Ejemplo de patrón Factory Method con C++
+# Implementación de Abstract Factory con C++
 
-## Cómo implementar el patrón
+## Estructura y elementos modernos utilizados
 
-La implementación del patrón Factory Method en C++ moderno sigue estos pasos:
+La implementación del **Abstract Factory** en C++ moderno se organiza alrededor del concepto clave de **familias de productos**. Cada familia contiene varios productos relacionados que deben utilizarse de forma coherente. El patrón define fábricas abstractas capaces de producir todos los elementos de una misma familia.
 
-1. **Definir una interfaz base o clase abstracta** para los productos que se desean crear.
-2. Crear **múltiples clases concretas** que implementen esa interfaz.
-3. Definir una **clase base (abstracta o no)** que declare un método `crearObjeto()`, cuyo tipo de retorno es un puntero (preferiblemente `std::unique_ptr`) a la interfaz del producto.
-4. Implementar **subclases concretas del creador**, que sobrescriban el método `crearObjeto()` y devuelvan instancias concretas del producto.
-5. El **código cliente** interactúa con el producto a través de su interfaz y con el creador mediante su clase base, sin necesidad de conocer las clases concretas involucradas.
+A continuación se describen las clases principales y los elementos de C++ moderno asociados.
 
-En C++ moderno se recomienda:
+### 1. Interfaces base de los Productos
 
-* Usar **punteros inteligentes** (`std::unique_ptr`) para la gestión automática de memoria.
-* Aprovechar **`override`** para mayor claridad y seguridad en la herencia.
-* Emplear **`std::make_unique`** para instanciar objetos.
+Cada tipo de producto de la familia posee su propia interfaz abstracta.
+Por ejemplo, en una familia GUI pueden existir interfaces como `Button` y `Checkbox`.
 
-## Implementación en C++ moderno
+**Elementos de C++ moderno utilizados:**
 
-Para ilustrar el patrón, se desarrollará el siguiente mini-proyecto: **Simulador de logística**:
+* **`std::unique_ptr`** para retornar productos sin fugas y con propiedad bien definida.
+* **Destructores virtuales** para garantizar destrucción correcta de objetos polimórficos.
+* **Herencia y polimorfismo dinámico**, que permiten a las variantes concretas cumplir la misma interfaz.
 
-* Interfaz: `Transporte` con un método `entregar()`.
-* Clases concretas: `Camion`, `Barco`, `Avion`.
-* Clase base `Logistica`, con método virtual `crearTransporte()`.
-* Subclases: `LogisticaTerrestre`, `LogisticaMaritima`, `LogisticaAerea`.
-* Cliente: función `procesarEntrega()` que utiliza objetos de tipo `Transporte` sin conocer su tipo concreto.
+### 2. Productos concretos (por familia)**
 
-## Código de ejemplo
+Cada familia proporciona sus propias implementaciones coherentes.
+Ejemplo: `WinButton`, `WinCheckbox` para Windows; `LinuxButton`, `LinuxCheckbox` para Linux.
+
+**Elementos de C++ moderno utilizados:**
+
+* **Constructores modernos con listas de inicialización**.
+* **Uso natural de RAII**, sin gestión manual de memoria.
+* Integración con `std::unique_ptr` como forma estándar de manejar productos polimórficos.
+
+### 3. Interfaz base de la Fábrica abstracta
+
+Declara un conjunto de métodos capaces de crear **todos los productos de una familia**.
+Cada método crea un tipo concreto de producto, pero el cliente solo conoce sus interfaces abstractas.
+
+**Elementos de C++ moderno utilizados:**
+
+* **Métodos fábrica que devuelven `std::unique_ptr<Producto>`**.
+* Abstracción mediante interfaces puras.
+* Posibilidad de que las fábricas se seleccionen dinámicamente (p.ej., según configuración).
+
+### 4. Fábricas concretas
+
+Implementan la creación de toda la familia coherente de productos.
+Ejemplo: `WindowsFactory` crea *solo* productos estilo Windows.
+
+**Elementos de C++ moderno utilizados:**
+
+* **`std::make_unique<T>()`** para construir productos de la familia.
+* **Encapsulación total** de las clases concretas dentro de la fábrica.
+* Sustitución sin cambios en el código cliente gracias a polimorfismo y RAII.
+
+### 5. Código cliente
+
+Trabaja únicamente con la **fábrica abstracta** y las **interfaces de los productos**.
+Nunca referencia productos concretos.
+
+**Elementos de C++ moderno utilizados:**
+
+* **Programación a interfaces**, sin dependencias fuertes.
+* Gestión automática del ciclo de vida gracias a `std::unique_ptr`.
+* **Alta extensibilidad**: el cliente no cambia al añadir una nueva familia.
+
+## Diagrama UML
+
+```
+                  <<interface>>
+                     Button
+               -------------------
+               + paint() : void
+               + ~Button()
+
+                  <<interface>>
+                    Checkbox
+               -------------------
+               + toggle() : void
+               + ~Checkbox()
+
+
+                       ▲                    ▲
+         -------------------------    -------------------------
+         │                       │    │                       │
+     WinButton             LinuxButton  WinCheckbox      LinuxCheckbox
+     ----------            ------------  -----------     --------------
+     + paint()             + paint()     + toggle()      + toggle()
+
+
+                      <<abstract>>
+                 AbstractGUIFactory
+             ------------------------------------
+             + create_button() : unique_ptr<Button>
+             + create_checkbox() : unique_ptr<Checkbox>
+             + ~AbstractGUIFactory()
+
+                       ▲
+                       │
+         -----------------------------------------
+         │                                       │
+   WindowsFactory                         LinuxFactory
+   ---------------                         ---------------
+   + create_button()                       + create_button()
+   + create_checkbox()                     + create_checkbox()
+```
+
+## Ejemplo genérico en C++
 
 ```cpp
 #include <iostream>
 #include <memory>
-#include <string>
 
-// === Interfaz del producto ===
-class Transporte {
+// ======================================================
+//    Interfaces de la familia de productos
+// ======================================================
+
+// Producto 1: Button
+class Button {
 public:
-    virtual void entregar() const = 0;
-    virtual ~Transporte() = default;
+    virtual ~Button() = default;
+    virtual void paint() const = 0;
 };
 
-// === Productos concretos ===
-class Camion : public Transporte {
+// Producto 2: Checkbox
+class Checkbox {
 public:
-    void entregar() const override {
-        std::cout << "Entrega realizada por camión.\n";
+    virtual ~Checkbox() = default;
+    virtual void toggle() const = 0;
+};
+
+
+// ======================================================
+//    Productos concretos de la familia Windows
+// ======================================================
+
+class WinButton : public Button {
+public:
+    void paint() const override {
+        std::cout << "[Windows] Pintando botón.\n";
     }
 };
 
-class Barco : public Transporte {
+class WinCheckbox : public Checkbox {
 public:
-    void entregar() const override {
-        std::cout << "Entrega realizada por barco.\n";
+    void toggle() const override {
+        std::cout << "[Windows] Alternando checkbox.\n";
     }
 };
 
-class Avion : public Transporte {
+
+// ======================================================
+//    Productos concretos de la familia Linux
+// ======================================================
+
+class LinuxButton : public Button {
 public:
-    void entregar() const override {
-        std::cout << "Entrega realizada por avión.\n";
+    void paint() const override {
+        std::cout << "[Linux] Pintando botón.\n";
     }
 };
 
-// === Creador abstracto ===
-class Logistica {
+class LinuxCheckbox : public Checkbox {
 public:
-    virtual std::unique_ptr<Transporte> crearTransporte() const = 0;
-
-    void planificarEntrega() const {
-        auto transporte = crearTransporte();
-        // Lógica común para todas las logísticas
-        std::cout << "Iniciando planificación de entrega...\n";
-        transporte->entregar();
-    }
-
-    virtual ~Logistica() = default;
-};
-
-// === Creadores concretos ===
-class LogisticaTerrestre : public Logistica {
-public:
-    std::unique_ptr<Transporte> crearTransporte() const override {
-        return std::make_unique<Camion>();
+    void toggle() const override {
+        std::cout << "[Linux] Alternando checkbox.\n";
     }
 };
 
-class LogisticaMaritima : public Logistica {
+
+// ======================================================
+//    Fábrica abstracta
+// ======================================================
+
+class AbstractGUIFactory {
 public:
-    std::unique_ptr<Transporte> crearTransporte() const override {
-        return std::make_unique<Barco>();
+    virtual ~AbstractGUIFactory() = default;
+
+    virtual std::unique_ptr<Button> create_button() const = 0;
+    virtual std::unique_ptr<Checkbox> create_checkbox() const = 0;
+};
+
+
+// ======================================================
+//    Fábricas concretas
+// ======================================================
+
+class WindowsFactory : public AbstractGUIFactory {
+public:
+    std::unique_ptr<Button> create_button() const override {
+        return std::make_unique<WinButton>();
+    }
+
+    std::unique_ptr<Checkbox> create_checkbox() const override {
+        return std::make_unique<WinCheckbox>();
     }
 };
 
-class LogisticaAerea : public Logistica {
+class LinuxFactory : public AbstractGUIFactory {
 public:
-    std::unique_ptr<Transporte> crearTransporte() const override {
-        return std::make_unique<Avion>();
+    std::unique_ptr<Button> create_button() const override {
+        return std::make_unique<LinuxButton>();
+    }
+
+    std::unique_ptr<Checkbox> create_checkbox() const override {
+        return std::make_unique<LinuxCheckbox>();
     }
 };
 
-// === Código cliente ===
-void procesarEntrega(const Logistica& logistica) {
-    logistica.planificarEntrega();
+
+// ======================================================
+//    Código cliente
+// ======================================================
+
+void cliente(const AbstractGUIFactory& factory) {
+    auto button   = factory.create_button();
+    auto checkbox = factory.create_checkbox();
+
+    button->paint();
+    checkbox->toggle();
 }
 
 int main() {
-    LogisticaTerrestre terrestre;
-    LogisticaMaritima maritima;
-    LogisticaAerea aerea;
+    WindowsFactory winFactory;
+    LinuxFactory   linuxFactory;
 
-    std::cout << "=== Entrega terrestre ===\n";
-    procesarEntrega(terrestre);
-
-    std::cout << "\n=== Entrega marítima ===\n";
-    procesarEntrega(maritima);
-
-    std::cout << "\n=== Entrega aérea ===\n";
-    procesarEntrega(aerea);
-
-    return 0;
+    cliente(winFactory);
+    cliente(linuxFactory);
 }
 ```
 
-Explicación del código:
+## Puntos clave del ejemplo
 
-* La clase `Transporte` define la interfaz común para todos los medios de entrega.
-* Las clases `Camion`, `Barco` y `Avion` implementan diferentes formas de entrega.
-* `Logistica` es el creador base que define el método `crearTransporte()` y encapsula una lógica común de planificación (`planificarEntrega()`).
-* Las clases `LogisticaTerrestre`, `LogisticaMaritima` y `LogisticaAerea` sobrescriben el método fábrica y devuelven productos concretos.
-* La función `procesarEntrega()` actúa como cliente que opera sobre el creador abstracto sin conocer los detalles internos.
+* La **fábrica abstracta** declara métodos para crear todos los productos de la **familia**.
+* Cada fábrica concreta produce **variantes coherentes**:
+  *WindowsFactory → productos Windows*,
+  *LinuxFactory → productos Linux*.
+* El cliente trabaja únicamente con **interfaces (`Button`, `Checkbox`)** y **no conoce las clases concretas**.
+* `std::unique_ptr` garantiza seguridad, propiedad clara y ausencia de fugas.
+* Añadir una nueva familia (por ejemplo, *macOS*) solo requiere implementar una nueva fábrica y sus productos, sin modificar el cliente.
+* El patrón evita mezclar productos incompatibles entre sí.
 
-## Observaciones finales
-
-* Esta implementación es fácilmente extensible: agregar un nuevo tipo de transporte solo requiere una nueva clase concreta y una subclase de `Logistica`.
-* Gracias al uso de punteros inteligentes, se evita la gestión manual de memoria.
-* La separación entre creación de objetos y uso de objetos se mantiene clara y modular.
-
-
-## El código sin patrón
-
-Si eliminamos el patrón **Factory Method**, básicamente quitamos la abstracción `Logistica` y el método `crearTransporte()` que decide qué producto instanciar.
-En su lugar, el cliente crea directamente el tipo de transporte que necesita y lo usa.
-
-El código resultaría más simple pero **menos flexible**, porque cada cambio de tipo de transporte obliga a modificar el código cliente.
-
-Aquí te dejo una versión equivalente **sin** Factory Method:
-
-```cpp
-#include <iostream>
-#include <memory>
-#include <string>
-
-// === Interfaz del producto ===
-class Transporte {
-public:
-    virtual void entregar() const = 0;
-    virtual ~Transporte() = default;
-};
-
-// === Productos concretos ===
-class Camion : public Transporte {
-public:
-    void entregar() const override {
-        std::cout << "Entrega realizada por camión.\n";
-    }
-};
-
-class Barco : public Transporte {
-public:
-    void entregar() const override {
-        std::cout << "Entrega realizada por barco.\n";
-    }
-};
-
-class Avion : public Transporte {
-public:
-    void entregar() const override {
-        std::cout << "Entrega realizada por avión.\n";
-    }
-};
-
-// === Función común sin clase creadora ===
-void planificarEntrega(std::unique_ptr<Transporte> transporte) {
-    std::cout << "Iniciando planificación de entrega...\n";
-    transporte->entregar();
-}
-
-int main() {
-    std::cout << "=== Entrega terrestre ===\n";
-    planificarEntrega(std::make_unique<Camion>());
-
-    std::cout << "\n=== Entrega marítima ===\n";
-    planificarEntrega(std::make_unique<Barco>());
-
-    std::cout << "\n=== Entrega aérea ===\n";
-    planificarEntrega(std::make_unique<Avion>());
-
-    return 0;
-}
-```
-
-### Cambios clave
-
-1. **Se eliminan `Logistica` y sus subclases**: ya no hay jerarquía de creadores.
-2. **La creación de los objetos concretos (`Camion`, `Barco`, `Avion`) se hace directamente en `main()`**.
-3. **La función `planificarEntrega` recibe un `std::unique_ptr<Transporte>`** para mantener la lógica común de planificación.
-4. **Menos código y más directo**, pero **más acoplado** al conocimiento de qué transporte instanciar.
-
+Si quieres, puedo extender este apartado con una **versión más realista**, una **implementación modular en varios ficheros**, o un **ejemplo basado en otra temática** (p. ej. bases de datos, temas visuales, motores de juego).

@@ -1,4 +1,4 @@
-# Factory Method
+# Patrón Factory Method
 
 ## Definición
 

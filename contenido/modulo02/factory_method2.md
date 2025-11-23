@@ -175,7 +175,7 @@ int main() {
 }
 ```
 
-Este ejemplo refleja los elementos esenciales del patrón:
+## Puntos clave del ejemplo
 
 * El método fábrica `crear_producto()` encapsula la decisión de qué producto concreto se instancia.
 * El uso de `std::unique_ptr` garantiza una gestión automática y segura de la memoria.
