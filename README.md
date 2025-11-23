@@ -17,10 +17,11 @@
     * [Patrón Builder](contenido/modulo02/builder.md)
     * [Implementación de Builder con C++](contenido/modulo02/builder2.md)
     * [Ejemplo: Construcción de solicitudes HTTP](contenido/modulo02/builder3.md)
-    * Patrón Prototype
-    * Ejemplo de patrón Prototype con C++
+    * [Patrón Prototype](contenido/modulo02/prototype.md)
+    * [Implementación de Prototype con C++](contenido/modulo02/prototype2.md)
+    * [Ejemplo: Editor de formas gráficas](contenido/modulo02/prototype3.md)
     * Patrón Singleton
-    * Ejemplo de patrón Singleton con C++
+    * Implementación de Singleton con C++
 
 3. Patrones Estructurales
 
@@ -62,4 +63,3 @@
     * Patrón Visitor
     * Ejemplo de patrón Visitor con C++
     
-5. Proyecto final

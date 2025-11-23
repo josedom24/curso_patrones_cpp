@@ -212,7 +212,7 @@ int main() {
 }
 ```
 
-### Qué no hemos cambiado
+### Qué no hemos modificado
 
 * No hemos modificado la interfaz `Logger`.
 * No hemos modificado la interfaz `CreadorLogger`.

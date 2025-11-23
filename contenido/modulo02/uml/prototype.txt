@@ -1,0 +1,10 @@
+[<<interface>>;Prototipo|+clone(): Prototipo;+mostrar(): void;+~Prototipo()]
+
+[PrototipoConcretoA|-nombre_: string;-valor_: int|+clone(): Prototipo;+mostrar(): void]
+[PrototipoConcretoB|-etiqueta_: string;-dato_: int|+clone(): Prototipo;+mostrar(): void]
+
+[Prototipo]^-^[PrototipoConcretoA]
+[Prototipo]^-^[PrototipoConcretoB]
+
+[PrototipoConcretoA]create-.->[Prototipo]
+[PrototipoConcretoB]create-.->[Prototipo]

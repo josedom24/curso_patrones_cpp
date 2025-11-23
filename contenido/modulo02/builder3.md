@@ -424,8 +424,6 @@ int main() {
 }
 
 ```
-
-
 ### Qué no hemos modificado
 
 * La interfaz general del producto (`SolicitudHTTP`).

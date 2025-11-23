@@ -1,154 +1,45 @@
-# Prototype
+# Patrón Prototype
 
-## Introducción y propósito
+## Definición
 
-El patrón **Prototype** es un patrón creacional que permite **crear nuevos objetos a partir de una instancia existente (prototipo)**, en lugar de construirlos directamente con `new` o con constructores. Se basa en el concepto de **clonación**: se define una interfaz para clonar objetos, y cada clase concreta implementa su propio método de copia.
+El **Prototype** es un patrón de diseño creacional que permite **crear nuevos objetos mediante la clonación de instancias existentes**, denominadas *prototipos*. Para ello se basa en mecanismos de copia —**superficial** y **profunda**—:
+*La copia superficial* duplica únicamente los valores de los miembros, pero mantiene compartidos los recursos dinámicos;
+*la copia profunda*, en cambio, crea duplicados independientes de dichos recursos.
 
-## Problemas que resuelve
+En lugar de instanciar objetos directamente mediante constructores, el patrón delega la creación a un método de clonación que cada clase concreta implementa según sus necesidades. Su propósito es **desacoplar y simplificar la creación** de objetos configurados, costosos o estructuralmente complejos.
 
-El patrón Prototype resulta especialmente útil en los siguientes escenarios:
+## Problemas que intenta solucionar
 
-* Cuando **crear un objeto desde cero es costoso o complejo**, y es más eficiente clonar uno ya configurado.
-* Cuando existen **muchas combinaciones de configuraciones** posibles para un objeto y no se quiere usar muchos constructores ni parámetros.
-* Cuando el sistema necesita **crear objetos sin conocer su clase concreta**, pero sí puede acceder a un prototipo.
-* Cuando se trabaja con **jerarquías de clases y se quiere clonar objetos polimórficamente**.
+El patrón Prototype resulta adecuado en los siguientes escenarios:
 
-Con este patrón conseguimos:
+* **Creación costosa de objetos**: Inicializaciones complejas, cálculos intensivos o cargas desde archivos o bases de datos.
+* **Generación repetida de variaciones** de un mismo tipo de objeto sin recurrir a múltiples constructores ni configuraciones duplicadas.
+* **Sistemas que deben operar con objetos sin conocer su clase concreta**, cumpliendo el principio de *programar a una interfaz*.
+* **Necesidad de copiar estructuras con agregación o composición**, donde se requiere un control explícito sobre el tipo de copia.
+* **Eliminación de condicionales extensos (`if`/`switch`)** implicados en la selección del tipo a crear.
+* **Extensibilidad** del sistema sin modificar código cliente, respetando el principio *Open/Closed*.
 
-* Reducción del **acoplamiento** al encapsular el proceso de creación.
-* Mejora de la **flexibilidad** y extensibilidad del sistema.
-* Evita el uso excesivo de constructores y lógica de inicialización repetida.
+## Cómo lo soluciona
 
-## Diagrama UML y estructura
+El Prototype aporta estas soluciones esenciales:
 
-```plaintext
-         +-------------------+
-         |   IPrototype      |  <<interface>>
-         +-------------------+
-         | + clone()         |
-         +-------------------+
-                  ^
-                  |
-      +---------------------+
-      |  ConcretePrototype  |
-      +---------------------+
-      | - atributos         |
-      | + clone() override  |
-      +---------------------+
+* Define una **interfaz común de clonación** (típicamente un método virtual `clone()`).
+* Cada clase concreta implementa su **propia lógica de copia**, ya sea superficial o profunda.
+* Evita que el código cliente conozca detalles sobre **constructores concretos** o sobre cómo se crean internamente los objetos.
+* Simplifica la **duplicación de objetos complejos** con estado interno o múltiples dependencias.
+* Permite almacenar y gestionar un **catálogo de prototipos** para crear nuevas instancias de manera uniforme.
+* Facilita la creación de instancias **preconfiguradas**, eliminando código repetido de inicialización.
 
-Prototipos se registran o usan directamente:
-         
-     +---------------------+
-     |  Cliente/Factory    |
-     +---------------------+
-     | usa objetos clonados|
-     +---------------------+
-```
+## Ejemplos concretos
 
-* **IPrototype**: interfaz base con el método `clone()`, generalmente `virtual`.
-* **ConcretePrototype**: clase concreta que implementa la clonación (`clone()` devuelve una copia).
-* **Cliente**: crea nuevos objetos usando el método `clone()` sobre prototipos conocidos.
+Casos reales donde el patrón Prototype resulta especialmente útil:
 
----
+* **Aplicaciones de edición gráfica**: Duplicar formas, iconos o elementos estilizados conservando propiedades visuales y comportamientos.
+* **Motores de videojuegos**: Crear enemigos, efectos, proyectiles o elementos repetitivos partiendo de prototipos con parámetros ya definidos.
+* **Sistemas de documentos**: Replicar páginas, bloques de texto o plantillas complejas sin reconstruir toda su jerarquía interna.
+* **Escenas y modelos 3D**: Generar copias de objetos geométricos o entidades con configuraciones base compartidas.
+* **Aplicaciones empresariales**: Clonar estructuras de configuración o entidades con inicializaciones costosas.
+* **Interfaces gráficas**: Reutilizar widgets preconfigurados o elementos compuestos.
+* **Frameworks orientados a plugins**: Instanciar componentes registrados como prototipos sin depender de su tipo concreto.
+* **Simulaciones científicas o de eventos**: Replicar entidades complejas para evaluar múltiples variantes de un escenario.
 
-## Implementación en C++ moderno
-
-A continuación, se presenta una implementación sencilla del patrón Prototype con C++ moderno.
-
-### Paso 1: Definir la interfaz base clonable
-
-```cpp
-#include <iostream>
-#include <memory>
-#include <unordered_map>
-#include <string>
-
-// Interfaz abstracta con clonación polimórfica
-class IPrototype {
-public:
-    virtual std::unique_ptr<IPrototype> clone() const = 0;
-    virtual void mostrar() const = 0;
-    virtual ~IPrototype() = default;
-};
-```
-
-### Paso 2: Clases concretas que implementan la clonación
-
-```cpp
-class ConfigTCP : public IPrototype {
-    std::string host;
-    int puerto;
-public:
-    ConfigTCP(std::string h, int p) : host(std::move(h)), puerto(p) {}
-
-    std::unique_ptr<IPrototype> clone() const override {
-        return std::make_unique<ConfigTCP>(*this);
-    }
-
-    void mostrar() const override {
-        std::cout << "TCP -> Host: " << host << ", Puerto: " << puerto << "\n";
-    }
-};
-
-class ConfigUDP : public IPrototype {
-    std::string ip;
-    int puerto;
-public:
-    ConfigUDP(std::string i, int p) : ip(std::move(i)), puerto(p) {}
-
-    std::unique_ptr<IPrototype> clone() const override {
-        return std::make_unique<ConfigUDP>(*this);
-    }
-
-    void mostrar() const override {
-        std::cout << "UDP -> IP: " << ip << ", Puerto: " << puerto << "\n";
-    }
-};
-```
-
-### Paso 3: Registro y uso de prototipos
-
-```cpp
-class PrototipoFactory {
-    std::unordered_map<std::string, std::unique_ptr<IPrototype>> prototipos;
-public:
-    void registrar(const std::string& nombre, std::unique_ptr<IPrototype> p) {
-        prototipos[nombre] = std::move(p);
-    }
-
-    std::unique_ptr<IPrototype> crear(const std::string& nombre) const {
-        return prototipos.at(nombre)->clone();
-    }
-};
-
-int main() {
-    PrototipoFactory fabrica;
-
-    fabrica.registrar("tcp_local", std::make_unique<ConfigTCP>("127.0.0.1", 8080));
-    fabrica.registrar("udp_remoto", std::make_unique<ConfigUDP>("192.168.1.10", 5000));
-
-    auto copia1 = fabrica.crear("tcp_local");
-    auto copia2 = fabrica.crear("udp_remoto");
-
-    copia1->mostrar();
-    copia2->mostrar();
-}
-```
-## Ventajas
-
-* **Flexibilidad**: se pueden crear objetos dinámicamente sin depender de sus clases concretas.
-* **Reutilización**: evita duplicación de lógica de construcción.
-* **Extensibilidad**: permite añadir nuevos prototipos sin modificar el cliente.
-* **Eficiencia**: clonar puede ser más rápido que crear desde cero.
-
-## Desventajas
-
-* Cada clase debe implementar su propia lógica de copia (`clone()`), lo que puede ser repetitivo.
-* Las copias profundas pueden ser complejas si el objeto contiene recursos no copiables.
-* Puede ocultar dependencias si se abusa del patrón.
-
-## Buenas prácticas
-
-* Asegúrate de implementar correctamente la semántica de copia o movimiento.
-* Usa `std::unique_ptr` para evitar fugas de memoria.
-* Considera usar este patrón solo cuando se necesite clonación dinámica.
