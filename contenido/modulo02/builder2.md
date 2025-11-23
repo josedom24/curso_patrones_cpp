@@ -65,42 +65,7 @@ El cliente puede trabajar:
 
 ## Diagrama UML (con Director)
 
-```
-                      Producto
-               ------------------------
-               + mostrar() : void
-
-                      ▲
-                      │
-                 (creado por)
-                      │
-
-                <<abstract>>
-                 Constructor
-      -----------------------------------
-      + reiniciar() : void
-      + establecer_parteA() : void
-      + establecer_parteB() : void
-      + obtener_producto() : unique_ptr<Producto>
-      + ~Constructor()
-
-                      ▲
-                      │
-        --------------------------------------
-        │                                    │
- ConstructorConcretoA               ConstructorConcretoB
- -----------------------            ----------------------
- + establecer_parteA()              + establecer_parteA()
- + establecer_parteB()              + establecer_parteB()
- + obtener_producto()               + obtener_producto()
-
-
-                     Director
-          ------------------------------
-          + construir_minimo() : void
-          + construir_completo() : void
-          + ~Director()
-```
+![uml](uml/builder.png)
 
 ## Ejemplo genérico en C++ moderno
 

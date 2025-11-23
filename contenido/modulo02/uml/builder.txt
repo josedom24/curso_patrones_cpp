@@ -1,0 +1,15 @@
+[Producto|+mostrar(): void]
+
+[<<abstract>>;Constructor|+reiniciar(): void;+establecer_parteA(): void;+establecer_parteB(): void;+obtener_producto(): Producto;+~Constructor()]
+
+[ConstructorConcretoA|+establecer_parteA();+establecer_parteB();+obtener_producto()]
+[ConstructorConcretoB|+establecer_parteA();+establecer_parteB();+obtener_producto()]
+
+[Director|+construir_minimo(): void;+construir_completo(): void;+~Director()]
+
+
+[Constructor]^-[ConstructorConcretoA]
+[Constructor]^-[ConstructorConcretoB]
+[ConstructorConcretoA]create-.->[Producto]
+[ConstructorConcretoB]create-.->[Producto]
+[Director]uses-.->[Constructor]
