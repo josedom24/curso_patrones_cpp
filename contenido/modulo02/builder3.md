@@ -34,6 +34,14 @@ El código se divide en:
 * **Director.hpp**: clase director que define secuencias de construcción
 * **main.cpp**: código cliente
 
+Perfecto, aquí tienes **todo el código reescrito** para que:
+
+* no se use `std::move` con `std::string`,
+* las cadenas se pasen como `const std::string&`,
+* el estilo sea coherente con lo que explicas en tus otros cursos.
+
+He tocado **solo lo necesario**.
+
 ## Solicitud.hpp
 
 ```cpp
@@ -61,8 +69,8 @@ public:
                   << "  Método: " << metodo_ << "\n"
                   << "  URL:    " << url_ << "\n"
                   << "  Cabeceras:\n";
-        for (const auto& [k, v] : cabeceras_) {
-            std::cout << "    - " << k << ": " << v << "\n";
+        for (const auto& par : cabeceras_) {
+            std::cout << "    - " << par.first << ": " << par.second << "\n";
         }
         std::cout << "  Cuerpo: " << cuerpo_ << "\n}\n";
     }
@@ -75,14 +83,14 @@ private:
     const std::string cuerpo_;
 
     // Constructor privado: solo el builder puede construirlo
-    SolicitudHTTP(std::string metodo,
-                  std::string url,
-                  Cabeceras cab,
-                  std::string cuerpo)
-        : metodo_(std::move(metodo)),
-          url_(std::move(url)),
-          cabeceras_(std::move(cab)),
-          cuerpo_(std::move(cuerpo))
+    SolicitudHTTP(const std::string& metodo,
+                  const std::string& url,
+                  const Cabeceras& cab,
+                  const std::string& cuerpo)
+        : metodo_(metodo),
+          url_(url),
+          cabeceras_(cab),
+          cuerpo_(cuerpo)
     {}
 
     // El builder es amigo para poder invocar el constructor
@@ -170,24 +178,24 @@ private:
 
 class ConstructorSolicitudFluido {
 public:
-    ConstructorSolicitudFluido& metodo(std::string m) {
-        metodo_ = std::move(m);
+    ConstructorSolicitudFluido& metodo(const std::string& m) {
+        metodo_ = m;
         return *this;
     }
 
-    ConstructorSolicitudFluido& url(std::string u) {
-        url_ = std::move(u);
+    ConstructorSolicitudFluido& url(const std::string& u) {
+        url_ = u;
         return *this;
     }
 
-    ConstructorSolicitudFluido& cabecera(std::string clave,
-                                         std::string valor) {
-        cabeceras_[std::move(clave)] = std::move(valor);
+    ConstructorSolicitudFluido& cabecera(const std::string& clave,
+                                         const std::string& valor) {
+        cabeceras_[clave] = valor;
         return *this;
     }
 
-    ConstructorSolicitudFluido& cuerpo(std::string c) {
-        cuerpo_ = std::move(c);
+    ConstructorSolicitudFluido& cuerpo(const std::string& c) {
+        cuerpo_ = c;
         return *this;
     }
 
@@ -282,7 +290,6 @@ int main() {
     return 0;
 }
 ```
-
 * `R"(...)"` permite escribir un **string literal sin procesar** (raw string literal), que nos permite escribir cadenas exactamente tal como aparecen, sin necesidad de escapar comillas, barras o caracteres especiales.
 
 ## Añadir una nueva configuración
@@ -299,16 +306,16 @@ Añadimos el nuevo atributo **const** y lo incorporamos al constructor privado:
 private:
     const int timeout_ms_ = 0;   // NUEVO
 
-    SolicitudHTTP(std::string metodo,
-                  std::string url,
-                  Cabeceras cab,
-                  std::string cuerpo,
-                  int timeout_ms)      // NUEVO
-        : metodo_(std::move(metodo)),
-          url_(std::move(url)),
-          cabeceras_(std::move(cab)),
-          cuerpo_(std::move(cuerpo)),
-          timeout_ms_(timeout_ms)     // NUEVO
+    SolicitudHTTP(const std::string& metodo,
+                  const std::string& url,
+                  const Cabeceras& cab,
+                  const std::string& cuerpo,
+                  int timeout_ms)               // NUEVO
+        : metodo_(metodo),
+          url_(url),
+          cabeceras_(cab),
+          cuerpo_(cuerpo),
+          timeout_ms_(timeout_ms)              // NUEVO
     {}
 
 public:
@@ -337,7 +344,7 @@ return std::make_unique<SolicitudHTTP>(
     url_,
     cabeceras_,
     cuerpo_,
-    timeout_ms_        // NUEVO
+    timeout_ms_      // NUEVO
 );
 ```
 
@@ -401,7 +408,7 @@ int main() {
 
     std::cout << "\n=== Builder SIN Director (fluido) ===\n";
 
-    // Solicitud PUT utilizando builder fluido, con timeout (NUEVO)
+    // Solicitud PUT con timeout (NUEVO)
     SolicitudHTTP sol2 =
         ConstructorSolicitudFluido{}
             .metodo("PUT")
@@ -415,6 +422,7 @@ int main() {
 
     return 0;
 }
+
 ```
 
 

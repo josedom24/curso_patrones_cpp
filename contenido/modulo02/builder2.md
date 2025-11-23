@@ -7,7 +7,7 @@ El patrón encapsula todos los pasos necesarios para configurar un objeto comple
 
 A continuación se describen las clases principales y los elementos de C++ moderno asociados.
 
-## 1. Producto: el objeto complejo a construir
+### 1. Producto: el objeto complejo a construir
 
 El producto define la estructura final del objeto generado mediante el builder.
 Suele poseer varios parámetros opcionales o configuraciones que se establecen paso a paso.
@@ -18,7 +18,7 @@ Suele poseer varios parámetros opcionales o configuraciones que se establecen p
 * **Inicialización mediante listas de inicialización**.
 * Uso natural de **RAII** sin gestión manual de memoria.
 
-## 2. Interfaz base del Builder
+### 2. Interfaz base del Builder
 
 Declara los métodos necesarios para configurar el producto paso a paso.
 Cada método representa un aspecto o parte del producto que puede configurarse.
@@ -29,7 +29,7 @@ Cada método representa un aspecto o parte del producto que puede configurarse.
 * Métodos puros virtuales que definen los pasos de construcción.
 * Separación del **qué construir** de **cómo se construye**.
 
-## 3. Builders concretos
+### 3. Builders concretos
 
 Implementan los pasos declarados por el builder abstracto.
 Cada builder concreto puede crear una versión distinta del producto o una variante del mismo.
@@ -40,7 +40,7 @@ Cada builder concreto puede crear una versión distinta del producto o una varia
 * Uso de `std::unique_ptr` para devolver el producto construido.
 * Posibilidad de validación interna antes de crear el producto final.
 
-## 4. Director (opcional)
+### 4. Director (opcional)
 
 El *Director* define el **orden de los pasos**, especialmente cuando la construcción requiere una secuencia fija.
 Suele utilizarse para productos complejos o para asegurar que el proceso siga un flujo apropiado.
@@ -50,7 +50,7 @@ Suele utilizarse para productos complejos o para asegurar que el proceso siga un
 * Acoplamiento débil: el director solo conoce la interfaz del builder.
 * Reutilización de la misma secuencia de pasos con distintos builders.
 
-## 5. Código cliente
+### 5. Código cliente
 
 El cliente puede trabajar:
 
@@ -63,7 +63,7 @@ El cliente puede trabajar:
 * **Polimorfismo** cuando se usan builders intercambiables.
 * Gestión segura de memoria mediante `std::unique_ptr`.
 
-# Diagrama UML (con Director)
+## Diagrama UML (con Director)
 
 ```
                       Producto
@@ -102,11 +102,9 @@ El cliente puede trabajar:
           + ~Director()
 ```
 
-# Ejemplo genérico en C++ moderno
+## Ejemplo genérico en C++ moderno
 
-## Variante 1 — Builder **con Director** (versión clásica)
-
-### Código
+### Variante 1 — Builder **con Director** (versión clásica)
 
 ```cpp
 #include <iostream>
@@ -118,11 +116,12 @@ El cliente puede trabajar:
 
 class Producto {
 public:
-    void establecer_parteA(std::string valor) { parteA_ = std::move(valor); }
-    void establecer_parteB(std::string valor) { parteB_ = std::move(valor); }
+    void establecer_parteA(const std::string& valor) { parteA_ = valor; }
+    void establecer_parteB(const std::string& valor) { parteB_ = valor; }
 
     void mostrar() const {
-        std::cout << "Producto: A=" << parteA_ << ", B=" << parteB_ << "\n";
+        std::cout << "Producto: A=" << parteA_
+                  << ", B=" << parteB_ << "\n";
     }
 
 private:
@@ -213,17 +212,14 @@ int main() {
 }
 ```
 
-## Variante 2 — Builder **sin Director** (builder fluido moderno)
-
-### Explicación
+### Variante 2 — Builder **sin Director** (builder fluido moderno)
 
 Esta variante es más idiomática en C++ actual:
 
 * El builder y el cliente trabajan directamente.
-* Los métodos devuelven `*this` usando **fluidez de métodos** para permitir **encadenamiento fluido**.
-* No existe una secuencia rígida de pasos: el cliente define el orden.
+* Los métodos devuelven `*this` para permitir **encadenamiento fluido**.
+* El cliente decide libremente el orden de construcción.
 
-### Código
 
 ```cpp
 #include <iostream>
@@ -231,11 +227,12 @@ Esta variante es más idiomática en C++ actual:
 
 class Producto {
 public:
-    Producto(std::string a, std::string b)
-        : parteA_(std::move(a)), parteB_(std::move(b)) {}
+    Producto(const std::string& a, const std::string& b)
+        : parteA_(a), parteB_(b) {}
 
     void mostrar() const {
-        std::cout << "Producto: A=" << parteA_ << ", B=" << parteB_ << "\n";
+        std::cout << "Producto: A=" << parteA_
+                  << ", B=" << parteB_ << "\n";
     }
 
 private:
@@ -245,13 +242,13 @@ private:
 
 class ConstructorFluido {
 public:
-    ConstructorFluido& parteA(std::string valor) {
-        parteA_ = std::move(valor);
+    ConstructorFluido& parteA(const std::string& valor) {
+        parteA_ = valor;
         return *this;
     }
 
-    ConstructorFluido& parteB(std::string valor) {
-        parteB_ = std::move(valor);
+    ConstructorFluido& parteB(const std::string& valor) {
+        parteB_ = valor;
         return *this;
     }
 
@@ -273,3 +270,5 @@ int main() {
     p.mostrar();
 }
 ```
+
+
