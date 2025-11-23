@@ -20,8 +20,9 @@
     * [Patrón Prototype](contenido/modulo02/prototype.md)
     * [Implementación de Prototype con C++](contenido/modulo02/prototype2.md)
     * [Ejemplo: Editor de formas gráficas](contenido/modulo02/prototype3.md)
-    * Patrón Singleton
-    * Implementación de Singleton con C++
+    * [Patrón Singleton](contenido/modulo02/singleton.md)
+    * [Implementación de Singleton con C++](contenido/modulo02/singleton2.md)
+    * [Ejemplo: Logger global del sistema](contenido/modulo02/singleton3.md)
 
 3. Patrones Estructurales
 
