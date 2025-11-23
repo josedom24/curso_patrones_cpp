@@ -13,6 +13,7 @@
     * [Ejemplo: Sistema de registros](contenido/modulo02/factory_method3.md)
     * [Patrón Abstract Factory](contenido/modulo02/abstract_factory.md)
     * [Implementación de Abstract Factory con C++](contenido/modulo02/abstract_factory2.md)
+    * [Ejemplo: Interfaz gráfica multiplataforma](contenido/modulo02/abstract_factory3.md)
     * Patrón Builder
     * Ejemplo de patrón Builder con C++
     * Patrón Prototype

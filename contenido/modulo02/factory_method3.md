@@ -157,7 +157,7 @@ int main() {
 
 ## Añadir un nuevo producto
 
-La respuesta corta: **para añadir un nuevo producto no tocamos las interfaces base, solo añadimos clases nuevas y, como mucho, una línea en `main.cpp`.**
+**Para añadir un nuevo producto no tocamos las interfaces base, solo añadimos clases nuevas y, como mucho, una línea en `main.cpp`.**
 Veamos los cambios para añadir un nuevo logger, por ejemplo `LoggerBD` (base de datos):
 
 ### Añadir el nuevo producto en `Productos.hpp`
