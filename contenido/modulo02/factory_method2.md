@@ -54,43 +54,7 @@ Interactúa únicamente con la interfaz del creador y nunca con productos concre
 
 ## Diagrama UML
 
-```
-                   <<interface>>
-                      Producto
-                  -----------------
-                  + operar() : void
-                  + ~Producto()
-
-                          ▲
-                          │
-        -----------------------------------------
-        │                                       │
-ProductoConcretoA                      ProductoConcretoB
----------------------                -----------------------
-+ operar() : void                    + operar() : void
-+ ~ProductoConcretoA()               + ~ProductoConcretoB()
-
-
-
-
-                   <<abstract>>
-                      Creador
-                  ------------------------------
-                  + crear_producto() : unique_ptr<Producto>
-                  + ejecutar() : void
-                  + ~Creador()
-
-                          ▲
-                          │
-        -----------------------------------------
-        │                                       │
-CreadorConcretoA                      CreadorConcretoB
-----------------------               -----------------------
-+ crear_producto() : unique_ptr<ProductoConcretoA>
-+ ~CreadorConcretoA()                + crear_producto() :
-                                        unique_ptr<ProductoConcretoB>
-                                     + ~CreadorConcretoB()
-```
+![uml](uml/factory_method.png)
 
 ## Ejemplo genérico
 

@@ -1,0 +1,7 @@
+// Productos
+[<<interface>>;Producto|+operar() : void;+~Producto()]^-[ProductoConcretoA|+operar() : void;+~ProductoConcretoA()]
+[<<interface>>;Producto|+operar() : void;+~Producto()]^-[ProductoConcretoB|+operar() : void;+~ProductoConcretoB()]
+
+// Creadores
+[<<abstract>>;Creador|+crear_producto() : Producto;+ejecutar() : void;+~Creador()]^-[CreadorConcretoA|+crear_producto() : ProductoConcretoA;+~CreadorConcretoA()]
+[<<abstract>>;Creador|+crear_producto() : Producto;+ejecutar() : void;+~Creador()]^-[CreadorConcretoB|+crear_producto() : ProductoConcretoB;+~CreadorConcretoB()]
