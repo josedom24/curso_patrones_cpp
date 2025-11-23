@@ -1,0 +1,10 @@
+// Interfaces
+[<<interface>> Button|+paint(): void;+~Button()]^-[WinButton|+paint(): void]
+[<<interface>> Button]^-[LinuxButton|+paint(): void]
+
+[<<interface>> Checkbox|+toggle(): void;+~Checkbox()]^-[WinCheckbox|+toggle(): void]
+[<<interface>> Checkbox]^-[LinuxCheckbox|+toggle(): void]
+
+// Fábrica abstracta
+[<<abstract>> AbstractGUIFactory|+create_button(): Button;+create_checkbox(): Checkbox;+~AbstractGUIFactory()]^-[WindowsFactory|+create_button(): Button;+create_checkbox(): Checkbox]
+[<<abstract>> AbstractGUIFactory]^-[LinuxFactory|+create_button(): Button;+create_checkbox(): Checkbox]

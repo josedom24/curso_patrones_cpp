@@ -17,7 +17,7 @@ Por ejemplo, en una familia GUI pueden existir interfaces como `Button` y `Check
 * **Destructores virtuales** para garantizar destrucción correcta de objetos polimórficos.
 * **Herencia y polimorfismo dinámico**, que permiten a las variantes concretas cumplir la misma interfaz.
 
-### 2. Productos concretos (por familia)**
+### 2. Productos concretos (por familia)
 
 Cada familia proporciona sus propias implementaciones coherentes.
 Ejemplo: `WinButton`, `WinCheckbox` para Windows; `LinuxButton`, `LinuxCheckbox` para Linux.
@@ -63,44 +63,7 @@ Nunca referencia productos concretos.
 
 ## Diagrama UML
 
-```
-                  <<interface>>
-                     Button
-               -------------------
-               + paint() : void
-               + ~Button()
-
-                  <<interface>>
-                    Checkbox
-               -------------------
-               + toggle() : void
-               + ~Checkbox()
-
-
-                       ▲                    ▲
-         -------------------------    -------------------------
-         │                       │    │                       │
-     WinButton             LinuxButton  WinCheckbox      LinuxCheckbox
-     ----------            ------------  -----------     --------------
-     + paint()             + paint()     + toggle()      + toggle()
-
-
-                      <<abstract>>
-                 AbstractGUIFactory
-             ------------------------------------
-             + create_button() : unique_ptr<Button>
-             + create_checkbox() : unique_ptr<Checkbox>
-             + ~AbstractGUIFactory()
-
-                       ▲
-                       │
-         -----------------------------------------
-         │                                       │
-   WindowsFactory                         LinuxFactory
-   ---------------                         ---------------
-   + create_button()                       + create_button()
-   + create_checkbox()                     + create_checkbox()
-```
+![uml](uml/abstract_factory.png)
 
 ## Ejemplo genérico en C++
 
@@ -237,4 +200,3 @@ int main() {
 * Añadir una nueva familia (por ejemplo, *macOS*) solo requiere implementar una nueva fábrica y sus productos, sin modificar el cliente.
 * El patrón evita mezclar productos incompatibles entre sí.
 
-Si quieres, puedo extender este apartado con una **versión más realista**, una **implementación modular en varios ficheros**, o un **ejemplo basado en otra temática** (p. ej. bases de datos, temas visuales, motores de juego).
