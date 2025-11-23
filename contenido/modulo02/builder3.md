@@ -1,0 +1,437 @@
+# Ejemplo: Construcción de solicitudes HTTP
+
+## Introducción
+
+Para ilustrar el patrón **Builder** en un escenario realista, construiremos un sistema para crear **solicitudes HTTP** de forma flexible, clara y segura.
+
+Una solicitud HTTP puede contener múltiples valores opcionales:
+
+* método (`GET`, `POST`, `PUT`, ...)
+* URL
+* cabeceras
+* cuerpo del mensaje
+* parámetros adicionales
+
+Crear este tipo de objetos mediante constructores tradicionales puede conducir a **constructores largos y difíciles de mantener**, o a objetos mal formados.
+
+Por ello emplearemos el patrón **Builder**, separando la **construcción paso a paso** de la **representación final**.
+
+En este ejemplo además, el objeto `SolicitudHTTP` será **inmutable**, con atributos `const`
+
+* Todos sus campos internos serán constantes.
+* Su constructor será **privado**.
+* Solo el builder podrá crear instancias válidas.
+
+Mostraremos dos variantes:
+
+1. **Builder con Director** (versión clásica del patrón)
+2. **Builder sin Director** (builder fluido moderno)
+
+El código se divide en:
+
+* **Solicitud.hpp**: definición del producto inmutable
+* **Builder.hpp**: builder abstracto y builder concreto
+* **Director.hpp**: clase director que define secuencias de construcción
+* **main.cpp**: código cliente
+
+# Solicitud.hpp
+
+```cpp
+#pragma once
+#include <string>
+#include <map>
+#include <iostream>
+
+// ======================================================
+//             Producto: SolicitudHTTP (INMUTABLE)
+// ======================================================
+
+class SolicitudHTTP {
+public:
+    using Cabeceras = std::map<std::string, std::string>;
+
+    // --- Métodos de acceso ---
+    const std::string& metodo()    const noexcept { return metodo_; }
+    const std::string& url()       const noexcept { return url_; }
+    const Cabeceras&   cabeceras() const noexcept { return cabeceras_; }
+    const std::string& cuerpo()    const noexcept { return cuerpo_; }
+
+    void mostrar() const {
+        std::cout << "SolicitudHTTP {\n"
+                  << "  Método: " << metodo_ << "\n"
+                  << "  URL:    " << url_ << "\n"
+                  << "  Cabeceras:\n";
+        for (const auto& [k, v] : cabeceras_) {
+            std::cout << "    - " << k << ": " << v << "\n";
+        }
+        std::cout << "  Cuerpo: " << cuerpo_ << "\n}\n";
+    }
+
+private:
+    // --- Atributos inmutables ---
+    const std::string metodo_;
+    const std::string url_;
+    const Cabeceras   cabeceras_;
+    const std::string cuerpo_;
+
+    // Constructor privado: solo el builder puede construirlo
+    SolicitudHTTP(std::string metodo,
+                  std::string url,
+                  Cabeceras cab,
+                  std::string cuerpo)
+        : metodo_(std::move(metodo)),
+          url_(std::move(url)),
+          cabeceras_(std::move(cab)),
+          cuerpo_(std::move(cuerpo))
+    {}
+
+    // El builder es amigo para poder invocar el constructor
+    friend class ConstructorSolicitud;
+    friend class ConstructorSolicitudFluido;
+};
+```
+
+# Builder.hpp
+
+```cpp
+#pragma once
+#include <memory>
+#include "Solicitud.hpp"
+
+// ======================================================
+//          Builder abstracto para SolicitudHTTP
+// ======================================================
+
+class ConstructorSolicitud {
+public:
+    virtual ~ConstructorSolicitud() = default;
+
+    virtual void reiniciar() = 0;
+    virtual void establecer_metodo(const std::string&) = 0;
+    virtual void establecer_url(const std::string&) = 0;
+    virtual void agregar_cabecera(const std::string&, const std::string&) = 0;
+    virtual void establecer_cuerpo(const std::string&) = 0;
+
+    virtual std::unique_ptr<SolicitudHTTP> obtener_solicitud() = 0;
+};
+
+// ======================================================
+//        Builder concreto (versión clásica con Director)
+// ======================================================
+
+class ConstructorSolicitudConcreto : public ConstructorSolicitud {
+public:
+    ConstructorSolicitudConcreto() { reiniciar(); }
+
+    void reiniciar() override {
+        metodo_ = "GET";
+        url_.clear();
+        cabeceras_.clear();
+        cuerpo_.clear();
+    }
+
+    void establecer_metodo(const std::string& m) override {
+        metodo_ = m;
+    }
+
+    void establecer_url(const std::string& u) override {
+        url_ = u;
+    }
+
+    void agregar_cabecera(const std::string& clave,
+                          const std::string& valor) override {
+        cabeceras_[clave] = valor;
+    }
+
+    void establecer_cuerpo(const std::string& c) override {
+        cuerpo_ = c;
+    }
+
+    std::unique_ptr<SolicitudHTTP> obtener_solicitud() override {
+        return std::make_unique<SolicitudHTTP>(
+            metodo_,
+            url_,
+            cabeceras_,
+            cuerpo_
+        );
+    }
+
+private:
+    std::string metodo_;
+    std::string url_;
+    SolicitudHTTP::Cabeceras cabeceras_;
+    std::string cuerpo_;
+};
+
+
+// ======================================================
+//   Builder fluido (sin Director, típico en C++ moderno)
+// ======================================================
+
+class ConstructorSolicitudFluido {
+public:
+    ConstructorSolicitudFluido& metodo(std::string m) {
+        metodo_ = std::move(m);
+        return *this;
+    }
+
+    ConstructorSolicitudFluido& url(std::string u) {
+        url_ = std::move(u);
+        return *this;
+    }
+
+    ConstructorSolicitudFluido& cabecera(std::string clave,
+                                         std::string valor) {
+        cabeceras_[std::move(clave)] = std::move(valor);
+        return *this;
+    }
+
+    ConstructorSolicitudFluido& cuerpo(std::string c) {
+        cuerpo_ = std::move(c);
+        return *this;
+    }
+
+    // Crea el objeto inmutable
+    SolicitudHTTP construir() const {
+        return SolicitudHTTP(metodo_, url_, cabeceras_, cuerpo_);
+    }
+
+private:
+    std::string metodo_ = "GET";
+    std::string url_;
+    SolicitudHTTP::Cabeceras cabeceras_;
+    std::string cuerpo_;
+};
+```
+
+# Director.hpp
+
+```cpp
+#pragma once
+#include <memory>
+#include "Builder.hpp"
+
+// ======================================================
+//                   Director
+// ======================================================
+
+class DirectorSolicitud {
+public:
+    explicit DirectorSolicitud(ConstructorSolicitud& builder)
+        : builder_(builder) {}
+
+    // Construcción mínima: GET sin cuerpo
+    std::unique_ptr<SolicitudHTTP> construir_get_simple(const std::string& url) {
+        builder_.reiniciar();
+        builder_.establecer_metodo("GET");
+        builder_.establecer_url(url);
+        return builder_.obtener_solicitud();
+    }
+
+    // Construcción completa: POST con JSON
+    std::unique_ptr<SolicitudHTTP>
+    construir_post_json(const std::string& url,
+                        const std::string& cuerpo_json) {
+        builder_.reiniciar();
+        builder_.establecer_metodo("POST");
+        builder_.establecer_url(url);
+        builder_.agregar_cabecera("Content-Type", "application/json");
+        builder_.establecer_cuerpo(cuerpo_json);
+        return builder_.obtener_solicitud();
+    }
+
+private:
+    ConstructorSolicitud& builder_;
+};
+```
+
+# main.cpp
+
+```cpp
+#include "Director.hpp"
+#include <iostream>
+
+int main() {
+    std::cout << "=== Builder CON Director ===\n";
+
+    ConstructorSolicitudConcreto ctor;
+    DirectorSolicitud director(ctor);
+
+    auto sol1 = director.construir_get_simple("https://ejemplo.com");
+    sol1->mostrar();
+
+    auto sol2 = director.construir_post_json(
+        "https://api.ejemplo.com/login",
+        R"({"usuario": "admin", "clave": "1234"})"
+    );
+    sol2->mostrar();
+
+
+    std::cout << "\n=== Builder SIN Director (fluido) ===\n";
+
+    SolicitudHTTP sol3 =
+        ConstructorSolicitudFluido{}
+            .metodo("PUT")
+            .url("https://api.ejemplo.com/usuario/42")
+            .cabecera("Authorization", "Bearer token123")
+            .cuerpo(R"({"nombre": "Juan"})")
+            .construir();
+
+    sol3.mostrar();
+
+    return 0;
+}
+```
+
+* `R"(...)"` permite escribir un **string literal sin procesar** (raw string literal), que nos permite escribir cadenas exactamente tal como aparecen, sin necesidad de escapar comillas, barras o caracteres especiales.
+
+## Añadir una nueva configuración
+
+Supongamos que queremos añadir un nuevo parámetro opcional a la solicitud HTTP: **`timeout_ms`** (tiempo máximo de espera en milisegundos).
+
+A continuación se muestran únicamente los cambios requeridos en cada fichero.
+
+### Cambios en `Solicitud.hpp`
+
+Añadimos el nuevo atributo **const** y lo incorporamos al constructor privado:
+
+```cpp
+private:
+    const int timeout_ms_ = 0;   // NUEVO
+
+    SolicitudHTTP(std::string metodo,
+                  std::string url,
+                  Cabeceras cab,
+                  std::string cuerpo,
+                  int timeout_ms)      // NUEVO
+        : metodo_(std::move(metodo)),
+          url_(std::move(url)),
+          cabeceras_(std::move(cab)),
+          cuerpo_(std::move(cuerpo)),
+          timeout_ms_(timeout_ms)     // NUEVO
+    {}
+
+public:
+    int timeout_ms() const noexcept { return timeout_ms_; }  // NUEVO
+```
+
+### Cambios en `Builder.hpp`
+
+#### En el **builder clásico** (`ConstructorSolicitudConcreto`)
+
+Añadimos el campo interno y el setter:
+
+```cpp
+private:
+    int timeout_ms_ = 0;   // NUEVO
+
+public:
+    void establecer_timeout(int ms) { timeout_ms_ = ms; }   // NUEVO
+```
+
+Y lo propagamos en `obtener_solicitud()`:
+
+```cpp
+return std::make_unique<SolicitudHTTP>(
+    metodo_,
+    url_,
+    cabeceras_,
+    cuerpo_,
+    timeout_ms_        // NUEVO
+);
+```
+
+#### En el **builder fluido** (`ConstructorSolicitudFluido`)
+
+Añadimos el campo interno y el método fluido:
+
+```cpp
+private:
+    int timeout_ms_ = 0;  // NUEVO
+
+public:
+    ConstructorSolicitudFluido& timeout(int ms) {
+        timeout_ms_ = ms;
+        return *this;
+    }
+```
+
+Y lo propagamos en `construir()`:
+
+```cpp
+return SolicitudHTTP(metodo_, url_, cabeceras_, cuerpo_, timeout_ms_);
+```
+
+### Cambios en `Director.hpp` (opcional)
+
+Si queremos que el Director construya solicitudes con timeout:
+
+```cpp
+builder_.establecer_timeout(5000);   // NUEVO
+```
+
+Este paso solo es necesario si el Director debe usar esta nueva configuración.
+
+### Cambios en `main.cpp` para probar la nueva configuración
+
+```cpp
+#include "Director.hpp"
+#include <iostream>
+
+int main() {
+    std::cout << "=== Builder CON Director ===\n";
+
+    ConstructorSolicitudConcreto ctor;
+    DirectorSolicitud director(ctor);
+
+    // Solicitud GET simple (sin timeout)
+    auto sol1 = director.construir_get_simple("https://ejemplo.com");
+    sol1->mostrar();
+
+    // Solicitud POST con JSON y timeout (NUEVO)
+    ctor.reiniciar();
+    ctor.establecer_metodo("POST");
+    ctor.establecer_url("https://api.ejemplo.com/datos");
+    ctor.agregar_cabecera("Content-Type", "application/json");
+    ctor.establecer_cuerpo(R"({"dato": 123})");
+    ctor.establecer_timeout(5000);                 // ← NUEVO
+    auto sol_timeout = ctor.obtener_solicitud();
+    sol_timeout->mostrar();
+
+
+    std::cout << "\n=== Builder SIN Director (fluido) ===\n";
+
+    // Solicitud PUT utilizando builder fluido, con timeout (NUEVO)
+    SolicitudHTTP sol2 =
+        ConstructorSolicitudFluido{}
+            .metodo("PUT")
+            .url("https://api.ejemplo.com/usuario/42")
+            .cabecera("Authorization", "Bearer token123")
+            .cuerpo(R"({"nombre": "Juan"})")
+            .timeout(3000)                         // ← NUEVO
+            .construir();
+
+    sol2.mostrar();
+
+    return 0;
+}
+```
+
+
+### Qué no hemos modificado
+
+* La interfaz general del producto (`SolicitudHTTP`).
+* La lógica existente del builder.
+* El código cliente.
+* El patrón completo ya establecido.
+
+Solo se han añadido:
+
+1. un **nuevo atributo inmutable**,
+2. un **nuevo parámetro en los constructores privados**,
+3. un método nuevo en cada builder,
+4. y la propagación dentro del proceso de construcción.
+
+
+
+

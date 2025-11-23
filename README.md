@@ -14,8 +14,9 @@
     * [Patrón Abstract Factory](contenido/modulo02/abstract_factory.md)
     * [Implementación de Abstract Factory con C++](contenido/modulo02/abstract_factory2.md)
     * [Ejemplo: Interfaz gráfica multiplataforma](contenido/modulo02/abstract_factory3.md)
-    * Patrón Builder
-    * Ejemplo de patrón Builder con C++
+    * [Patrón Builder](contenido/modulo02/builder.md)
+    * [Implementación de Builder con C++](contenido/modulo02/builder2.md)
+    * [Ejemplo: Construcción de solicitudes HTTP](contenido/modulo02/builder3.md)
     * Patrón Prototype
     * Ejemplo de patrón Prototype con C++
     * Patrón Singleton
