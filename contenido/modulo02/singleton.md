@@ -1,142 +1,39 @@
-# Singleton
+# Patrón Singleton
 
-## Introducción y propósito
+## Definición
 
-El patrón **Singleton** garantiza que **una clase tenga una única instancia** y proporciona un **punto de acceso global** a ella.
+El **Singleton** es un patrón de diseño creacional cuyo objetivo es **garantizar que una clase tenga una única instancia en todo el programa** y, además, **proporcionar un punto de acceso global y controlado** a dicha instancia.
 
-## Problema que resuelve
+La clase controla por completo su ciclo de vida: impide la creación arbitraria de objetos, asegura la existencia de una única instancia y coordina el acceso seguro a ella.
 
-Evita que se creen múltiples instancias de una clase cuando solo debe existir una. Por ejemplo, en sistemas donde debe haber:
+## Problemas que intenta solucionar
 
-* Un único gestor de configuración.
-* Un único logger (registro de eventos).
-* Un único acceso a base de datos o sistema de archivos.
+El patrón Singleton surge como respuesta a situaciones en las que:
 
-Algunos escenarios donde es útil:
+* Es necesario **garantizar que un recurso exista una sola vez**, por ejemplo, un manejador de configuración global o un registro de logs.
+* Se requiere un **punto de acceso único y centralizado** para un servicio o recurso compartido.
+* La creación repetida de instancias sería costosa, insegura o conceptualmente incorrecta.
+* Se quiere **evitar la dispersión de instancias** que podrían descoordinar el estado global.
+* Se necesita que la instancia se **cree bajo demanda** (lazy initialization) o al inicio del programa (eager initialization).
 
-* Controladores globales de recursos (logger, base de datos, configuración).
-* Gestión centralizada de estado (modo debug, preferencias del usuario).
-* Acceso compartido a hardware o servicios únicos (impresora, red).
+## Cómo lo soluciona
 
-Nos ayuda a evitar:
+El Singleton ofrece un conjunto de mecanismos precisos:
 
-* Duplicación de recursos costosos.
-* Confusión o inconsistencias por múltiples instancias no sincronizadas.
-* Dependencia innecesaria de múltiples copias de un objeto que debería ser único.
+* **Constructor privado o protegido** para impedir la creación directa de objetos desde el exterior.
+* Una **función estática de acceso** (generalmente `instance()`) que devuelve la única instancia existente.
+* **Almacenamiento estático interno** para conservar la instancia.
+* Opcionalmente, garantiza la **creación perezosa** y la **seguridad en entornos multihilo**.
+* Aísla la gestión de la instancia de manera que el resto del código no necesita saber si se inicializa al principio o la primera vez que se pide.
 
-## Diagrama UML y estructura
+## Ejemplos concretos
 
-```
-┌──────────────────────┐
-│      Singleton       │
-├──────────────────────┤
-│ - instancia : T*     │
-├──────────────────────┤
-│ + instancia() : T&   │
-│ + operacion()        │
-└──────────────────────┘
-```
+* **Gestores de configuración**: Un único objeto para cargar y exponer ajustes globales de la aplicación.
+* **Sistemas de logging**: Un logger central que unifica la salida de mensajes, evitando inconsistencias.
+* **Motores de juegos**: Un único gestor de recursos (texturas, sonidos, shaders).
+* **Conexión o pool de conexiones** a bases de datos: La instancia controla la gestión común de recursos.
+* **Planificadores o gestores de tareas** en sistemas concurrentes.
+* **Controladores de acceso a hardware** cuando solo debe existir un punto de entrada (sensores, GPU, dispositivos especializados).
+* **Registro global de eventos** o de estadísticas de ejecución.
+* **Sistemas de configuración de frameworks**: Modalidad, rutas de archivos, preferencias globales.
 
-* `instancia()` es un método estático que devuelve una referencia a la instancia única.
-* El constructor es privado para impedir otras construcciones.
-
-## Implementación en C++ moderno
-
-```cpp
-#include <iostream>
-
-class Logger {
-private:
-    Logger() {
-        std::cout << "Logger creado.\n";
-    }
-
-    // Eliminar copia y asignación
-    Logger(const Logger&) = delete;
-    Logger& operator=(const Logger&) = delete;
-
-public:
-    static Logger& instancia() {
-        static Logger unica_instancia; // Se crea una vez (lazy, thread-safe en C++11+)
-        return unica_instancia;
-    }
-
-    void log(const std::string& mensaje) {
-        std::cout << "[LOG] " << mensaje << '\n';
-    }
-};
-
-int main() {
-    Logger::instancia().log("Inicio del sistema.");
-    Logger::instancia().log("Cargando configuración.");
-}
-```
-
-* `Logger()` es **privado**: evita que se creen instancias desde fuera.
-* `instancia()` devuelve una referencia a una **instancia estática local**, con eso conseguimos dos propiedades importantes:
-    * **Lazy Initialization (Inicialización perezosa)**: El objeto se crea solo cuando se necesita por primera vez, en lugar de hacerlo al inicio del programa.
-    * **Thread-safe (Seguro para múltiples hilos)**: El código puede ejecutarse correctamente en un entorno con múltiples hilos sin riesgo **de condiciones de carrera (race conditions)**. Si varios hilos llaman a `getInstance()` al mismo tiempo, solo uno de ellos debe crear la instancia, y los demás deben obtener la misma instancia sin errores.
-* Se eliminan la copia y la asignación (`= delete`) para evitar que otros dupliquen la instancia.
-
-## Ventajas
-
-* Control total sobre la única instancia.
-* Inicialización perezosa (`lazy initialization`).
-* Thread-safe en C++11+ sin necesidad de mecanismos adicionales.
-
-## Desventajas
-
-* El acceso global puede fomentar **acoplamiento** innecesario (anti-patrón global). Debido a que se comporta como una variable global disfrazada, y el uso de variables globales es considerado un **anti-patrón**.
-* Dificulta pruebas unitarias si se accede directamente (no se puede inyectar una instancia falsa que simule su comportamiento).
-* Puede violar el principio de inversión de dependencias si se abusa del patrón, ya que acceder al objeto está acoplándose directamente a una implementación concreta , lo cual viola el principio.
-
-## Configuración del comportamiento
-
-A veces no queremos que el Singleton tenga un comportamiento fijo. En su lugar, puede ser útil permitir que el usuario **inyecte o registre comportamiento personalizado** en tiempo de ejecución, como funciones de procesamiento, filtros, callbacks, etc.
-
-Usando `std::function` como atributo del Singleton, puedes permitir que se le asigne cualquier función o lambda que respete una cierta firma. Veamos un ejemplo donde vamos a construir  un logger siguiendo el aptrón Singleton, que permita al usuario definir **cómo se imprime cada mensaje**:
-
-```cpp
-#include <iostream>
-#include <functional>
-#include <string>
-
-class Logger {
-private:
-    Logger() = default;
-
-    std::function<void(const std::string&)> estrategia_log = 
-        [](const std::string& mensaje) {
-            std::cout << "[DEFAULT] " << mensaje << '\n';
-        };
-
-public:
-    Logger(const Logger&) = delete;
-    Logger& operator=(const Logger&) = delete;
-
-    static Logger& instancia() {
-        static Logger instancia_unica;
-        return instancia_unica;
-    }
-
-    void log(const std::string& mensaje) {
-        estrategia_log(mensaje); // uso del std::function
-    }
-
-    void establecerEstrategia(std::function<void(const std::string&)> nueva_funcion) {
-        estrategia_log = nueva_funcion;
-    }
-};
-
-int main() {
-    // Uso por defecto
-    Logger::instancia().log("Mensaje normal");
-
-    // Cambiar el comportamiento del log con una lambda
-    Logger::instancia().establecerEstrategia([](const std::string& msg) {
-        std::cerr << "[ERROR] " << msg << '\n';
-    });
-
-    Logger::instancia().log("Este mensaje va a std::cerr");
-}
-```
