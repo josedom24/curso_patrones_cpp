@@ -34,7 +34,7 @@ El código se divide en:
 * **Director.hpp**: clase director que define secuencias de construcción
 * **main.cpp**: código cliente
 
-# Solicitud.hpp
+## Solicitud.hpp
 
 ```cpp
 #pragma once
@@ -91,7 +91,7 @@ private:
 };
 ```
 
-# Builder.hpp
+## Builder.hpp
 
 ```cpp
 #pragma once
@@ -204,7 +204,7 @@ private:
 };
 ```
 
-# Director.hpp
+## Director.hpp
 
 ```cpp
 #pragma once
@@ -245,7 +245,7 @@ private:
 };
 ```
 
-# main.cpp
+## main.cpp
 
 ```cpp
 #include "Director.hpp"
