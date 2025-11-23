@@ -155,49 +155,12 @@ int main() {
 }
 ```
 
-
-
-A continuación se resumen los aspectos más relevantes del ejemplo, tanto desde el punto de vista del patrón Factory Method como del uso de C++ moderno.
-
-### ✔ Separación entre *producto* y *creador*
-
-* La clase `Logger` define la interfaz común para todos los productos.
-* Los productos concretos (`LoggerConsola`, `LoggerArchivo`, `LoggerRed`) implementan distintos comportamientos sin afectar al cliente.
-
-### ✔ Uso de punteros inteligentes (`std::unique_ptr`)
-
-* El método fábrica devuelve `std::unique_ptr<Logger>`, lo que garantiza:
-
-  * propiedad exclusiva del objeto creado,
-  * gestión automática de memoria,
-  * ausencia de fugas incluso ante excepciones.
-
-### ✔ Construcción segura con `std::make_unique`
-
-* Las clases creadoras concretas usan `std::make_unique`, que unifica construcción y asignación del puntero en una única operación segura.
-
-### ✔ Desacoplamiento total del cliente
-
-* El cliente solo conoce `CreadorLogger`, no los productos concretos.
-* Llamar a `registrar()` desencadena la creación del logger adecuado sin que el cliente tenga que decidir qué logger usar.
-
-### ✔ Extensibilidad
-
-* Para añadir un nuevo tipo de logger (por ejemplo, `LoggerBD`):
-
-  * se crea una clase de producto nueva,
-  * se implementa un nuevo creador concreto.
-* El cliente no cambia en absoluto (*Open/Closed Principle*).
-
 ## Añadir un nuevo producto
 
 La respuesta corta: **para añadir un nuevo producto no tocas las interfaces base, solo añades clases nuevas y, como mucho, una línea en `main.cpp`.**
+Veamos los cambios para añadir un nuevo logger, por ejemplo `LoggerBD` (base de datos):
 
-Te lo detallo paso a paso suponiendo que quieres un nuevo logger, por ejemplo `LoggerBD` (base de datos):
-
----
-
-## 1. Añadir el nuevo producto en `Productos.hpp`
+### Añadir el nuevo producto en `Productos.hpp`
 
 Debajo de los otros productos, añades una nueva clase que herede de `Logger`:
 
@@ -210,15 +173,7 @@ public:
     }
 };
 ```
-
-✅ Cambios en `Productos.hpp`
-
-* **No modificas** la interfaz `Logger`.
-* **Solo añades** una nueva clase concreta (`LoggerBD`).
-
----
-
-## 2. Añadir el nuevo creador en `Creadores.hpp`
+### Añadir el nuevo creador en `Creadores.hpp`
 
 Debajo de los otros creadores concretos, añades uno nuevo para este producto:
 
@@ -231,14 +186,7 @@ public:
 };
 ```
 
-✅ Cambios en `Creadores.hpp`
-
-* **No modificas** `CreadorLogger`.
-* **Solo añades** una nueva subclase (`CreadorLoggerBD`) que sabe crear `LoggerBD`.
-
----
-
-## 3. Usar el nuevo producto desde el cliente (`main.cpp`)
+### Usar el nuevo producto desde el cliente (`main.cpp`)
 
 En `main.cpp`, si quieres probarlo, solo añades:
 
@@ -264,27 +212,15 @@ int main() {
 }
 ```
 
-✅ Cambios en `main.cpp`
+### Qué no hemos cambiado
 
-* Creas una instancia de `CreadorLoggerBD`.
-* Llamas a `cliente(fabricaBD);`.
+* No hemos modificado la interfaz `Logger`.
+* No hemos modificado la interfaz `CreadorLogger`.
+* No hemos modificado el código de `cliente`.
 
----
-
-## 4. Qué NO has tenido que cambiar (y eso es lo importante)
-
-Fíjate en lo que **ha permanecido intacto**:
-
-* No has modificado la interfaz `Logger`.
-* No has modificado la interfaz `CreadorLogger`.
-* No has modificado el código de `cliente`.
-
-Solo has:
+Solo hemos:
 
 1. añadido un **nuevo producto concreto** (`LoggerBD`),
 2. añadido un **nuevo creador concreto** (`CreadorLoggerBD`),
 3. y opcionalmente una línea en `main.cpp` para usarlo.
 
-Eso es exactamente lo que quieres enseñar al hablar de **Open/Closed** con Factory Method.
-
-Si quieres, te puedo escribir el código completo actualizado con `LoggerBD` ya integrado, para que lo copies tal cual en tus transparencias o apuntes.
