@@ -157,12 +157,12 @@ int main() {
 
 ## Añadir un nuevo producto
 
-La respuesta corta: **para añadir un nuevo producto no tocas las interfaces base, solo añades clases nuevas y, como mucho, una línea en `main.cpp`.**
+La respuesta corta: **para añadir un nuevo producto no tocamos las interfaces base, solo añadimos clases nuevas y, como mucho, una línea en `main.cpp`.**
 Veamos los cambios para añadir un nuevo logger, por ejemplo `LoggerBD` (base de datos):
 
 ### Añadir el nuevo producto en `Productos.hpp`
 
-Debajo de los otros productos, añades una nueva clase que herede de `Logger`:
+Debajo de los otros productos, añadimos una nueva clase que herede de `Logger`:
 
 ```cpp
 // Logger que simula escribir en una base de datos
@@ -175,7 +175,7 @@ public:
 ```
 ### Añadir el nuevo creador en `Creadores.hpp`
 
-Debajo de los otros creadores concretos, añades uno nuevo para este producto:
+Debajo de los otros creadores concretos, añadimos uno nuevo para este producto:
 
 ```cpp
 class CreadorLoggerBD : public CreadorLogger {
@@ -188,7 +188,7 @@ public:
 
 ### Usar el nuevo producto desde el cliente (`main.cpp`)
 
-En `main.cpp`, si quieres probarlo, solo añades:
+En `main.cpp`, añadimos:
 
 ```cpp
 #include "Creadores.hpp"
