@@ -1,0 +1,4 @@
+[Cliente] -> [InterfazObjetivo]
+
+[InterfazObjetivo]^-[Adaptador]
+[Adaptador] -->[Adaptado]
