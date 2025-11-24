@@ -44,8 +44,9 @@
     * [Patrón Flyweight](contenido/modulo03/flyweight.md)
     * [Ejemplo con patrón Flyweight con C++](contenido/modulo03/flyweight2.md)
     * [Ejemplo: Sistema de iconos compartidos](contenido/modulo03/flyweight3.md)
-    * Patrón Proxy
-    * Implementación de Proxy con C++
+    * [Patrón Proxy](contenido/modulo03/proxy.md)
+    * [Implementación de Proxy con C++](contenido/modulo03/proxy2.md)
+    * [Ejemplo: Acceso a un Servicio de Datos](contenido/modulo03/proxy3.md)
 
 4. Patrones de Comportamiento
 

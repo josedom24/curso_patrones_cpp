@@ -129,13 +129,13 @@ int main() {
 }
 ```
 
-# Añadir un nuevo decorador
+## Añadir un nuevo decorador
 
 Una de las mayores ventajas del patrón **Decorator** es que permite añadir nueva funcionalidad **sin modificar ninguna clase existente**.
 
 Supongamos que queremos añadir un nuevo decorador: **notificación Push**.
 
-## Añadir el nuevo decorador en `Notificaciones.hpp`
+### Añadir el nuevo decorador en `Notificaciones.hpp`
 
 ```cpp
 // Decorador concreto: Notificación Push
@@ -152,13 +152,13 @@ public:
 };
 ```
 
-## Usarlo en `main.cpp`
+### Usarlo en `main.cpp`
 
 ```cpp
 notificador = std::make_unique<NotificadorPush>(std::move(notificador));
 ```
 
-## Qué no hemos modificado
+### Qué no hemos modificado
 
 * La interfaz `Notificador`.
 * La clase base decoradora `DecoradorNotificador`.
