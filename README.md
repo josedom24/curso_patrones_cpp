@@ -38,9 +38,9 @@
     * [Patrón Decorator](contenido/modulo03/decorator.md)
     * [Implementación de Decorator con C++](contenido/modulo03/decorator2.md)
     * [Ejemplo: Sistema de notificaciones](contenido/modulo03/decorator3.md)
-    * Patrón Facade
-    * Implementación de Facade con C++
-    * Ejemplo: Sistema de gestión de tareas
+    * [Patrón Facade](contenido/modulo03/facade.md)
+    * [Implementación de Facade con C++](contenido/modulo03/facade2.md)
+    * [Ejemplo: Sistema de gestión de tareas](contenido/modulo03/facade3.md)
     * Patrón Flyweight
     * Ejemplo con patrón Flyweight con C++
     * Patrón Proxy
