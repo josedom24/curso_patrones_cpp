@@ -1,0 +1,7 @@
+[SubsistemaA]        
+[SubsistemaB]        
+[SubsistemaC]
+
+[Fachada]uses-.->[SubsistemaA]
+[Fachada]uses-.->[SubsistemaB]
+[Fachada]uses-.->[SubsistemaC]
