@@ -1,0 +1,3 @@
+[<<interface>> Flyweight]^-.-[FlyweightConcreto]
+[FlyweightFactory]++->[<<interface>> Flyweight]
+[ContextoCliente]->[<<interface>> Flyweight]

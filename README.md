@@ -41,8 +41,9 @@
     * [Patrón Facade](contenido/modulo03/facade.md)
     * [Implementación de Facade con C++](contenido/modulo03/facade2.md)
     * [Ejemplo: Sistema de gestión de tareas](contenido/modulo03/facade3.md)
-    * Patrón Flyweight
-    * Ejemplo con patrón Flyweight con C++
+    * [Patrón Flyweight](contenido/modulo03/flyweight.md)
+    * [Ejemplo con patrón Flyweight con C++](contenido/modulo03/flyweight2.md)
+    * [Ejemplo: Sistema de iconos compartidos](contenido/modulo03/flyweight3.md)
     * Patrón Proxy
     * Implementación de Proxy con C++
 

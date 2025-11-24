@@ -35,6 +35,6 @@ El Adapter aporta estas soluciones:
 * **Controladores de dispositivos**: Adaptar distintos drivers o protocolos de comunicación a una interfaz de control estándar.
 * **Aplicaciones de logging**: Unificar múltiples librerías de logs externas bajo una única interfaz común.
 * **Bases de datos**: Crear adaptadores para distintos conectores SQL/NoSQL, que ofrecen APIs incompatibles.
-* **Sistemas de pago**: Adaptar distintos proveedores (Stripe, PayPal, Redsys…) a una interfaz única del sistema de cobros.
+* **Sistemas de pago**: Adaptar distintos proveedores (Stripe, PayPal, Redsys,...) a una interfaz única del sistema de cobros.
 * **Frameworks multimedia**: Permitir que distintos decodificadores de audio/vídeo se usen intercambiablemente.
 * **Conversión de tipos o formatos**: Adaptar estructuras de datos antiguas a nuevos modelos de dominio sin reescribir toda la lógica.

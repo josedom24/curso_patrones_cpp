@@ -28,7 +28,7 @@ El Factory Method aporta estas soluciones:
 
 * **Sistema de registros o logs**: Crear diferentes tipos de *loggers* (a consola, a archivo, a red) sin que el código cliente sepa cuál instancia concreta usa.
 * **Motores gráficos o juegos**: Crear distintos tipos de enemigos, proyectiles o elementos del escenario dependiendo del nivel o dificultad.
-* **Lectores y escritores de archivos**: Seleccionar automáticamente un parser distinto (JSON, XML, CSV…) según el tipo de archivo detectado.
+* **Lectores y escritores de archivos**: Seleccionar automáticamente un parser distinto (JSON, XML, CSV,...) según el tipo de archivo detectado.
 * **Aplicaciones con interfaz gráfica**: Crear widgets específicos según el sistema operativo (Windows, macOS, Linux) sin cambiar el código de la interfaz común.
 * **Conexiones a bases de datos**: Elegir el conector concreto (SQLite, PostgreSQL, MySQL) en función de la configuración.
 * **Sistemas de notificación**: Crear objetos que envían mensajes por distintos canales (email, SMS, webhooks) dependiendo del contexto.

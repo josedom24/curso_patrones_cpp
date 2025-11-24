@@ -49,7 +49,7 @@ El Bridge aporta estas soluciones:
   La abstracción es "Ventana" y las implementaciones son "VentanaWindows", "VentanaLinux", etc. Las ventanas avanzadas pueden combinarse con múltiples plataformas sin crear jerarquías enormes.
 
 * **Dispositivos y controles remotos**:
-  La abstracción es un control remoto (básico, avanzado…) y las implementaciones son dispositivos concretos (TV, radio, proyector).
+  La abstracción es un control remoto (básico, avanzado,...) y las implementaciones son dispositivos concretos (TV, radio, proyector).
 
 * **Sistemas de renderizado**:
   Abstracción: formas geométricas (círculo, rectángulo).
