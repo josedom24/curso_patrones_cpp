@@ -26,8 +26,9 @@
 
 3. Patrones Estructurales
 
-    * Patrón Adapter
-    * Ejemplo de patrón Adapter con C++
+    * [Patrón Adapter](contenido/modulo03/adapter.md)
+    * [Implementación de Adapter con C++](contenido/modulo03/adapter2.md)
+    * [Ejemplo: Integración de una API de pagos antigua](contenido/modulo03/adapter3.md)
     * Patrón Bridge
     * Ejemplo de patrón Bridge con C++
     * Patrón Composite
