@@ -37,6 +37,7 @@
     * [Ejemplo: Sistema de archivos](contenido/modulo03/composite3.md)
     * Patrón Decorator
     * Implementación de Decorator con C++
+    * Ejemplo: Sistema de notificaciones
     * Patrón Facade
     * Implementación de Facade con C++
     * Patrón Flyweight

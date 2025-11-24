@@ -1,0 +1,4 @@
+[Componente|+operar()]^-[Decorador|#componente: Componente;+operar()]
+[Componente]^-[ComponenteConcreto]
+[Decorador]^-[DecoradorA]
+[Decorador]^-[DecoradorB]
