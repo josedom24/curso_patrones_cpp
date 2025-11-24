@@ -1,0 +1,3 @@
+[<<interface>> Componente|+operar()]^-[Hoja]
+[<<interface>> Componente]^-[Compuesto|+agregar(c:Componente*);+eliminar();-hijos:vector]
+[Compuesto]++-[<<interface>> Componente]
