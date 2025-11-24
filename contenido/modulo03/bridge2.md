@@ -69,14 +69,6 @@ No conoce ni el tipo concreto de la abstracción ni el tipo concreto de la imple
 
 ## Ejemplo genérico
 
-Sí, totalmente, podemos usar un ejemplo **más “de libro”**, con nombres genéricos y sin dominio concreto. Así te sirve como plantilla para el curso.
-
-Te dejo solo la parte del **ejemplo en C++**, pero sigue encajando con el esquema que ya tienes (Implementador / Abstracción / Cliente).
-
----
-
-## Ejemplo genérico
-
 En este ejemplo:
 
 * `Implementador` define la **interfaz de bajo nivel**.
