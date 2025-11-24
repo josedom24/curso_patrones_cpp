@@ -35,11 +35,12 @@
     * [Patrón Composite](contenido/modulo03/composite.md)
     * [Implementación de Composite con C++](contenido/modulo03/composite2.md)
     * [Ejemplo: Sistema de archivos](contenido/modulo03/composite3.md)
-    * Patrón Decorator
-    * Implementación de Decorator con C++
-    * Ejemplo: Sistema de notificaciones
+    * [Patrón Decorator](contenido/modulo03/decorator.md)
+    * [Implementación de Decorator con C++](contenido/modulo03/decorator2.md)
+    * [Ejemplo: Sistema de notificaciones](contenido/modulo03/decorator3.md)
     * Patrón Facade
     * Implementación de Facade con C++
+    * Ejemplo: Sistema de gestión de tareas
     * Patrón Flyweight
     * Ejemplo con patrón Flyweight con C++
     * Patrón Proxy
