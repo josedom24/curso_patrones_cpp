@@ -1,0 +1,16 @@
+// Implementador e implementaciones concretas
+[<<interface>> Implementador|+ operacion_implementacion(contexto): void]^-.-[ImplementadorConcretoA]
+[<<interface>> Implementador]^-.-[ImplementadorConcretoB]
+
+// Abstracción y refinamientos
+[Abstraccion|- impl_: Implementador; + cambiar_implementador(nuevo_impl): void; + operacion(datos): void]^-.-[AbstraccionRefinadaA]
+[Abstraccion]^-.-[AbstraccionRefinadaB]
+
+// Relación Bridge: Abstracción contiene un Implementador
+[Abstraccion]++-[Implementador]
+
+// Métodos de clases concretas (opcionalmente listados)
+[ImplementadorConcretoA|+ operacion_implementacion(contexto): void]
+[ImplementadorConcretoB|+ operacion_implementacion(contexto): void]
+[AbstraccionRefinadaA|+ operacion(datos): void]
+[AbstraccionRefinadaB|+ operacion(datos): void]
