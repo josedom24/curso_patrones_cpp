@@ -29,18 +29,19 @@
     * [Patrón Adapter](contenido/modulo03/adapter.md)
     * [Implementación de Adapter con C++](contenido/modulo03/adapter2.md)
     * [Ejemplo: Integración de una API de pagos antigua](contenido/modulo03/adapter3.md)
-    * Patrón Bridge
-    * Ejemplo de patrón Bridge con C++
+    * [Patrón Bridge](contenido/modulo03/bridge.md)
+    * [Implementación de Bridge con C++](contenido/modulo03/bridge2.md)
+    * [Ejemplo: Sistema de notificaciones con múltiples canales](contenido/modulo03/bridge2.md)
     * Patrón Composite
-    * Ejemplo de patrón Composite con C++
+    * Implementación de Composite con C++
     * Patrón Decorator
-    * Ejemplo de patrón Decorator con C++
+    * Implementación de Decorator con C++
     * Patrón Facade
-    * Ejemplo de patrón Facade con C++
+    * Implementación de Facade con C++
     * Patrón Flyweight
     * Ejemplo con patrón Flyweight con C++
     * Patrón Proxy
-    * Ejemplo de patrón Proxy con C++
+    * Implementación de Proxy con C++
 
 4. Patrones de Comportamiento
 
