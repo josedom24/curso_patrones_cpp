@@ -50,9 +50,9 @@
 
 4. Patrones de Comportamiento
 
-    * [Patrón Chain of Responsibility](contenido/modulo04/chainofresponsability.md)
-    * [Implementación de Chain of Responsibility con C++](contenido/modulo04/chainofresponsability2.md)
-    * [Ejemplo: Sistema de validación de solicitudes](contenido/modulo04/chainofresponsability3.md)
+    * [Patrón Chain of Responsibility](contenido/modulo04/chainofresponsibility.md)
+    * [Implementación de Chain of Responsibility con C++](contenido/modulo04/chainofresponsibility2.md)
+    * [Ejemplo: Sistema de validación de solicitudes](contenido/modulo04/chainofresponsibility3.md)
     * Patrón Command
     * Implementación de Command con C++
     * Patrón Iterator
