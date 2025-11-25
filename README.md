@@ -62,8 +62,9 @@
     * [Patrón Mediator](contenido/modulo04/mediator.md)
     * [Implementación de Mediator con C++](contenido/modulo04/mediator2.md)
     * [Ejemplo: Sistema de chat entre usuarios](contenido/modulo04/mediator3.md)
-    * Patrón Memento
-    * Implementación de Memento con C++
+    * [Patrón Memento](contenido/modulo04/memento.md)
+    * [Implementación de Memento con C++](contenido/modulo04/memento2.md)
+    * [Ejemplo: Editor de texto con historial (undo)](contenido/modulo04/memento3.md)
     * Patrón Observer
     * Implementación de Observer con C++
     * Patrón State

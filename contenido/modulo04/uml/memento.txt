@@ -1,0 +1,3 @@
+[Originador]++->[Memento]
+[Cuidador]<>->[Memento]
+[Originador]->[Cuidador]
