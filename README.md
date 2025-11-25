@@ -74,8 +74,9 @@
     * [Patrón Strategy](contenido/modulo04/strategy.md)
     * [Implementación de Strategy con C++](contenido/modulo04/strategy2.md)
     * [Ejemplo: Sistema de cálculo flexible](contenido/modulo04/strategy3.md)
-    * Patrón Template Method
-    * Implementación de Template Method con C++
-    * Patrón Visitor
-    * Implementación de Visitor con C++
-    
+    * [Patrón Template Method](contenido/modulo04/templatemethod.md)
+    * [Implementación de Template Method con C++](contenido/modulo04/templatemethod2.md)
+    * [Ejemplo: Proceso de documentos](contenido/modulo04/templatemethod3.md)
+    * [Patrón Visitor](contenido/modulo04/visitor.md)
+    * [Implementación de Visitor con C++](contenido/modulo04/visitor2.md)
+    * [Ejemplo: Sistema de elementos visitables (inspección de objetos)](contenido/modulo04/visitor3.md)
