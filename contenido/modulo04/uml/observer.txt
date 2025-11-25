@@ -1,0 +1,9 @@
+// Interfaces
+[<<interfaces>> Sujeto]1-*>*[<<interfaces>> Observador]
+
+// Implementaciones concretas
+[<<interfaces>> Sujeto]^-.-[SujetoConcreto]
+[<<interfaces>> Observador]^-.-[ObservadorConcretoA]
+[<<interfaces>> Observador]^-.-[ObservadorConcretoB]
+
+[SujetoConcreto]-.-^[<<interface>> Observador]

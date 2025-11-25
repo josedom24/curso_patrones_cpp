@@ -39,4 +39,4 @@ El patrón Observer aporta estas soluciones:
 * **Sistemas de logging o métricas**: Múltiples registradores reciben notificaciones cuando ocurre un evento relevante.
 * **Compiladores o analizadores**: Distintos módulos reaccionan cuando se detectan cambios en el árbol sintáctico o semántico.
 
-Si quieres, puedo continuar con el ejemplo completo para practicar el patrón Observer, siguiendo la misma estructura que estás usando para los demás patrones.
+

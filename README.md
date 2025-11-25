@@ -65,8 +65,9 @@
     * [Patrón Memento](contenido/modulo04/memento.md)
     * [Implementación de Memento con C++](contenido/modulo04/memento2.md)
     * [Ejemplo: Editor de texto con historial (undo)](contenido/modulo04/memento3.md)
-    * Patrón Observer
-    * Implementación de Observer con C++
+    * [Patrón Observer](contenido/modulo04/observer.md)
+    * [Implementación de Observer con C++](contenido/modulo04/observer2.md)
+    * [Ejemplo: Sistema de monitoreo de temperatura](contenido/modulo04/observer3.md)
     * Patrón State
     * Implementación de State con C++
     * Patrón Strategy
