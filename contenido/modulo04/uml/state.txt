@@ -1,0 +1,7 @@
+[Estado|+accion(Contexto)]^-[EstadoConcretoA]
+[Estado|+accion(Contexto)]^-[EstadoConcretoB]
+[Contexto|+accion(); -estado: Estado]uses-> [Estado]
+
+// Transiciones
+[EstadoConcretoA] --> [EstadoConcretoB]
+[EstadoConcretoB] --> [EstadoConcretoA]
