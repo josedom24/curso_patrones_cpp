@@ -17,32 +17,6 @@ El software cambia con el tiempo. Los requerimientos evolucionan, las tecnologí
 * Uso de clases base abstractas para definir interfaces que ocultan detalles de implementación concretos.
 * Separación de la lógica cambiante mediante punteros inteligentes (`std::unique_ptr`, `std::function`, etc.).
 
-**Ejemplo simple:**
-
-```cpp
-class Strategy {
-public:
-    virtual void execute() const = 0;
-    virtual ~Strategy() = default;
-};
-
-class ConcreteStrategyA : public Strategy {
-public:
-    void execute() const override {
-        std::cout << "Estrategia A\n";
-    }
-};
-
-class Context {
-    std::unique_ptr<Strategy> strategy_;
-public:
-    Context(std::unique_ptr<Strategy> s) : strategy_(std::move(s)) {}
-    void run() const { strategy_->execute(); }
-};
-```
-
-Este enfoque permite cambiar el comportamiento sin modificar el contexto.
-
 ### 2. Programa a una interfaz, no a una implementación
 
 **Motivación:**
@@ -58,15 +32,6 @@ Acoplar directamente a clases concretas dificulta el cambio y la reutilización.
 * Uso de `std::function` para representar comportamientos genéricos.
 * Inversión de dependencias: las clases dependen de interfaces o abstracciones, no de detalles concretos.
 
-**Ejemplo:**
-
-```cpp
-void procesar(std::function<void()> tarea) {
-    tarea(); // No importa qué haga, solo que puede ejecutarse
-}
-```
-
-Este enfoque favorece la reutilización y el desacoplamiento.
 
 ### 3. Favorece la composición sobre la herencia
 
@@ -82,21 +47,4 @@ La herencia introduce una fuerte relación entre clases, donde los cambios en la
 * Composición mediante atributos y punteros inteligentes.
 * Uso de políticas o estrategias inyectables para extender comportamiento dinámicamente.
 * Separación clara de responsabilidades: clases pequeñas que hacen una sola cosa.
-
-**Ejemplo:**
-
-```cpp
-class Motor {
-public:
-    void encender() const { std::cout << "Motor encendido\n"; }
-};
-
-class Vehiculo {
-    Motor motor_;
-public:
-    void arrancar() { motor_.encender(); }
-};
-```
-
-Aquí `Vehiculo` no hereda de `Motor`, sino que lo **compone**, lo cual favorece la reutilización y facilita el cambio.
 
