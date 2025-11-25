@@ -1,102 +1,111 @@
-# SOLID: Principios de diseño orientado a objetos
+## SOLID: Principios de diseño orientado a objetos
 
-Los principios SOLID constituyen un conjunto de cinco directrices fundamentales para diseñar sistemas orientados a objetos que sean flexibles, extensibles y fáciles de mantener. Propuestos inicialmente por Robert C. Martin (Uncle Bob), estos principios forman una base esencial para el diseño de software robusto y preparado para el cambio.
+Los principios SOLID constituyen un conjunto de cinco directrices fundamentales para diseñar sistemas orientados a objetos que sean **flexibles**, **extensibles** y **fáciles de mantener**. Propuestos originalmente por Robert C. Martin (Uncle Bob), estos principios permiten reducir el acoplamiento, mejorar la cohesión y facilitar la evolución del software.
 
 El acrónimo **SOLID** representa los siguientes principios:
 
-* **S** – *Single Responsibility Principle* (Principio de Responsabilidad Única)
-* **O** – *Open/Closed Principle* (Principio Abierto/Cerrado)
-* **L** – *Liskov Substitution Principle* (Principio de Sustitución de Liskov)
-* **I** – *Interface Segregation Principle* (Principio de Segregación de Interfaces)
-* **D** – *Dependency Inversion Principle* (Principio de Inversión de Dependencias)
+* **S** — *Single Responsibility Principle* (Responsabilidad Única)
+* **O** — *Open/Closed Principle* (Abierto/Cerrado)
+* **L** — *Liskov Substitution Principle* (Sustitución de Liskov)
+* **I** — *Interface Segregation Principle* (Segregación de Interfaces)
+* **D** — *Dependency Inversion Principle* (Inversión de Dependencias)
+
 
 ## S — Principio de Responsabilidad Única (SRP)
 
-**Motivación:**
-Cuando una clase tiene múltiples responsabilidades, cualquier cambio en una de ellas puede afectar negativamente a las demás. Esto conduce a diseños frágiles, difíciles de mantener y propensos a errores.
+**Motivación**
+Una clase con múltiples responsabilidades tiende a volverse frágil: cambios en una de sus funciones afectan a otras y dificultan la evolución del sistema. La cohesión se debilita y aumenta la complejidad accidental.
 
-**Principio:**
+**Principio**
 
 > Una clase debe tener una y solo una razón para cambiar.
 
-**Aplicación en C++ moderno (en términos generales):**
+**Aplicación en C++ moderno**
 
-* Diseñar clases que encapsulen una única función o responsabilidad claramente definida.
-* Separar la lógica de presentación, lógica de negocio y lógica de acceso a datos en componentes distintos.
-* Delegar tareas a colaboradores especializados en lugar de centralizar toda la funcionalidad en una clase.
+* Diseñar clases pequeñas y enfocadas, que representen una sola responsabilidad clara.
+* Separar lógica de negocio, lógica de presentación, acceso a datos, validación, etc. en componentes distintos.
+* Delegar tareas específicas a colaboradores, evitando clases “Dios” o monolitos.
+* Aprovechar el *rule of zero*: clases que delegan responsabilidad en tipos RAII especializados, sin gestionar recursos directamente.
 
-**Ejemplo conceptual:**
-Un gestor de informes no debería encargarse de generar datos, formatearlos y enviarlos por correo. Cada una de estas responsabilidades debería estar en componentes separados.
+**Ejemplo conceptual**
+Un componente que genera informes no debería encargarse también de enviarlos o almacenarlos. Cada responsabilidad corresponde a un módulo distinto.
+
 
 ## O — Principio Abierto/Cerrado (OCP)
 
-**Motivación:**
-Modificar el código existente para incorporar nuevos comportamientos puede introducir errores y romper funcionalidades previamente correctas. Es preferible diseñar el sistema para que sea extensible sin modificar lo ya existente.
+**Motivación**
+Modificar código existente para añadir nuevos comportamientos aumenta el riesgo de introducir errores y romper funcionalidad previa. Los sistemas deben estar diseñados para poder **extenderse sin modificar** su código base.
 
-**Principio:**
+**Principio**
 
-> El software debe estar abierto a la extensión, pero cerrado a la modificación.
+> Los componentes deben estar abiertos a la extensión, pero cerrados a la modificación.
 
-**Aplicación en C++ moderno (en términos generales):**
+**Aplicación en C++ moderno**
 
-* Utilizar herencia o composición para agregar nuevos comportamientos sin alterar el código base.
-* Diseñar componentes que permitan ser configurados o ampliados mediante parámetros, punteros inteligentes o funciones personalizables.
-* Aplicar plantillas o patrones de diseño (como Strategy o Decorator) para permitir extensión modular.
+* Extender comportamiento mediante **composición** o **herencia**, en lugar de alterar código ya probado.
+* Utilizar **interfaces**, **lambdas**, **plantillas genéricas** o **type erasure** para permitir extensiones sin modificar el código cliente.
+* Configurar comportamientos mediante inyección de dependencias (`std::unique_ptr`, `std::function`, lambdas).
+* Aprovechar `constexpr`, plantillas y *policies* para permitir extensiones en tiempo de compilación sin tocar código existente.
 
-**Ejemplo conceptual:**
-Un sistema de facturación debería permitir agregar nuevos tipos de impuestos sin tener que reescribir el cálculo original.
+**Ejemplo conceptual**
+Un módulo de cálculo de impuestos debería permitir añadir nuevos tipos impositivos mediante nuevas clases o funciones, sin modificar el cálculo original.
+
 
 ## L — Principio de Sustitución de Liskov (LSP)
 
-**Motivación:**
+**Motivación**
 
-> Las clases derivadas deben poder sustituir a sus clases base sin alterar el comportamiento esperado del programa.
+> Las clases derivadas deben poder reemplazar a sus clases base sin alterar el comportamiento esperado del programa.
 
-**Aplicación en C++ moderno (en términos generales):**
+Este principio asegura que una jerarquía de clases sea coherente: si un cliente trabaja con una interfaz o clase base, debe poder utilizar cualquier implementación concreta sin sorpresas.
 
-* Diseñar jerarquías de clases donde las subclases respeten las reglas y contratos definidos por la clase base.
-* Evitar sobrescribir métodos de forma que cambien significativamente su semántica.
-* Usar clases abstractas bien definidas que impongan requisitos claros a sus implementaciones.
+**Aplicación en C++ moderno**
 
-**Ejemplo conceptual:**
-Si un algoritmo espera que un objeto `Figura` tenga un método `calcularÁrea`, entonces cualquier clase derivada (como `Círculo` o `Rectángulo`) debe proporcionar un resultado coherente, sin generar efectos colaterales inesperados.
+* Asegurar que las subclases respetan los invariantes, precondiciones y poscondiciones establecidos por la clase base.
+* Evitar redefinir métodos virtuales de manera incompatible con la semántica original.
+* Usar clases abstractas bien definidas con contratos claros, o bien **conceptos** (C++20) para expresar requisitos sin herencia.
+* Minimizar jerarquías innecesarias: muchas violaciones de LSP se evitan favoreciendo composición.
+
+**Ejemplo conceptual**
+Si un algoritmo espera un objeto `Figura` con `calcular_area()`, entonces `Circulo`, `Rectangulo` o cualquier otra figura deben cumplir esa interfaz sin producir efectos inesperados.
+
 
 ## I — Principio de Segregación de Interfaces (ISP)
 
-**Principio:**
+**Motivación**
+Las interfaces demasiado grandes obligan a las clases que las implementan a depender de métodos que no necesitan. Esto aumenta el acoplamiento y reduce la cohesión.
 
-> Es mejor tener muchas interfaces específicas que una interfaz general y extensa.
+**Principio**
 
-**Aplicación en C++ moderno (en términos generales):**
+> Es preferible tener muchas interfaces pequeñas y específicas antes que una interfaz general y extensa.
 
-* Dividir interfaces grandes en pequeñas unidades funcionales enfocadas.
+**Aplicación en C++ moderno**
+
+* Dividir interfaces amplias en interfaces pequeñas y especializadas.
 * Diseñar clases abstractas con responsabilidades bien delimitadas.
-* Utilizar múltiples interfaces o plantillas para describir capacidades independientes.
+* Utilizar **plantillas** y **conceptos** como formas alternativas de expresar capacidades independientes sin necesidad de herencia.
+* Evitar clases base “omnipotentes” que fuerzan a las implementaciones a proporcionar métodos irrelevantes.
 
-**Ejemplo conceptual:**
-Una impresora multifunción no debería verse obligada a implementar métodos de fax si solo necesita imprimir. Es preferible tener interfaces separadas para impresión, escaneo y fax.
+**Ejemplo conceptual**
+Una impresora multifunción no debería estar obligada a implementar métodos de fax si solo imprime. Separar interfaces de impresión, escaneo y fax permite implementaciones más limpias.
+
 
 ## D — Principio de Inversión de Dependencias (DIP)
 
-**Motivación:**
-El diseño tradicional hace que los módulos de alto nivel dependan de módulos de bajo nivel. Esto hace que el código sea rígido y difícil de probar o reutilizar. Invertir la dependencia permite desacoplar > Los módulos de alto nivel no deben depender de módulos de bajo nivel. Ambos deben depender de abstracciones.
+**Motivación**
+En un diseño tradicional, los módulos de alto nivel dependen directamente de módulos de bajo nivel. Esto produce un sistema rígido, difícil de probar y de extender. El principio DIP invierte esta tendencia.
 
-**Aplicación en C++ moderno (en términos generales):**
+**Principio**
 
-* Inyectar dependencias mediante constructores, funciones o punteros inteligentes.
-* Definir las dependencias del sistema como interfaces o funciones abstractas.
-* Permitir que los componentes utilicen implementaciones concretas configurables desde el exterior.
+> Los módulos de alto nivel no deben depender de módulos de bajo nivel. Ambos deben depender de abstracciones.
 
-**Ejemplo conceptual:**
-Un sistema de notificaciones no debería depender directamente de una clase `Correo`. En su lugar, debería depender de una interfaz `Notificador`, permitiendo intercambiar correo, SMS o notificaciones push sin alterar la lógica de negocio.
+**Aplicación en C++ moderno**
 
-## Resumen
+* Definir dependencias en términos de **interfaces**, **lambdas** o **objetos función** (`std::function`), no de clases concretas.
+* Inyectar dependencias mediante constructores, setters o parámetros de función, en lugar de crearlas internamente.
+* Usar `std::unique_ptr` o `std::shared_ptr` para gestionar dependencias polimórficas sin gestionar manualmente memoria.
+* Emplear **type erasure** o **conceptos** para permitir múltiples implementaciones intercambiables sin acoplamiento fuerte.
 
-| Principio | Nombre                    | Idea clave                                                    |
-| --------- | ------------------------- | ------------------------------------------------------------- |
-| S         | Responsabilidad Única     | Cada clase debe tener una única razón para cambiar.           |
-| O         | Abierto/Cerrado           | Extiende el comportamiento sin modificar el código existente. |
-| L         | Sustitución de Liskov     | Las subclases deben poder sustituir a las clases base.        |
-| I         | Segregación de Interfaces | Prefiere interfaces pequeñas y específicas.                   |
-| D         | Inversión de Dependencias | Los módulos deben depender de abstracciones, no de detalles.  |
+**Ejemplo conceptual**
+Un sistema de notificaciones debería depender de una interfaz `Notificador`, no de una clase concreta `Correo`. Esto permite sustituir correo por SMS o notificaciones push sin modificar la lógica de negocio.
 

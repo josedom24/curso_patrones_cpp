@@ -1,50 +1,80 @@
-## Principios básicos de diseño
+# Principios básicos de diseño
 
-Los principios básicos de diseño orientado a objetos son guías conceptuales que permiten construir software más mantenible, flexible y reutilizable. Aunque son anteriores a la formalización de los principios SOLID, siguen siendo fundamentales para entender el valor de los patrones de diseño y su aplicación efectiva.
+Los principios básicos de diseño orientado a objetos son guías conceptuales que ayudan a construir software **mantenible**, **flexible** y **reutilizable**. Son anteriores a la formalización de SOLID, pero siguen siendo esenciales para entender el valor de los patrones de diseño y cómo aplicarlos eficazmente, especialmente en C++ moderno.
 
-### 1. Encapsula lo que varía
+En este curso nos centraremos en cuatro ideas clave:
 
-**Motivación:**
-El software cambia con el tiempo. Los requerimientos evolucionan, las tecnologías se actualizan, y los comportamientos deben adaptarse. Identificar y aislar las partes del sistema que están sujetas a cambio es esencial para evitar que los cambios afecten otras partes del código.
+## 1. Encapsula lo que varía
 
-**Principio:**
+**Motivación**
+El software cambia con el tiempo: se añaden requisitos, se modifican reglas de negocio y se sustituyen tecnologías. Si la parte cambiante está mezclada con el resto del código, cualquier modificación puede producir efectos colaterales no deseados y hacer el sistema difícil de mantener.
+
+**Principio**
 
 > Identifica los aspectos de tu aplicación que varían y sepáralos del resto del código que permanece estable.
 
-**Aplicación en C++ moderno:**
+**Aplicación en C++ moderno**
 
-* Uso de funciones virtuales o lambdas para representar comportamiento variable.
-* Uso de clases base abstractas para definir interfaces que ocultan detalles de implementación concretos.
-* Separación de la lógica cambiante mediante punteros inteligentes (`std::unique_ptr`, `std::function`, etc.).
+* Representar el comportamiento variable mediante:
 
-### 2. Programa a una interfaz, no a una implementación
+  * funciones virtuales (jerarquías clásicas),
+  * expresiones lambda,
+  * o técnicas de *type erasure* (`std::function`, interfaces abstractas).
+* Utilizar clases base abstractas para definir interfaces que oculten los detalles de implementación concreta.
+* Separar la lógica cambiante en componentes específicos, gestionados mediante punteros inteligentes (`std::unique_ptr`, `std::shared_ptr`) u objetos función (`std::function`).
 
-**Motivación:**
-Acoplar directamente a clases concretas dificulta el cambio y la reutilización. En cambio, programar contra interfaces permite cambiar las implementaciones sin afectar al código que las utiliza.
+Este principio está en la base de patrones como **Strategy**, **Command**, **State** o **Template Method**, donde el comportamiento que puede cambiar se encapsula en una entidad propia.
 
-**Principio:**
+## 2. Programa a una interfaz, no a una implementación
 
-> Define dependencias en términos de abstracciones, no de clases concretas.
+**Motivación**
+Acoplar el código directamente a clases concretas dificulta el cambio y la reutilización: sustituir una implementación exige modificar el código cliente. En cambio, si el cliente trabaja con interfaces o abstracciones, es posible cambiar la implementación sin tocar el uso.
 
-**Aplicación en C++ moderno:**
+**Principio**
 
-* Uso de clases abstractas o plantillas que definen contratos sin fijar detalles.
-* Uso de `std::function` para representar comportamientos genéricos.
-* Inversión de dependencias: las clases dependen de interfaces o abstracciones, no de detalles concretos.
+> Define las dependencias en términos de abstracciones, no de clases concretas.
 
+**Aplicación en C++ moderno**
 
-### 3. Favorece la composición sobre la herencia
+* Uso de **clases abstractas** para expresar contratos estables con implementaciones intercambiables.
+* Uso de **plantillas genéricas** para definir algoritmos que operan sobre tipos que cumplan ciertos requisitos (y, en C++20, conceptos para expresarlos de forma explícita).
+* Uso de `std::function` y objetos función para representar comportamientos genéricos inyectables.
+* Prácticas de inversión de dependencias: las clases de alto nivel dependen de interfaces o abstracciones, no de detalles concretos.
 
-**Motivación:**
-La herencia introduce una fuerte relación entre clases, donde los cambios en la superclase pueden tener efectos colaterales no deseados en las subclases. Además, la herencia tiende a generar jerarquías rígidas. En cambio, la composición permite construir comportamientos complejos combinando objetos más simples.
+Este principio sustenta patrones como **Factory Method**, **Abstract Factory**, **Strategy**, **Observer** o **Mediator**, donde el código cliente desconoce las clases concretas que se utilizan internamente.
 
-**Principio:**
+## 3. Favorece la composición sobre la herencia
+
+**Motivación**
+La herencia crea una relación fuerte entre clases: cambios en la superclase pueden afectar de forma inesperada a todas las subclases. Además, las jerarquías profundas tienden a ser rígidas y difíciles de refactorizar. La composición, en cambio, permite construir comportamientos complejos combinando objetos más simples y reemplazables.
+
+**Principio**
 
 > Construye sistemas a partir de objetos que cooperan entre sí, en lugar de depender de jerarquías rígidas.
 
-**Aplicación en C++ moderno:**
+**Aplicación en C++ moderno**
 
-* Composición mediante atributos y punteros inteligentes.
-* Uso de políticas o estrategias inyectables para extender comportamiento dinámicamente.
-* Separación clara de responsabilidades: clases pequeñas que hacen una sola cosa.
+* Composición mediante **atributos** y **punteros inteligentes** a colaboradores (`std::unique_ptr`, `std::shared_ptr`), en lugar de heredar indiscriminadamente.
+* Inyección de **políticas** o **estrategias** como objetos o lambdas para extender el comportamiento dinámicamente sin modificar la clase que las usa.
+* Clases pequeñas con responsabilidades claras, que delegan en colaboradores especializados.
+* Uso de patrones como **Strategy**, **Decorator**, **Composite** o **Bridge**, que se basan en composición para extender o combinar comportamientos.
 
+La composición hace más sencillo reemplazar componentes, probarlos de forma aislada y reutilizarlos en otros contextos.
+
+## 4. Favorece el acoplamiento débil
+
+**Motivación**
+Un sistema donde los componentes conocen demasiados detalles unos de otros es frágil y costoso de modificar. Cualquier cambio en un módulo puede obligar a tocar muchos otros. Reducir el acoplamiento facilita la evolución del software y mejora su capacidad de prueba y reutilización.
+
+**Principio**
+
+> Diseña componentes que dependan lo menos posible de los detalles internos de otros componentes.
+
+**Aplicación en C++ moderno**
+
+* Depender de **interfaces** (clases abstractas, conceptos) en lugar de tipos concretos.
+* Separar claramente las responsabilidades entre módulos y limitar el número de dependencias directas.
+* Usar **inyección de dependencias** (por constructor, por parámetros de función, mediante lambdas u objetos función) en lugar de crear directamente los objetos dentro de las clases.
+* Encapsular detalles de implementación en archivos fuente y exponer solo las interfaces públicas necesarias.
+
+Este principio se relaciona estrechamente con el **Principio de Inversión de Dependencias (D de SOLID)** y es central en patrones como **Observer, Mediator, Facade o Adapter**, que buscan reducir el acoplamiento entre partes del sistema.
