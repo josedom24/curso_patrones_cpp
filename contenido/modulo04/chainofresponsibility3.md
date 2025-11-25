@@ -22,7 +22,7 @@ El código se presenta en tres partes:
 * **Cadena.hpp** – lógica de construcción y utilidades
 * **main.cpp** – código cliente
 
-# Manejadores.hpp
+## Manejadores.hpp
 
 ```cpp
 #pragma once
@@ -92,7 +92,7 @@ protected:
 };
 ```
 
-# Cadena.hpp
+## Cadena.hpp
 
 ```cpp
 #pragma once
@@ -111,7 +111,7 @@ inline std::unique_ptr<Manejador> construir_cadena_basica() {
 }
 ```
 
-# main.cpp
+## main.cpp
 
 ```cpp
 #include "Cadena.hpp"
@@ -130,14 +130,14 @@ int main() {
 }
 ```
 
-# Añadir un nuevo manejador
+## Añadir un nuevo manejador
 
 Una de las grandes ventajas del patrón **Chain of Responsibility** es que permite añadir nuevas verificaciones sin modificar ninguna clase existente.
 
 Añadamos un nuevo validador:
 **ValidadorContenido**, que rechaza solicitudes que contengan palabras prohibidas.
 
-## Añadir el nuevo manejador en `Manejadores.hpp`
+### Añadir el nuevo manejador en `Manejadores.hpp`
 
 ```cpp
 // Validador que comprueba contenido prohibido
@@ -153,7 +153,7 @@ protected:
 };
 ```
 
-## Insertar el nuevo manejador en la cadena (`Cadena.hpp`)
+### Insertar el nuevo manejador en la cadena (`Cadena.hpp`)
 
 Por ejemplo, entre permisos y formato:
 
@@ -172,7 +172,7 @@ inline std::unique_ptr<Manejador> construir_cadena_con_contenido() {
 }
 ```
 
-## Usar el nuevo manejador desde el cliente (`main.cpp`)
+### Usar el nuevo manejador desde el cliente (`main.cpp`)
 
 ```cpp
 int main() {
@@ -183,7 +183,7 @@ int main() {
 }
 ```
 
-## Qué no hemos modificado
+### Qué no hemos modificado
 
 * No hemos cambiado la interfaz `Manejador`.
 * No hemos modificado ninguno de los manejadores existentes.
