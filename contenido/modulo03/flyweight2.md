@@ -47,7 +47,7 @@ Trabaja con flyweights a través de la fábrica y proporciona siempre el estado 
 * **Programación a interfaces**, independizando al cliente de cómo se gestionan los objetos.
 * **Objetos ligeros efímeros** (estado extrínseco) que no saturan la memoria.
 
-## Diagrama UML (formato yUML)
+## Diagrama UML
 
 ![uml](uml/flyweight.png)
 

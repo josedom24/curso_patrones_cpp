@@ -49,7 +49,7 @@ Envía peticiones a la cadena sin conocer cuántos manejadores existen ni cuál 
 * Gestión de recursos automática mediante RAII y punteros inteligentes.
 
 
-## Diagrama UML (formato yUML)
+## Diagrama UML
 
 ![uml](uml/chainofresponsibility.png)
 

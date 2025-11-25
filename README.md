@@ -53,8 +53,9 @@
     * [Patrón Chain of Responsibility](contenido/modulo04/chainofresponsibility.md)
     * [Implementación de Chain of Responsibility con C++](contenido/modulo04/chainofresponsibility2.md)
     * [Ejemplo: Sistema de validación de solicitudes](contenido/modulo04/chainofresponsibility3.md)
-    * Patrón Command
-    * Implementación de Command con C++
+    * [Patrón Command](contenido/modulo04/command.md)
+    * [Implementación de Command con C++](contenido/modulo04/command2.md)
+    * [Ejemplo: Sistema de control remoto](contenido/modulo04/command3.md)
     * Patrón Iterator
     * Implementación de Iterator con C++
     * Patrón Mediator

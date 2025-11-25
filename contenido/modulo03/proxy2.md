@@ -47,7 +47,7 @@ Interactúa únicamente con el proxy, sin conocer si la operación se ejecuta di
 * Punteros inteligentes para una gestión limpia y robusta del ciclo de vida.
 * Independencia completa respecto a la implementación del objeto real.
 
-## Diagrama UML (formato yUML)
+## Diagrama UML
 
 ![uml](uml/proxy.png)
 

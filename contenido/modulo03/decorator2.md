@@ -54,7 +54,7 @@ Trabaja únicamente con la interfaz del componente, sin distinguir entre compone
 * **Polimorfismo + RAII**: punteros inteligentes que gestionan automáticamente la cadena de decoradores.
 * **Flexibilidad para construir combinaciones dinámicas** gracias a `std::move`.
 
-## Diagrama UML (formato yUML)
+## Diagrama UML
 
 ![uml](uml/decorator.png)
 
