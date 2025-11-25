@@ -50,24 +50,25 @@
 
 4. Patrones de Comportamiento
 
-    * Patrón Chain of Responsibility
-    * Ejemplo de patrón Chain of Responsibility con C++z
+    * [Patrón Chain of Responsibility](contenido/modulo04/chainofresponsability.md)
+    * [Implementación de Chain of Responsibility con C++](contenido/modulo04/chainofresponsability2.md)
+    * [Ejemplo: Sistema de validación de solicitudes](contenido/modulo04/chainofresponsability3.md)
     * Patrón Command
-    * Ejemplo de patrón Command con C++
+    * Implementación de Command con C++
     * Patrón Iterator
-    * Ejemplo de patrón Iterator con C++
+    * Implementación de Iterator con C++
     * Patrón Mediator
-    * Ejemplo de patrón Mediator con C++
+    * Implementación de Mediator con C++
     * Patrón Memento
-    * Ejemplo de patrón Memento con C++
+    * Implementación de Memento con C++
     * Patrón Observer
-    * Ejemplo de patrón Observer con C++
+    * Implementación de Observer con C++
     * Patrón State
-    * Ejemplo de patrón State con C++
+    * Implementación de State con C++
     * Patrón Strategy
-    * Ejemplo de patrón Strategy con C++
+    * Implementación de Strategy con C++
     * Patrón Template Method
-    * Ejemplo de patrón Template Method con C++
+    * Implementación de Template Method con C++
     * Patrón Visitor
-    * Ejemplo de patrón Visitor con C++
+    * Implementación de Visitor con C++
     
