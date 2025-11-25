@@ -67,7 +67,7 @@ El cliente puede trabajar:
 
 ![uml](uml/builder.png)
 
-## Ejemplo genérico en C++ moderno
+## Ejemplo genérico
 
 ### Variante 1 — Builder **con Director** (versión clásica)
 

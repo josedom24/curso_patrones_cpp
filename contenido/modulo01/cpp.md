@@ -6,43 +6,50 @@ Este curso adopta una perspectiva **moderna y idiomática** de los patrones de d
 
 ## ¿Qué aporta C++ moderno al diseño de patrones?
 
-El lenguaje moderno proporciona nuevas construcciones que permiten replantear muchos patrones clásicos con menor complejidad y mayor expresividad. Algunas de estas herramientas clave incluyen:
+C++ moderno introduce herramientas que permiten implementar patrones de diseño de forma más **segura**, **expresiva** y **eficiente**. Entre ellas destacan:
 
-| Característica                                                   | Aplicación en patrones                                                          |
-| ---------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| **RAII (Resource Acquisition Is Initialization)**                | Gestión automática de recursos en patrones que implican creación y destrucción. |
-| **Punteros inteligentes (`std::unique_ptr`, `std::shared_ptr`)** | Encapsulan la propiedad y el ciclo de vida de objetos.                          |
-| **Expresiones lambda**                                           | Representan comportamiento en tiempo de ejecución (e.g. Strategy).              |
-| **`std::function`**                                              | Paso de comportamiento como parámetro o inyección de dependencias.              |
-| **Plantillas y metaprogramación**                                | Permiten definir estructuras reutilizables sin sacrificar rendimiento.          |
-| **`constexpr` y `inline`**                                       | Optimización y evaluación en tiempo de compilación.                             |
-| **Inicialización uniforme y `auto`**                             | Reducción de errores y simplificación de sintaxis.                              |
+1. **RAII (Resource Acquisition Is Initialization)**
 
-## Enfoque didáctico del curso
+   * Facilita la gestión automática de recursos.
+   * Usado en patrones con creación/destrucción controlada de objetos (Factory Method, Abstract Factory, Builder, Prototype).
 
-En lugar de limitarse a transcribir patrones clásicos, este curso busca:
+2. **Punteros inteligentes (`std::unique_ptr`, `std::shared_ptr`)**
 
-* **Aplicar principios SOLID** al implementar cada patrón.
-* **Reformular patrones clásicos** para adaptarlos a las prácticas de C++ moderno.
-* **Fomentar el diseño modular y flexible**, evitando herencias innecesarias.
-* **Usar composición, lambdas y funciones**, como alternativa a jerarquías rígidas.
-* **Comparar soluciones tradicionales y modernas**, analizando ventajas y desventajas.
+   * Controlan propiedad y ciclo de vida.
+   * Utilizados en Factory Method, Prototype (clonado seguro), Strategy y State (gestión dinámica de objetos-estrategia/estado).
 
-## ¿Cómo se implementarán los patrones?
+3. **Expresiones lambda**
 
-Cada patrón de diseño será presentado siguiendo una estructura clara y constante, que facilitará su comprensión y comparación. En una primera clase se hará una presentación general del patrón siguiendo esta estructura:
+   * Permiten encapsular comportamiento en tiempo de ejecución.
+   * Empleadas como alternativa ligera a Strategy, Command y Template Method.
 
-1. **Introducción y propósito del patrón**
-2. **Problema que resuelve**
-3. **Solución que propone**
-4. **Diagrama y estructura conceptual** 
-5. **Relación con los principios SOLID**
-6. **Ventajas y desventajas**
-7. **Aplicaciones reales o mini-proyectos**
- 
-En una segunda clase se verá como implementar el patrón en C** moderno, siguiendo el siguiente esquema:
+4. **`std::function`**
 
-1. **Cómo implementar el patrón** 
-2. **Implementación en C++ moderno**
-3. **Código de ejemplo**
+   * Abstrae callbacks o comportamientos configurables.
+   * Útil en Strategy, Mediator, Observer y en la inyección de dependencias en general.
+
+5. **Inicialización uniforme (`{}`) y deducción de tipos con `auto`**
+
+   * Simplifican instanciación y reducen errores en construcción de objetos.
+   * Usadas en ejemplos de Builder, Factory, Observer y Memento.
+
+6. **Move semantics y forwarding (`std::move`, `std::forward`)**
+
+   * Mejoran rendimiento evitando copias innecesarias.
+   * Aplicadas en patrones que crean y transmiten objetos pesados (Builder, Prototype, Factories).
+
+7. **Enum classes, `std::optional`, `std::variant`**
+
+   * Alternativas modernas para decisiones de diseño más seguras.
+   * Empleados en State (enum class), en Factory y Builder (variant/optional para configuraciones).
+
+
+## ¿Cómo se presentarán los patrones?
+
+Cada patrón de diseño será presentado siguiendo una estructura clara y constante, que facilitará su comprensión y comparación. 
+
+* **Introducción al patrón**: Donde se dará la definición, los problemas que intenta solucionar, cómo lo soluciona, y finalmente, ejemplos concretos de uso.
+* **Implementación en C++ moderno**: Donde se explicará la estructura y elementos modernos utilizados, se mostrará un diagrama UML y se presentará un ejemplo genérico de utilización del patrón.
+* **Ejemplo concreto**: Finalmente, se elegirá un ejemplo representativo y se implementará en C++ moderno, indicando alguna modificación adicional para que se termine de entender el patrón.
+
 

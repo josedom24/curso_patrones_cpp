@@ -65,7 +65,7 @@ Nunca referencia productos concretos.
 
 ![uml](uml/abstract_factory.png)
 
-## Ejemplo genérico en C++
+## Ejemplo genérico
 
 ```cpp
 #include <iostream>

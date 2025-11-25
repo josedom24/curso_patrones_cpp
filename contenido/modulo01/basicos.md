@@ -1,7 +1,3 @@
-Perfecto. Aquí tienes el contenido para la sección **“Principios básicos de diseño”**, con un lenguaje formal y didáctico, orientado a introducir la motivación y las buenas prácticas fundamentales antes de abordar SOLID y los patrones de diseño:
-
----
-
 ## Principios básicos de diseño
 
 Los principios básicos de diseño orientado a objetos son guías conceptuales que permiten construir software más mantenible, flexible y reutilizable. Aunque son anteriores a la formalización de los principios SOLID, siguen siendo fundamentales para entender el valor de los patrones de diseño y su aplicación efectiva.
@@ -47,8 +43,6 @@ public:
 
 Este enfoque permite cambiar el comportamiento sin modificar el contexto.
 
----
-
 ### 2. Programa a una interfaz, no a una implementación
 
 **Motivación:**
@@ -73,8 +67,6 @@ void procesar(std::function<void()> tarea) {
 ```
 
 Este enfoque favorece la reutilización y el desacoplamiento.
-
----
 
 ### 3. Favorece la composición sobre la herencia
 
@@ -108,16 +100,3 @@ public:
 
 Aquí `Vehiculo` no hereda de `Motor`, sino que lo **compone**, lo cual favorece la reutilización y facilita el cambio.
 
----
-
-### Resumen
-
-Los tres principios básicos aquí expuestos proporcionan una base conceptual sólida para entender el diseño orientado a objetos más allá de la sintaxis. Son el primer paso hacia arquitecturas flexibles y mantenibles, y preparan el terreno para aplicar los principios **SOLID** y, en consecuencia, los **patrones de diseño**.
-
-* **Encapsula lo que varía:** facilita el cambio sin romper lo estable.
-* **Programa a una interfaz:** permite abstraer y desacoplar.
-* **Favorece la composición:** promueve flexibilidad y reutilización.
-
----
-
-¿Te gustaría que prepare también un resumen visual o diagrama de esta sección para usarlo como apoyo didáctico?
