@@ -43,7 +43,7 @@ Interactúa únicamente con la interfaz `Componente`, ignorando si se trata de u
 * Gestión de memoria completamente automática mediante punteros inteligentes.
 * Manipulación uniforme de la jerarquía gracias al polimorfismo.
 
-## Diagrama UML (yUML)
+## Diagrama UML
 
 ![uml](uml/composite.png)
 

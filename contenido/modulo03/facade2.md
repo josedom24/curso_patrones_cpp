@@ -34,7 +34,7 @@ Usa únicamente la fachada. Obtiene los resultados sin comprender ni gestionar l
 * Dependencia reducida y uso intuitivo gracias a la encapsulación fuerte.
 * Código más legible, directo y fácil de mantener.
 
-## Diagrama UML (yUML)
+## Diagrama UML
 
 ![uml](uml/facade.png)
 

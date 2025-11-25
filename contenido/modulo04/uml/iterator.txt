@@ -1,0 +1,9 @@
+// Interfaces
+[<<interface>> Iterador|+actual():int;+avanzar();+fin():bool]^-[IteradorConcreto]
+[<<interface>> Coleccion|+crear_iterador(): Iterador]^-[ColeccionConcreta]
+
+// Asociación
+[ColeccionConcreta]<>-[IteradorConcreto]
+
+// Cliente
+[Cliente]->[<<interface>> Iterador]

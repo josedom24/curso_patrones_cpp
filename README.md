@@ -56,8 +56,9 @@
     * [Patrón Command](contenido/modulo04/command.md)
     * [Implementación de Command con C++](contenido/modulo04/command2.md)
     * [Ejemplo: Sistema de control remoto](contenido/modulo04/command3.md)
-    * Patrón Iterator
-    * Implementación de Iterator con C++
+    * [Patrón Iterator](contenido/modulo04/iterator.md)
+    * [Implementación de Iterator con C++](contenido/modulo04/iterator2.md)
+    * [Ejemplo: Colección de tareas pendientes (To-Do List)](contenido/modulo04/iterator3.md)
     * Patrón Mediator
     * Implementación de Mediator con C++
     * Patrón Memento
