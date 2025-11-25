@@ -71,8 +71,9 @@
     * [Patrón State](contenido/modulo04/state.md)
     * [Implementación de State con C++](contenido/modulo04/state2.md)
     * [Ejemplo: Flujo de estados de un documento](contenido/modulo04/state3.md)
-    * Patrón Strategy
-    * Implementación de Strategy con C++
+    * [Patrón Strategy](contenido/modulo04/strategy.md)
+    * [Implementación de Strategy con C++](contenido/modulo04/strategy2.md)
+    * [Ejemplo: Sistema de cálculo flexible](contenido/modulo04/strategy3.md)
     * Patrón Template Method
     * Implementación de Template Method con C++
     * Patrón Visitor

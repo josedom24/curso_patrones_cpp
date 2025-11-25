@@ -1,0 +1,3 @@
+[Contexto|-Estrategia estrategia;+ void establecer_estrategia(estrategia);+void operar()]uses->[<<interface>> Estrategia| + void ejecutar();]
+[<<interface>> Estrategia]^-[EstrategiaConcretaA| + void ejecutar();]
+[<<interface>> Estrategia]^-[EstrategiaConcretaB| + void ejecutar();]
