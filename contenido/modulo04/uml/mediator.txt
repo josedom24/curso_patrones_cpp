@@ -1,0 +1,7 @@
+[<<interface>> InterfazMediador]^-[MediadorConcreto]
+
+[ColegaConcretoA]^[<<abstracta>> Colega]
+[ColegaConcretoB]^[<<abstracta>> Colega]
+
+[MediadorConcreto]->[ColegaConcretoA]
+[MediadorConcreto]->[ColegaConcretoB]

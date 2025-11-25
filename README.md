@@ -59,8 +59,9 @@
     * [Patrón Iterator](contenido/modulo04/iterator.md)
     * [Implementación de Iterator con C++](contenido/modulo04/iterator2.md)
     * [Ejemplo: Colección de tareas pendientes (To-Do List)](contenido/modulo04/iterator3.md)
-    * Patrón Mediator
-    * Implementación de Mediator con C++
+    * [Patrón Mediator](contenido/modulo04/mediator.md)
+    * [Implementación de Mediator con C++](contenido/modulo04/mediator2.md)
+    * [Ejemplo: Sistema de chat entre usuarios](contenido/modulo04/mediator3.md)
     * Patrón Memento
     * Implementación de Memento con C++
     * Patrón Observer
