@@ -1,7 +1,4 @@
-Aquí tienes el apartado revisado **sin tablas** y con una clasificación presentada solo en texto.
-
-
-## Patrones de diseño
+# Patrones de diseño
 
 Los **patrones de diseño** son soluciones generales, probadas y reutilizables para problemas recurrentes que aparecen durante el diseño de software orientado a objetos. No son fragmentos de código concretos, sino **estructuras conceptuales** que indican cómo organizar clases, objetos y responsabilidades para resolver eficazmente un determinado tipo de problema.
 
@@ -62,26 +59,6 @@ En cambio, **no** se debe aplicar un patrón cuando:
 * La solución directa y simple es suficiente.
 * La complejidad introducida no aporta beneficios reales.
 * El patrón solo existe por limitaciones históricas de lenguajes antiguos.
-
-
-## Nota importante: C++ moderno y la necesidad real de algunos patrones
-
-Muchos patrones clásicos nacieron en un contexto muy distinto: lenguajes sin lambdas, sin RAII extendido, sin plantillas modernas y sin herramientas de *type erasure*. En C++ moderno, varios patrones se simplifican enormemente o incluso dejan de ser necesarios:
-
-* **Strategy** puede reducirse a una lambda inyectada.
-* **Command** es muchas veces simplemente un `std::function<void()>`.
-* **Singleton** se considera un antipatrón y se sustituye por inyección de dependencias.
-* **Iterator** ya forma parte de la STL; su valor es histórico.
-* **Template Method** puede sustituirse por funciones de orden superior o por plantillas.
-
-Otros patrones, sin embargo, siguen siendo fundamentales y muy útiles en C++ moderno:
-
-* En la familia creacional: *Factory Method*, *Abstract Factory*, *Builder*, *Prototype*.
-* En la familia estructural: *Composite*, *Decorator*, *Adapter*, *Facade*, *Bridge*, *Proxy*.
-* En la familia de comportamiento: *Observer*, *State*, *Mediator*, *Visitor*.
-
-El curso se centrará en estos últimos, pues constituyen la base real de muchos diseños modernos.
-
 
 ## Conexión con los principios anteriores
 
