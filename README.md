@@ -65,7 +65,9 @@
 
 5. Patrones clásicos y alternativas modernas en C++
     * [Por qué algunos patrones se simplifican en C++ moderno](contenido/modulo05/introduccion.md)
-    * Patrón Singleton
-    * Patrón Strategy
+    * [Patrón Singleton](contenido/modulo05/singleton.md)
+    * [Ejemplo: Logger global del sistema](contenido/modulo05/singleton2.md)
+    * [Patrón Strategy](contenido/modulo05/strategy.md)
+    * [Ejemplo: Sistema de cálculo flexible](contenido/modulo05/strategy2.md)
     * Patrón Command
     * Patrón Template Method

@@ -15,17 +15,15 @@ El patrón aborda principalmente estas situaciones:
 * El sistema debe ser **extensible**, permitiendo añadir nuevos algoritmos sin modificar el código ya existente, cumpliendo el principio *Open/Closed*.
 * Se desea separar claramente la **lógica del algoritmo** de la clase que lo utiliza, favoreciendo la cohesión y la reutilización.
 
-## Cómo lo soluciona
+## Cómo lo soluciona C++ moderno
 
-El patrón Strategy aporta estas soluciones:
+En C++ moderno, el patrón Strategy se implementa mediante **inyección de comportamiento**, evitando la necesidad de jerarquías de clases. El contexto recibe un *callable* que representa la estrategia, y ese callable puede adoptar distintas formas, todas intercambiables mientras cumplan la misma firma. Las técnicas principales, entre otras, son:
 
-* Define una **interfaz común** para todos los algoritmos (estrategias).
-* Cada algoritmo concreto se encapsula en una **clase propia**, separada y fácilmente intercambiable.
-* El objeto que necesita el algoritmo (el **contexto**) contiene una referencia a una estrategia y **delegará en ella** el comportamiento.
-* Permite **cambiar la estrategia en tiempo de ejecución** asignando una nueva instancia al contexto.
-* Evita el uso de condicionales extensos para determinar qué algoritmo aplicar.
-* Facilita la **extensibilidad**: añadir una nueva estrategia no requiere modificar el contexto ni el código cliente.
-* Refuerza los principios *Open/Closed*, *Single Responsibility* y la separación entre **qué se hace** y **cómo se hace**.
+* **Lambdas**: expresiones concisas que permiten definir el comportamiento directamente en el lugar donde se necesita, con capacidad de capturar estado de forma controlada.
+* **`std::function`**: contenedor genérico que permite almacenar cualquier callable compatible con la firma requerida, proporcionando polimorfismo dinámico sin necesidad de clases base.
+* **Functores (objetos función)**: objetos que implementan `operator()`, útiles cuando la estrategia requiere mantener estado interno o cuando se busca mayor eficiencia evitando el coste de `std::function`.
+
+En este enfoque, el contexto simplemente almacena y ejecuta el callable recibido, sin depender de una interfaz ni de una jerarquía de clases, lo que resulta en un diseño más flexible, más simple y más eficiente en C++ moderno.
 
 ## Ejemplos concretos
 
