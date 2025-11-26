@@ -15,23 +15,15 @@ El patrón se emplea para resolver situaciones como:
 * Se quiere aplicar el principio *Open/Closed*: permitir variaciones sin cambiar la lógica general establecida en la clase base.
 * Se necesita garantizar un conjunto de pasos obligatorios, combinados con otros opcionales o redefinibles.
 
-## Cómo lo soluciona
+#Aquí tienes el apartado **“Cómo lo soluciona C++ moderno”** reescrito de forma **más breve**, **sin ejemplos**, y centrado exclusivamente en la idea moderna.
 
-El Template Method proporciona las siguientes soluciones:
+## Cómo lo soluciona C++ moderno
 
-* Define en la clase base un **método plantilla** (*template method*) que establece el orden de los pasos del algoritmo.
-* Este método plantilla llama a otros métodos, algunos de los cuales son:
+En C++ moderno, los problemas que aborda el Template Method se resuelven mediante **composición** e **inyección de comportamiento**, evitando herencia y métodos virtuales.
+En lugar de definir un método plantilla en una clase base, la estructura del algoritmo se implementa en una única función o clase ligera, y los pasos variables se proporcionan desde fuera mediante: **lambdas**, **`std::function`** u otros objetos invocables.
 
-  * **métodos abstractos**: deben ser implementados por las subclases,
-  * **métodos por defecto**: pueden sobrescribirse si la subclase lo necesita,
-  * **métodos *hook*** (ganchos): proporcionan puntos opcionales de extensión.
-* Garantiza que la **estructura del algoritmo** permanece fija, evitando modificaciones descontroladas.
-* Reduce la duplicación de código al centralizar la lógica común.
-* Permite que las subclases **personalicen partes concretas** sin alterar el flujo global.
-* Refuerza principios como:
-
-  * *Open/Closed*: la clase base no cambia,
-  * *Hollywood Principle* (“no nos llames, nosotros te llamamos”): la clase base controla el flujo, no las subclases.
+El algoritmo principal mantiene la **secuencia fija**, mientras que los pasos concretos se pasan como parámetros invocables.
+Esto elimina jerarquías complejas, centraliza la lógica común y permite personalizar pasos sin modificar el esqueleto del proceso, logrando una solución más flexible, expresiva y fácil de extender.
 
 ## Ejemplos concretos
 

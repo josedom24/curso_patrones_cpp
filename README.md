@@ -71,4 +71,5 @@
     * [Ejemplo: Sistema de cálculo flexible](contenido/modulo05/strategy2.md)
     * [Patrón Command](contenido/modulo05/command.md)
     * [Ejemplo: Sistema de control remoto](contenido/modulo05/command2.md)
-    * Patrón Template Method
+    * [Patrón Template Method](contenido/modulo05/templatemethod.md)
+    * [Ejemplo: Proceso de documentos](contenido/modulo05/templatemethod2.md)
