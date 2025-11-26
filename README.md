@@ -20,10 +20,7 @@
     * [Patrón Prototype](contenido/modulo02/prototype.md)
     * [Implementación de Prototype con C++](contenido/modulo02/prototype2.md)
     * [Ejemplo: Editor de formas gráficas](contenido/modulo02/prototype3.md)
-    * [Patrón Singleton](contenido/modulo02/singleton.md)
-    * [Implementación de Singleton con C++](contenido/modulo02/singleton2.md)
-    * [Ejemplo: Logger global del sistema](contenido/modulo02/singleton3.md)
-
+    
 3. Patrones Estructurales
 
     * [Patrón Adapter](contenido/modulo03/adapter.md)
@@ -41,9 +38,6 @@
     * [Patrón Facade](contenido/modulo03/facade.md)
     * [Implementación de Facade con C++](contenido/modulo03/facade2.md)
     * [Ejemplo: Sistema de gestión de tareas](contenido/modulo03/facade3.md)
-    * [Patrón Flyweight](contenido/modulo03/flyweight.md)
-    * [Ejemplo con patrón Flyweight con C++](contenido/modulo03/flyweight2.md)
-    * [Ejemplo: Sistema de iconos compartidos](contenido/modulo03/flyweight3.md)
     * [Patrón Proxy](contenido/modulo03/proxy.md)
     * [Implementación de Proxy con C++](contenido/modulo03/proxy2.md)
     * [Ejemplo: Acceso a un Servicio de Datos](contenido/modulo03/proxy3.md)
@@ -53,12 +47,6 @@
     * [Patrón Chain of Responsibility](contenido/modulo04/chainofresponsibility.md)
     * [Implementación de Chain of Responsibility con C++](contenido/modulo04/chainofresponsibility2.md)
     * [Ejemplo: Sistema de validación de solicitudes](contenido/modulo04/chainofresponsibility3.md)
-    * [Patrón Command](contenido/modulo04/command.md)
-    * [Implementación de Command con C++](contenido/modulo04/command2.md)
-    * [Ejemplo: Sistema de control remoto](contenido/modulo04/command3.md)
-    * [Patrón Iterator](contenido/modulo04/iterator.md)
-    * [Implementación de Iterator con C++](contenido/modulo04/iterator2.md)
-    * [Ejemplo: Colección de tareas pendientes (To-Do List)](contenido/modulo04/iterator3.md)
     * [Patrón Mediator](contenido/modulo04/mediator.md)
     * [Implementación de Mediator con C++](contenido/modulo04/mediator2.md)
     * [Ejemplo: Sistema de chat entre usuarios](contenido/modulo04/mediator3.md)
@@ -71,15 +59,13 @@
     * [Patrón State](contenido/modulo04/state.md)
     * [Implementación de State con C++](contenido/modulo04/state2.md)
     * [Ejemplo: Flujo de estados de un documento](contenido/modulo04/state3.md)
-    * [Patrón Strategy](contenido/modulo04/strategy.md)
-    * [Implementación de Strategy con C++](contenido/modulo04/strategy2.md)
-    * [Ejemplo: Sistema de cálculo flexible](contenido/modulo04/strategy3.md)
-    * [Patrón Template Method](contenido/modulo04/templatemethod.md)
-    * [Implementación de Template Method con C++](contenido/modulo04/templatemethod2.md)
-    * [Ejemplo: Proceso de documentos](contenido/modulo04/templatemethod3.md)
     * [Patrón Visitor](contenido/modulo04/visitor.md)
     * [Implementación de Visitor con C++](contenido/modulo04/visitor2.md)
     * [Ejemplo: Sistema de elementos visitables (inspección de objetos)](contenido/modulo04/visitor3.md)
 
-5. Otros patrones con C++ moderno
-    * Necesidad de algunos patrones 
+5. Patrones clásicos y alternativas modernas en C++
+    * [Por qué algunos patrones se simplifican en C++ moderno](contenido/modulo05/introduccion.md)
+    * Patrón Singleton
+    * Patrón Strategy
+    * Patrón Command
+    * Patrón Template Method
