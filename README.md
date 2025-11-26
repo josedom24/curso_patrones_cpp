@@ -80,3 +80,6 @@
     * [Patrón Visitor](contenido/modulo04/visitor.md)
     * [Implementación de Visitor con C++](contenido/modulo04/visitor2.md)
     * [Ejemplo: Sistema de elementos visitables (inspección de objetos)](contenido/modulo04/visitor3.md)
+
+5. Otros patrones con C++ moderno
+    * Necesidad de algunos patrones 
