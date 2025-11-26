@@ -69,5 +69,6 @@
     * [Ejemplo: Logger global del sistema](contenido/modulo05/singleton2.md)
     * [Patrón Strategy](contenido/modulo05/strategy.md)
     * [Ejemplo: Sistema de cálculo flexible](contenido/modulo05/strategy2.md)
-    * Patrón Command
+    * [Patrón Command](contenido/modulo05/command.md)
+    * [Ejemplo: Sistema de control remoto](contenido/modulo05/command2.md)
     * Patrón Template Method
