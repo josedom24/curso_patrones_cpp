@@ -1,10 +1,11 @@
 // Interfaces
-[<<interface>> Button|+paint(): void;+~Button()]^-[WinButton|+paint(): void]
-[<<interface>> Button]^-[LinuxButton|+paint(): void]
+[<<interface>> ProductoA|+operacionA(): void;+~ProductoA()]^-[ProductoA_FamiliaA|+operacionA(): void]
+[<<interface>> ProductoA]^-[ProductoA_FamiliaB|+operacionA(): void]
 
-[<<interface>> Checkbox|+toggle(): void;+~Checkbox()]^-[WinCheckbox|+toggle(): void]
-[<<interface>> Checkbox]^-[LinuxCheckbox|+toggle(): void]
+[<<interface>> ProductoB|+operacionB(): void;+~ProductoB()]^-[ProductoB_FamiliaA|+operacionB(): void]
+[<<interface>> ProductoB]^-[ProductoB_FamiliaB|+operacionB(): void]
 
 // Fábrica abstracta
-[<<abstract>> AbstractGUIFactory|+create_button(): Button;+create_checkbox(): Checkbox;+~AbstractGUIFactory()]^-[WindowsFactory|+create_button(): Button;+create_checkbox(): Checkbox]
-[<<abstract>> AbstractGUIFactory]^-[LinuxFactory|+create_button(): Button;+create_checkbox(): Checkbox]
+[<<abstract>> FabricaAbstracta|+crearProductoA(): ProductoA;+crearProductoB(): ProductoB;+~FabricaAbstracta()]^-[FabricaFamiliaA|+crearProductoA(): ProductoA;+crearProductoB(): ProductoB]
+[<<abstract>> FabricaAbstracta]^-[FabricaFamiliaB|+crearProductoA(): ProductoA;+crearProductoB(): ProductoB]
+

@@ -14,7 +14,7 @@ El objetivo del patrón es que el código cliente pueda trabajar con **familias 
 ## Problemas que intenta solucionar
 
 El patrón Abstract Factory resulta útil cuando:
-
+A
 * Se necesitan crear **conjuntos completos de objetos relacionados** (familias) que deben ser coherentes entre sí.
 * Se quiere **evitar mezclar productos de distintas familias**, por ejemplo un botón “tema oscuro” con una ventana “tema claro”.
 * El código cliente **no debería depender de clases concretas**, sino solo de interfaces o tipos abstractos.
@@ -32,6 +32,23 @@ Abstract Factory aporta las siguientes ideas:
 * El código cliente **solo conoce la fábrica abstracta y las interfaces de los productos**, no las clases concretas.
 * Cambiar de familia (por ejemplo, “Windows” a “Linux”, o “tema claro” a “tema oscuro”) se reduce a **cambiar la fábrica concreta** que se instancia.
 * La incorporación de una nueva familia se hace creando una **nueva fábrica concreta** y los productos correspondientes, sin modificar el código cliente, respetando el principio de *Open/Closed*.
+
+## Relación con los principios SOLID
+
+* **Open/Closed Principle (OCP)**:
+  *Abstract Factory* facilita la extensión de familias completas de productos sin modificar el código cliente ni las fábricas ya existentes. Para introducir una nueva familia, basta con definir una nueva implementación concreta de la fábrica y sus productos asociados. La estructura del patrón permite que el sistema evolucione por **extensión** y no por **modificación**, ejemplificando de forma muy directa el OCP.
+
+* **Dependency Inversion Principle (DIP)**:
+  El cliente trabaja exclusivamente con **interfaces abstractas** tanto de fábrica como de productos. Nunca depende de clases concretas.
+  La lógica de selección de la familia de productos se invierte: el cliente no decide qué tipos concretos instanciar, sino que recibe o construye una fábrica que cumple una interfaz abstracta.
+  Este desacoplamiento profundo entre cliente y productos concretos convierte a *Abstract Factory* en uno de los patrones que más claramente refuerzan el DIP.
+
+* **Single Responsibility Principle (SRP)**:
+  El patrón distribuye las responsabilidades de forma nítida:
+
+  * La fábrica concreta se responsabiliza de **crear objetos compatibles** pertenecientes a la misma familia.
+  * El cliente se limita a **usar** los productos abstractos sin conocer su implementación.
+    Esta separación de responsabilidades reduce el acoplamiento y garantiza que los cambios en la creación de objetos no afecten al código que los utiliza, lo cual es coherente con el SRP.
 
 ## Ejemplos concretos
 
