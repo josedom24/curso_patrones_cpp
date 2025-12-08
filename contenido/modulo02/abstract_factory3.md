@@ -193,6 +193,11 @@ public:
 ### Añadir la nueva fábrica en `Fabricas.hpp`
 
 ```cpp
+
+// ----------------------------------------
+// Fábrica concreta: FAMILIA macOS
+// ----------------------------------------
+
 class MacFactory : public AbstractGUIFactory {
 public:
     std::unique_ptr<Button> create_button() const override {
