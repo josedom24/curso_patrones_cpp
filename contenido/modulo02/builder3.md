@@ -357,6 +357,12 @@ static std::unique_ptr<SolicitudHTTP> crear(
 
 ### Cambios en `Builder.hpp`
 
+Debemos añadir una nuevo método virtual:
+
+```cpp
+virtual void establecer_timeout(int) = 0;   // NUEVO
+```
+
 
 
 #### En el builder clásico (`ConstructorSolicitudConcreto`)
@@ -368,7 +374,7 @@ private:
     int timeout_ms_ = 0;   // NUEVO
 
 public:
-    void establecer_timeout(int ms) { timeout_ms_ = ms; }   // NUEVO
+    void establecer_timeout(int ms) override { timeout_ms_ = ms; }   // NUEVO
 ```
 
 Propagamos el nuevo parámetro al crear la solicitud:
@@ -404,7 +410,7 @@ Propagación en `construir()`:
 return SolicitudHTTP::crear(metodo_, url_, cabeceras_, cuerpo_, timeout_ms_);
 ```
 
-### Cambios en `Director.hpp` (opcional)
+### Cambios en `Director.hpp` 
 
 Si queremos que el Director configure un timeout:
 
