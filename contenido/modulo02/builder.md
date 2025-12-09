@@ -27,6 +27,19 @@ El patrón Builder aborda estos problemas mediante:
 * La posibilidad de crear objetos **inmutables**, ya que el producto se configura completamente antes de ser construido.
 * La flexibilidad para crear múltiples variantes del mismo producto sin modificar el código cliente ni saturar la clase del producto con múltiples constructores sobrecargados.
 
+## Relación con los principios SOLID 
+
+* **Single Responsibility Principle (SRP)**:
+  El patrón aísla la lógica de construcción en el *builder*, evitando que la clase del producto asuma responsabilidades adicionales. Cada componente (builder, director, producto) mantiene una función bien delimitada.
+
+* **Open/Closed Principle (OCP)**:
+  Nuevos *builders* concretos pueden añadirse sin modificar el código existente, permitiendo extender las variantes de construcción manteniendo cerradas las abstracciones ya definidas.
+
+* **Dependency Inversion Principle (DIP)**:
+  El cliente y el director dependen de la interfaz abstracta del builder, no de implementaciones concretas. Esta inversión reduce el acoplamiento y permite intercambiar estrategias de construcción de manera transparente.
+
+
+
 ## Ejemplos concretos
 
 * **Construcción de documentos**: Crear informes en HTML, JSON o texto plano usando los mismos pasos pero builders distintos.
