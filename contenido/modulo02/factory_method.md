@@ -27,11 +27,8 @@ El Factory Method aporta estas soluciones:
 ## Relación con los principios SOLID
 
 * **Open/Closed Principle (OCP)**: El patrón permite extender el sistema añadiendo nuevos productos concretos sin modificar el código existente. Basta con crear una nueva subclase que redefina el método de creación. Esto convierte al *Factory Method* en uno de los patrones que mejor ejemplifican OCP.
-
 * **Dependency Inversion Principle (DIP)**: El cliente depende de abstracciones —interfaces de fábrica y de producto— en lugar de depender directamente de clases concretas. La lógica de creación se invierte: el cliente no instancia los objetos, sino que delega esa responsabilidad en una fábrica que implementa una interfaz común. Esta inversión del control de creación refleja fuertemente el DIP.
-
 * **Single Responsibility Principle (SRP)**: El patrón separa la responsabilidad de creación de la responsabilidad de uso. Las fábricas crean; los productos actúan. Aunque no es el objetivo principal del patrón, esta separación refuerza el SRP de manera natural.
-
 
 ## Ejemplos concretos
 
