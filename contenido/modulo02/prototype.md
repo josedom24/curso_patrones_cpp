@@ -30,6 +30,14 @@ El Prototype aporta estas soluciones esenciales:
 * Permite almacenar y gestionar un **catálogo de prototipos** para crear nuevas instancias de manera uniforme.
 * Facilita la creación de instancias **preconfiguradas**, eliminando código repetido de inicialización.
 
+## Relación con los principios SOLID
+
+* **Single Responsibility Principle (SRP)**: El patrón concentra la responsabilidad de clonación dentro de cada prototipo. Cada clase define cómo debe copiarse a sí misma, evitando que el cliente conozca detalles de construcción o de copia profunda. Esto reduce acoplamiento y mantiene las responsabilidades bien delimitadas.
+
+* **Open/Closed Principle (OCP)**: Es posible añadir nuevas variantes de productos simplemente incorporando nuevos prototipos concretos que implementen el método de clonación. El cliente no necesita modificarse para utilizarlos, pues opera siempre a través de la interfaz común de prototipo.
+
+* **Dependency Inversion Principle (DIP)**: El código cliente depende de la abstracción `Prototype` (o equivalente), no de clases concretas ni de sus procesos de construcción. La creación de nuevos objetos se realiza mediante clones polimórficos, lo que invierte la dependencia y permite introducir nuevas implementaciones sin cambios en el cliente.
+
 ## Ejemplos concretos
 
 Casos reales donde el patrón Prototype resulta especialmente útil:
