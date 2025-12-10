@@ -112,6 +112,10 @@ Supongamos que queremos añadir una nueva forma: **Triángulo**.
 Debajo de las demás formas, añadimos:
 
 ```cpp
+// ----------------------------------------
+// Prototipo concreto: Triángulo
+// ----------------------------------------
+
 class Triangulo : public Forma {
 private:
     int base_;
