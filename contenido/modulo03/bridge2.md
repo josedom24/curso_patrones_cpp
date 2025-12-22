@@ -1,5 +1,3 @@
-Aquí tienes **la implementación del Patrón Bridge en C++**, siguiendo **exactamente el mismo formato** que usaste para Factory Method.
-
 # Implementación de Bridge con C++
 
 ## Estructura y elementos modernos utilizados

@@ -30,18 +30,20 @@ El patrón Bridge aborda principalmente estas situaciones:
 El Bridge aporta estas soluciones:
 
 * **Separa dos jerarquías independientes**:
-
   * La **Abstracción**: define la interfaz de alto nivel.
   * El **Implementador**: define los detalles de la operación básica.
-
 * La abstracción **contiene una referencia** a un implementador y delega en él las operaciones de bajo nivel.
-
 * Permite **extender cada jerarquía sin afectar a la otra**:
   Añadir una nueva abstracción no requiere modificar las implementaciones; añadir una nueva implementación no requiere modificar las abstracciones.
-
 * Posibilita **cambiar implementaciones en tiempo de ejecución**, ya que el implementador es un atributo y no una clase base fija.
 
-* Refuerza los principios **Open/Closed**, **Single Responsibility** y **Dependency Inversion** al separar responsabilidades conceptuales y técnicas.
+# Relación con los principios SOLID
+
+* **Single Responsibility Principle (SRP)**: El patrón *Bridge* separa claramente dos responsabilidades que tienden a mezclarse: la **abstracción** (qué se hace) y la **implementación** (cómo se hace). Cada jerarquía evoluciona de forma independiente, evitando clases con múltiples motivos de cambio y manteniendo responsabilidades bien definidas.
+
+* **Open/Closed Principle (OCP)**: El sistema puede extenderse tanto por el lado de las abstracciones como por el de las implementaciones sin modificar el código existente. Nuevas abstracciones refinadas o nuevas implementaciones concretas pueden añadirse sin afectar a las demás clases, respetando la apertura a extensión y el cierre a modificación.
+
+* **Dependency Inversion Principle (DIP)**: La abstracción depende únicamente de la interfaz de implementación, no de implementaciones concretas. Tanto las abstracciones de alto nivel como los detalles de bajo nivel dependen de abstracciones, lo que reduce el acoplamiento y permite intercambiar implementaciones de manera transparente.
 
 ## Ejemplos concretos
 
