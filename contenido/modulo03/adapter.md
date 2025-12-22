@@ -26,6 +26,15 @@ El Adapter aporta estas soluciones:
 * Permite reutilizar clases externas sin modificarlas, cumpliendo así el principio *Open/Closed*.
 * Separa claramente la **interfaz cliente** de la **implementación interna o legado**, favoreciendo el desacoplamiento.
 
+# Relación con los principios SOLID
+
+* **Single Responsibility Principle (SRP)**: El patrón *Adapter* encapsula la lógica de adaptación entre interfaces incompatibles en una clase específica. De este modo, ni la clase cliente ni la clase adaptada asumen responsabilidades adicionales relacionadas con la conversión de interfaces, manteniendo cada componente enfocado en una única tarea bien definida.
+
+* **Open/Closed Principle (OCP)**: El sistema puede extenderse para soportar nuevas interfaces o clases existentes mediante la incorporación de nuevos adaptadores, sin modificar el código del cliente ni el de las clases ya implementadas. Las abstracciones permanecen cerradas a cambios y abiertas a extensión a través de adaptadores adicionales.
+
+* **Dependency Inversion Principle (DIP)**: El cliente depende exclusivamente de la interfaz objetivo (*Target*), no de implementaciones concretas ni de clases externas con interfaces incompatibles. El adaptador actúa como intermediario que implementa dicha abstracción, invirtiendo la dependencia y permitiendo sustituir o introducir nuevas adaptaciones sin afectar al código cliente.
+
+
 ## Ejemplos concretos
 
 * **Sistemas gráficos o motores de juego**: Adaptar distintas librerías de renderizado para usar una misma interfaz de dibujo.
