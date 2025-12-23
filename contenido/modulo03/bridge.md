@@ -40,10 +40,10 @@ El Bridge aporta estas soluciones:
 # Relación con los principios SOLID
 
 * **Single Responsibility Principle (SRP)**: El patrón *Bridge* separa claramente dos responsabilidades que tienden a mezclarse: la **abstracción** (qué se hace) y la **implementación** (cómo se hace). Cada jerarquía evoluciona de forma independiente, evitando clases con múltiples motivos de cambio y manteniendo responsabilidades bien definidas.
-
 * **Open/Closed Principle (OCP)**: El sistema puede extenderse tanto por el lado de las abstracciones como por el de las implementaciones sin modificar el código existente. Nuevas abstracciones refinadas o nuevas implementaciones concretas pueden añadirse sin afectar a las demás clases, respetando la apertura a extensión y el cierre a modificación.
-
 * **Dependency Inversion Principle (DIP)**: La abstracción depende únicamente de la interfaz de implementación, no de implementaciones concretas. Tanto las abstracciones de alto nivel como los detalles de bajo nivel dependen de abstracciones, lo que reduce el acoplamiento y permite intercambiar implementaciones de manera transparente.
+* **Liskov Substitution Principle (LSP)**: Las implementaciones concretas pueden sustituirse por la interfaz de implementación sin afectar a la abstracción.
+* **Interface Segregation Principle (ISP)**: La interfaz de implementación se mantiene reducida y específica.
 
 ## Ejemplos concretos
 

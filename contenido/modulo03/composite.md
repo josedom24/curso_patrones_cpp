@@ -25,6 +25,15 @@ El patrón Composite propone estas soluciones:
 * Facilita la **recursividad**: los objetos compuestos delegan operaciones a sus hijos, permitiendo procesar estructuras de profundidad arbitraria.
 * Favorece el principio *Open/Closed*, ya que se pueden añadir nuevos tipos de componentes sin modificar el código cliente.
 
+# Relación con los principios SOLID
+
+* **Single Responsibility Principle (SRP)**: El patrón *Composite* separa la responsabilidad del **comportamiento individual** (componentes hoja) de la **gestión de estructuras jerárquicas** (componentes compuestos). Cada tipo de clase tiene un único motivo de cambio, manteniendo responsabilidades bien definidas.
+* **Open/Closed Principle (OCP)**: El sistema puede ampliarse incorporando nuevos tipos de componentes sin modificar el código cliente ni las clases existentes. Al trabajar siempre contra la abstracción común, la estructura queda abierta a extensión y cerrada a modificación.
+* **Dependency Inversion Principle (DIP)**: El cliente depende exclusivamente de la abstracción del componente, no de implementaciones concretas ni de si el objeto es hoja o compuesto. Tanto estructuras simples como jerárquicas se manipulan a través de la misma interfaz.
+* **Liskov Substitution Principle (LSP)**: Los componentes hoja y los compuestos pueden sustituirse por la abstracción común sin alterar el comportamiento esperado por el cliente.
+* **Interface Segregation Principle (ISP)**: La interfaz del componente se mantiene uniforme y específica para las operaciones que el cliente necesita, evitando dependencias innecesarias.
+
+
 ## Ejemplos concretos
 
 * **Sistemas de archivos**: Directorios que contienen archivos y otros directorios, todos manipulados por la misma interfaz.
