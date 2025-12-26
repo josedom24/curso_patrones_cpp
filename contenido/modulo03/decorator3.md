@@ -1,166 +1,179 @@
-# Ejemplo: Sistema de notificaciones
+# Ejemplo: Generador de Markdown
 
-# Introducción
+## Introducción
 
-Para ilustrar el patrón **Decorator** en un contexto realista, construiremos un pequeño **sistema de notificaciones**.
+En este ejemplo construimos un **generador de Markdown** que permite partir de un contenido base y **añadir dinámicamente capas de formato**, como:
 
-El objetivo es permitir que un mensaje básico pueda ser enviado a través de diferentes canales **sin modificar la clase original**, y además que un mismo mensaje pueda pasar por **varias capas adicionales** de comportamiento, como:
+* títulos
+* texto en negrita
+* cursiva
+* bloques de código
 
-* enviar la notificación por **email**,
-* enviar un **SMS**,
-* registrar la acción en un **log**,
-* enviar una notificación **push**,
-* o cualquier otra extensión futura.
+Cada formato se implementa como un **decorador independiente**, que envuelve al componente anterior y añade su responsabilidad sin modificar ninguna clase existente.
 
-Cada decorador representa una responsabilidad adicional y **extiende** el comportamiento de la notificación base.
-El código cliente solo interactúa con la interfaz común `Notificador`, sin preocuparse de cómo está construido el “pipeline” de decoradores.
+El cliente trabaja únicamente con la interfaz común `Markdown`, sin conocer cuántos decoradores hay ni en qué orden se aplican.
 
-A continuación se muestra el código completo dividido en:
+El código se divide en:
 
-* **Notificaciones.hpp** – interfaz base, componente concreto y decoradores
-* **main.cpp** – código cliente y construcción dinámica de decoradores
+* `Markdown.hpp` – interfaz base, componente concreto y decoradores
+* `main.cpp` – código cliente y composición dinámica
 
-## Notificaciones.hpp
+## Markdown.hpp
 
-```cpp
+````cpp
 #pragma once
-#include <iostream>
 #include <memory>
 #include <string>
 
 // ----------------------------------------
 // Interfaz base del componente
 // ----------------------------------------
-class Notificador {
+class Markdown {
 public:
-    virtual ~Notificador() = default;
-    virtual void enviar(const std::string& mensaje) const = 0;
+    virtual ~Markdown() = default;
+    virtual std::string render() const = 0;
 };
 
 // ----------------------------------------
-// Componente concreto: Notificación básica
+// Componente concreto: texto base
 // ----------------------------------------
-class NotificadorBase : public Notificador {
+class TextoMarkdown : public Markdown {
+    std::string texto_;
+
 public:
-    void enviar(const std::string& mensaje) const override {
-        std::cout << "[Base] Enviando mensaje: " << mensaje << "\n";
+    explicit TextoMarkdown(std::string texto)
+        : texto_(std::move(texto)) {}
+
+    std::string render() const override {
+        return texto_;
     }
 };
 
 // ----------------------------------------
 // Clase base del decorador
 // ----------------------------------------
-class DecoradorNotificador : public Notificador {
+class DecoradorMarkdown : public Markdown {
 protected:
-    std::unique_ptr<Notificador> componente_;
+    std::unique_ptr<Markdown> componente_;
 
 public:
-    explicit DecoradorNotificador(std::unique_ptr<Notificador> componente)
+    explicit DecoradorMarkdown(std::unique_ptr<Markdown> componente)
         : componente_(std::move(componente)) {}
 
-    void enviar(const std::string& mensaje) const override {
-        componente_->enviar(mensaje);
+    std::string render() const override {
+        return componente_->render();
     }
 };
 
 // ----------------------------------------
-// Decorador concreto: Notificación por Email
+// Decorador concreto: título
 // ----------------------------------------
-class NotificadorEmail : public DecoradorNotificador {
+class TituloMarkdown : public DecoradorMarkdown {
+    int nivel_;
+
 public:
-    explicit NotificadorEmail(std::unique_ptr<Notificador> componente)
-        : DecoradorNotificador(std::move(componente)) {}
+    TituloMarkdown(std::unique_ptr<Markdown> componente, int nivel)
+        : DecoradorMarkdown(std::move(componente)),
+          nivel_(nivel) {}
 
-    void enviar(const std::string& mensaje) const override {
-        std::cout << "[Email] Enviando email con mensaje: " 
-                  << mensaje << "\n";
-        DecoradorNotificador::enviar(mensaje);
+    std::string render() const override {
+        return std::string(nivel_, '#') + " " +
+               DecoradorMarkdown::render();
     }
 };
 
 // ----------------------------------------
-// Decorador concreto: Notificación por SMS
+// Decorador concreto: negrita
 // ----------------------------------------
-class NotificadorSMS : public DecoradorNotificador {
+class NegritaMarkdown : public DecoradorMarkdown {
 public:
-    explicit NotificadorSMS(std::unique_ptr<Notificador> componente)
-        : DecoradorNotificador(std::move(componente)) {}
+    using DecoradorMarkdown::DecoradorMarkdown;
 
-    void enviar(const std::string& mensaje) const override {
-        std::cout << "[SMS] Enviando SMS: " << mensaje << "\n";
-        DecoradorNotificador::enviar(mensaje);
+    std::string render() const override {
+        return "**" + DecoradorMarkdown::render() + "**";
     }
 };
 
 // ----------------------------------------
-// Decorador concreto: Registro en Log
+// Decorador concreto: cursiva
 // ----------------------------------------
-class NotificadorLog : public DecoradorNotificador {
+class CursivaMarkdown : public DecoradorMarkdown {
 public:
-    explicit NotificadorLog(std::unique_ptr<Notificador> componente)
-        : DecoradorNotificador(std::move(componente)) {}
+    using DecoradorMarkdown::DecoradorMarkdown;
 
-    void enviar(const std::string& mensaje) const override {
-        std::cout << "[Log] Registrando evento: " << mensaje << "\n";
-        DecoradorNotificador::enviar(mensaje);
+    std::string render() const override {
+        return "*" + DecoradorMarkdown::render() + "*";
     }
 };
-```
+
+// ----------------------------------------
+// Decorador concreto: bloque de código
+// ----------------------------------------
+class CodigoMarkdown : public DecoradorMarkdown {
+public:
+    using DecoradorMarkdown::DecoradorMarkdown;
+
+    std::string render() const override {
+        return "```cpp\n" +
+               DecoradorMarkdown::render() +
+               "\n```";
+    }
+};
+````
 
 ## main.cpp
 
 ```cpp
-#include "Notificaciones.hpp"
+#include "Markdown.hpp"
+#include <iostream>
 
 int main() {
-    // Notificación básica
-    std::unique_ptr<Notificador> notificador =
-        std::make_unique<NotificadorBase>();
+    std::unique_ptr<Markdown> md =
+        std::make_unique<TextoMarkdown>(
+            "Ejemplo de Decorator en C++ moderno"
+        );
 
-    // Añadimos decoradores dinámicamente
-    notificador = std::make_unique<NotificadorEmail>(std::move(notificador));
-    notificador = std::make_unique<NotificadorSMS>(std::move(notificador));
-    notificador = std::make_unique<NotificadorLog>(std::move(notificador));
+    md = std::make_unique<NegritaMarkdown>(std::move(md));
+    md = std::make_unique<CursivaMarkdown>(std::move(md));
+    md = std::make_unique<TituloMarkdown>(std::move(md), 2);
 
-    // Envío final: pasa por todas las capas
-    notificador->enviar("Bienvenido al sistema Decorator");
-
-    return 0;
+    std::cout << md->render() << "\n";
 }
+```
+
+Salida aproximada:
+
+```markdown
+## ***Ejemplo de Decorator en C++ moderno***
 ```
 
 ## Añadir un nuevo decorador
 
-Una de las mayores ventajas del patrón **Decorator** es que permite añadir nueva funcionalidad **sin modificar ninguna clase existente**.
+Supongamos que queremos añadir un decorador para **listas Markdown**.
 
-Supongamos que queremos añadir un nuevo decorador: **notificación Push**.
-
-### Añadir el nuevo decorador en `Notificaciones.hpp`
+### Nuevo decorador
 
 ```cpp
-// Decorador concreto: Notificación Push
-class NotificadorPush : public DecoradorNotificador {
+class ListaMarkdown : public DecoradorMarkdown {
 public:
-    explicit NotificadorPush(std::unique_ptr<Notificador> componente)
-        : DecoradorNotificador(std::move(componente)) {}
+    using DecoradorMarkdown::DecoradorMarkdown;
 
-    void enviar(const std::string& mensaje) const override {
-        std::cout << "[Push] Enviando notificación push: "
-                  << mensaje << "\n";
-        DecoradorNotificador::enviar(mensaje);
+    std::string render() const override {
+        return "- " + DecoradorMarkdown::render();
     }
 };
 ```
 
-### Usarlo en `main.cpp`
+### Uso en el cliente
 
 ```cpp
-notificador = std::make_unique<NotificadorPush>(std::move(notificador));
+md = std::make_unique<ListaMarkdown>(std::move(md));
 ```
 
-### Qué no hemos modificado
+## Qué no hemos modificado
 
-* La interfaz `Notificador`.
-* La clase base decoradora `DecoradorNotificador`.
-* El componente concreto `NotificadorBase`.
-* El cliente no necesita cambiar su forma de trabajar.
+* La interfaz `Markdown`
+* El componente concreto `TextoMarkdown`
+* La clase base `DecoradorMarkdown`
+* El código cliente
+

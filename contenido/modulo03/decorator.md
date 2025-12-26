@@ -27,6 +27,15 @@ El Decorator proporciona estas soluciones:
 * Facilita el cumplimiento de *Open/Closed*: se agregan nuevas capacidades creando nuevos decoradores, sin modificar las clases base.
 * Reduce el acoplamiento entre nuevas funcionalidades y los componentes originales.
 
+## Relación con los principios SOLID
+
+* **Single Responsibility Principle (SRP)**: El patrón *Decorator* separa la responsabilidad del **comportamiento base** (componente concreto) de las **responsabilidades adicionales** (decoradores). Cada decorador introduce una única variación funcional, manteniendo clases pequeñas y con un solo motivo de cambio.
+* **Open/Closed Principle (OCP)**: El comportamiento de un objeto puede ampliarse mediante nuevos decoradores sin modificar el código existente ni la clase original. El sistema queda abierto a extensión a través de composición y cerrado a modificación.
+* **Dependency Inversion Principle (DIP)**: El cliente depende únicamente de la abstracción común del componente. Tanto el objeto base como los decoradores concretos se manipulan a través de la misma interfaz, evitando dependencias directas con implementaciones específicas.
+* **Liskov Substitution Principle (LSP)**: Un objeto decorado puede sustituir a un componente no decorado sin alterar la corrección del programa. Los decoradores respetan el contrato definido por la interfaz común y mantienen el comportamiento esperado por el cliente.
+* **Interface Segregation Principle (ISP)**: El patrón promueve interfaces simples y cohesivas. Los decoradores implementan exactamente la misma interfaz que el componente, sin forzar al cliente a depender de métodos adicionales o innecesarios.
+
+
 ## Ejemplos concretos
 
 * **Streams y filtros de E/S** (similar al diseño de iostreams en C++): añadir compresión, cifrado, buffering, o logging a un flujo sin alterar su implementación base.

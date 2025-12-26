@@ -25,7 +25,7 @@ El patrón Composite propone estas soluciones:
 * Facilita la **recursividad**: los objetos compuestos delegan operaciones a sus hijos, permitiendo procesar estructuras de profundidad arbitraria.
 * Favorece el principio *Open/Closed*, ya que se pueden añadir nuevos tipos de componentes sin modificar el código cliente.
 
-# Relación con los principios SOLID
+## Relación con los principios SOLID
 
 * **Single Responsibility Principle (SRP)**: El patrón *Composite* separa la responsabilidad del **comportamiento individual** (componentes hoja) de la **gestión de estructuras jerárquicas** (componentes compuestos). Cada tipo de clase tiene un único motivo de cambio, manteniendo responsabilidades bien definidas.
 * **Open/Closed Principle (OCP)**: El sistema puede ampliarse incorporando nuevos tipos de componentes sin modificar el código cliente ni las clases existentes. Al trabajar siempre contra la abstracción común, la estructura queda abierta a extensión y cerrada a modificación.
