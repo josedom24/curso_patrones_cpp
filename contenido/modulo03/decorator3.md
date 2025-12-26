@@ -128,24 +128,26 @@ public:
 #include <iostream>
 
 int main() {
-    std::unique_ptr<Markdown> md =
-        std::make_unique<TextoMarkdown>(
-            "Ejemplo de Decorator en C++ moderno"
-        );
+    // Línea 1: Título
+    std::unique_ptr<Markdown> titulo =
+        std::make_unique<TextoMarkdown>("Patrón Decorator");
 
-    md = std::make_unique<NegritaMarkdown>(std::move(md));
-    md = std::make_unique<CursivaMarkdown>(std::move(md));
-    md = std::make_unique<TituloMarkdown>(std::move(md), 2);
+    titulo = std::make_unique<TituloMarkdown>(std::move(titulo), 1);
 
-    std::cout << md->render() << "\n";
+    // Línea 2: Texto con formato
+    std::unique_ptr<Markdown> texto =
+        std::make_unique<TextoMarkdown>("Ejemplo en C++ moderno");
+
+    texto = std::make_unique<NegritaMarkdown>(std::move(texto));
+    texto = std::make_unique<CursivaMarkdown>(std::move(texto));
+
+    // Salida Markdown
+    std::cout << titulo->render() << "\n";
+    std::cout << texto->render() << "\n";
 }
+
 ```
 
-Salida aproximada:
-
-```markdown
-## ***Ejemplo de Decorator en C++ moderno***
-```
 
 ## Añadir un nuevo decorador
 
