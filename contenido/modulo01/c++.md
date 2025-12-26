@@ -10,6 +10,8 @@ Las **listas de inicialización** permiten construir los miembros directamente, 
 
 Un **constructor privado** impide la creación directa de objetos desde el exterior. Se usa para controlar el proceso de creación y forzar el uso de fábricas, *builders* o métodos estáticos.
 
+Un **constructor explícito** es un constructor marcado con la palabra clave `explicit` que **impide las conversiones implícitas** desde otros tipos hacia el tipo de la clase. Su objetivo es evitar que un objeto se cree de forma accidental a partir de un solo argumento, obligando a que la construcción sea **intencional y explícita** por parte del programador.
+
 ## RAII 
 
 RAII (Resource Acquisition Is Initialization) es el principio fundamental de C++ para la gestión correcta de recursos. Un recurso, como memoria dinámica, un archivo, ..., se adquiere en el momento de construir un objeto y se libera automáticamente cuando dicho objeto se destruye. De esta forma, la duración del recurso queda ligada al ámbito del objeto que lo gestiona, lo que garantiza liberación correcta incluso en presencia de excepciones o retornos anticipados.
@@ -22,6 +24,22 @@ Los punteros inteligentes son una aplicación directa del principio RAII a la ge
 
 * `std::unique_ptr` expresa propiedad exclusiva de un recurso y garantiza su liberación automática.
 * `std::shared_ptr` gestiona propiedad compartida mediante conteo de referencias. 
+* `std::weak_ptr` es un puntero inteligente no propietario que permite observar un objeto gestionado por std::shared_ptr sin incrementar el conteo de referencias, evitando ciclos de dependencia y permitiendo comprobar de forma segura si el recurso aún existe.
+
+## Inicialización diferida
+
+La **inicialización diferida** es una técnica en la que el **objeto real no se crea en el constructor**, sino **en el momento de la primera operación que lo requiere**.
+En C++ moderno se implementa manteniendo un **`std::unique_ptr` inicialmente vacío** y creando el objeto bajo demanda, dejando que **RAII** gestione automáticamente su ciclo de vida.
+
+## Contenedores de la STL
+
+Los **contenedores de la STL** (Standard Template Library) son estructuras de datos genéricas que permiten almacenar y organizar colecciones de elementos de forma eficiente y segura. Proporcionan una interfaz común y se integran con algoritmos y utilidades del estándar, evitando la implementación manual de estructuras básicas.
+
+Ejemplos: `std::vector`, `std::list`, ...
+
+## Algoritmos de la STL
+
+Los **algoritmos de la STL** son un conjunto de **funciones genéricas** del estándar de C++ que operan sobre rangos de elementos definidos por iteradores. Proporcionan operaciones comunes como búsqueda, recorrido, filtrado, ordenación o eliminación sin depender del tipo concreto del contenedor.
 
 ## Composición
 
@@ -59,6 +77,10 @@ El **constructor de copia** define cómo se crea un objeto a partir de otro obje
 La **copia superficial** duplica únicamente los valores de los miembros del objeto, incluyendo direcciones o manejadores de recursos, sin crear copias independientes de los recursos a los que apuntan. Como resultado, varios objetos pueden compartir el mismo recurso subyacente, lo que puede provocar interferencias o liberaciones incorrectas si no se gestiona cuidadosamente.
 
 La **copia profunda** crea copias independientes de todos los recursos gestionados por el objeto, de modo que cada instancia mantiene su propio estado y su propio ciclo de vida. En C++ moderno, la copia profunda se implementa de forma explícita cuando una clase posee recursos y necesita garantizar independencia entre copias, y es un concepto clave para comprender patrones como *Prototype* y el diseño seguro de clases con semántica de copia.
+
+## Movimiento de objetos
+
+En **C++ moderno**, el **movimiento** permite **transferir recursos de un objeto a otro sin copiarlos**. Se basa en constructores y operadores de movimiento y en `std::move`, que indica que un objeto puede ceder sus recursos. Tras mover un objeto, el destino adquiere la propiedad y el origen queda en un estado válido pero no especificado.
 
 ## Clonación de objetos
 

@@ -1,65 +1,60 @@
 # Implementación de Bridge con C++
 
-## Estructura y elementos modernos utilizados
+## Estructura general
 
-La implementación del **Bridge** en C++ moderno se basa en separar dos jerarquías independientes:
+La implementación del **Bridge** en C++ moderno se basa en **separar una abstracción de su implementación**, permitiendo que ambas evolucionen de forma independiente. El patrón divide el diseño en dos jerarquías desacopladas que se comunican mediante composición.
 
-* La **Abstracción**, que representa el comportamiento de alto nivel.
-* El **Implementador**, que encapsula los detalles de bajo nivel.
+Este enfoque permite combinar distintas abstracciones con distintas implementaciones sin generar explosión de clases y sin introducir dependencias rígidas entre niveles de diseño.
 
-La abstracción mantiene un puntero a un implementador y delega en él las operaciones básicas. Esto permite combinar libremente ambas jerarquías.
+## Elementos de C++ moderno utilizados
+
+* **Clases abstractas e interfaces puras** para definir contratos claros.
+* **Métodos virtuales y virtuales puros** como puntos de extensión.
+* **Herencia** para extender abstracciones e implementaciones.
+* **Polimorfismo dinámico** para sustituir implementadores en tiempo de ejecución.
+* **Destructores virtuales** para destrucción segura en jerarquías polimórficas.
+* **`std::unique_ptr`** para expresar propiedad del implementador.
+* **Composición** como mecanismo central del patrón.
+* Uso explícito de **`override`** en las implementaciones concretas.
+* **RAII** para una gestión correcta del ciclo de vida.
+
+## Componentes del patrón y responsabilidades
 
 ### 1. Interfaz base del **Implementador**
 
-Define las operaciones primitivas que las abstracciones podrán utilizar.
-Cada implementación concreta representa una forma distinta de realizar estas operaciones.
-
-**Elementos de C++ moderno utilizados:**
-
-* **Destructores virtuales** para permitir polimorfismo seguro.
-* **`std::unique_ptr`** para gestionar la propiedad del implementador dentro de la abstracción.
-* **Polimorfismo dinámico** para permitir sustitución transparente de implementaciones.
+* Define las operaciones primitivas que utilizará la abstracción.
+* Establece un contrato estable para las implementaciones concretas.
+* No conoce la abstracción de alto nivel.
+* Se utiliza de forma polimórfica mediante punteros.
 
 ### 2. **Implementadores concretos**
 
-Representan variantes independientes de la implementación técnica.
-Por ejemplo, dos formas distintas de dibujar, renderizar, comunicar o procesar.
-
-**Elementos de C++ moderno utilizados:**
-
-* **`override`** para implementar operaciones primitivas con seguridad.
-* Diseño orientado a RAII: cada implementación gestiona correctamente sus propios recursos.
+* Implementan las operaciones primitivas definidas por el implementador base.
+* Representan variantes independientes de la implementación técnica.
+* Encapsulan detalles de bajo nivel.
+* Gestionan correctamente sus propios recursos.
 
 ### 3. Interfaz o clase base de la **Abstracción**
 
-Define la vista de alto nivel del objeto.
-Contiene un `unique_ptr` al implementador y delega en él las tareas de bajo nivel.
-
-**Elementos de C++ moderno utilizados:**
-
-* **Composición mediante `std::unique_ptr`** para separar claramente la propiedad del implementador.
-* **Delegación explícita** a través de métodos que llaman a la implementación.
-* Métodos virtuales que permiten extender la abstracción sin modificar implementaciones existentes.
+* Define el comportamiento de alto nivel expuesto al cliente.
+* Mantiene una referencia o puntero al implementador.
+* Delega en el implementador las operaciones de bajo nivel.
+* Aísla al cliente de los detalles de implementación.
 
 ### 4. **Abstracciones refinadas**
 
-Extienden el comportamiento de alto nivel sin modificar las implementaciones.
-
-**Elementos de C++ moderno utilizados:**
-
-* **Herencia pública** para relación “es-un-tipo‐de-abstracción”.
-* Posibilidad de **combinar cualquier abstracción refinada con cualquier implementador** gracias al desacoplamiento.
+* Extienden el comportamiento de alto nivel.
+* No modifican ni dependen de implementaciones concretas.
+* Añaden funcionalidad sin romper el desacoplamiento.
+* Pueden combinarse con cualquier implementador compatible.
 
 ### 5. **Código cliente**
 
-Trabaja únicamente con la abstracción.
-No conoce ni el tipo concreto de la abstracción ni el tipo concreto de la implementación.
+* Trabaja exclusivamente con la abstracción.
+* No conoce ni el tipo concreto de la abstracción ni del implementador.
+* Puede cambiar implementaciones en tiempo de ejecución.
+* Permanece estable ante nuevas abstracciones o implementaciones.
 
-**Elementos de C++ moderno utilizados:**
-
-* Programación **a interfaces y a composición**, no a implementaciones concretas.
-* Flexibilidad para intercambiar implementadores en tiempo de ejecución.
-* Transmisión segura de punteros mediante `std::unique_ptr`.
 
 ## Diagrama UML
 

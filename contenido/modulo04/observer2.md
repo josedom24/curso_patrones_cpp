@@ -1,57 +1,59 @@
 # Implementación de Observer con C++
 
-## Estructura y elementos modernos utilizados
+## Estructura general
 
-La implementación del **Observer** en C++ moderno se organiza en torno a dos tipos principales de roles: el **sujeto** (quien genera los cambios) y los **observadores** (quienes reaccionan a esos cambios). A continuación se describen estas clases y, para cada una, los mecanismos de C++ moderno que resultan relevantes.
+La implementación del **Observer** en C++ moderno permite **definir una dependencia uno-a-muchos** entre objetos, de modo que cuando el estado de un sujeto cambia, todos sus observadores son notificados automáticamente. El sujeto no conoce los detalles concretos de los observadores, solo que cumplen una interfaz común.
+
+Este enfoque desacopla la fuente de los cambios de las reacciones a dichos cambios y facilita añadir o eliminar observadores sin modificar el sujeto.
+
+## Elementos de C++ moderno utilizados
+
+* **Clases abstractas e interfaces puras** para definir los contratos de sujeto y observador.
+* **Métodos virtuales y virtuales puros** para permitir notificación polimórfica.
+* **Polimorfismo dinámico** para tratar observadores de forma uniforme.
+* **Destructores virtuales** para destrucción segura mediante punteros a la interfaz.
+* **`std::shared_ptr`** para gestionar la propiedad compartida de los observadores.
+* **`std::weak_ptr`** para evitar ciclos de referencia entre sujeto y observadores.
+* **RAII** para la gestión automática del ciclo de vida.
+* **Contenedores de la STL** como `std::vector` para almacenar observadores.
+* Algoritmos de la STL como **`std::remove_if`** para limpiar observadores caducados.
+
+## Componentes del patrón y responsabilidades
 
 ### 1. Interfaz base del **Observador**
 
-Define la operación que el sujeto utilizará para notificar cambios. El código del sujeto solo conoce esta interfaz, no las clases concretas que la implementan.
+* Define la operación que el sujeto utilizará para notificar cambios.
+* Establece un contrato común para todos los observadores.
+* Permite implementar reacciones heterogéneas ante un mismo evento.
+* Se utiliza de forma polimórfica mediante punteros inteligentes.
 
-**Elementos de C++ moderno utilizados:**
+### 2. Interfaz base del **Sujeto (Observable)**
 
-* **Destructores virtuales** para permitir una gestión segura de objetos polimórficos mediante punteros inteligentes.
-* **Métodos virtuales puros** para definir el contrato `actualizar(...)`.
-* Posible uso de **tipos fuertemente tipados** (por ejemplo, `int` o estructuras específicas) como información de actualización.
-
-### 2. Interfaz base del **Sujeto (observable)**
-
-Declara las operaciones para gestionar la lista de observadores (suscripción / desuscripción) y la operación de notificación.
-
-**Elementos de C++ moderno utilizados:**
-
-* Métodos que aceptan **`std::shared_ptr<Observador>`** para registrar y eliminar observadores.
-* Almacenamiento interno mediante **`std::weak_ptr<Observador>`** para evitar ciclos de referencia entre sujeto y observadores.
-* Separación clara entre **gestión de suscripciones** y **notificación de cambios**.
+* Declara las operaciones de suscripción y desuscripción de observadores.
+* Define el mecanismo de notificación de cambios.
+* Mantiene una colección de observadores registrados.
+* No conoce las implementaciones concretas de los observadores.
 
 ### 3. **Sujetos concretos**
 
-Implementan la lógica específica del dominio y mantienen el estado que será observado. Cada vez que este estado cambia, el sujeto notifica a todos los observadores.
-
-**Elementos de C++ moderno utilizados:**
-
-* **`std::vector<std::weak_ptr<Observador>>`** para mantener una lista dinámica de observadores.
-* Uso de **`std::remove_if`** y bucles `for` basados en rango para limpiar observadores caducados y recorrer la lista.
-* Encapsulación y RAII: el sujeto se encarga de su propio estado y de la lista de observadores, sin fugas de memoria.
+* Implementan la lógica específica del dominio.
+* Mantienen el estado que será observado.
+* Notifican a los observadores cuando el estado cambia.
+* Gestionan internamente la lista de observadores de forma segura.
 
 ### 4. **Observadores concretos**
 
-Implementan la reacción ante los cambios notificados por el sujeto. Cada observador puede interpretar la notificación de forma diferente.
-
-**Elementos de C++ moderno utilizados:**
-
-* Implementaciones concretas de `actualizar(...)` que pueden usar **`std::string`**, flujos de salida (`std::cout`) u otros recursos.
-* Uso de **constructores seguros** y miembros privados para mantener el estado interno del observador (por ejemplo, un nombre descriptivo).
+* Implementan la reacción ante las notificaciones del sujeto.
+* Interpretan los cambios según sus propias responsabilidades.
+* Mantienen su propio estado interno de forma encapsulada.
+* No modifican directamente el estado del sujeto.
 
 ### 5. **Código cliente**
 
-Es el encargado de crear el sujeto, instanciar los observadores y registrar/desregistrar estos últimos. No necesita conocer cómo el sujeto almacena ni notifica a sus observadores.
-
-**Elementos de C++ moderno utilizados:**
-
-* **`std::make_shared<T>()`** para crear instancias gestionadas automáticamente.
-* Programación a interfaces: el cliente trabaja con `std::shared_ptr<Sujeto>` y `std::shared_ptr<Observador>` sin acoplarse a las clases concretas.
-* Uso natural de RAII: la destrucción de `std::shared_ptr` elimina automáticamente observadores que ya no se usan.
+* Crea el sujeto y los observadores concretos.
+* Registra y desregistra observadores en el sujeto.
+* No conoce los detalles internos de la notificación.
+* Se beneficia de la gestión automática de recursos mediante RAII.
 
 ## Diagrama UML
 

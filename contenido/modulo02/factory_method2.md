@@ -1,56 +1,56 @@
 # Implementación de Factory Method con C++
 
-## Estructura y elementos modernos utilizados
+## Estructura general 
 
-La implementación del **Factory Method** en C++ moderno se organiza en torno a un conjunto de clases con responsabilidades bien definidas. A continuación se describen estas clases y, para cada una, los mecanismos de C++ moderno que resultan relevantes.
+La implementación del **Factory Method** en C++ moderno se apoya en un conjunto reducido de mecanismos del lenguaje que permiten desacoplar la creación de objetos de su uso, garantizando seguridad, extensibilidad y una gestión correcta de recursos.
+
+## Elementos de C++ moderno utilizados
+
+* **Clases abstractas e interfaces puras** para definir contratos estables.
+* **Métodos virtuales y virtuales puros** como puntos de extensión.
+* **Herencia** para especializar el proceso de creación.
+* **Polimorfismo dinámico** para trabajar con objetos sin conocer su tipo concreto.
+* **Destructores virtuales** para destrucción segura a través de punteros base.
+* **`std::unique_ptr`** para expresar propiedad exclusiva de los objetos creados.
+* **RAII** para garantizar liberación automática de recursos.
+* Uso explícito de **`override`** en las redefiniciones.
+
+## Componentes del patrón y responsabilidades
 
 ### 1. Interfaz o clase base del **Producto**
 
-Define el comportamiento común que todos los productos deben ofrecer. El código cliente trabaja exclusivamente a través de esta interfaz, sin conocer los tipos concretos.
-
-**Elementos de C++ moderno utilizados:**
-
-* **`std::unique_ptr`** como tipo de retorno y de uso en toda la jerarquía, garantizando propiedad clara y destrucción automática.
-* **Destructores virtuales** para permitir una gestión segura de objetos polimórficos mediante punteros inteligentes.
-* **Polimorfismo dinámico** para permitir que distintos productos se utilicen de forma uniforme.
+* Define el comportamiento común que deben ofrecer todos los productos.
+* Establece un contrato estable independiente de las implementaciones concretas.
+* Permite que el código cliente trate todos los productos de forma uniforme.
+* No conoce ni controla el proceso de creación de las instancias.
 
 ### 2. **Productos concretos**
 
-Implementan el comportamiento definido por la interfaz base. Cada clase concreta representa una variante específica del producto.
-
-**Elementos de C++ moderno utilizados:**
-
-* **Construcción segura** mediante inicialización moderna de objetos (lista de inicialización, tipos fuertes, reglas de RAII apropiadas).
-* Uso natural de **`std::unique_ptr`** como forma esperada de gestionar instancias polimórficas.
+* Implementan el comportamiento definido por la interfaz del producto.
+* Representan variantes específicas dentro de la misma familia de productos.
+* Encapsulan los detalles de implementación y los recursos internos.
+* Cumplen las invariantes definidas por la abstracción base.
 
 ### 3. Interfaz o clase base **Creador**
 
-Declara el **factory method**, que define cómo se obtiene un producto. También puede contener operaciones que utilizan el producto creado sin necesidad de conocer su tipo concreto.
-
-**Elementos de C++ moderno utilizados:**
-
-* **Métodos que devuelven `std::unique_ptr<Producto>`**, separando claramente propiedad y responsabilidad.
-* **Separación entre creación y uso**, apoyada por punteros inteligentes que evitan fugas y simplifican el ciclo de vida de los objetos creados.
-* **Polimorfismo** para permitir que el creador delegue la decisión del tipo concreto a las subclases.
+* Declara el método de creación que devuelve un producto abstracto.
+* Define el punto de extensión donde se decide el tipo concreto del producto.
+* Puede contener lógica que utiliza el producto sin conocer su implementación.
+* Desacopla al cliente de las clases concretas que se instancian.
 
 ### 4. **Creadores concretos**
 
-Implementan el método fábrica y crean instancias de productos concretos. Son los únicos lugares del sistema donde se conoce el tipo específico del producto.
-
-**Elementos de C++ moderno utilizados:**
-
-* **`std::make_unique<T>()`** para construir el producto de forma segura.
-* **Encapsulación estricta** que evita exponer detalles de los tipos concretos al resto del sistema.
+* Especializan el proceso de creación definido por el creador base.
+* Deciden qué tipo concreto de producto se instancia.
+* Centralizan el conocimiento sobre las clases concretas del producto.
+* Aíslan la lógica de creación del resto del sistema.
 
 ### 5. **Código cliente**
 
-Interactúa únicamente con la interfaz del creador y nunca con productos concretos. Obtiene productos ya configurados y listos para su uso.
-
-**Elementos de C++ moderno utilizados:**
-
-* **Programación a interfaces**, apoyada por punteros inteligentes para gestionar productos polimórficos sin preocuparse por el ciclo de vida.
-* **Dependencia explícitamente reducida** gracias a la combinación de polimorfismo y RAII moderno.
-* **Uso natural de objetos temporales** que contienen productos creados por la fábrica sin necesidad de gestión manual.
+* Trabaja exclusivamente con las abstracciones del creador y del producto.
+* No conoce ni depende de los tipos concretos creados.
+* Utiliza los objetos obtenidos sin gestionar manualmente su ciclo de vida.
+* Permanece estable frente a la introducción de nuevos productos o creadores.
 
 ## Diagrama UML
 

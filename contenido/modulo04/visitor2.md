@@ -1,58 +1,57 @@
 # Implementación de Visitor con C++
 
-## Estructura y elementos modernos utilizados
+## Estructura general
 
-La implementación del **Visitor** en C++ moderno se organiza alrededor de dos jerarquías fundamentales:
-* la jerarquía de **elementos**, que representan objetos de distintos tipos, y
-* la jerarquía de **visitantes**, que representan operaciones aplicables a esos objetos.
+La implementación del **Visitor** en C++ moderno permite **definir nuevas operaciones sobre una estructura de objetos sin modificar las clases de dichos objetos**. El patrón separa la estructura de datos de las operaciones que se aplican sobre ella, organizando estas últimas en una jerarquía independiente.
+
+Este enfoque resulta especialmente útil cuando la estructura de elementos es estable, pero las operaciones que deben aplicarse sobre ella evolucionan con frecuencia.
+
+## Elementos de C++ moderno utilizados
+
+* **Clases abstractas e interfaces puras** para definir contratos de elementos y visitantes.
+* **Métodos virtuales** para habilitar el doble despacho.
+* **Polimorfismo dinámico** para seleccionar la operación adecuada en tiempo de ejecución.
+* **Destructores virtuales** para destrucción segura en jerarquías polimórficas.
+* **RAII** para la gestión automática de recursos en visitantes con estado.
+* **Contenedores de la STL** para almacenar colecciones heterogéneas de elementos.
+* **`std::unique_ptr`** para gestionar elementos polimórficos de forma segura.
+
+## Componentes del patrón y responsabilidades
 
 ### 1. Interfaz base de **Elemento**
 
-Define el método `accept(Visitante&)` que habilita el mecanismo de *double dispatch*.
-Cada clase concreta implementará este método delegando en el visitante la operación correspondiente.
-
-**Elementos de C++ moderno utilizados:**
-
-* **Destructores virtuales** para permitir el uso polimórfico seguro.
-* **Referencias no propietarios** (`Visitante&`) para evitar costes innecesarios de empaquetado.
-* Separación estricta entre datos (en los elementos) y comportamiento (en los visitantes).
+* Define el método `accept` que recibe un visitante.
+* Establece el punto de entrada para el doble despacho.
+* Permite aplicar operaciones externas sin modificar la clase.
+* Se utiliza de forma polimórfica mediante punteros o referencias.
 
 ### 2. **Elementos concretos**
 
-Representan los tipos específicos de la jerarquía sobre los que se aplicarán distintas operaciones.
+* Representan los distintos tipos de la estructura de objetos.
+* Implementan el método `accept` delegando en el visitante.
+* Encapsulan sus propios datos y estado.
+* No contienen la lógica de las operaciones externas.
 
-**Elementos de C++ moderno utilizados:**
+### 3. Interfaz base del **Visitante**
 
-* Inicialización clara y segura con RAII.
-* Implementación explícita del método `accept`.
-
-### 3. Interfaz base **Visitante**
-
-Contiene un método `visitar()` por cada tipo concreto de elemento.
-Esto permite añadir nuevas operaciones creando nuevos visitantes, sin tocar los elementos.
-
-**Elementos de C++ moderno utilizados:**
-
-* Polimorfismo dinámico para habilitar el doble despacho.
-* Agrupación de operaciones relacionadas dentro del objeto visitante, mejorando cohesión.
+* Declara un método de visita por cada tipo concreto de elemento.
+* Define el conjunto de operaciones aplicables a la estructura.
+* Permite añadir nuevas operaciones sin modificar los elementos.
+* Se utiliza de forma polimórfica.
 
 ### 4. **Visitantes concretos**
 
-Implementan operaciones específicas sobre cada tipo de elemento: cálculos, impresión, validación, estadísticas, etc.
-
-**Elementos de C++ moderno utilizados:**
-
-* Manejo de lógica compleja concentrada en un único objeto visitante.
-* Uso de RAII para almacenar acumuladores o estados internos cuando sea necesario.
+* Implementan operaciones específicas sobre cada tipo de elemento.
+* Agrupan lógica relacionada dentro de un mismo visitante.
+* Pueden mantener estado interno durante el recorrido.
+* Aplican algoritmos sin alterar la estructura visitada.
 
 ### 5. **Código cliente**
 
-Crea elementos y les aplica uno o varios visitantes, sin conocer ni alterar la lógica de los elementos.
-
-**Elementos de C++ moderno utilizados:**
-
-* Contenedores estándar (`std::vector<std::unique_ptr<Elemento>>`) para almacenar estructuras heterogéneas.
-* `std::make_unique` para gestionar elementos polimórficos de forma segura.
+* Crea y gestiona la estructura de elementos.
+* Aplica uno o varios visitantes a dicha estructura.
+* No modifica ni conoce la lógica interna de las operaciones.
+* Gestiona la memoria de forma automática mediante RAII.
 
 ## Diagrama UML
 

@@ -1,51 +1,51 @@
 # Implementación de Proxy con C++
 
-## Estructura y elementos modernos utilizados
+## Estructura general
 
-La implementación del **Proxy** en C++ moderno se basa en tres elementos principales: una **interfaz común**, un **objeto real** y un **proxy** que controla el acceso al objeto real y delega en él cuando corresponde.
-A continuación se describe la estructura general y los mecanismos modernos de C++ utilizados.
+La implementación del **Proxy** en C++ moderno permite **controlar el acceso a un objeto** proporcionando un intermediario que implementa la misma interfaz que el objeto real. El cliente interactúa siempre con el proxy, que decide cuándo y cómo delegar la operación en el objeto real.
+
+Este enfoque permite introducir control de acceso, inicialización diferida o lógica adicional sin modificar la implementación original del objeto real.
+
+## Elementos de C++ moderno utilizados
+
+* **Clases abstractas e interfaces puras** para definir un contrato común entre proxy y objeto real.
+* **Métodos virtuales y virtuales puros** para permitir sustitución transparente.
+* **Polimorfismo dinámico** para que el cliente no distinga entre proxy y objeto real.
+* **Destructores virtuales** para destrucción segura mediante punteros a la interfaz.
+* **Composición** para encapsular el objeto real dentro del proxy.
+* **`std::unique_ptr`** para expresar propiedad exclusiva del objeto real.
+* **RAII** para gestionar correctamente los recursos asociados al objeto real.
+* **Inicialización diferida** del objeto real mediante creación bajo demanda.
+
+## Componentes del patrón y responsabilidades
 
 ### 1. Interfaz común (**Sujeto**)
 
-Define las operaciones que tanto el objeto real como el proxy deben implementar.
-El cliente trabaja únicamente con esta interfaz.
+* Define las operaciones que deben implementar tanto el proxy como el objeto real.
+* Establece un contrato único e independiente de las implementaciones concretas.
+* Permite al cliente trabajar sin conocer la clase concreta utilizada.
+* Se utiliza de forma polimórfica mediante punteros o referencias.
 
-**Elementos de C++ moderno utilizados:**
+### 2. **Objeto real**
 
-* **Clases abstractas** con métodos virtuales puros.
-* **Destructores virtuales** para permitir polimorfismo seguro.
-* Uso de **`std::unique_ptr`** para gestionar la propiedad del objeto real dentro del proxy.
-
-### 2. **Objeto Real**
-
-Implementa la funcionalidad completa. Suele ser costoso o estar sometido a restricciones de acceso.
-
-**Elementos de C++ moderno utilizados:**
-
-* Inicialización segura de recursos mediante RAII.
-* Implementación clara y directa del comportamiento real.
-* Posible uso de retardos o simulaciones para ilustrar comportamiento costoso.
+* Implementa la funcionalidad completa del sistema.
+* Puede representar un recurso costoso, remoto o restringido.
+* Encapsula el comportamiento real sin conocer la existencia del proxy.
+* Gestiona sus recursos de forma segura mediante RAII.
 
 ### 3. **Proxy**
 
-El proxy implementa la misma interfaz que el sujeto, pero añade lógica adicional antes o después de delegar al objeto real.
-
-**Elementos de C++ moderno utilizados:**
-
-* **Inicialización diferida del objeto real** (`lazy initialization`) mediante `std::unique_ptr`.
-* **Comprobaciones previas** (control de acceso, logs, métricas, etc.).
-* Encapsulación adicional de comportamiento sin modificar el objeto real.
-* Separación entre responsabilidad del cliente y manejo interno del recurso.
+* Implementa la misma interfaz que el objeto real.
+* Contiene internamente una referencia o puntero al objeto real.
+* Controla el acceso y decide cuándo delegar la operación.
+* Puede añadir lógica adicional antes o después de la delegación.
 
 ### 4. **Código cliente**
 
-Interactúa únicamente con el proxy, sin conocer si la operación se ejecuta directamente o pasa por el objeto real.
-
-**Elementos de C++ moderno utilizados:**
-
-* **Programación a interfaces**, nunca a clases concretas.
-* Punteros inteligentes para una gestión limpia y robusta del ciclo de vida.
-* Independencia completa respecto a la implementación del objeto real.
+* Trabaja exclusivamente con la interfaz común.
+* No conoce si está utilizando un proxy o el objeto real.
+* Permanece independiente de la estrategia de acceso utilizada.
+* Gestiona el ciclo de vida de los objetos de forma segura.
 
 ## Diagrama UML
 

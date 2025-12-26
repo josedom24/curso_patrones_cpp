@@ -1,39 +1,48 @@
 # Implementación de Prototype en C++
 
-## Estructura y elementos modernos utilizados
+## Estructura general
 
-La implementación del **Prototype** en C++ moderno se basa en una jerarquía que define una interfaz de clonación y una serie de clases concretas responsables de producir copias superficiales o profundas según corresponda.
+La implementación del **Prototype** en C++ moderno se basa en la **creación de nuevos objetos a partir de instancias existentes**, delegando el proceso de copia en el propio objeto. El patrón permite duplicar objetos sin conocer su tipo concreto ni los detalles internos de su construcción.
 
-### 1. Interfaz o clase base del Prototipo
+Este enfoque resulta especialmente útil cuando la creación de objetos es costosa o compleja, y cuando es necesario preservar configuraciones ya existentes en nuevas instancias.
 
-Define el contrato común que todos los objetos clonables deben proporcionar. La operación fundamental es el método `clone()`, que retorna una nueva instancia del mismo tipo dinámico.
+## Elementos de C++ moderno utilizados
 
-**Elementos de C++ moderno utilizados:**
+La implementación del patrón Prototype se apoya en mecanismos de C++ moderno que permiten expresar clonación segura, control del ciclo de vida y copias correctas de objetos complejos.
 
-* **`std::unique_ptr`** como tipo de retorno para expresar propiedad exclusiva de la copia creada.
-* **Destructores virtuales** para garantizar un borrado seguro a través de la interfaz polimórfica.
-* **Polimorfismo dinámico** para permitir que el cliente clone objetos sin conocer su tipo concreto.
-* **Distinción entre copia superficial y copia profunda** en el interior de cada implementación concreta.
+* **Clases abstractas e interfaces puras** para definir el contrato de clonación.
+* **Métodos virtuales puros**, en particular el método `clone()`.
+* **Polimorfismo dinámico** para clonar objetos sin conocer su tipo concreto.
+* **Destructores virtuales** para destrucción segura a través de interfaces.
+* **`std::unique_ptr`** para expresar propiedad exclusiva de la copia creada.
+* **Constructores de copia** para implementar copias superficiales o profundas.
+* **RAII** para garantizar gestión correcta de recursos durante la clonación.
+* Uso explícito de **`override`** en las implementaciones concretas.
 
-### 2. Prototipos concretos
+## Componentes del patrón y responsabilidades
 
-Representan las distintas variantes de objetos clonables dentro del sistema. Cada uno decide si su proceso de clonación requiere copia superficial o profunda, dependiendo de si gestiona recursos dinámicos o estructuras compuestas.
+### 1. Interfaz o clase base del **Prototipo**
 
-**Elementos de C++ moderno utilizados:**
+* Define el contrato común que deben cumplir todos los objetos clonables.
+* Declara el método `clone()` como operación fundamental del patrón.
+* Permite crear nuevas instancias sin conocer el tipo dinámico concreto.
+* Garantiza un uso polimórfico seguro mediante un destructor virtual.
 
-* **Constructores de copia bien definidos** cuando la lógica de clonación requiere copiar recursos.
-* **Implementación explícita del método `clone()`** devolviendo objetos construidos mediante `std::make_unique`.
-* Uso natural de **RAII** para administrar memoria y otros recursos durante la clonación.
+### 2. **Prototipos concretos**
 
-### 3. Código cliente
+* Implementan el método `clone()` devolviendo una nueva instancia del mismo tipo.
+* Deciden si la clonación se realiza mediante copia superficial o copia profunda.
+* Encapsulan la lógica necesaria para duplicar recursos internos.
+* Mantienen las invariantes del objeto original en la copia creada.
 
-Solicita nuevas instancias clones de prototipos sin conocer su clase concreta, ni cómo se realiza la copia. El cliente trabaja exclusivamente con la interfaz del prototipo.
+### 3. **Código cliente**
 
-**Elementos de C++ moderno utilizados:**
+* Trabaja exclusivamente con la interfaz del prototipo.
+* Solicita nuevas instancias mediante la operación `clone()`.
+* No conoce la clase concreta ni la lógica interna de copia.
+* Gestiona el ciclo de vida de los objetos clonados de forma segura mediante RAII.
 
-* **Programación a interfaces**, sin dependencia directa de las clases concretas.
-* **Ámbito y ciclo de vida claros** gracias a punteros inteligentes.
-* **Simplicidad semántica**: crear un objeto a partir de otro ya configurado es tan sencillo como llamar a `clone()`.
+
 
 ## Diagrama UML
 

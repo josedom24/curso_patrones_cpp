@@ -1,38 +1,41 @@
 # Implementación de Facade con C++
 
-## Estructura y elementos modernos utilizados
+## Estructura general
 
-La implementación del **Facade** en C++ moderno se organiza alrededor de una clase fachada que ofrece métodos simples y de alto nivel, ocultando la interacción entre múltiples subsistemas. Cada subsistema mantiene su propia responsabilidad, pero el cliente solo interactúa con la fachada.
+La implementación del **Facade** en C++ moderno permite **simplificar el acceso a un sistema complejo** proporcionando una interfaz única y de alto nivel. El patrón encapsula la interacción entre varios subsistemas y expone al cliente únicamente las operaciones necesarias para su uso habitual.
+
+Este enfoque reduce el acoplamiento, mejora la legibilidad del código cliente y protege al sistema frente a cambios internos, manteniendo una interfaz estable y controlada.
+
+## Elementos de C++ moderno utilizados
+
+* **Constructores y listas de inicialización** para crear los subsistemas en estados válidos desde la construcción.
+* **RAII** para gestionar automáticamente los recursos asociados a los subsistemas.
+* **Composición** para agrupar subsistemas dentro de la fachada.
+* **Objetos con duración automática** como miembros de la clase fachada.
+* **Encapsulación** para ocultar la complejidad interna del sistema.
+
+## Componentes del patrón y responsabilidades
 
 ### 1. **Subsistemas internos**
 
-Representan módulos o componentes que realizan tareas específicas. El cliente no debe conocerlos directamente.
-
-**Elementos de C++ moderno utilizados:**
-
-* Métodos `const` cuando corresponde, para expresar claridad semántica.
-* Uso de inicialización moderna y clases con recursos manejados automáticamente (RAII).
-* Separación clara de responsabilidades mediante clases ligeras y cohesivas.
+* Representan componentes que realizan tareas específicas del sistema.
+* Mantienen responsabilidades claras y bien delimitadas.
+* No están diseñados para ser utilizados directamente por el cliente.
+* Pueden evolucionar internamente sin afectar a la fachada.
 
 ### 2. **Clase Fachada**
 
-Actúa como punto de entrada único. Coordina los subsistemas y expone métodos de alto nivel que combinan operaciones internas.
-
-**Elementos de C++ moderno utilizados:**
-
-* Composición de objetos (miembros privados que representan subsistemas).
-* Métodos que encapsulan operaciones complejas mediante pasos simples.
-* Inicialización directa de subsistemas mediante listas de inicializadores.
-* Interfaz simplificada y estable que protege al cliente de cambios internos.
+* Proporciona una interfaz simple y de alto nivel al cliente.
+* Coordina la interacción entre los distintos subsistemas.
+* Encapsula secuencias complejas de operaciones en métodos claros.
+* Aísla al cliente de cambios en la estructura interna del sistema.
 
 ### 3. **Código cliente**
 
-Usa únicamente la fachada. Obtiene los resultados sin comprender ni gestionar la lógica interna.
-
-**Elementos de C++ moderno utilizados:**
-
-* Dependencia reducida y uso intuitivo gracias a la encapsulación fuerte.
-* Código más legible, directo y fácil de mantener.
+* Trabaja exclusivamente con la clase fachada.
+* No conoce ni gestiona los subsistemas internos.
+* Utiliza el sistema de forma más legible y directa.
+* Permanece estable ante modificaciones internas del sistema.
 
 ## Diagrama UML
 

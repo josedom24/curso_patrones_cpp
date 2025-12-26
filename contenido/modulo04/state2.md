@@ -1,47 +1,51 @@
 # Implementación de State con C++
 
-## Estructura y elementos modernos utilizados
+## Estructura general
 
-La implementación del **State** en C++ moderno se organiza en torno a un conjunto de clases que encapsulan estados y comportamientos. Cada estado se modela como un objeto distinto, y el *contexto* delega en ellos la lógica según corresponda.
+La implementación del **State** en C++ moderno permite **modelar comportamientos variables como objetos independientes**, encapsulando cada estado en una clase distinta. El objeto principal, denominado *contexto*, delega su comportamiento en el estado activo y cambia dinámicamente dicho estado cuando es necesario.
+
+Este enfoque elimina grandes estructuras condicionales, localiza el comportamiento dependiente del estado y facilita la extensión del sistema mediante la incorporación de nuevos estados.
+
+## Elementos de C++ moderno utilizados
+
+* **Clases abstractas e interfaces puras** para definir el contrato común de los estados.
+* **Métodos virtuales y virtuales puros** para permitir comportamiento polimórfico.
+* **Polimorfismo dinámico** para delegar la ejecución al estado activo.
+* **Destructores virtuales** para destrucción segura mediante punteros a la interfaz.
+* **`std::unique_ptr`** para expresar propiedad exclusiva del estado por parte del contexto.
+* **RAII** para garantizar la gestión automática del ciclo de vida de los estados.
+* Uso de **`std::make_unique`** para crear estados de forma segura.
+* **Movimiento de objetos (`std::move`)** para realizar transiciones entre estados.
+
+## Componentes del patrón y responsabilidades
 
 ### 1. Interfaz o clase base del **Estado**
 
-Define todas las operaciones que pueden variar según el estado. El *contexto* delega su comportamiento en esta interfaz sin conocer la clase concreta del estado activo.
-
-**Elementos de C++ moderno utilizados:**
-
-* **Destructores virtuales** para permitir manipular estados mediante punteros inteligentes.
-* **Polimorfismo dinámico** para delegar la operación al estado activo.
-* **`std::unique_ptr`** para modelar el estado como propiedad exclusiva del contexto.
+* Define las operaciones cuyo comportamiento depende del estado.
+* Establece un contrato común para todos los estados concretos.
+* Permite al contexto delegar sin conocer el estado activo concreto.
+* Se utiliza de forma polimórfica mediante punteros inteligentes.
 
 ### 2. **Estados concretos**
 
-Representan los diferentes estados posibles del sistema. Cada estado implementa la interfaz base y decide qué hacer en cada operación, incluyendo transiciones a otros estados.
-
-**Elementos de C++ moderno utilizados:**
-
-* **`std::make_unique`** para crear estados de manera segura.
-* **Transiciones explícitas** mediante reemplazo del `std::unique_ptr` almacenado en el contexto.
-* **Responsabilidad clara**: cada clase gestiona únicamente su propio comportamiento.
+* Implementan el comportamiento específico de cada estado.
+* Deciden cómo responder a cada operación.
+* Pueden provocar transiciones a otros estados.
+* Encapsulan completamente la lógica asociada a su estado.
 
 ### 3. **Contexto**
 
-Es el objeto que utiliza el patrón. Mantiene un puntero al estado actual y delega en él todas las operaciones dependientes del estado.
-
-**Elementos de C++ moderno utilizados:**
-
-* **`std::unique_ptr<Estado>`** para almacenar el estado actual.
-* **Métodos públicos que delegan** internamente en el estado.
-* **Setters internos del estado** llamados desde los propios estados concretos.
+* Mantiene una referencia al estado actual.
+* Delegan en el estado activo las operaciones dependientes del estado.
+* Controla el ciclo de vida del estado mediante propiedad exclusiva.
+* Permanece desacoplado de las implementaciones concretas de los estados.
 
 ### 4. **Código cliente**
 
-El cliente interactúa con el contexto y no conoce nada acerca de los estados concretos o las transiciones internas.
-
-**Elementos de C++ moderno utilizados:**
-
-* Programación a interfaz a través del contexto.
-* Delegación completa del comportamiento relacionada con el estado.
+* Interactúa únicamente con el contexto.
+* No conoce los estados concretos ni las transiciones internas.
+* Utiliza el comportamiento del contexto de forma transparente.
+* Permanece estable ante la incorporación de nuevos estados.
 
 ## Diagrama UML
 

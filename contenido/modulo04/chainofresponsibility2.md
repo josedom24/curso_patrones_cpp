@@ -1,53 +1,53 @@
 # Implementación de Chain of Responsibility con C++
 
-## Estructura y elementos modernos utilizados
+## Estructura general
 
-La implementación del **Chain of Responsibility** en C++ moderno se organiza alrededor de una jerarquía de manejadores que procesan peticiones de forma encadenada. Cada elemento de la estructura emplea mecanismos de C++ moderno orientados a la seguridad, claridad y extensibilidad.
+La implementación del **Chain of Responsibility** en C++ moderno permite **procesar una petición a través de una cadena de objetos**, donde cada elemento decide si la gestiona o la delega al siguiente. El cliente envía la petición a la cadena sin conocer qué manejador concreto será responsable de procesarla.
 
+Este enfoque desacopla el emisor de la petición de sus posibles receptores y permite añadir, eliminar o reordenar manejadores sin modificar el código cliente.
+
+## Elementos de C++ moderno utilizados
+
+* **Clases abstractas e interfaces puras** para definir un contrato común de manejo.
+* **Métodos virtuales** para permitir especialización del comportamiento.
+* **Polimorfismo dinámico** para tratar todos los manejadores de forma uniforme.
+* **Destructores virtuales** para destrucción segura en jerarquías polimórficas.
+* **Composición** para enlazar manejadores formando la cadena.
+* **`std::unique_ptr`** para expresar propiedad exclusiva del siguiente manejador.
+* **RAII** para garantizar gestión automática del ciclo de vida.
+* **Movimiento de objetos (`std::move`)** para transferir la propiedad al construir la cadena.
+* Uso explícito de **`override`** en manejadores concretos.
+
+
+## Componentes del patrón y responsabilidades
 
 ### 1. Interfaz o clase base del **Manejador**
 
-Define la operación que cada manejador debe ofrecer: procesar una petición o delegarla. Además, permite establecer el siguiente manejador en la cadena.
-
-**Elementos de C++ moderno utilizados:**
-
-* **`std::unique_ptr`** para expresar propiedad exclusiva del siguiente manejador.
-* **Destructores virtuales** para garantizar liberación correcta en jerarquías polimórficas.
-* **Polimorfismo dinámico** para que cada manejador concreto implemente su propia lógica.
-* Método que recibe la petición por referencia constante o mediante tipos *value-like*.
-
+* Define la operación común para procesar o delegar una petición.
+* Establece el punto de entrada de la cadena.
+* Permite enlazar dinámicamente el siguiente manejador.
+* Se utiliza de forma polimórfica mediante punteros o referencias.
 
 ### 2. **Manejadores concretos**
 
-Implementan la lógica particular para determinar si deben procesar la petición o delegarla al siguiente manejador.
-
-**Elementos de C++ moderno utilizados:**
-
-* Construcción segura mediante inicialización moderna.
-* Uso de **`override`** para indicar especialización de métodos virtuales.
-* Encapsulación de condiciones de manejo sin exponer detalles al cliente.
-
+* Implementan la lógica específica para decidir si procesan la petición.
+* Delegan la petición al siguiente manejador cuando no pueden gestionarla.
+* Encapsulan las condiciones de manejo sin exponerlas al cliente.
+* Mantienen el contrato definido por la interfaz base.
 
 ### 3. **Construcción de la cadena**
 
-El montaje de la cadena determina el flujo de responsabilidad. Cada manejador contiene un puntero al siguiente, permitiendo cadenas configurables dinámicamente.
-
-**Elementos de C++ moderno utilizados:**
-
-* Uso de `std::move` para transferir propiedad.
-* Inicialización directa mediante objetos temporales y fábricas.
-* Encadenamiento flexible que cumple el principio *Open/Closed*.
-
+* Define el orden en el que se evaluarán los manejadores.
+* Enlaza los manejadores mediante composición.
+* Permite configurar la cadena de forma flexible y dinámica.
+* Facilita la extensión del sistema sin modificar código existente.
 
 ### 4. **Código cliente**
 
-Envía peticiones a la cadena sin conocer cuántos manejadores existen ni cuál se hará cargo.
-
-**Elementos de C++ moderno utilizados:**
-
-* Programación a interfaz: solo conoce la clase base del manejador.
-* Gestión de recursos automática mediante RAII y punteros inteligentes.
-
+* Envía la petición al primer manejador de la cadena.
+* No conoce ni depende del número de manejadores existentes.
+* Permanece desacoplado de la lógica de decisión.
+* Gestiona los recursos de forma automática mediante RAII.
 
 ## Diagrama UML
 

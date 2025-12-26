@@ -1,56 +1,57 @@
 # Implementación de Mediator con C++
 
-## Estructura y elementos modernos utilizados
+## Estructura general
 
-La implementación del **Mediator** en C++ moderno se organiza en un conjunto de clases que encapsulan y separan claramente responsabilidades. A continuación se describen los elementos esenciales y los mecanismos modernos empleados.
+La implementación del **Mediator** en C++ moderno permite **centralizar la comunicación entre un conjunto de objetos**, evitando dependencias directas entre ellos. Los objetos participantes, denominados colegas, delegan la coordinación de sus interacciones en un mediador común.
+
+Este enfoque reduce el acoplamiento entre componentes, concentra la lógica de interacción en un único punto y facilita la modificación o extensión de las reglas de comunicación sin alterar a los colegas.
+
+## Elementos de C++ moderno utilizados
+
+* **Clases abstractas e interfaces puras** para definir el contrato del mediador.
+* **Métodos virtuales** para permitir mediadores concretos intercambiables.
+* **Polimorfismo dinámico** para desacoplar colegas y mediador.
+* **`std::shared_ptr`** para gestionar la propiedad compartida de los colegas.
+* **`std::weak_ptr`** para evitar ciclos de referencia entre mediador y colegas.
+* **RAII** para gestionar automáticamente el ciclo de vida de los objetos.
+* **Contenedores estándar** para almacenar y gestionar los colegas registrados.
+
+## Componentes del patrón y responsabilidades
 
 ### 1. Interfaz o clase base del **Mediador**
 
-Define el conjunto de operaciones que permiten la comunicación entre los objetos colegas (componentes).
-El mediador conoce a los colegas y centraliza la lógica de coordinación.
-
-**Elementos de C++ moderno utilizados:**
-
-* **`std::shared_ptr` y `std::weak_ptr`** para evitar ciclos de referencia entre mediador y colegas.
-* **Métodos virtuales** para permitir implementaciones concretas del mediador.
-* **Polimorfismo dinámico** para permitir sustituir el mediador por versiones más complejas sin cambiar el cliente.
+* Define las operaciones que permiten coordinar la comunicación entre colegas.
+* Establece un punto central de interacción.
+* Conoce a los colegas participantes.
+* Se utiliza de forma polimórfica mediante punteros inteligentes.
 
 ### 2. Interfaz o clase base de los **Colegiales** (componentes)
 
-Cada colega representa un componente que participa en la comunicación.
-En lugar de comunicarse entre sí, notifican al mediador.
+* Representa a los objetos que participan en la comunicación.
+* Mantiene una referencia al mediador en lugar de a otros colegas.
+* Notifica al mediador cuando ocurre un evento relevante.
+* Encapsula su comportamiento propio sin conocer la lógica global.
 
-**Elementos utilizados:**
+### 3. **Mediador concreto**
 
-* Cada colega mantiene una **referencia débil (`std::weak_ptr`) al mediador**.
-* Se definen métodos como `enviar_evento(...)` o `notificar(...)`.
-* El comportamiento propio se mantiene encapsulado en el colega.
-
-### 3. Implementación concreta del **Mediador**
-
-Coordina explícitamente la comunicación entre los colegas.
-Contiene reglas de interacción y lógica orquestada.
-
-**Elementos utilizados:**
-
-* **Containers de punteros inteligentes** para almacenar colegas.
-* **Expresiones modernas** para encapsular flujos de comunicación.
-* **Separación completa entre los colegas**, que no tienen referencias directas entre sí.
+* Implementa las reglas de interacción entre los colegas.
+* Coordina explícitamente el flujo de comunicación.
+* Decide qué acciones deben ejecutarse en respuesta a los eventos.
+* Aísla completamente a los colegas entre sí.
 
 ### 4. **Colegiales concretos**
 
-Implementan el comportamiento propio y comunican eventos al mediador.
-
-**Elementos utilizados:**
-
-* **`std::enable_shared_from_this`** cuando un colega necesita obtener un `shared_ptr` a sí mismo para enviarse como parámetro.
-* **Métodos de acción específicos** que desencadenan notificaciones al mediador.
+* Implementan el comportamiento específico de cada componente.
+* Generan eventos o solicitudes hacia el mediador.
+* Reaccionan a las instrucciones recibidas desde el mediador.
+* No mantienen referencias directas a otros colegas.
 
 ### 5. **Código cliente**
 
-Configura los objetos concretos, vincula el mediador con los colegas y ejecuta las operaciones.
-El cliente nunca implementa reglas de comunicación entre colegas.
-
+* Crea y configura el mediador y los colegas concretos.
+* Registra los colegas en el mediador.
+* Inicia las operaciones del sistema.
+* No implementa ni conoce las reglas de comunicación internas.
 
 ## Diagrama UML
 

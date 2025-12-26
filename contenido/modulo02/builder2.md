@@ -1,67 +1,58 @@
 # Implementación del patrón Builder con C++ moderno
 
-## Estructura y elementos modernos utilizados
+## Estructura general
 
-La implementación del **Builder** en C++ moderno se centra en separar el **proceso de construcción** de la **representación final** del objeto.
-El patrón encapsula todos los pasos necesarios para configurar un objeto complejo, permitiendo múltiples configuraciones sin sobrecargar la clase del producto.
+La implementación del **Builder** en C++ moderno separa el **proceso de construcción** de un objeto complejo de su **representación final**. El patrón permite construir un mismo tipo de objeto mediante distintos pasos o configuraciones, sin sobrecargar constructores ni exponer detalles internos al código cliente.
 
-A continuación se describen las clases principales y los elementos de C++ moderno asociados.
+Este enfoque facilita la creación progresiva de objetos, garantiza estados válidos durante la construcción y permite reutilizar el proceso de construcción en distintos contextos.
 
-### 1. Producto: el objeto complejo a construir
+## Elementos de C++ moderno utilizados
 
-El producto define la estructura final del objeto generado mediante el builder.
-Suele poseer varios parámetros opcionales o configuraciones que se establecen paso a paso.
+* **Clases abstractas e interfaces puras** para definir el proceso de construcción.
+* **Métodos virtuales** para representar pasos configurables.
+* **Herencia** para definir distintos builders concretos.
+* **Fluidez de métodos** para permitir configuraciones encadenadas.
+* **Constructores no públicos** para controlar la creación del producto.
+* **`std::unique_ptr`** para expresar propiedad del objeto construido.
+* **RAII** para garantizar liberación automática de recursos.
+* Uso explícito de **`override`** en builders concretos.
 
-**Elementos de C++ moderno utilizados:**
+## Componentes del patrón y responsabilidades
 
-* **Constructores privados** o protegidos para forzar el uso del builder.
-* **Inicialización mediante listas de inicialización**.
-* Uso natural de **RAII** sin gestión manual de memoria.
+### 1. **Producto**
 
-### 2. Interfaz base del Builder
+* Representa el objeto complejo que se desea construir.
+* Define la estructura y el estado final del objeto.
+* No expone el proceso de construcción al exterior.
+* Garantiza sus invariantes una vez finalizada la construcción.
 
-Declara los métodos necesarios para configurar el producto paso a paso.
-Cada método representa un aspecto o parte del producto que puede configurarse.
+### 2. Interfaz base del **Builder**
 
-**Elementos de C++ moderno utilizados:**
+* Declara los pasos necesarios para construir el producto.
+* Define una interfaz común para distintas estrategias de construcción.
+* Permite configurar el producto de forma progresiva.
+* No expone detalles de la representación final.
 
-* Uso de **fluidez de métodos** para permitir **interfaces fluidas** (`return *this;`).
-* Métodos puros virtuales que definen los pasos de construcción.
-* Separación del **qué construir** de **cómo se construye**.
+### 3. **Builders concretos**
 
-### 3. Builders concretos
+* Implementan los pasos de construcción definidos por la interfaz.
+* Construyen variantes específicas del producto.
+* Encapsulan la lógica de construcción concreta.
+* Deciden cuándo el producto está listo para ser devuelto.
 
-Implementan los pasos declarados por el builder abstracto.
-Cada builder concreto puede crear una versión distinta del producto o una variante del mismo.
+### 4. **Director** (opcional)
 
-**Elementos de C++ moderno utilizados:**
+* Define el orden en el que se ejecutan los pasos de construcción.
+* Encapsula secuencias de construcción reutilizables.
+* Trabaja únicamente con la interfaz del builder.
+* No conoce la representación concreta del producto.
 
-* Implementaciones específicas sin exponer detalles al cliente.
-* Uso de `std::unique_ptr` para devolver el producto construido.
-* Posibilidad de validación interna antes de crear el producto final.
+### 5. **Código cliente**
 
-### 4. Director (opcional)
-
-El *Director* define el **orden de los pasos**, especialmente cuando la construcción requiere una secuencia fija.
-Suele utilizarse para productos complejos o para asegurar que el proceso siga un flujo apropiado.
-
-**Elementos de C++ moderno utilizados:**
-
-* Acoplamiento débil: el director solo conoce la interfaz del builder.
-* Reutilización de la misma secuencia de pasos con distintos builders.
-
-### 5. Código cliente
-
-El cliente puede trabajar:
-
-* directamente con el builder (en la versión sin Director), o
-* delegando la secuencia en un Director (versión clásica del patrón).
-
-**Elementos de C++ moderno utilizados:**
-
-* **Fluidez de métodos** al construir objetos sin Director.
-* **Polimorfismo** cuando se usan builders intercambiables.
-* Gestión segura de memoria mediante `std::unique_ptr`.
+* Decide qué builder utilizar según el contexto.
+* Puede construir directamente el producto o delegar en un director.
+* No conoce los detalles internos de la construcción.
+* Utiliza el producto final ya construido y válido.
 
 ## Diagrama UML (con Director)
 

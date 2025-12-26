@@ -1,51 +1,53 @@
 # Implementación de Adapter con C++ moderno
 
-## Estructura y elementos modernos utilizados
+## Estructura general
 
-La implementación del **patrón Adapter** en C++ moderno se basa en separar claramente la **interfaz objetivo**, el **adaptado** y la **clase adaptadora** que hace de puente entre ambos. Esta estructura permite compatibilizar interfaces incompatibles sin modificar el código original.
+La implementación del **patrón Adapter** en C++ moderno permite **compatibilizar interfaces incompatibles** sin modificar el código existente. El patrón introduce una capa intermedia que traduce la interfaz que el cliente espera a la interfaz real de una clase ya existente.
+
+Este enfoque facilita la reutilización de código legado o externo y desacopla al cliente de detalles concretos de implementación, manteniendo estable el diseño del sistema.
+
+## Elementos de C++ moderno utilizados
+
+* **Clases abstractas e interfaces puras** para definir la interfaz objetivo.
+* **Métodos virtuales y virtuales puros** como contrato estable para el cliente.
+* **Polimorfismo dinámico** para permitir el uso transparente del adaptador.
+* **Destructores virtuales** para destrucción segura a través de interfaces.
+* **Composición** para encapsular el objeto adaptado.
+* **`std::unique_ptr` o referencias** para expresar propiedad o dependencia.
+* **Constructores explícitos** para evitar conversiones implícitas no deseadas.
+* Uso explícito de **`override`** en los métodos adaptados.
+* **RAII** para garantizar una gestión correcta del ciclo de vida.
+
+## Componentes del patrón y responsabilidades
 
 ### 1. **Interfaz objetivo (Target)**
 
-Representa la interfaz que el cliente espera utilizar. Define las operaciones que el sistema requiere y con las cuales debe trabajar el adaptador.
-El cliente interactúa exclusivamente a través de esta interfaz.
-
-**Elementos de C++ moderno utilizados:**
-
-* **Destructores virtuales** para permitir su uso polimórfico mediante punteros inteligentes.
-* **Métodos virtuales puros** para definir un contrato claro y estable.
-* Uso de referencias o **`std::unique_ptr`** desde el código cliente para garantizar propiedad exclusiva cuando corresponda.
+* Define la interfaz que el cliente espera utilizar.
+* Establece un contrato estable independiente de las implementaciones concretas.
+* Permite tratar adaptadores y posibles implementaciones nativas de forma uniforme.
+* Se utiliza de forma polimórfica mediante punteros o referencias.
 
 ### 2. **Clase adaptada (Adaptee)**
 
-Es una clase ya existente cuya interfaz no coincide con la que el cliente necesita.
-Puede ser código legado, externo o simplemente incompatible con el diseño actual.
-
-**Elementos de C++ moderno utilizados:**
-
-* No se modifica la clase adaptada, en cumplimiento del principio *Open/Closed*.
-* Su interfaz se usa tal cual, habitualmente a través de composición.
+* Representa una clase existente con una interfaz incompatible.
+* No se modifica para adaptarse al nuevo sistema.
+* Puede ser código legado, externo o ajeno al diseño actual.
+* Proporciona la funcionalidad real que se desea reutilizar.
 
 ### 3. **Adaptador (Adapter)**
 
-Es la clase clave del patrón. Implementa la interfaz objetivo y contiene internamente una instancia del adaptado.
-Traduce las llamadas del cliente a las llamadas apropiadas del objeto adaptado.
-
-**Elementos de C++ moderno utilizados:**
-
-* **Composición** para almacenar el objeto adaptado.
-* **Constructores explícitos** para evitar conversiones indebidas al crear el adaptador.
-* **Uso de `std::unique_ptr` o referencias** cuando se desea manejar recursos o dependencias de forma clara.
-* **Sobrescritura de métodos** (`override`) para definir la adaptación.
+* Implementa la interfaz objetivo esperada por el cliente.
+* Contiene internamente una instancia del adaptado.
+* Traduce las llamadas del cliente a operaciones del adaptado.
+* Encapsula la lógica de conversión entre interfaces.
 
 ### 4. **Código cliente**
 
-Utiliza únicamente la interfaz objetivo y es completamente independiente del objeto adaptado.
-El adaptador permite que cualquier implementación incompatible se utilice sin modificar el cliente.
+* Trabaja exclusivamente con la interfaz objetivo.
+* No conoce ni depende de la clase adaptada.
+* Utiliza el adaptador de forma transparente.
+* Permanece estable ante cambios o sustituciones del adaptado.
 
-**Elementos de C++ moderno utilizados:**
-
-* **Programación a interfaces**, reforzada por polimorfismo y punteros inteligentes.
-* Instanciación sencilla del adaptador mediante `std::make_unique`.
 
 ## Diagrama UML
 

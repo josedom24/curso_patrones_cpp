@@ -1,47 +1,53 @@
 # Implementación de Composite en C++
 
-## Estructura y elementos modernos utilizados
+## Estructura general
 
-La implementación del **Composite** en C++ moderno se organiza en torno a una jerarquía que representa elementos simples y elementos compuestos mediante una interfaz común. A continuación se describen los elementos principales y los mecanismos relevantes de C++ moderno.
+La implementación del **Composite** en C++ moderno permite **tratar de forma uniforme objetos simples y objetos compuestos** mediante una interfaz común. El patrón organiza los elementos en una **estructura jerárquica**, normalmente en forma de árbol, donde tanto las hojas como los compuestos se manipulan de la misma manera.
+
+Este enfoque simplifica el código cliente, elimina distinciones artificiales entre tipos de objetos y facilita la construcción de estructuras recursivas complejas.
+
+## Elementos de C++ moderno utilizados
+
+* **Clases abstractas e interfaces puras** para definir el componente común.
+* **Métodos virtuales y virtuales puros** para unificar el comportamiento.
+* **Polimorfismo dinámico** para tratar hojas y compuestos de forma uniforme.
+* **Destructores virtuales** para destrucción segura de jerarquías.
+* **Composición** para construir estructuras jerárquicas.
+* **`std::unique_ptr`** para expresar propiedad exclusiva de los componentes.
+* **Contenedores estándar** como `std::vector` para almacenar hijos.
+* **RAII** para garantizar liberación automática de recursos.
+* Uso explícito de **`override`** en implementaciones concretas.
+
+## Componentes del patrón y responsabilidades
 
 ### 1. **Interfaz base Componente**
 
-Define las operaciones comunes que todos los elementos de la jerarquía deben ofrecer, tanto simples como compuestos. El cliente interactúa exclusivamente con esta interfaz.
-
-**Elementos de C++ moderno utilizados:**
-
-* **Destructor virtual** para gestionar objetos polimórficos con seguridad.
-* **Métodos virtuales puros** que unifican el comportamiento.
-* **Programación a interfaces**, ocultando si un objeto es hoja o compuesto.
+* Define las operaciones comunes a todos los elementos de la jerarquía.
+* Establece un contrato único para hojas y compuestos.
+* Permite al cliente interactuar sin conocer la estructura interna.
+* Se utiliza de forma polimórfica mediante punteros o referencias.
 
 ### 2. **Componente hoja**
 
-Representa los elementos indivisibles de la estructura. Implementa las operaciones definidas en la interfaz base.
-
-**Elementos de C++ moderno utilizados:**
-
-* Implementación directa y simple orientada a RAII.
-* No almacena otros componentes.
+* Representa elementos indivisibles de la estructura.
+* Implementa directamente las operaciones del componente base.
+* No contiene otros componentes.
+* Encapsula comportamiento simple y autónomo.
 
 ### 3. **Componente compuesto**
 
-Representa objetos que contienen otros componentes, permitiendo formar estructuras jerárquicas recursivas.
-
-**Elementos de C++ moderno utilizados:**
-
-* **`std::vector<std::unique_ptr<Componente>>`** como contenedor de hijos.
-* **`std::unique_ptr`** para propiedad exclusiva de los componentes agregados.
-* **Métodos `agregar`, `eliminar` y recorridos recursivos**.
-* Delegación recursiva en las operaciones comunes.
+* Representa elementos que contienen otros componentes.
+* Mantiene una colección de componentes hijos.
+* Implementa las operaciones delegando recursivamente en sus hijos.
+* Permite construir estructuras jerárquicas arbitrarias.
 
 ### 4. **Código cliente**
 
-Interactúa únicamente con la interfaz `Componente`, ignorando si se trata de una hoja o un compuesto.
+* Trabaja exclusivamente con la interfaz del componente.
+* No distingue entre hojas y compuestos.
+* Manipula estructuras completas de forma uniforme.
+* Gestiona la memoria de forma automática mediante RAII.
 
-**Elementos de C++ moderno utilizados:**
-
-* Gestión de memoria completamente automática mediante punteros inteligentes.
-* Manipulación uniforme de la jerarquía gracias al polimorfismo.
 
 ## Diagrama UML
 

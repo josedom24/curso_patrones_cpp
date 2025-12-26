@@ -1,49 +1,50 @@
 # Implementación de Memento con C++
 
-## Estructura y elementos modernos utilizados
+## Estructura general
 
-La implementación del **Memento** en C++ moderno se organiza en torno a tres roles fundamentales: **Originador**, **Memento** y **Cuidador (Caretaker)**. Cada uno tiene responsabilidades claras que preservan el encapsulamiento del estado y permiten restaurarlo de forma segura.
+La implementación del **Memento** en C++ moderno permite **capturar y restaurar el estado interno de un objeto** sin violar su encapsulamiento. El patrón separa claramente la responsabilidad de guardar el estado, restaurarlo y gestionarlo externamente.
+
+Este enfoque es habitual en funcionalidades como deshacer/rehacer, históricos de estado o recuperación ante errores, manteniendo ocultos los detalles internos del objeto original.
+
+## Elementos de C++ moderno utilizados
+
+* **Encapsulación estricta** mediante atributos privados.
+* **Constructores privados** para restringir la creación de mementos.
+* Uso controlado de **`friend`** para permitir acceso exclusivo al originador.
+* **`std::unique_ptr`** para expresar propiedad exclusiva del estado guardado.
+* **RAII** para garantizar la gestión automática del ciclo de vida.
+* **Contenedores de la STL** como `std::vector` para almacenar historiales de estado.
+* **Tipos estándar** como `std::string` y tipos integrales para representar el estado.
+
+## Componentes del patrón y responsabilidades
 
 ### 1. **Originador**
 
-Es el objeto cuyo estado queremos poder guardar y restaurar. Es el único que puede crear y consumir objetos *memento*.
-
-**Elementos de C++ moderno utilizados:**
-
-* **Encapsulación estricta** mediante atributos privados.
-* Uso de **`std::string`**, `int`, u otros tipos modernos para representar estado.
-* Devolución de mementos mediante **`std::unique_ptr`** para una propiedad clara del estado guardado.
-* Métodos `crear_memento()` y `restaurar_desde(const Memento&)` para gestionar el proceso.
+* Representa el objeto cuyo estado debe guardarse y restaurarse.
+* Define el estado interno que se desea preservar.
+* Crea mementos que capturan su estado actual.
+* Restaura su estado a partir de un memento válido.
 
 ### 2. **Memento**
 
-Almacena internamente el estado del originador. Mantiene sus detalles ocultos para cualquier otro elemento del sistema excepto el originador.
-
-**Elementos de C++ moderno utilizados:**
-
-* Clases internas o independientes con **constructores privados o restringidos**.
-* Estructura inmutable: no expone setters ni detalles internos.
-* Uso de `friend` para que solo el originador pueda acceder al contenido interno.
+* Almacena una instantánea del estado del originador.
+* Tiene **constructores privados** para impedir su creación desde el exterior.
+* No expone información interna ni operaciones de modificación.
+* Solo es accesible por el originador mediante `friend`.
 
 ### 3. **Cuidador (Caretaker)**
 
-Administra los mementos, típicamente almacenando un historial. No tiene acceso al estado interno del memento, solo los conserva y los entrega cuando se necesiten.
-
-**Elementos de C++ moderno utilizados:**
-
-* Colecciones modernas como **`std::vector<std::unique_ptr<Memento>>`**.
-* Gestión automática de memoria mediante RAII.
-* Interfaz mínima para añadir y recuperar mementos.
+* Gestiona los mementos creados por el originador.
+* Almacena historiales de estado usando **contenedores de la STL**.
+* No accede ni modifica el contenido interno de los mementos.
+* Proporciona mementos cuando se solicita una restauración.
 
 ### 4. **Código cliente**
 
-Interacciona con el cuidador y el originador sin conocer los detalles internos del estado.
-
-**Elementos de C++ moderno utilizados:**
-
-* Uso natural de punteros inteligentes y objetos temporales.
-* Encapsulación reforzada: el cliente nunca ve el estado que se guarda.
-
+* Interactúa con el originador y el cuidador.
+* No conoce ni manipula el estado interno almacenado.
+* Dispara operaciones de guardado y restauración.
+* Permanece desacoplado de la representación del estado.
 
 ## Diagrama UML
 

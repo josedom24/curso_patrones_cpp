@@ -1,58 +1,61 @@
 # Implementación de Decorator con C++
 
-## Estructura y elementos modernos utilizados
+## Estructura general
 
-La implementación del **Decorator** en C++ moderno se organiza alrededor de una interfaz común y una serie de clases que permiten **envolver** objetos para añadir comportamiento dinámicamente.
+La implementación del **Decorator** en C++ moderno permite **añadir comportamiento a un objeto de forma dinámica** sin modificar su clase original. El patrón se basa en envolver un objeto dentro de otro que implementa la misma interfaz, formando una cadena de objetos que extienden el comportamiento original.
+
+Este enfoque favorece la extensión flexible del comportamiento, evita la proliferación de subclases y permite combinar funcionalidades de manera dinámica y controlada.
+
+## Elementos de C++ moderno utilizados
+
+* **Clases abstractas e interfaces puras** para definir el componente común.
+* **Métodos virtuales y virtuales puros** para permitir extensión polimórfica.
+* **Polimorfismo dinámico** para sustituir componentes por decoradores de forma transparente.
+* **Destructores virtuales** para destrucción segura de jerarquías polimórficas.
+* **Composición** como mecanismo central del patrón.
+* **`std::unique_ptr`** para expresar propiedad exclusiva de los componentes envueltos.
+* **RAII** para garantizar liberación automática de recursos.
+* Uso de **constructores `explicit`** para evitar conversiones implícitas.
+* Uso explícito de **`override`** en los decoradores concretos.
+* **Composición dinámica de decoradores mediante transferencia de propiedad (`std::move`)**.
+
+## Componentes del patrón y responsabilidades
 
 ### 1. Interfaz o clase base del **Componente**
 
-Define la operación o conjunto de operaciones que pueden ejecutar tanto el componente base como los decoradores.
-El cliente interactúa exclusivamente con esta interfaz.
-
-**Elementos de C++ moderno utilizados:**
-
-* **`std::unique_ptr`** para representar propiedad exclusiva del componente envuelto.
-* **Destructores virtuales** para permitir una gestión segura mediante punteros polimórficos.
-* **Polimorfismo dinámico** para que los decoradores puedan sustituir al componente de forma transparente.
+* Define las operaciones comunes que pueden ejecutar componentes y decoradores.
+* Establece un contrato único para toda la jerarquía.
+* Permite que el cliente interactúe sin conocer si el objeto está decorado.
+* Se utiliza de forma polimórfica mediante punteros o referencias.
 
 ### 2. **Componente concreto**
 
-Implementa la funcionalidad principal. Es la entidad que puede ser decorada.
-
-**Elementos de C++ moderno utilizados:**
-
-* Diseño orientado a **RAII** y uso natural de punteros inteligentes en el cliente.
-* Comportamiento simple y aislado, ideal para ser extendido por decoradores.
+* Implementa la funcionalidad principal del sistema.
+* Representa el objeto base que puede ser decorado.
+* Encapsula un comportamiento simple y bien definido.
+* No conoce la existencia de decoradores.
 
 ### 3. Clase base **Decorador**
 
-Implementa la misma interfaz que el componente y contiene un puntero a otro componente.
-Todas las llamadas son delegadas al componente envuelto, permitiendo agregar comportamiento antes o después.
-
-**Elementos de C++ moderno utilizados:**
-
-* **Composición mediante `std::unique_ptr<Componente>`**, lo que garantiza propiedad y facilita construcciones anidadas.
-* **Delegación explícita** para extender el comportamiento sin modificar el componente original.
-* **Uso de `explicit` y `std::move`** para recibir y almacenar el componente envuelto.
+* Implementa la misma interfaz que el componente.
+* Contiene internamente otro componente al que delega las llamadas.
+* Sirve como base común para todos los decoradores concretos.
+* Permite añadir comportamiento antes o después de la delegación.
 
 ### 4. **Decoradores concretos**
 
-Añaden funcionalidades específicas, cada uno representando una responsabilidad adicional que puede combinarse con otras.
-
-**Elementos de C++ moderno utilizados:**
-
-* **`override`** para asegurar una sobreescritura correcta de métodos virtuales.
-* **Encapsulación estricta**: cada decorador opera independiente del resto.
-* **Construcción mediante `std::make_unique`** para formar cadenas de decoradores de forma segura.
+* Extienden el comportamiento del componente de forma específica.
+* Añaden responsabilidades adicionales de manera independiente.
+* Pueden combinarse libremente formando cadenas de decoradores.
+* Mantienen el contrato definido por la interfaz del componente.
 
 ### 5. **Código cliente**
 
-Trabaja únicamente con la interfaz del componente, sin distinguir entre componentes originales o decorados.
+* Trabaja exclusivamente con la interfaz del componente.
+* No distingue entre componentes simples y decorados.
+* Construye dinámicamente combinaciones de decoradores.
+* Gestiona el ciclo de vida de los objetos de forma automática mediante RAII.
 
-**Elementos de C++ moderno utilizados:**
-
-* **Polimorfismo + RAII**: punteros inteligentes que gestionan automáticamente la cadena de decoradores.
-* **Flexibilidad para construir combinaciones dinámicas** gracias a `std::move`.
 
 ## Diagrama UML
 
