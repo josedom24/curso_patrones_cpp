@@ -89,7 +89,7 @@ La **clonación** es el proceso de crear una copia de un objeto sin conocer su t
 
 ## Fluidez de métodos
 
-La **fluidez de métodos** es una técnica de diseño que permite encadenar llamadas consecutivas sobre un mismo objeto devolviendo una referencia a él mismo. Este estilo mejora la legibilidad del código y expresa de forma natural configuraciones progresivas o construcciones paso a paso. En C++ moderno se implementa normalmente devolviendo `*this` por referencia y se utiliza con frecuencia en *builders*, APIs de configuración y diseños orientados a expresividad.
+La **fluidez de métodos** es una técnica de diseño que permite encadenar llamadas consecutivas sobre un mismo objeto devolviendo una referencia a él mismo. Este estilo mejora la legibilidad del código y expresa de forma natural configuraciones progresivas o construcciones paso a paso. En C++ moderno se implementa normalmente devolviendo `*this` por referencia.
 
 ## Abstracción del comportamiento
 
