@@ -25,6 +25,14 @@ El patrón Facade aporta estas soluciones:
 * Facilita la **evolución del sistema**: los subsistemas pueden cambiar sin afectar al código cliente siempre que la fachada mantenga su contrato.
 * Proporciona un **punto de entrada estándar** a un sistema complejo, mejorando la experiencia de uso y la mantenibilidad.
 
+## Relación con los principios SOLID
+
+* **Single Responsibility Principle (SRP)**: El patrón *Facade* concentra la responsabilidad de **simplificar el acceso a un subsistema complejo** en una única clase. El cliente no asume la coordinación entre múltiples componentes, y cada clase del subsistema mantiene su responsabilidad específica.
+* **Open/Closed Principle (OCP)**: El subsistema puede evolucionar internamente sin afectar al código cliente, siempre que la interfaz de la fachada se mantenga estable. Nuevas funcionalidades pueden añadirse al subsistema sin modificar a los clientes que usan la fachada.
+* **Dependency Inversion Principle (DIP)**: El cliente depende únicamente de la fachada y no de las clases concretas del subsistema. La fachada actúa como punto de inversión de dependencias, reduciendo el acoplamiento entre cliente y detalles internos.
+* **Liskov Substitution Principle (LSP)**: La fachada puede sustituirse por otra implementación equivalente (por ejemplo, una fachada alternativa o extendida) sin afectar al cliente, siempre que mantenga el mismo contrato público.
+* **Interface Segregation Principle (ISP)**: La fachada expone una **interfaz específica y adaptada al cliente**, evitando que este dependa de la complejidad o de métodos innecesarios del subsistema subyacente.
+
 ## Ejemplos concretos
 
 * **Sistema multimedia**: Reproducir vídeo o audio mediante un método simple (`reproducir_archivo()`), pese a requerir decodificadores, buffers, controladores de audio, etc.
