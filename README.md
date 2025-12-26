@@ -4,6 +4,7 @@
     * [Principios básicos de diseño](contenido/modulo01/basicos.md)
     * [SOLID: Principios de diseño orientado a objetos](contenido/modulo01/solid.md)
     * [Patrones de diseño](contenido/modulo01/patrones.md)
+    * [Implementación de patrones de diseño con C++ moderno](contenido/modulo01/c++.md)
 
 2. Patrones Creacionales
 
