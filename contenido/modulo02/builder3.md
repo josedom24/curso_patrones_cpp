@@ -59,12 +59,12 @@ public:
     void establecer_cuerpo(const std::string& c) { cuerpo_ = c; }
 
     // --- Getters ---
-    const std::string& metodo() const noexcept { return metodo_; }
-    const std::string& url() const noexcept { return url_; }
-    const Cabeceras& cabeceras() const noexcept { return cabeceras_; }
-    const std::string& cuerpo() const noexcept { return cuerpo_; }
+    const std::string& metodo()  { return metodo_; }
+    const std::string& url()  { return url_; }
+    const Cabeceras& cabeceras()  { return cabeceras_; }
+    const std::string& cuerpo()  { return cuerpo_; }
 
-    void mostrar() const {
+    void mostrar() {
         std::cout << "SolicitudHTTP {\n"
                   << "  Método: " << metodo_ << "\n"
                   << "  URL:    " << url_ << "\n"
@@ -280,11 +280,29 @@ private:
 ```cpp
 public:
     void establecer_timeout(int ms) { timeout_ms_ = ms; }   // NUEVO
-    int timeout_ms() const noexcept { return timeout_ms_; } // NUEVO
+    int timeout_ms() { return timeout_ms_; } // NUEVO
 ```
 
-No es necesario modificar constructores ni restringir el acceso:
-el producto sigue siendo completamente configurable mediante su interfaz pública.
+Además tenemos que cambiar el método `mostrar()`:
+
+```cpp
+void mostrar() {
+    std::cout << "SolicitudHTTP {\n"
+              << "  Método:  " << metodo_ << "\n"
+              << "  URL:     " << url_ << "\n"
+              << "  Timeout: " << timeout_ms_ << " ms\n"  //<-NUEVO
+              << "  Cabeceras:\n";
+
+    for (const auto& [k, v] : cabeceras_) {
+        std::cout << "    - " << k << ": " << v << "\n";
+    }
+
+    std::cout << "  Cuerpo:  " << cuerpo_ << "\n"
+              << "}\n";
+}
+```
+
+No es necesario modificar constructores ni restringir el acceso: el producto sigue siendo completamente configurable mediante su interfaz pública.
 
 ### Cambios en `Builder.hpp`
 
