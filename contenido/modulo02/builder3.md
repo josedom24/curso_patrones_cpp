@@ -260,7 +260,7 @@ int main() {
 }
 ```
 
-## Añadir una nueva configuración (producto mutable)
+## Añadir una nueva configuración
 
 Supongamos que queremos añadir a la solicitud HTTP un nuevo parámetro opcional:
 **`timeout_ms`** (tiempo máximo de espera en milisegundos).
