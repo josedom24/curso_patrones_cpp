@@ -254,28 +254,37 @@ public:
 El cliente **elige conscientemente** usar el nuevo memento. El historial básico **no se toca**.
 
 ```cpp
-Editor editor("Hola");
-Historial historial;
+#include <iostream>
+#include "Editor.hpp"
+#include "Historial.hpp"
 
-editor.mostrar();
-historial.guardar(editor.crear_memento());
+int main() {
+    Editor editor("Hola");
+    Historial historial;
 
-editor.escribir(", mundo");
-editor.cambiar_formato("Courier", 14, "Azul");
-editor.mostrar();
+    editor.mostrar();
+    historial.guardar(editor.crear_memento());
 
-// Guardamos estado avanzado
-auto m_formato = editor.crear_memento_formato();
+    editor.escribir(", mundo");
+    editor.cambiar_formato("Courier", 14, "Azul");
+    editor.mostrar();
 
-// Cambiamos todo
-editor.escribir("!!!");
-editor.cambiar_formato("Times", 18, "Rojo");
-editor.mostrar();
+    // Guardamos estado avanzado
+    auto m_formato = editor.crear_memento_formato();
 
-// Restauramos estado avanzado
-std::cout << "\nRestaurando estado con formato...\n";
-editor.restaurar(*m_formato);
-editor.mostrar();
+    // Cambiamos todo
+    editor.escribir("!!!");
+    editor.cambiar_formato("Times", 18, "Rojo");
+    editor.mostrar();
+
+    // Restauramos estado avanzado
+    std::cout << "\nRestaurando estado con formato...\n";
+    editor.restaurar(*m_formato);
+    editor.mostrar();
+
+    return 0;
+}
+
 ```
 
 ## Qué no hemos modificado
