@@ -24,6 +24,15 @@ El Visitor aporta estas soluciones:
 * Centraliza la lógica asociada a cada operación en un único objeto visitante, mejorando la **cohesión** del sistema.
 * Evita el uso de comprobaciones de tipo: el propio mecanismo de doble despacho ya escoge la operación adecuada según el tipo concreto.
 
+## Relación con los principios SOLID
+
+* **Single Responsibility Principle (SRP)**: El patrón *Visitor* separa la responsabilidad de **almacenar la estructura de datos** de la responsabilidad de **implementar operaciones sobre dicha estructura**. Los elementos gestionan su estado, y los visitantes encapsulan la lógica de las operaciones.
+* **Open/Closed Principle (OCP)**: Nuevas operaciones pueden añadirse creando nuevos visitantes sin modificar las clases de los elementos. El sistema se extiende funcionalmente sin alterar la estructura existente.
+* **Dependency Inversion Principle (DIP)**: Los elementos dependen de la **abstracción del visitante**, no de implementaciones concretas. A su vez, los visitantes dependen de la abstracción de los elementos, reduciendo el acoplamiento entre ambas jerarquías.
+* **Liskov Substitution Principle (LSP)**: Cualquier visitante concreto puede sustituir a otro siempre que respete la interfaz del visitante. Los elementos pueden aceptar distintos visitantes sin cambiar su comportamiento estructural.
+* **Interface Segregation Principle (ISP)**: La interfaz del visitante agrupa únicamente operaciones relacionadas con la visita de elementos concretos, evitando interfaces genéricas o sobrecargadas para los elementos participantes.
+
+
 ## Ejemplos concretos
 
 * **Árboles sintácticos en compiladores**: Recorrer nodos para análisis semántico, generación de código o optimizaciones sin modificar las clases de los nodos.

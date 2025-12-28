@@ -24,6 +24,14 @@ El patrón Memento aporta estas soluciones:
 * Permite mantener un historial de estados (por ejemplo, una pila de *undo*) sin romper la encapsulación del objeto original.
 * Facilita la extensibilidad al añadir nuevos elementos internos al estado sin afectar al código externo.
 
+## Relación con los principios SOLID
+
+* **Single Responsibility Principle (SRP)**: El patrón *Memento* separa la responsabilidad de **gestionar el estado interno** del objeto de la responsabilidad de **almacenarlo y restaurarlo**. El originador gestiona su lógica, el memento encapsula el estado y el cuidador administra el historial.
+* **Open/Closed Principle (OCP)**: Es posible extender la forma en que se almacenan o gestionan los mementos (por ejemplo, nuevos cuidadores o historiales) sin modificar la implementación del originador ni del memento.
+* **Dependency Inversion Principle (DIP)**: El código cliente depende de **abstracciones conceptuales** (originador y cuidador) y no del detalle concreto del estado almacenado. El estado queda completamente encapsulado dentro del memento.
+* **Liskov Substitution Principle (LSP)**: Distintas implementaciones compatibles de originadores o cuidadores pueden sustituirse sin alterar el comportamiento esperado, siempre que respeten el contrato de creación y restauración del estado.
+* **Interface Segregation Principle (ISP)**: El memento no expone una interfaz pública rica; solo ofrece lo estrictamente necesario para preservar el estado, evitando que otros componentes dependan de operaciones innecesarias o del contenido interno del estado.
+
 ## Ejemplos concretos
 
 * **Sistemas de edición**: editores de texto, imágenes o diagramas que requieren operaciones *undo/redo*.

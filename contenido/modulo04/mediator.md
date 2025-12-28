@@ -26,6 +26,15 @@ El patrón Mediator proporciona estas soluciones:
 * Reduce el acoplamiento y mejora la **cohesión** en cada clase: los colegas solo gestionan su propio comportamiento.
 * Simplifica la **extensibilidad**: añadir un nuevo colega rara vez requiere modificar los demás.
 
+## Relación con los principios SOLID
+
+* **Single Responsibility Principle (SRP)**: El patrón *Mediator* concentra la responsabilidad de **coordinar la comunicación entre objetos** en una clase mediadora. Los colegas se centran exclusivamente en su comportamiento propio, sin asumir lógica de interacción con otros componentes.
+* **Open/Closed Principle (OCP)**: Es posible extender o modificar las reglas de comunicación creando nuevos mediadores concretos sin cambiar las clases de los colegas. Las interacciones evolucionan sin alterar los componentes existentes.
+* **Dependency Inversion Principle (DIP)**: Los colegas dependen de la **abstracción del mediador**, no de otros colegas concretos. La comunicación se realiza a través de interfaces, reduciendo el acoplamiento entre componentes.
+* **Liskov Substitution Principle (LSP)**: Un mediador concreto puede sustituirse por otro que respete la misma interfaz sin afectar al funcionamiento de los colegas, siempre que mantenga el contrato de coordinación esperado.
+* **Interface Segregation Principle (ISP)**: El mediador expone una **interfaz específica y orientada a la coordinación**, evitando que los colegas dependan de métodos que no necesitan o de responsabilidades ajenas a la comunicación.
+
+
 ## Ejemplos concretos
 
 * **Interfaces gráficas**: Coordinación entre widgets (botones, listas, cuadros de texto) mediante un mediador que gestiona eventos y actualizaciones.

@@ -26,6 +26,14 @@ El patrón Observer aporta estas soluciones:
 * Reduce el acoplamiento: el sujeto solo depende de la **abstracción** del observador, no de implementaciones particulares.
 * Facilita la **reactividad** dentro del sistema: cada observador puede reaccionar de forma distinta al mismo evento.
 
+## Relación con los principios SOLID
+
+* **Single Responsibility Principle (SRP)**: El patrón *Observer* separa la responsabilidad de **gestionar el estado del sujeto** de la responsabilidad de **reaccionar a sus cambios**. El sujeto se encarga de notificar, y cada observador se encarga de su propia respuesta.
+* **Open/Closed Principle (OCP)**: Nuevos observadores pueden añadirse sin modificar la implementación del sujeto. El sistema puede extenderse incorporando nuevas reacciones ante cambios sin alterar el código existente.
+* **Dependency Inversion Principle (DIP)**: El sujeto depende de la **abstracción del observador**, no de implementaciones concretas. De igual forma, los observadores dependen de la abstracción del sujeto, reduciendo el acoplamiento entre componentes.
+* **Liskov Substitution Principle (LSP)**: Cualquier observador concreto puede sustituir a otro siempre que respete la interfaz de observador. El sujeto puede notificar a distintos observadores sin alterar su comportamiento.
+* **Interface Segregation Principle (ISP)**: La interfaz del observador es **mínima y específica**, normalmente limitada a un método de notificación, evitando que los observadores dependan de operaciones que no necesitan.
+
 ## Ejemplos concretos
 
 * **Interfaces gráficas (GUI)**: Actualizar diferentes widgets cuando cambia un modelo de datos (ej. MVC).

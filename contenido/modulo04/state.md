@@ -25,6 +25,14 @@ El patrón State aporta estas soluciones:
 * Mejora la mantenibilidad y extensibilidad: para añadir un nuevo estado basta con crear una nueva clase, sin modificar el resto del sistema.
 * Refuerza el principio *Single Responsibility*: cada clase gestiona solo la lógica de un estado específico.
 
+## Relación con los principios SOLID
+
+* **Single Responsibility Principle (SRP)**: El patrón *State* separa la responsabilidad de **gestionar el comportamiento dependiente del estado** en clases de estado independientes. El contexto se limita a delegar, y cada estado se encarga exclusivamente de su propia lógica.
+* **Open/Closed Principle (OCP)**: Nuevos estados pueden añadirse creando nuevas clases sin modificar el contexto ni los estados existentes. El sistema se extiende incorporando nuevos comportamientos sin alterar código ya probado.
+* **Dependency Inversion Principle (DIP)**: El contexto depende de la **abstracción del estado**, no de estados concretos. Los estados concretos implementan dicha abstracción, reduciendo el acoplamiento entre contexto y comportamientos específicos.
+* **Liskov Substitution Principle (LSP)**: Cualquier estado concreto puede sustituir a otro siempre que respete la interfaz del estado. El contexto puede cambiar de estado dinámicamente sin alterar su comportamiento esperado.
+* **Interface Segregation Principle (ISP)**: La interfaz del estado define únicamente las operaciones relevantes para el comportamiento dependiente del estado, evitando que los estados implementen métodos innecesarios o ajenos a su responsabilidad.
+
 ## Ejemplos concretos
 
 * **Máquinas expendedoras**: Estados como “esperando moneda”, “producto seleccionado”, “sin stock”, “entregando”.
