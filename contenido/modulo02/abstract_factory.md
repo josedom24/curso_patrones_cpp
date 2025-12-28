@@ -35,11 +35,11 @@ Abstract Factory aporta las siguientes ideas:
 
 ## Relación con los principios SOLID
 
-* **Open/Closed Principle (OCP)**: Permite añadir nuevas familias de productos mediante nuevas fábricas concretas, sin modificar el código cliente ni las abstracciones existentes.
-* **Dependency Inversion Principle (DIP)**: El cliente depende únicamente de interfaces abstractas de fábricas y productos, no de clases concretas, logrando un fuerte desacoplamiento.
 * **Single Responsibility Principle (SRP)**: La responsabilidad de crear productos compatibles se concentra en las fábricas, mientras que el cliente se limita a utilizar interfaces abstractas.
+* **Open/Closed Principle (OCP)**: Permite añadir nuevas familias de productos mediante nuevas fábricas concretas, sin modificar el código cliente ni las abstracciones existentes.
 * **Liskov Substitution Principle (LSP)**: Las fábricas y productos concretos pueden sustituirse por sus abstracciones sin alterar el comportamiento esperado por el cliente.
 * **Interface Segregation Principle (ISP)**: El patrón favorece interfaces de producto específicas y cohesionadas, evitando que los clientes dependan de métodos innecesarios.
+* **Dependency Inversion Principle (DIP)**: El cliente depende únicamente de interfaces abstractas de fábricas y productos, no de clases concretas, logrando un fuerte desacoplamiento.
 
 ## Ejemplos concretos
 

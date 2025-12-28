@@ -31,9 +31,9 @@ El patrón Builder aborda estos problemas mediante:
 
 * **Single Responsibility Principle (SRP)**: El patrón aísla la lógica de construcción en el *builder*, evitando que la clase del producto asuma responsabilidades adicionales. Cada componente (builder, director, producto) mantiene una función bien delimitada.
 * **Open/Closed Principle (OCP)**: Nuevos *builders* concretos pueden añadirse sin modificar el código existente, permitiendo extender las variantes de construcción manteniendo cerradas las abstracciones ya definidas.
-* **Dependency Inversion Principle (DIP)**: El cliente y el director dependen de la interfaz abstracta del builder, no de implementaciones concretas. Esta inversión reduce el acoplamiento y permite intercambiar estrategias de construcción de manera transparente.
 * **Liskov Substitution Principle (LSP)**: Los *builders* concretos pueden sustituirse por la abstracción del builder sin afectar al proceso de construcción definido por el director.
 * **Interface Segregation Principle (ISP)**: La interfaz del *builder* define únicamente las operaciones necesarias para la construcción, evitando obligar a las implementaciones a depender de métodos irrelevantes.
+* **Dependency Inversion Principle (DIP)**: El cliente y el director dependen de la interfaz abstracta del builder, no de implementaciones concretas. Esta inversión reduce el acoplamiento y permite intercambiar estrategias de construcción de manera transparente.
 
 ## Ejemplos concretos
 

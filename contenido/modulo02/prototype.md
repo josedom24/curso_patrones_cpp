@@ -34,9 +34,9 @@ El Prototype aporta estas soluciones esenciales:
 
 * **Single Responsibility Principle (SRP)**: El patrón concentra la responsabilidad de clonación dentro de cada prototipo. Cada clase define cómo debe copiarse a sí misma, evitando que el cliente conozca detalles de construcción o de copia profunda. Esto reduce acoplamiento y mantiene las responsabilidades bien delimitadas.
 * **Open/Closed Principle (OCP)**: Es posible añadir nuevas variantes de productos simplemente incorporando nuevos prototipos concretos que implementen el método de clonación. El cliente no necesita modificarse para utilizarlos, pues opera siempre a través de la interfaz común de prototipo.
-* **Dependency Inversion Principle (DIP)**: El código cliente depende de la abstracción `Prototype` (o equivalente), no de clases concretas ni de sus procesos de construcción. La creación de nuevos objetos se realiza mediante clones polimórficos, lo que invierte la dependencia y permite introducir nuevas implementaciones sin cambios en el cliente.
 * **Liskov Substitution Principle (LSP)**: Los prototipos concretos pueden sustituirse por la abstracción sin alterar el comportamiento esperado del cliente.
 * **Interface Segregation Principle (ISP)**: La interfaz del prototipo define únicamente la operación de clonación necesaria.
+* **Dependency Inversion Principle (DIP)**: El código cliente depende de la abstracción `Prototype` (o equivalente), no de clases concretas ni de sus procesos de construcción. La creación de nuevos objetos se realiza mediante clones polimórficos, lo que invierte la dependencia y permite introducir nuevas implementaciones sin cambios en el cliente.
 
 ## Ejemplos concretos
 
