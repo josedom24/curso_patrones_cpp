@@ -15,8 +15,6 @@ El Mediador se encarga de:
 Cada usuario es un **colega** del mediador: conoce al mediador, pero **no conoce a los demás usuarios**.
 El código cliente configura el mediador, crea los usuarios y ejecuta la interacción.
 
-Para mantener el ejemplo **simple y autocontenido**, todo el código se define en **archivos de cabecera**, utilizando **interfaces** para evitar dependencias innecesarias.
-
 El ejemplo se divide en:
 
 * **Mediador.hpp** – interfaz del mediador y mediador concreto
