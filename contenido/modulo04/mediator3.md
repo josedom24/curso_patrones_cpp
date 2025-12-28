@@ -203,6 +203,9 @@ Para añadir un nuevo tipo de usuario **no se modifican las clases existentes**,
 ### En `Colegas.hpp`
 
 ```cpp
+// ----------------------------------------
+// Usuario Premium
+// ----------------------------------------
 class UsuarioPremium : public Usuario {
 public:
     explicit UsuarioPremium(std::string id)
