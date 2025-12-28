@@ -161,27 +161,133 @@ int main() {
 }
 ```
 
-
 ## Añadir un nuevo tipo de estado guardado
 
-Supongamos que queremos guardar **también el estilo del texto**, no solo el contenido.
-Por ejemplo, fuente, tamaño o color.
+Supongamos que queremos guardar **también el estilo del texto**, además del contenido. Por ejemplo: **fuente**, **tamaño** y **color**.
 
-### Qué debemos añadir
+### Creamos `MementoFormato.hpp`
 
-1. **Un nuevo tipo de memento**, por ejemplo `MementoFormato`, con más información.
-2. **Un nuevo método en `Editor` para crear ese memento avanzado**.
-3. **Cambios mínimos en el cliente si quiere usarlo**.
+Creamos un **nuevo memento concreto** `MementoFormato`, independiente del anterior.
 
-### Qué no modificamos
+```cpp
+#pragma once
+#include <string>
 
-* No modificamos el `Memento` original.
-* No modificamos el historial básico.
-* No modificamos el concepto general de *guardar/restaurar estado*.
+// ------------------------------------------------------------
+// Memento avanzado: contenido + formato
+// ------------------------------------------------------------
+class MementoFormato {
+private:
+    std::string texto_;
+    std::string fuente_;
+    int tamaño_;
+    std::string color_;
 
-Solo añadimos:
+    // Solo el Editor puede crear y leer este memento
+    friend class Editor;
 
-1. Un **nuevo memento concreto** si se desea guardar más información.
-2. Métodos opcionales en el editor para trabajar con ese nuevo estado.
-3. Opcionalmente, un nuevo historial especializado.
+    MementoFormato(std::string texto,
+                   std::string fuente,
+                   int tamaño,
+                   std::string color)
+        : texto_(std::move(texto))
+        , fuente_(std::move(fuente))
+        , tamaño_(tamaño)
+        , color_(std::move(color)) {}
+
+public:
+    // Sin interfaz pública
+};
+```
+
+### En `Editor.hpp`
+
+Añadimos **estado de formato** y **métodos opcionales**. No tocamos el `Memento` original.
+
+```cpp
+#include "MementoFormato.hpp"
+
+// ------------------------------------------------------------
+// Editor (extensión opcional)
+// ------------------------------------------------------------
+class Editor {
+private:
+    std::string texto_;
+    std::string fuente_ = "Arial";
+    int tamaño_ = 12;
+    std::string color_ = "Negro";
+
+public:
+    // Métodos existentes no cambian
+
+    void cambiar_formato(std::string fuente, int tamaño, std::string color) {
+        fuente_ = std::move(fuente);
+        tamaño_ = tamaño;
+        color_ = std::move(color);
+    }
+
+    void mostrar() const {
+        std::cout << "Texto: \"" << texto_ << "\"\n"
+                  << "Formato: " << fuente_
+                  << ", " << tamaño_
+                  << ", " << color_ << "\n";
+    }
+
+    // Crear memento avanzado
+    std::unique_ptr<MementoFormato> crear_memento_formato() const {
+        return std::unique_ptr<MementoFormato>(
+            new MementoFormato(texto_, fuente_, tamaño_, color_));
+    }
+
+    // Restaurar desde memento avanzado
+    void restaurar(const MementoFormato& m) {
+        texto_  = m.texto_;
+        fuente_ = m.fuente_;
+        tamaño_ = m.tamaño_;
+        color_  = m.color_;
+    }
+};
+```
+
+### En `main.cpp`
+
+El cliente **elige conscientemente** usar el nuevo memento. El historial básico **no se toca**.
+
+```cpp
+Editor editor("Hola");
+Historial historial;
+
+editor.mostrar();
+historial.guardar(editor.crear_memento());
+
+editor.escribir(", mundo");
+editor.cambiar_formato("Courier", 14, "Azul");
+editor.mostrar();
+
+// Guardamos estado avanzado
+auto m_formato = editor.crear_memento_formato();
+
+// Cambiamos todo
+editor.escribir("!!!");
+editor.cambiar_formato("Times", 18, "Rojo");
+editor.mostrar();
+
+// Restauramos estado avanzado
+std::cout << "\nRestaurando estado con formato...\n";
+editor.restaurar(*m_formato);
+editor.mostrar();
+```
+
+## Qué no hemos modificado
+
+* `Memento` original.
+* `Historial` básico.
+* Lógica general de undo.
+* Interfaz pública del patrón.
+
+Se ha creado:
+
+1. Un **nuevo memento concreto**
+2. Métodos opcionales en el `Editor`
+3. Uso explícito desde el cliente
 
