@@ -43,86 +43,25 @@ El código se divide en:
 #include <iostream>
 
 // ======================================================
-//             Producto: SolicitudHTTP (INMUTABLE)
+//          Producto: SolicitudHTTP (MUTABLE)
 // ======================================================
 
 class SolicitudHTTP {
 public:
     using Cabeceras = std::map<std::string, std::string>;
 
-    // --- Métodos de acceso ---
-    const std::string& metodo()    const noexcept { return metodo_; }
-    const std::string& url()       const noexcept { return url_; }
-    const Cabeceras&   cabeceras() const noexcept { return cabeceras_; }
-    const std::string& cuerpo()    const noexcept { return cuerpo_; }
-
-    void mostrar() const {
-        std::cout << "SolicitudHTTP {\n"
-                  << "  Método: " << metodo_ << "\n"
-                  << "  URL:    " << url_ << "\n"
-                  << "  Cabeceras:\n";
-        for (const auto& par : cabeceras_) {
-            std::cout << "    - " << par.first << ": " << par.second << "\n";
-        }
-        std::cout << "  Cuerpo: " << cuerpo_ << "\n}\n";
+    // --- Setters ---
+    void establecer_metodo(const std::string& m) { metodo_ = m; }
+    void establecer_url(const std::string& u) { url_ = u; }
+    void agregar_cabecera(const std::string& k, const std::string& v) {
+        cabeceras_[k] = v;
     }
+    void establecer_cuerpo(const std::string& c) { cuerpo_ = c; }
 
-    // ======================================================
-    //     Fábrica estática moderna (sin make_unique posible)
-    // ======================================================
-    static std::unique_ptr<SolicitudHTTP> crear(
-        const std::string& metodo,
-        const std::string& url,
-        const Cabeceras& cab,
-        const std::string& cuerpo)
-    {
-        /*
-         * Por qué usamos `new` aquí:
-         * -----------------------------------------
-         * El constructor de SolicitudHTTP es privado
-         * porque el patrón Builder exige que solo los
-         * builders autorizados puedan crear instancias.
-         *
-         * std::make_unique NO puede usarse porque intenta
-         * construir el objeto dentro de <memory>, que NO es
-         * amigo de la clase; por tanto, no puede llamar al
-         * constructor privado.
-         *
-         * En cambio, este método estático SÍ forma parte de
-         * la propia clase, por lo que puede usar `new` para
-         * invocar al constructor privado.
-         *
-         * El usuario final nunca usa `new` ni gestiona memoria:
-         * la instancia se devuelve siempre envuelta en
-         * std::unique_ptr, respetando RAII y C++ moderno.
-         */
-        return std::unique_ptr<SolicitudHTTP>(
-            new SolicitudHTTP(metodo, url, cab, cuerpo)
-        );
-    }
-
-private:
-    // --- Atributos inmutables ---
-    const std::string metodo_;
-    const std::string url_;
-    const Cabeceras   cabeceras_;
-    const std::string cuerpo_;
-
-    // Constructor privado: solo accesible desde la fábrica y friends
-    SolicitudHTTP(const std::string& metodo,
-                  const std::string& url,
-                  const Cabeceras& cab,
-                  const std::string& cuerpo)
-        : metodo_(metodo),
-          url_(url),
-          cabeceras_(cab),
-          cuerpo_(cuerpo)
-    {}
-
-    friend class ConstructorSolicitud;
-    friend class ConstructorSolicitudConcreto;
-    friend class ConstructorSolicitudFluido;
-};
+    // --- Getters ---
+    const std::string& metodo() const noexcept { return metodo_; }
+    const std::string& url() const noexcept { return url_; }
+    const Cabeceras& cabec
 
 ```
 
@@ -159,34 +98,33 @@ public:
     ConstructorSolicitudConcreto() { reiniciar(); }
 
     void reiniciar() override {
-        metodo_ = "GET";
-        url_.clear();
-        cabeceras_.clear();
-        cuerpo_.clear();
+        solicitud_ = std::make_unique<SolicitudHTTP>();
     }
 
-    void establecer_metodo(const std::string& m) override { metodo_ = m; }
-    void establecer_url(const std::string& u) override { url_ = u; }
-
-    void agregar_cabecera(const std::string& clave,
-                          const std::string& valor) override {
-        cabeceras_[clave] = valor;
+    void establecer_metodo(const std::string& m) override {
+        solicitud_->establecer_metodo(m);
     }
 
-    void establecer_cuerpo(const std::string& c) override { cuerpo_ = c; }
+    void establecer_url(const std::string& u) override {
+        solicitud_->establecer_url(u);
+    }
+
+    void agregar_cabecera(const std::string& k,
+                          const std::string& v) override {
+        solicitud_->agregar_cabecera(k, v);
+    }
+
+    void establecer_cuerpo(const std::string& c) override {
+        solicitud_->establecer_cuerpo(c);
+    }
 
     std::unique_ptr<SolicitudHTTP> obtener_solicitud() override {
-        // La construcción se delega a la fábrica estática
-        return SolicitudHTTP::crear(metodo_, url_, cabeceras_, cuerpo_);
+        return std::move(solicitud_);
     }
 
 private:
-    std::string metodo_;
-    std::string url_;
-    SolicitudHTTP::Cabeceras cabeceras_;
-    std::string cuerpo_;
+    std::unique_ptr<SolicitudHTTP> solicitud_;
 };
-
 
 // ======================================================
 //   Builder fluido (sin Director, típico en C++ moderno)
@@ -195,36 +133,32 @@ private:
 class ConstructorSolicitudFluido {
 public:
     ConstructorSolicitudFluido& metodo(const std::string& m) {
-        metodo_ = m;
+        solicitud_.establecer_metodo(m);
         return *this;
     }
 
     ConstructorSolicitudFluido& url(const std::string& u) {
-        url_ = u;
+        solicitud_.establecer_url(u);
         return *this;
     }
 
-    ConstructorSolicitudFluido& cabecera(const std::string& clave,
-                                         const std::string& valor) {
-        cabeceras_[clave] = valor;
+    ConstructorSolicitudFluido& cabecera(const std::string& k,
+                                         const std::string& v) {
+        solicitud_.agregar_cabecera(k, v);
         return *this;
     }
 
     ConstructorSolicitudFluido& cuerpo(const std::string& c) {
-        cuerpo_ = c;
+        solicitud_.establecer_cuerpo(c);
         return *this;
     }
 
-    // Crea el objeto inmutable desde el builder fluido
-    std::unique_ptr<SolicitudHTTP> construir() const {
-        return SolicitudHTTP::crear(metodo_, url_, cabeceras_, cuerpo_);
+    std::unique_ptr<SolicitudHTTP> construir() {
+        return std::make_unique<SolicitudHTTP>(solicitud_);
     }
 
 private:
-    std::string metodo_ = "GET";
-    std::string url_;
-    SolicitudHTTP::Cabeceras cabeceras_;
-    std::string cuerpo_;
+    SolicitudHTTP solicitud_;
 };
 ``` 
 
@@ -245,7 +179,8 @@ public:
         : builder_(builder) {}
 
     // Construcción mínima: GET sin cuerpo
-    std::unique_ptr<SolicitudHTTP> construir_get_simple(const std::string& url) {
+    std::unique_ptr<SolicitudHTTP>
+    construir_get_simple(const std::string& url) {
         builder_.reiniciar();
         builder_.establecer_metodo("GET");
         builder_.establecer_url(url);
@@ -286,14 +221,13 @@ int main() {
 
     auto sol2 = director.construir_post_json(
         "https://api.ejemplo.com/login",
-        R"({"usuario": "admin", "clave": "1234"})"
+        "{\"usuario\": \"admin\", \"clave\": \"1234\"}"
     );
     sol2->mostrar();
 
-
     std::cout << "\n=== Builder SIN Director (fluido) ===\n";
 
-    SolicitudHTTP sol3 =
+    auto sol3 =
         ConstructorSolicitudFluido{}
             .metodo("PUT")
             .url("https://api.ejemplo.com/usuario/42")
@@ -301,124 +235,86 @@ int main() {
             .cuerpo(R"({"nombre": "Juan"})")
             .construir();
 
-    sol3.mostrar();
+    sol3->mostrar();
 
     return 0;
 }
 ```
-* `R"(...)"` permite escribir un **string literal sin procesar** (raw string literal), que nos permite escribir cadenas exactamente tal como aparecen, sin necesidad de escapar comillas, barras o caracteres especiales.
 
-## Añadir una nueva configuración
+## Añadir una nueva configuración (producto mutable)
 
-Supongamos que queremos añadir a la solicitud HTTP un nuevo parámetro opcional: **`timeout_ms`** (tiempo máximo de espera en milisegundos).
+Supongamos que queremos añadir a la solicitud HTTP un nuevo parámetro opcional:
+**`timeout_ms`** (tiempo máximo de espera en milisegundos).
 
-A continuación se muestran únicamente los cambios requeridos en cada fichero, siguiendo la arquitectura moderna del patrón Builder.
+Al tratarse ahora de un **producto mutable**, el cambio es **más simple** que en la versión inmutable:
+solo añadimos un nuevo atributo, su setter y propagamos la llamada desde los builders.
 
 ### Cambios en `Solicitud.hpp`
 
-Añadimos el nuevo atributo **const**, el getter y la actualización del constructor privado:
+Añadimos el nuevo atributo **mutable**, su setter y su getter.
 
 ```cpp
 private:
-    const int timeout_ms_ = 0;   // NUEVO
-
-    SolicitudHTTP(const std::string& metodo,
-                  const std::string& url,
-                  const Cabeceras& cab,
-                  const std::string& cuerpo,
-                  int timeout_ms)               // NUEVO
-        : metodo_(metodo),
-          url_(url),
-          cabeceras_(cab),
-          cuerpo_(cuerpo),
-          timeout_ms_(timeout_ms)              // NUEVO
-    {}
-
-public:
-    int timeout_ms() const noexcept { return timeout_ms_; }  // NUEVO
+    int timeout_ms_ = 0;   // NUEVO
 ```
-
-También debemos actualizar la **fábrica estática**, que ahora debe recibir el nuevo parámetro:
 
 ```cpp
-static std::unique_ptr<SolicitudHTTP> crear(
-    const std::string& metodo,
-    const std::string& url,
-    const Cabeceras& cab,
-    const std::string& cuerpo,
-    int timeout_ms = 0                // NUEVO
-)
-{
-    return std::unique_ptr<SolicitudHTTP>(
-        new SolicitudHTTP(metodo, url, cab, cuerpo, timeout_ms)
-    );
-}
+public:
+    void establecer_timeout(int ms) { timeout_ms_ = ms; }   // NUEVO
+    int timeout_ms() const noexcept { return timeout_ms_; } // NUEVO
 ```
+
+No es necesario modificar constructores ni restringir el acceso:
+el producto sigue siendo completamente configurable mediante su interfaz pública.
 
 ### Cambios en `Builder.hpp`
 
-Debemos añadir una nuevo método virtual:
+### En la interfaz del builder abstracto
+
+Añadimos un nuevo paso de construcción:
 
 ```cpp
 virtual void establecer_timeout(int) = 0;   // NUEVO
 ```
 
-
-
 #### En el builder clásico (`ConstructorSolicitudConcreto`)
 
-Añadimos el campo interno y el setter:
+No necesitamos nuevos campos internos: el builder trabaja directamente sobre el producto.
+
+Añadimos la implementación del nuevo paso:
 
 ```cpp
-private:
-    int timeout_ms_ = 0;   // NUEVO
-
-public:
-    void establecer_timeout(int ms) override { timeout_ms_ = ms; }   // NUEVO
+void establecer_timeout(int ms) override {
+    solicitud_->establecer_timeout(ms);
+}
 ```
 
-Propagamos el nuevo parámetro al crear la solicitud:
-
-```cpp
-return SolicitudHTTP::crear(
-    metodo_,
-    url_,
-    cabeceras_,
-    cuerpo_,
-    timeout_ms_      // NUEVO
-);
-```
+No hay cambios en `obtener_solicitud()`.
 
 #### En el builder fluido (`ConstructorSolicitudFluido`)
 
-Añadimos el nuevo atributo y el método fluido:
+Añadimos el método fluido correspondiente:
 
 ```cpp
-private:
-    int timeout_ms_ = 0;  // NUEVO
-
-public:
-    ConstructorSolicitudFluido& timeout(int ms) {
-        timeout_ms_ = ms;
-        return *this;
-    }
+ConstructorSolicitudFluido& timeout(int ms) {
+    solicitud_.establecer_timeout(ms);
+    return *this;
+}
 ```
 
-Propagación en `construir()`:
+No hay cambios en `construir()`.
 
-```cpp
-return SolicitudHTTP::crear(metodo_, url_, cabeceras_, cuerpo_, timeout_ms_);
-```
+### Cambios en `Director.hpp`
 
-### Cambios en `Director.hpp` 
+Solo es necesario modificar el Director **si queremos que alguna construcción predefinida** incluya el nuevo parámetro.
 
-Si queremos que el Director configure un timeout:
+Por ejemplo:
 
 ```cpp
 builder_.establecer_timeout(5000);   // NUEVO
 ```
 
-Solo es necesario si el Director debe usar esta nueva opción.
+Si el Director no necesita configurar el timeout, **no se modifica**.
 
 ### Cambios en `main.cpp` para probar la nueva configuración
 
@@ -441,11 +337,10 @@ int main() {
     ctor.establecer_metodo("POST");
     ctor.establecer_url("https://api.ejemplo.com/datos");
     ctor.agregar_cabecera("Content-Type", "application/json");
-    ctor.establecer_cuerpo(R"({"dato": 123})");
-    ctor.establecer_timeout(5000);                 // ← NUEVO
+    ctor.establecer_cuerpo("{\"dato\": 123}");
+    ctor.establecer_timeout(5000);               // ← NUEVO
     auto sol_timeout = ctor.obtener_solicitud();
     sol_timeout->mostrar();
-
 
     std::cout << "\n=== Builder SIN Director (fluido) ===\n";
 
@@ -455,8 +350,8 @@ int main() {
             .metodo("PUT")
             .url("https://api.ejemplo.com/usuario/42")
             .cabecera("Authorization", "Bearer token123")
-            .cuerpo(R"({"nombre": "Juan"})")
-            .timeout(3000)                         // ← NUEVO
+            .cuerpo("{\"nombre\": \"Juan\"}")
+            .timeout(3000)                       // ← NUEVO
             .construir();
 
     sol2->mostrar();
@@ -467,16 +362,15 @@ int main() {
 
 ### Qué no hemos modificado
 
-* La interfaz del producto (`SolicitudHTTP`).
-* La arquitectura general del patrón Builder.
-* El comportamiento de los builders ya existentes.
-* El flujo del Director.
-* El resto del código cliente.
+* La estructura del patrón Builder.
+* La separación producto / builder / director.
+* El flujo de construcción existente.
+* El código cliente previo (salvo para probar el nuevo parámetro).
 
-Solo se añadieron:
+### Qué se ha añadido realmente
 
-1. un **nuevo atributo inmutable**,
-2. un **nuevo parámetro en el constructor privado y la fábrica**,
-3. los nuevos métodos correspondientes en los builders,
-4. la propagación del parámetro en la construcción del producto.
+1. Un **nuevo atributo mutable** en el producto.
+2. Un **nuevo setter y getter** públicos.
+3. Un **nuevo paso de construcción** en los builders.
+4. (Opcionalmente) su uso desde el Director o el cliente.
 
