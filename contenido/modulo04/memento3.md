@@ -79,7 +79,7 @@ public:
 
     // Crear memento
     std::unique_ptr<Memento> crear_memento() const {
-        return std::make_unique<Memento>(texto_);
+        return std::unique_ptr<Memento>(new Memento(texto_));
     }
 
     // Restaurar desde un memento
@@ -144,9 +144,16 @@ int main() {
 
     // --- Undo ---
     std::cout << "\nDeshaciendo...\n";
-    historial.deshacer_ultimo();
     if (const Memento* m = historial.ultimo()) {
         editor.restaurar(*m);
+        historial.deshacer_ultimo();
+    }
+    editor.mostrar();
+
+    std::cout << "\nDeshaciendo...\n";
+    if (const Memento* m = historial.ultimo()) {
+        editor.restaurar(*m);
+        historial.deshacer_ultimo();
     }
     editor.mostrar();
 

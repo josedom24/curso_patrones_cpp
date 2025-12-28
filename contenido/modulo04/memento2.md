@@ -96,7 +96,7 @@ public:
 
     // Crear un memento con el estado actual
     std::unique_ptr<Memento> crear_memento() const {
-        return std::make_unique<Memento>(estado_);
+        return std::unique_ptr<Memento>(new Memento(estado_));
     }
 
     // Restaurar el estado desde un memento
