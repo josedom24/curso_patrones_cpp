@@ -12,6 +12,20 @@ Un **constructor privado** impide la creación directa de objetos desde el exter
 
 Un **constructor explícito** es un constructor marcado con la palabra clave `explicit` que **impide las conversiones implícitas** desde otros tipos hacia el tipo de la clase. Su objetivo es evitar que un objeto se cree de forma accidental a partir de un solo argumento, obligando a que la construcción sea **intencional y explícita** por parte del programador.
 
+## Encapsulación
+
+**Encapsulación** es el principio que consiste en **controlar el acceso al estado y comportamiento de una clase** mediante los modificadores:
+
+* **`public`**: interfaz accesible desde fuera
+* **`private`**: detalles internos ocultos
+* **`protected`**: acceso reservado a la clase y sus derivadas
+
+Su objetivo es **proteger el estado interno** y garantizar un uso correcto del objeto.
+
+## Clases amigas
+
+Una **clase amiga** (*friend class*) es una clase a la que se le concede **acceso completo** a los miembros **privados y protegidos** de otra clase.
+
 ## RAII 
 
 RAII (Resource Acquisition Is Initialization) es el principio fundamental de C++ para la gestión correcta de recursos. Un recurso, como memoria dinámica, un archivo, ..., se adquiere en el momento de construir un objeto y se libera automáticamente cuando dicho objeto se destruye. De esta forma, la duración del recurso queda ligada al ámbito del objeto que lo gestiona, lo que garantiza liberación correcta incluso en presencia de excepciones o retornos anticipados.
