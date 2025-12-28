@@ -5,31 +5,33 @@
 Para ilustrar el patrón **Mediator** en un contexto realista, construiremos un pequeño sistema de comunicación tipo “chat” entre varios usuarios.
 El objetivo es permitir que los usuarios puedan enviarse mensajes **sin conocerse directamente entre sí**, delegando toda la coordinación en un **Mediador** central.
 
-El Mediador se encargará de:
+El Mediador se encarga de:
 
-* registrar usuarios,
-* recibir los mensajes enviados por un usuario,
-* reenviarlos a los destinatarios adecuados,
-* decidir reglas de comunicación (por ejemplo, que todos reciban el mensaje, o solo ciertos usuarios).
+* registrar usuarios
+* recibir los mensajes enviados por un usuario
+* reenviarlos a los destinatarios adecuados
+* decidir las reglas de comunicación
 
 Cada usuario es un **colega** del mediador: conoce al mediador, pero **no conoce a los demás usuarios**.
 El código cliente configura el mediador, crea los usuarios y ejecuta la interacción.
 
 El ejemplo se divide en:
 
-* **Mediador.hpp** – interfaz del mediador y mediador concreto
-* **Colegas.hpp** – clase base Colega y sus implementaciones
+* **Mediador.hpp** – interfaz del mediador y declaración del mediador concreto
+* **Mediador.cpp** – implementación del mediador concreto
+* **Colegas.hpp** – clase base Usuario y sus implementaciones
 * **main.cpp** – código cliente
-
 
 ## Mediador.hpp
 
 ```cpp
 #pragma once
-#include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
+
+// Declaración adelantada
+class Usuario;
 
 // ----------------------------------------
 // Interfaz del Mediador
@@ -42,29 +44,43 @@ public:
 };
 
 // ----------------------------------------
-// Mediador Concreto
+// Mediador Concreto (declaración)
 // ----------------------------------------
 class MediadorConcreto : public InterfazMediador {
 public:
-    void registrar_usuario(const std::shared_ptr<class Usuario>& usuario) {
-        usuarios_.push_back(usuario);
-    }
-
+    void registrar_usuario(const std::shared_ptr<Usuario>& usuario);
     void notificar(const std::string& emisor,
-                   const std::string& mensaje) override
-    {
-        std::cout << "[Mediador] " << emisor << " envía mensaje: " << mensaje << "\n";
-
-        for (auto& u : usuarios_) {
-            u->recibir(emisor, mensaje);
-        }
-    }
+                   const std::string& mensaje) override;
 
 private:
-    std::vector<std::shared_ptr<class Usuario>> usuarios_;
+    std::vector<std::shared_ptr<Usuario>> usuarios_;
 };
 ```
 
+## Mediador.cpp
+
+```cpp
+#include "Mediador.hpp"
+#include "Colegas.hpp"
+#include <iostream>
+
+void MediadorConcreto::registrar_usuario(
+    const std::shared_ptr<Usuario>& usuario)
+{
+    usuarios_.push_back(usuario);
+}
+
+void MediadorConcreto::notificar(const std::string& emisor,
+                                 const std::string& mensaje)
+{
+    std::cout << "[Mediador] " << emisor
+              << " envía mensaje: " << mensaje << "\n";
+
+    for (auto& u : usuarios_) {
+        u->recibir(emisor, mensaje);
+    }
+}
+```
 
 ## Colegas.hpp
 
@@ -76,7 +92,7 @@ private:
 #include <string>
 
 // ----------------------------------------
-// Clase base: Colega (Usuario)
+// Clase base: Usuario (Colega)
 // ----------------------------------------
 class Usuario {
 public:
@@ -103,7 +119,7 @@ private:
 };
 
 // ----------------------------------------
-// Usuario Concreto A
+// Usuario Regular
 // ----------------------------------------
 class UsuarioRegular : public Usuario {
 public:
@@ -114,8 +130,8 @@ public:
                  const std::string& mensaje) override
     {
         if (emisor != id_) {
-            std::cout << "[" << id_ << "] recibe: " << mensaje
-                      << " (de " << emisor << ")\n";
+            std::cout << "[" << id_ << "] recibe: "
+                      << mensaje << " (de " << emisor << ")\n";
         }
     }
 
@@ -140,8 +156,8 @@ public:
                  const std::string& mensaje) override
     {
         if (emisor != id_) {
-            std::cout << "[ADMIN " << id_ << "] recibe: " << mensaje
-                      << " (de " << emisor << ")\n";
+            std::cout << "[ADMIN " << id_ << "] recibe: "
+                      << mensaje << " (de " << emisor << ")\n";
         }
     }
 
@@ -154,7 +170,6 @@ private:
     std::string id_;
 };
 ```
-
 
 ## main.cpp
 
@@ -185,12 +200,9 @@ int main() {
 }
 ```
 
-
 ## Añadir un nuevo tipo de Usuario
 
-**Para añadir un nuevo usuario no modificamos las clases base**, solo añadimos una nueva clase y, como mucho, una línea en `main.cpp`.
-
-Por ejemplo: `UsuarioPremium`.
+Para añadir un nuevo usuario **no se modifican las clases base**, solo se añade un nuevo colega concreto y se registra en el mediador.
 
 ### En `Colegas.hpp`
 
@@ -204,7 +216,8 @@ public:
                  const std::string& mensaje) override
     {
         if (emisor != id_) {
-            std::cout << "[Premium " << id_ << "] recibe mensaje PRIORITARIO: "
+            std::cout << "[Premium " << id_
+                      << "] recibe mensaje PRIORITARIO: "
                       << mensaje << " (de " << emisor << ")\n";
         }
     }
@@ -231,14 +244,13 @@ premium->enviar("Hola, soy usuario premium.");
 
 ## Qué no hemos modificado
 
-* No hemos modificado la interfaz `InterfazMediador`.
-* No hemos modificado la clase abstracta `Usuario`.
-* No hemos modificado las clases `UsuarioRegular` ni `UsuarioAdministrador`.
+* No se ha modificado la interfaz `InterfazMediador`
+* No se ha modificado la clase abstracta `Usuario`
+* No se han modificado las clases `UsuarioRegular` ni `UsuarioAdministrador`
 
-Solo hemos:
+Solo se ha:
 
-1. añadido un **nuevo colega concreto** (`UsuarioPremium`),
-2. registrado el nuevo colega en el mediador,
-3. y opcionalmente una línea en `main.cpp` para usarlo.
-
+1. separado la **declaración y la implementación del mediador**
+2. añadido un **nuevo colega concreto**
+3. registrado el nuevo colega en el mediador
 
