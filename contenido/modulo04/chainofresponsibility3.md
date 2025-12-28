@@ -140,7 +140,11 @@ Añadamos un nuevo validador:
 ### Añadir el nuevo manejador en `Manejadores.hpp`
 
 ```cpp
+// ----------------------------------------
+// Nuevo Manejadores concretos
 // Validador que comprueba contenido prohibido
+// ----------------------------------------
+
 class ValidadorContenido : public Manejador {
 protected:
     bool procesar(const std::string& solicitud) const override {
@@ -158,6 +162,7 @@ protected:
 Por ejemplo, entre permisos y formato:
 
 ```cpp
+// Construye una cadena: Autenticación -> Permisos -> Contenido -> Formato
 inline std::unique_ptr<Manejador> construir_cadena_con_contenido() {
     auto autenticacion = std::make_unique<ValidadorAutenticacion>();
     auto permisos      = std::make_unique<ValidadorPermisos>();
@@ -165,7 +170,7 @@ inline std::unique_ptr<Manejador> construir_cadena_con_contenido() {
     auto formato       = std::make_unique<ValidadorFormato>();
 
     contenido->establecer_siguiente(std::move(formato));
-    permisos->establecer_siguiente(std::move(contenido));
+    permisos->establecer_siguiente(std::move(contenido));   
     autenticacion->establecer_siguiente(std::move(permisos));
 
     return autenticacion;
@@ -175,19 +180,29 @@ inline std::unique_ptr<Manejador> construir_cadena_con_contenido() {
 ### Usar el nuevo manejador desde el cliente (`main.cpp`)
 
 ```cpp
+#include "Cadena.hpp"
+
+void cliente(const Manejador& manejador) {
+    manejador.manejar("token-invalido");
+    manejador.manejar("sin-permisos");
+    manejador.manejar("texto con palabra prohibido dentro");
+    manejador.manejar("");
+    manejador.manejar("solicitud-correcta");
+}
+
 int main() {
     auto cadena = construir_cadena_con_contenido();
-
-    cadena->manejar("texto con palabra prohibido dentro");
-    cadena->manejar("solicitud-correcta");
+    cliente(*cadena);
+    return 0;
 }
+
 ```
 
 ### Qué no hemos modificado
 
 * No hemos cambiado la interfaz `Manejador`.
 * No hemos modificado ninguno de los manejadores existentes.
-* No hemos cambiado el código del cliente.
+* Hemos cambiado el código del cliente, pero no su lógica, sólo cambia la forma de construir la cadena, no cómo se usa.
 
 Solo hemos:
 

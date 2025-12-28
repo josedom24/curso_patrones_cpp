@@ -86,7 +86,7 @@ public:
             return "[Proxy] Acceso denegado para el usuario '" + usuario_ + "'";
         }
 
-        if (cache_.contains(clave)) {
+        if (cache_.find(clave) != cache_.end()) {
             return "[Proxy] (Caché) " + cache_[clave];
         }
 
@@ -185,7 +185,7 @@ Así, el cliente puede sustituir cualquier proxy por este nuevo sin cambiar nada
 Añadimos simplemente una línea:
 
 ```cpp
-#include "Proxy.hpp"
+...
 
 int main() {
     ProxyServicioDatosLogger proxyLogger;

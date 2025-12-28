@@ -26,6 +26,14 @@ El Chain of Responsibility aporta estas soluciones:
 * Encapsula condiciones de manejo dentro de cada objeto, eliminando estructuras condicionales masivas en el código cliente.
 * Refuerza el principio *Open/Closed* y promueve una arquitectura modular donde se pueden combinar responsabilidades mediante composición.
 
+## Relación con los principios SOLID
+
+* **Single Responsibility Principle (SRP)**: Cada manejador se responsabiliza de **procesar un único tipo de solicitud** o criterio, separando la lógica de decisión del flujo global de la petición.
+* **Open/Closed Principle (OCP)**: La cadena puede extenderse añadiendo nuevos manejadores sin modificar los existentes ni el código cliente.
+* **Dependency Inversion Principle (DIP)**: El cliente y los manejadores dependen de una **abstracción común**, no de implementaciones concretas, reduciendo el acoplamiento.
+* **Liskov Substitution Principle (LSP)**: Cualquier manejador concreto puede sustituir a otro dentro de la cadena sin alterar el comportamiento esperado.
+* **Interface Segregation Principle (ISP)**: La interfaz del manejador es mínima y específica, evitando dependencias innecesarias.
+
 ## Ejemplos concretos
 
 * **Sistemas de validación**: Validadores encadenados donde cada uno comprueba un aspecto (formato, permisos, límites, existencia). Si uno falla, detiene la cadena.
