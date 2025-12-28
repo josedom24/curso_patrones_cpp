@@ -109,6 +109,10 @@ public:
         notificar_mediador("accionA");
     }
 
+    void reaccionar() {
+        std::cout << "A reacciona a orden del mediador.\n";
+    }
+
 private:
     std::string nombre() const override {
         return "ColegaA";
@@ -123,6 +127,10 @@ public:
     void accionB() {
         std::cout << "B realiza accionB().\n";
         notificar_mediador("accionB");
+    }
+
+    void reaccionar() {
+        std::cout << "B reacciona a orden del mediador.\n";
     }
 
 private:
@@ -145,21 +153,21 @@ public:
     }
 
     void notificar(const std::string& emisor,
-                   const std::string& evento) override 
+                   const std::string& evento) override
     {
         std::cout << "[Mediador] Evento '" << evento
                   << "' recibido de " << emisor << ".\n";
 
         if (emisor == "ColegaA" && evento == "accionA") {
             if (colegaB_) {
-                std::cout << "[Mediador] -> Indicando a B que actúe.\n";
-                colegaB_->accionB();
+                std::cout << "[Mediador] -> Indicando a B que reaccione.\n";
+                colegaB_->reaccionar();
             }
-        } 
+        }
         else if (emisor == "ColegaB" && evento == "accionB") {
             if (colegaA_) {
-                std::cout << "[Mediador] -> Indicando a A que actúe.\n";
-                colegaA_->accionA();
+                std::cout << "[Mediador] -> Indicando a A que reaccione.\n";
+                colegaA_->reaccionar();
             }
         }
     }
@@ -184,13 +192,14 @@ int main() {
     mediador->registrar_colegaA(colegaA);
     mediador->registrar_colegaB(colegaB);
 
-    // Interacciones:
+    // Interacciones
     colegaA->accionA();
     std::cout << "\n";
     colegaB->accionB();
 
     return 0;
 }
+
 ```
 ## Puntos clave del ejemplo
 
