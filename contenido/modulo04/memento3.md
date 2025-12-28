@@ -161,17 +161,32 @@ int main() {
 }
 ```
 
+Aquí tienes el **apartado reescrito**, manteniendo **exactamente el formato que indicas**, pero incorporando explícitamente la **visión didáctica correcta** y alineada con el ejemplo general del patrón **Memento**.
+
+He cuidado que el texto **no sugiera mezcla automática de estados**, que **explique la decisión de diseño**, y que **refuerce el mensaje conceptual** sin añadir complejidad innecesaria.
+
+
 ## Añadir un nuevo tipo de estado guardado
 
-Supongamos que queremos guardar **también el estilo del texto**, además del contenido. Por ejemplo: **fuente**, **tamaño** y **color**.
+Hasta ahora, el editor solo guarda el **contenido del texto** como estado.
+Sin embargo, en un editor real existen **múltiples aspectos del estado**, como el formato, la posición del cursor o la selección actual.
+
+El patrón **Memento** no impone una única representación del estado.
+Cada aspecto puede capturarse mediante **su propio memento**, siempre que se mantenga la encapsulación.
+
+En este apartado mostramos cómo **añadir un segundo tipo de memento** que capture el **formato del texto** (fuente, tamaño y color), **sin modificar el memento original ni el historial existente**.
+
+Este ejemplo **no mezcla ambos mementos en un mismo historial**, ya que la política de almacenamiento y restauración pertenece al cuidador y depende del tipo de undo que se quiera ofrecer.
+
 
 ### Creamos `MementoFormato.hpp`
 
-Creamos un **nuevo memento concreto** `MementoFormato`, independiente del anterior.
+Creamos un **nuevo memento concreto** `MementoFormato`, independiente del anterior, que encapsula tanto el contenido del texto como su formato.
 
 ```cpp
 #pragma once
 #include <string>
+#include <memory>
 
 // ------------------------------------------------------------
 // Memento avanzado: contenido + formato
@@ -200,9 +215,17 @@ public:
 };
 ```
 
+Este memento sigue las mismas reglas que el anterior:
+
+* constructor privado
+* acceso exclusivo desde el originador
+* ningún detalle del estado se expone al exterior
+
+
 ### En `Editor.hpp`
 
-Añadimos **estado de formato** y **métodos opcionales**. No tocamos el `Memento` original.
+Añadimos **estado de formato** y **métodos opcionales** para trabajar con él.
+No se modifica el `Memento` original ni la lógica existente de guardado de texto.
 
 ```cpp
 #include "MementoFormato.hpp"
@@ -249,9 +272,13 @@ public:
 };
 ```
 
+El `Editor` decide explícitamente **qué tipo de estado guarda** y **qué tipo de estado restaura**, manteniendo el control total sobre su representación interna.
+
+
 ### En `main.cpp`
 
-El cliente **elige conscientemente** usar el nuevo memento. El historial básico **no se toca**.
+El cliente **elige conscientemente** cuándo utilizar el nuevo memento.
+El historial básico de texto **no se toca**, ya que gestiona un tipo de estado distinto.
 
 ```cpp
 #include <iostream>
@@ -284,19 +311,21 @@ int main() {
 
     return 0;
 }
-
 ```
 
-## Qué no hemos modificado
+Este uso explícito refuerza que **la política de undo no forma parte del patrón**, sino del diseño del sistema.
 
-* `Memento` original.
-* `Historial` básico.
-* Lógica general de undo.
-* Interfaz pública del patrón.
+### Qué no hemos modificado
 
-Se ha creado:
+* `Memento` original
+* `Historial` básico
+* Lógica general de undo
+* Interfaz pública del patrón
+
+Se ha creado únicamente:
 
 1. Un **nuevo memento concreto**
 2. Métodos opcionales en el `Editor`
 3. Uso explícito desde el cliente
+
 
