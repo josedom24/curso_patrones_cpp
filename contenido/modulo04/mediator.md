@@ -2,7 +2,7 @@
 
 ## Definición
 
-El **Mediator** es un patrón de diseño conductual que centraliza la comunicación entre múltiples objetos, de modo que **no se comuniquen directamente entre sí**, sino a través de un mediador común. Su finalidad es **reducir el acoplamiento** entre componentes, encapsular la lógica de interacción y simplificar la colaboración entre objetos complejos.
+El **Mediator** es un patrón de diseño de comportamiento que centraliza la comunicación entre múltiples objetos, de modo que **no se comuniquen directamente entre sí**, sino a través de un mediador común. Su finalidad es **reducir el acoplamiento** entre componentes, encapsular la lógica de interacción y simplificar la colaboración entre objetos complejos.
 
 ## Problemas que intenta solucionar
 
