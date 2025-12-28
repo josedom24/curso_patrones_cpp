@@ -61,7 +61,26 @@ public:
     // --- Getters ---
     const std::string& metodo() const noexcept { return metodo_; }
     const std::string& url() const noexcept { return url_; }
-    const Cabeceras& cabec
+    const Cabeceras& cabeceras() const noexcept { return cabeceras_; }
+    const std::string& cuerpo() const noexcept { return cuerpo_; }
+
+    void mostrar() const {
+        std::cout << "SolicitudHTTP {\n"
+                  << "  Método: " << metodo_ << "\n"
+                  << "  URL:    " << url_ << "\n"
+                  << "  Cabeceras:\n";
+        for (const auto& [k, v] : cabeceras_) {
+            std::cout << "    - " << k << ": " << v << "\n";
+        }
+        std::cout << "  Cuerpo: " << cuerpo_ << "\n}\n";
+    }
+
+private:
+    std::string metodo_ = "GET";
+    std::string url_;
+    Cabeceras cabeceras_;
+    std::string cuerpo_;
+};
 
 ```
 
