@@ -10,28 +10,28 @@ El Mediador se encarga de:
 * registrar usuarios
 * recibir los mensajes enviados por un usuario
 * reenviarlos a los destinatarios adecuados
-* decidir las reglas de comunicación
+* aplicar las reglas de comunicación
 
 Cada usuario es un **colega** del mediador: conoce al mediador, pero **no conoce a los demás usuarios**.
 El código cliente configura el mediador, crea los usuarios y ejecuta la interacción.
 
+Para mantener el ejemplo **simple y autocontenido**, todo el código se define en **archivos de cabecera**, utilizando **interfaces** para evitar dependencias innecesarias.
+
 El ejemplo se divide en:
 
-* **Mediador.hpp** – interfaz del mediador y declaración del mediador concreto
-* **Mediador.cpp** – implementación del mediador concreto
-* **Colegas.hpp** – clase base Usuario y sus implementaciones
+* **Mediador.hpp** – interfaz del mediador y mediador concreto
+* **Colegas.hpp** – interfaz del usuario, clase base y usuarios concretos
 * **main.cpp** – código cliente
+
 
 ## Mediador.hpp
 
 ```cpp
 #pragma once
+#include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
-
-// Declaración adelantada
-class Usuario;
 
 // ----------------------------------------
 // Interfaz del Mediador
@@ -39,48 +39,47 @@ class Usuario;
 class InterfazMediador {
 public:
     virtual ~InterfazMediador() = default;
+
     virtual void notificar(const std::string& emisor,
                            const std::string& mensaje) = 0;
 };
 
 // ----------------------------------------
-// Mediador Concreto (declaración)
+// Interfaz mínima del Colega
+// ----------------------------------------
+class InterfazUsuario {
+public:
+    virtual ~InterfazUsuario() = default;
+
+    virtual void recibir(const std::string& emisor,
+                         const std::string& mensaje) = 0;
+};
+
+// ----------------------------------------
+// Mediador Concreto
 // ----------------------------------------
 class MediadorConcreto : public InterfazMediador {
 public:
-    void registrar_usuario(const std::shared_ptr<Usuario>& usuario);
+    void registrar_usuario(const std::shared_ptr<InterfazUsuario>& usuario) {
+        usuarios_.push_back(usuario);
+    }
+
     void notificar(const std::string& emisor,
-                   const std::string& mensaje) override;
+                   const std::string& mensaje) override
+    {
+        std::cout << "[Mediador] " << emisor
+                  << " envía mensaje: " << mensaje << "\n";
+
+        for (auto& u : usuarios_) {
+            u->recibir(emisor, mensaje);
+        }
+    }
 
 private:
-    std::vector<std::shared_ptr<Usuario>> usuarios_;
+    std::vector<std::shared_ptr<InterfazUsuario>> usuarios_;
 };
 ```
 
-## Mediador.cpp
-
-```cpp
-#include "Mediador.hpp"
-#include "Colegas.hpp"
-#include <iostream>
-
-void MediadorConcreto::registrar_usuario(
-    const std::shared_ptr<Usuario>& usuario)
-{
-    usuarios_.push_back(usuario);
-}
-
-void MediadorConcreto::notificar(const std::string& emisor,
-                                 const std::string& mensaje)
-{
-    std::cout << "[Mediador] " << emisor
-              << " envía mensaje: " << mensaje << "\n";
-
-    for (auto& u : usuarios_) {
-        u->recibir(emisor, mensaje);
-    }
-}
-```
 
 ## Colegas.hpp
 
@@ -94,7 +93,7 @@ void MediadorConcreto::notificar(const std::string& emisor,
 // ----------------------------------------
 // Clase base: Usuario (Colega)
 // ----------------------------------------
-class Usuario {
+class Usuario : public InterfazUsuario {
 public:
     virtual ~Usuario() = default;
 
@@ -107,9 +106,6 @@ public:
             m->notificar(nombre(), mensaje);
         }
     }
-
-    virtual void recibir(const std::string& emisor,
-                         const std::string& mensaje) = 0;
 
 protected:
     virtual std::string nombre() const = 0;
@@ -171,6 +167,7 @@ private:
 };
 ```
 
+
 ## main.cpp
 
 ```cpp
@@ -200,9 +197,10 @@ int main() {
 }
 ```
 
+
 ## Añadir un nuevo tipo de Usuario
 
-Para añadir un nuevo usuario **no se modifican las clases base**, solo se añade un nuevo colega concreto y se registra en el mediador.
+Para añadir un nuevo tipo de usuario **no se modifican las clases existentes**, solo se crea un nuevo colega concreto.
 
 ### En `Colegas.hpp`
 
@@ -245,12 +243,12 @@ premium->enviar("Hola, soy usuario premium.");
 ## Qué no hemos modificado
 
 * No se ha modificado la interfaz `InterfazMediador`
-* No se ha modificado la clase abstracta `Usuario`
-* No se han modificado las clases `UsuarioRegular` ni `UsuarioAdministrador`
+* No se ha modificado la clase base `Usuario`
+* No se han modificado los usuarios existentes
 
 Solo se ha:
 
-1. separado la **declaración y la implementación del mediador**
-2. añadido un **nuevo colega concreto**
-3. registrado el nuevo colega en el mediador
+1. introducido una **interfaz mínima (`InterfazUsuario`)**
+2. invertido la dependencia del mediador hacia una abstracción
+3. mantenido el ejemplo **autocontenido y simple**
 
