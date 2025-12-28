@@ -215,33 +215,44 @@ public:
 };
 ```
 
-Este memento sigue las mismas reglas que el anterior:
-
-* constructor privado
-* acceso exclusivo desde el originador
-* ningún detalle del estado se expone al exterior
-
-
 ### En `Editor.hpp`
 
 Añadimos **estado de formato** y **métodos opcionales** para trabajar con él.
 No se modifica el `Memento` original ni la lógica existente de guardado de texto.
 
 ```cpp
+#pragma once
+#include <iostream>
+#include <string>
+#include <memory>
+
+#include "Memento.hpp"
 #include "MementoFormato.hpp"
 
 // ------------------------------------------------------------
-// Editor (extensión opcional)
+// Clase Originador: Editor
 // ------------------------------------------------------------
 class Editor {
 private:
+    // Estado base
     std::string texto_;
+
+    // Estado adicional (formato)
     std::string fuente_ = "Arial";
     int tamaño_ = 12;
     std::string color_ = "Negro";
 
 public:
-    // Métodos existentes no cambian
+    // Constructor base (USADO EN main.cpp)
+    explicit Editor(std::string inicial = "")
+        : texto_(std::move(inicial)) {}
+
+    // --------------------------------------------------------
+    // Operaciones del editor
+    // --------------------------------------------------------
+    void escribir(const std::string& nuevo) {
+        texto_ += nuevo;
+    }
 
     void cambiar_formato(std::string fuente, int tamaño, std::string color) {
         fuente_ = std::move(fuente);
@@ -256,13 +267,25 @@ public:
                   << ", " << color_ << "\n";
     }
 
-    // Crear memento avanzado
+    // --------------------------------------------------------
+    // Memento básico (texto)
+    // --------------------------------------------------------
+    std::unique_ptr<Memento> crear_memento() const {
+        return std::unique_ptr<Memento>(new Memento(texto_));
+    }
+
+    void restaurar(const Memento& m) {
+        texto_ = m.estado_;
+    }
+
+    // --------------------------------------------------------
+    // Memento avanzado (texto + formato)
+    // --------------------------------------------------------
     std::unique_ptr<MementoFormato> crear_memento_formato() const {
         return std::unique_ptr<MementoFormato>(
             new MementoFormato(texto_, fuente_, tamaño_, color_));
     }
 
-    // Restaurar desde memento avanzado
     void restaurar(const MementoFormato& m) {
         texto_  = m.texto_;
         fuente_ = m.fuente_;
@@ -270,6 +293,7 @@ public:
         color_  = m.color_;
     }
 };
+
 ```
 
 El `Editor` decide explícitamente **qué tipo de estado guarda** y **qué tipo de estado restaura**, manteniendo el control total sobre su representación interna.
