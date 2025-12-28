@@ -37,10 +37,9 @@ El Proxy aporta estas soluciones:
 
 * **Single Responsibility Principle (SRP)**: El patrón *Proxy* separa la responsabilidad de **controlar el acceso a un objeto** de la responsabilidad de **implementar la funcionalidad real**. El objeto real se centra en su lógica principal, mientras que el proxy asume tareas adicionales como control de acceso, inicialización diferida, registro o monitorización.
 * **Open/Closed Principle (OCP)**: Es posible introducir nuevos tipos de proxy (por ejemplo, proxy virtual, proxy de protección o proxy de registro) sin modificar la clase del objeto real ni el código cliente. El comportamiento adicional se extiende mediante nuevas clases proxy que respetan la interfaz común.
-* **Dependency Inversion Principle (DIP)**: El cliente depende de una **abstracción común** (la interfaz del sujeto), no de la implementación concreta del objeto real ni del proxy. Tanto el proxy como el objeto real dependen de esa abstracción, reduciendo el acoplamiento.
 * **Liskov Substitution Principle (LSP)**: El proxy puede sustituir al objeto real de forma transparente, ya que ambos implementan la misma interfaz. El cliente no puede distinguir si está trabajando con el objeto real o con su proxy, y el comportamiento esperado se mantiene.
 * **Interface Segregation Principle (ISP)**: El proxy implementa únicamente la interfaz necesaria para el cliente, sin forzar dependencias adicionales. El cliente no necesita conocer ni utilizar métodos relacionados con la gestión interna, el acceso o la inicialización del objeto real.
-
+* **Dependency Inversion Principle (DIP)**: El cliente depende de una **abstracción común** (la interfaz del sujeto), no de la implementación concreta del objeto real ni del proxy. Tanto el proxy como el objeto real dependen de esa abstracción, reduciendo el acoplamiento.
 
 ## Ejemplos concretos
 

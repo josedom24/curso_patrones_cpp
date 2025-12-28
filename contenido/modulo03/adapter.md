@@ -30,9 +30,9 @@ El Adapter aporta estas soluciones:
 
 * **Single Responsibility Principle (SRP)**: El patrón *Adapter* encapsula la lógica de adaptación entre interfaces incompatibles en una clase específica. De este modo, ni la clase cliente ni la clase adaptada asumen responsabilidades adicionales relacionadas con la conversión de interfaces, manteniendo cada componente enfocado en una única tarea bien definida.
 * **Open/Closed Principle (OCP)**: El sistema puede extenderse para soportar nuevas interfaces o clases existentes mediante la incorporación de nuevos adaptadores, sin modificar el código del cliente ni el de las clases ya implementadas. Las abstracciones permanecen cerradas a cambios y abiertas a extensión a través de adaptadores adicionales.
-* **Dependency Inversion Principle (DIP)**: El cliente depende exclusivamente de la interfaz objetivo (*Target*), no de implementaciones concretas ni de clases externas con interfaces incompatibles. El adaptador actúa como intermediario que implementa dicha abstracción, invirtiendo la dependencia y permitiendo sustituir o introducir nuevas adaptaciones sin afectar al código cliente.
 * **Liskov Substitution Principle (LSP)**: Los adaptadores pueden sustituirse por cualquier implementación válida de la interfaz objetivo sin alterar el comportamiento del cliente.
 * **Interface Segregation Principle (ISP)**: La interfaz objetivo se mantiene específica y alineada con las necesidades del cliente, evitando exponer métodos innecesarios.
+* **Dependency Inversion Principle (DIP)**: El cliente depende exclusivamente de la interfaz objetivo (*Target*), no de implementaciones concretas ni de clases externas con interfaces incompatibles. El adaptador actúa como intermediario que implementa dicha abstracción, invirtiendo la dependencia y permitiendo sustituir o introducir nuevas adaptaciones sin afectar al código cliente.
 
 ## Ejemplos concretos
 

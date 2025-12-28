@@ -31,9 +31,9 @@ El Decorator proporciona estas soluciones:
 
 * **Single Responsibility Principle (SRP)**: El patrón *Decorator* separa la responsabilidad del **comportamiento base** (componente concreto) de las **responsabilidades adicionales** (decoradores). Cada decorador introduce una única variación funcional, manteniendo clases pequeñas y con un solo motivo de cambio.
 * **Open/Closed Principle (OCP)**: El comportamiento de un objeto puede ampliarse mediante nuevos decoradores sin modificar el código existente ni la clase original. El sistema queda abierto a extensión a través de composición y cerrado a modificación.
-* **Dependency Inversion Principle (DIP)**: El cliente depende únicamente de la abstracción común del componente. Tanto el objeto base como los decoradores concretos se manipulan a través de la misma interfaz, evitando dependencias directas con implementaciones específicas.
 * **Liskov Substitution Principle (LSP)**: Un objeto decorado puede sustituir a un componente no decorado sin alterar la corrección del programa. Los decoradores respetan el contrato definido por la interfaz común y mantienen el comportamiento esperado por el cliente.
 * **Interface Segregation Principle (ISP)**: El patrón promueve interfaces simples y cohesivas. Los decoradores implementan exactamente la misma interfaz que el componente, sin forzar al cliente a depender de métodos adicionales o innecesarios.
+* **Dependency Inversion Principle (DIP)**: El cliente depende únicamente de la abstracción común del componente. Tanto el objeto base como los decoradores concretos se manipulan a través de la misma interfaz, evitando dependencias directas con implementaciones específicas.
 
 
 ## Ejemplos concretos
