@@ -30,9 +30,9 @@ El Chain of Responsibility aporta estas soluciones:
 
 * **Single Responsibility Principle (SRP)**: Cada manejador se responsabiliza de **procesar un único tipo de solicitud** o criterio, separando la lógica de decisión del flujo global de la petición.
 * **Open/Closed Principle (OCP)**: La cadena puede extenderse añadiendo nuevos manejadores sin modificar los existentes ni el código cliente.
-* **Dependency Inversion Principle (DIP)**: El cliente y los manejadores dependen de una **abstracción común**, no de implementaciones concretas, reduciendo el acoplamiento.
 * **Liskov Substitution Principle (LSP)**: Cualquier manejador concreto puede sustituir a otro dentro de la cadena sin alterar el comportamiento esperado.
 * **Interface Segregation Principle (ISP)**: La interfaz del manejador es mínima y específica, evitando dependencias innecesarias.
+* **Dependency Inversion Principle (DIP)**: El cliente y los manejadores dependen de una **abstracción común**, no de implementaciones concretas, reduciendo el acoplamiento.
 
 ## Ejemplos concretos
 

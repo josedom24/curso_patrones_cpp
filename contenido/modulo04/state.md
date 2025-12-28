@@ -29,9 +29,10 @@ El patrón State aporta estas soluciones:
 
 * **Single Responsibility Principle (SRP)**: El patrón *State* separa la responsabilidad de **gestionar el comportamiento dependiente del estado** en clases de estado independientes. El contexto se limita a delegar, y cada estado se encarga exclusivamente de su propia lógica.
 * **Open/Closed Principle (OCP)**: Nuevos estados pueden añadirse creando nuevas clases sin modificar el contexto ni los estados existentes. El sistema se extiende incorporando nuevos comportamientos sin alterar código ya probado.
-* **Dependency Inversion Principle (DIP)**: El contexto depende de la **abstracción del estado**, no de estados concretos. Los estados concretos implementan dicha abstracción, reduciendo el acoplamiento entre contexto y comportamientos específicos.
 * **Liskov Substitution Principle (LSP)**: Cualquier estado concreto puede sustituir a otro siempre que respete la interfaz del estado. El contexto puede cambiar de estado dinámicamente sin alterar su comportamiento esperado.
 * **Interface Segregation Principle (ISP)**: La interfaz del estado define únicamente las operaciones relevantes para el comportamiento dependiente del estado, evitando que los estados implementen métodos innecesarios o ajenos a su responsabilidad.
+* **Dependency Inversion Principle (DIP)**: El contexto depende de la **abstracción del estado**, no de estados concretos. Los estados concretos implementan dicha abstracción, reduciendo el acoplamiento entre contexto y comportamientos específicos.
+
 
 ## Ejemplos concretos
 
