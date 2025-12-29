@@ -1,241 +1,210 @@
-# Ejemplo: Flujo de estados de un documento
+# Ejemplo: Estados de un reproductor multimedia
 
 ## Introducción
 
-Para ilustrar el patrón **State** en un contexto realista, se construye un pequeño sistema que modela el **ciclo de vida de un documento**.
-Un documento puede encontrarse en distintos estados, y **cada estado determina qué operaciones están permitidas**:
+Para ilustrar el patrón **State** en un contexto realista, se construye un pequeño sistema que modela el **comportamiento de un reproductor multimedia**.
+Un reproductor puede encontrarse en distintos estados y **cada estado determina cómo responde a las acciones del usuario**:
 
-* **Borrador**: el documento puede editarse.
-* **En revisión**: el documento ya no puede editarse.
-* **Publicado**: el documento está finalizado y no admite cambios.
+* **Detenido**: el reproductor no está reproduciendo contenido.
+* **Reproduciendo**: el contenido se está reproduciendo.
+* **Pausado**: la reproducción está temporalmente detenida.
 
-El objeto `Documento` actúa como **Contexto** y delega su comportamiento en objetos que representan cada estado concreto.
-El código cliente interactúa únicamente con `Documento`; el cambio de comportamiento se produce automáticamente al cambiar el estado interno.
+El objeto `Reproductor` actúa como **Contexto** y delega su comportamiento en objetos que representan cada estado concreto.
+El código cliente interactúa únicamente con `Reproductor`; el cambio de comportamiento se produce automáticamente al cambiar el estado interno.
 
 El ejemplo se organiza en:
 
-* **EstadoDocumento.hpp** – interfaz común del estado
-* **Documento.hpp** – contexto y estados concretos
+* **EstadoReproductor.hpp** – interfaz común del estado
+* **Reproductor.hpp** – contexto y estados concretos
 * **main.cpp** – código cliente
 
-
-## EstadoDocumento.hpp
+## EstadoReproductor.hpp
 
 ```cpp
 #pragma once
-#include <string>
 
 // Declaración anticipada
-class Documento;
+class Reproductor;
 
 // ----------------------------------------
 // Interfaz base del estado
 // ----------------------------------------
-class EstadoDocumento {
+class EstadoReproductor {
 public:
-    virtual ~EstadoDocumento() = default;
+    virtual ~EstadoReproductor() = default;
 
-    virtual void editar(Documento&, const std::string&) = 0;
-    virtual void enviar_revision(Documento&) = 0;
-    virtual void publicar(Documento&) = 0;
+    virtual void play(Reproductor&) = 0;
+    virtual void pause(Reproductor&) = 0;
+    virtual void stop(Reproductor&) = 0;
 };
 ```
 
-
-## Documento.hpp
+## Reproductor.hpp
 
 Este archivo contiene:
 
-* la clase **Contexto** (`Documento`)
+* la clase **Contexto** (`Reproductor`)
 * **todas las clases de estado concretas**
 * métodos definidos **dentro de las clases**
 
 ```cpp
 #pragma once
 #include <memory>
-#include <string>
 #include <iostream>
-#include "EstadoDocumento.hpp"
+#include "EstadoReproductor.hpp"
 
 // ----------------------------------------
 // Contexto
 // ----------------------------------------
-class Documento {
+class Reproductor {
 private:
-    std::unique_ptr<EstadoDocumento> estado_;
-    std::string contenido_;
+    std::unique_ptr<EstadoReproductor> estado_;
 
 public:
-    Documento()
-        : estado_(std::make_unique<EstadoBorrador>()) {}
+    Reproductor()
+        : estado_(std::make_unique<EstadoDetenido>()) {}
 
-    void cambiar_estado(std::unique_ptr<EstadoDocumento> nuevoEstado) {
+    void cambiar_estado(std::unique_ptr<EstadoReproductor> nuevoEstado) {
         estado_ = std::move(nuevoEstado);
     }
 
-    void editar(const std::string& texto) {
-        estado_->editar(*this, texto);
-    }
-
-    void enviar_revision() {
-        estado_->enviar_revision(*this);
-    }
-
-    void publicar() {
-        estado_->publicar(*this);
-    }
-
-    void set_contenido(const std::string& texto) {
-        contenido_ = texto;
-    }
-
-    const std::string& contenido() const {
-        return contenido_;
-    }
+    void play()  { estado_->play(*this); }
+    void pause(){ estado_->pause(*this); }
+    void stop() { estado_->stop(*this); }
 };
 
 // ----------------------------------------
 // Estados concretos
 // ----------------------------------------
 
-class EstadoBorrador : public EstadoDocumento {
+class EstadoDetenido : public EstadoReproductor {
 public:
-    void editar(Documento& doc, const std::string& texto) override {
-        doc.set_contenido(texto);
-        std::cout << "[Borrador] Documento editado: "
-                  << doc.contenido() << "\n";
+    void play(Reproductor& r) override {
+        std::cout << "[Detenido] Iniciando reproducción.\n";
+        r.cambiar_estado(std::make_unique<EstadoReproduciendo>());
     }
 
-    void enviar_revision(Documento& doc) override {
-        std::cout << "[Borrador] Enviando a revisión...\n";
-        doc.cambiar_estado(std::make_unique<EstadoRevision>());
+    void pause(Reproductor&) override {
+        std::cout << "[Detenido] No se puede pausar.\n";
     }
 
-    void publicar(Documento&) override {
-        std::cout << "[Borrador] No puede publicarse directamente.\n";
+    void stop(Reproductor&) override {
+        std::cout << "[Detenido] Ya está detenido.\n";
     }
 };
 
-class EstadoRevision : public EstadoDocumento {
+class EstadoReproduciendo : public EstadoReproductor {
 public:
-    void editar(Documento&, const std::string&) override {
-        std::cout << "[Revisión] No se puede editar. "
-                     "Debe volver a borrador.\n";
+    void play(Reproductor&) override {
+        std::cout << "[Reproduciendo] Ya se está reproduciendo.\n";
     }
 
-    void enviar_revision(Documento&) override {
-        std::cout << "[Revisión] Ya está en revisión.\n";
+    void pause(Reproductor& r) override {
+        std::cout << "[Reproduciendo] Pausando reproducción.\n";
+        r.cambiar_estado(std::make_unique<EstadoPausado>());
     }
 
-    void publicar(Documento& doc) override {
-        std::cout << "[Revisión] Publicando documento...\n";
-        doc.cambiar_estado(std::make_unique<EstadoPublicado>());
+    void stop(Reproductor& r) override {
+        std::cout << "[Reproduciendo] Deteniendo reproducción.\n";
+        r.cambiar_estado(std::make_unique<EstadoDetenido>());
     }
 };
 
-class EstadoPublicado : public EstadoDocumento {
+class EstadoPausado : public EstadoReproductor {
 public:
-    void editar(Documento&, const std::string&) override {
-        std::cout << "[Publicado] No puede editarse "
-                     "un documento publicado.\n";
+    void play(Reproductor& r) override {
+        std::cout << "[Pausado] Reanudando reproducción.\n";
+        r.cambiar_estado(std::make_unique<EstadoReproduciendo>());
     }
 
-    void enviar_revision(Documento&) override {
-        std::cout << "[Publicado] No puede volver a revisión.\n";
+    void pause(Reproductor&) override {
+        std::cout << "[Pausado] Ya está en pausa.\n";
     }
 
-    void publicar(Documento&) override {
-        std::cout << "[Publicado] Ya está publicado.\n";
+    void stop(Reproductor& r) override {
+        std::cout << "[Pausado] Deteniendo reproducción.\n";
+        r.cambiar_estado(std::make_unique<EstadoDetenido>());
     }
 };
 ```
 
-
 ## main.cpp
 
 ```cpp
-#include "Documento.hpp"
+#include "Reproductor.hpp"
 
 int main() {
-    Documento doc;
+    Reproductor r;
 
-    doc.editar("Primer borrador del texto");
-    doc.enviar_revision();
-    doc.editar("Intento de editar en revisión");
-    doc.publicar();
-    doc.editar("Intento de editar publicado");
+    r.play();   // Detenido → Reproduciendo
+    r.pause(); // Reproduciendo → Pausado
+    r.play();  // Pausado → Reproduciendo
+    r.stop();  // Reproduciendo → Detenido
 
     return 0;
 }
 ```
 
+## Añadir un nuevo estado
 
+Como en la versión actual **los estados se definen con sus métodos dentro de la clase**, basta con añadir una nueva clase que implemente la interfaz `EstadoReproductor`.
 
-
-
-## Añadir el nuevo estado
-
-Como en la versión actual **los estados se definen con sus métodos dentro de la clase**, basta con añadir una nueva clase que implemente la interfaz `EstadoDocumento`.
-
-### Nuevo estado: `EstadoArchivado`
+### Nuevo estado: `EstadoSinContenido`
 
 ```cpp
-class EstadoArchivado : public EstadoDocumento {
+class EstadoSinContenido : public EstadoReproductor {
 public:
-    void editar(Documento&, const std::string&) override {
-        std::cout << "[Archivado] Documento bloqueado. No se puede editar.\n";
+    void play(Reproductor&) override {
+        std::cout << "[Sin contenido] No hay contenido para reproducir.\n";
     }
 
-    void enviar_revision(Documento&) override {
-        std::cout << "[Archivado] No puede enviarse a revisión.\n";
+    void pause(Reproductor&) override {
+        std::cout << "[Sin contenido] No se puede pausar.\n";
     }
 
-    void publicar(Documento&) override {
-        std::cout << "[Archivado] El documento ya está archivado.\n";
+    void stop(Reproductor&) override {
+        std::cout << "[Sin contenido] El reproductor está inactivo.\n";
     }
 };
 ```
 
-No es necesario modificar la interfaz `EstadoDocumento`, ya que el nuevo estado **se adapta a las operaciones ya definidas**.
-
+No es necesario modificar la interfaz `EstadoReproductor`, ya que el nuevo estado **se adapta a las operaciones ya definidas**.
 
 ### Activar el nuevo estado desde otro estado
 
-Para que el documento pueda pasar al estado **Archivado**, basta con añadir una transición desde uno de los estados existentes.
-Por ejemplo, desde `EstadoPublicado`:
+Por ejemplo, desde `EstadoDetenido`:
 
 ```cpp
-class EstadoPublicado : public EstadoDocumento {
+class EstadoDetenido : public EstadoReproductor {
 public:
-    void editar(Documento&, const std::string&) override {
-        std::cout << "[Publicado] No puede editarse un documento publicado.\n";
+    void play(Reproductor& r) override {
+        std::cout << "[Detenido] No hay contenido cargado.\n";
+        r.cambiar_estado(std::make_unique<EstadoSinContenido>());
     }
 
-    void enviar_revision(Documento&) override {
-        std::cout << "[Publicado] No puede volver a revisión.\n";
+    void pause(Reproductor&) override {
+        std::cout << "[Detenido] No se puede pausar.\n";
     }
 
-    void publicar(Documento& doc) override {
-        std::cout << "[Publicado] Archivando documento...\n";
-        doc.cambiar_estado(std::make_unique<EstadoArchivado>());
+    void stop(Reproductor&) override {
+        std::cout << "[Detenido] Ya está detenido.\n";
     }
 };
 ```
 
 La transición queda encapsulada en el propio estado, sin condicionales externos ni lógica adicional en el contexto.
 
-
 ### Qué no hemos modificado
 
 Es importante destacar que **la incorporación del nuevo estado no ha requerido cambios en**:
 
-* la interfaz `EstadoDocumento`,
-* la clase `Documento`,
+* la interfaz `EstadoReproductor`,
+* la clase `Reproductor`,
 * el código cliente (`main.cpp`).
 
 Solo hemos:
 
-1. añadido un **nuevo estado concreto** (`EstadoArchivado`),
+1. añadido un **nuevo estado concreto**,
 2. definido su comportamiento específico,
 3. incorporado una **nueva transición** desde un estado existente.
 
