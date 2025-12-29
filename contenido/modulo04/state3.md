@@ -1,4 +1,4 @@
-# Ejemplo: Flujo de estados de un documento (versión definitiva)
+# Ejemplo: Flujo de estados de un documento
 
 ## Introducción
 
@@ -14,8 +14,8 @@ El código cliente interactúa únicamente con `Documento`; el cambio de comport
 
 El ejemplo se organiza en:
 
-* **EstadoDocumento.hpp** – interfaz del estado y estados concretos
-* **Documento.hpp** – clase Contexto
+* **EstadoDocumento.hpp** – interfaz común del estado
+* **Documento.hpp** – contexto y estados concretos
 * **main.cpp** – código cliente
 
 
@@ -23,8 +23,6 @@ El ejemplo se organiza en:
 
 ```cpp
 #pragma once
-#include <iostream>
-#include <memory>
 #include <string>
 
 // Declaración anticipada
@@ -41,34 +39,16 @@ public:
     virtual void enviar_revision(Documento&) = 0;
     virtual void publicar(Documento&) = 0;
 };
-
-// ----------------------------------------
-// Estados concretos
-// ----------------------------------------
-class EstadoBorrador : public EstadoDocumento {
-public:
-    void editar(Documento&, const std::string&) override;
-    void enviar_revision(Documento&) override;
-    void publicar(Documento&) override;
-};
-
-class EstadoRevision : public EstadoDocumento {
-public:
-    void editar(Documento&, const std::string&) override;
-    void enviar_revision(Documento&) override;
-    void publicar(Documento&) override;
-};
-
-class EstadoPublicado : public EstadoDocumento {
-public:
-    void editar(Documento&, const std::string&) override;
-    void enviar_revision(Documento&) override;
-    void publicar(Documento&) override;
-};
 ```
 
 
 ## Documento.hpp
+
+Este archivo contiene:
+
+* la clase **Contexto** (`Documento`)
+* **todas las clases de estado concretas**
+* métodos definidos **dentro de las clases**
 
 ```cpp
 #pragma once
@@ -115,7 +95,7 @@ public:
 };
 
 // ----------------------------------------
-// Implementación de los estados
+// Estados concretos
 // ----------------------------------------
 
 class EstadoBorrador : public EstadoDocumento {
@@ -184,10 +164,14 @@ int main() {
     doc.editar("Intento de editar en revisión");
     doc.publicar();
     doc.editar("Intento de editar publicado");
+
+    return 0;
 }
 ```
 
-Este ejemplo muestra cómo el patrón State permite variar el comportamiento de un objeto en función de su estado interno, eliminando condicionales y manteniendo el código organizado y extensible.
+
+
+
 
 ## Añadir el nuevo estado
 
