@@ -2,33 +2,23 @@
 
 ## Introducción
 
-Para ilustrar el patrón **Visitor** en un contexto realista, construiremos un pequeño sistema formado por **elementos visitables** que representan distintos tipos de objetos dentro de una aplicación: por ejemplo, una *ParteA* y una *ParteB* de un sistema complejo.
+Para ilustrar el patrón **Visitor**, construiremos un pequeño sistema formado por **elementos visitables** que representan distintos tipos de objetos dentro de una aplicación (por ejemplo, `ElementoA` y `ElementoB`).
 
-El objetivo es permitir que el código cliente pueda aplicar **distintas operaciones**, como:
+El objetivo es permitir añadir **nuevas operaciones** (mostrar información, validar, exportar, etc.) **sin modificar las clases de los elementos**, delegando dichas operaciones en objetos visitante.
 
-* mostrar información,
-* obtener estadísticas,
-* validar el estado interno de los objetos,
+El ejemplo se organiza en:
 
-sin necesidad de **modificar** las clases de los elementos cada vez que añadimos una nueva operación.
-
-Cada elemento concreto implementa un método `accept()` que delega la operación en un visitante concreto.
-El cliente trabaja solo con las interfaces `Elemento` y `Visitante`, desconociendo los tipos específicos.
-
-A continuación se muestra el código completo dividido en:
-
-* **Elementos.hpp** – jerarquía de elementos y su interfaz
-* **Visitantes.hpp** – interfaz visitante y visitantes concretos
+* **Elementos.hpp / Elementos.cpp** – jerarquía de elementos visitables
+* **Visitantes.hpp / Visitantes.cpp** – interfaz visitante y visitantes concretos
 * **main.cpp** – código cliente
+
 
 ## Elementos.hpp
 
 ```cpp
 #pragma once
-#include <iostream>
-#include <memory>
 
-// Declaración adelantada de Visitante
+// Declaración anticipada
 class Visitante;
 
 // ----------------------------------------
@@ -45,11 +35,8 @@ public:
 // ----------------------------------------
 class ElementoA : public Elemento {
 public:
-    void accept(Visitante& v) override; // Implementación en Visitantes.hpp
-
-    void operacion_especifica_A() const {
-        std::cout << "ElementoA: realizando su lógica interna.\n";
-    }
+    void accept(Visitante& v) override;
+    void operacion_especifica_A() const;
 };
 
 // ----------------------------------------
@@ -58,12 +45,41 @@ public:
 class ElementoB : public Elemento {
 public:
     void accept(Visitante& v) override;
-
-    void operacion_especifica_B() const {
-        std::cout << "ElementoB: realizando su lógica interna.\n";
-    }
+    void operacion_especifica_B() const;
 };
 ```
+
+
+## Elementos.cpp
+
+```cpp
+#include <iostream>
+#include "Elementos.hpp"
+#include "Visitantes.hpp"
+
+// ----------------------------------------
+// Implementación de accept (double dispatch)
+// ----------------------------------------
+void ElementoA::accept(Visitante& v) {
+    v.visitar(*this);
+}
+
+void ElementoB::accept(Visitante& v) {
+    v.visitar(*this);
+}
+
+// ----------------------------------------
+// Lógica propia de los elementos
+// ----------------------------------------
+void ElementoA::operacion_especifica_A() const {
+    std::cout << "ElementoA: realizando su lógica interna.\n";
+}
+
+void ElementoB::operacion_especifica_B() const {
+    std::cout << "ElementoB: realizando su lógica interna.\n";
+}
+```
+
 
 ## Visitantes.hpp
 
@@ -78,46 +94,61 @@ class Visitante {
 public:
     virtual ~Visitante() = default;
 
-    virtual void visitar(ElementoA& e) = 0;
-    virtual void visitar(ElementoB& e) = 0;
+    virtual void visitar(ElementoA&) = 0;
+    virtual void visitar(ElementoB&) = 0;
 };
 
 // ----------------------------------------
-// Implementación de accept() (double dispatch)
-// ----------------------------------------
-inline void ElementoA::accept(Visitante& v) { v.visitar(*this); }
-inline void ElementoB::accept(Visitante& v) { v.visitar(*this); }
-
-// ----------------------------------------
-// Visitante concreto 1: Mostrar información
+// Visitante concreto: Mostrar información
 // ----------------------------------------
 class VisitanteMostrar : public Visitante {
 public:
-    void visitar(ElementoA& e) override {
-        std::cout << "[Mostrar] Información de ElementoA → ";
-        e.operacion_especifica_A();
-    }
-
-    void visitar(ElementoB& e) override {
-        std::cout << "[Mostrar] Información de ElementoB → ";
-        e.operacion_especifica_B();
-    }
+    void visitar(ElementoA&) override;
+    void visitar(ElementoB&) override;
 };
 
 // ----------------------------------------
-// Visitante concreto 2: Validación
+// Visitante concreto: Validar
 // ----------------------------------------
 class VisitanteValidar : public Visitante {
 public:
-    void visitar(ElementoA& e) override {
-        std::cout << "[Validar] Comprobando ElementoA...\n";
-    }
-
-    void visitar(ElementoB& e) override {
-        std::cout << "[Validar] Comprobando ElementoB...\n";
-    }
+    void visitar(ElementoA&) override;
+    void visitar(ElementoB&) override;
 };
 ```
+
+
+## Visitantes.cpp
+
+```cpp
+#include <iostream>
+#include "Visitantes.hpp"
+
+// ----------------------------------------
+// VisitanteMostrar
+// ----------------------------------------
+void VisitanteMostrar::visitar(ElementoA& e) {
+    std::cout << "[Mostrar] Información de ElementoA → ";
+    e.operacion_especifica_A();
+}
+
+void VisitanteMostrar::visitar(ElementoB& e) {
+    std::cout << "[Mostrar] Información de ElementoB → ";
+    e.operacion_especifica_B();
+}
+
+// ----------------------------------------
+// VisitanteValidar
+// ----------------------------------------
+void VisitanteValidar::visitar(ElementoA&) {
+    std::cout << "[Validar] Comprobando ElementoA...\n";
+}
+
+void VisitanteValidar::visitar(ElementoB&) {
+    std::cout << "[Validar] Comprobando ElementoB...\n";
+}
+```
+
 
 ## main.cpp
 
@@ -132,7 +163,6 @@ void cliente(Elemento& elem, Visitante& visitante) {
 }
 
 int main() {
-    // Colección heterogénea de elementos
     std::vector<std::unique_ptr<Elemento>> elementos;
     elementos.push_back(std::make_unique<ElementoA>());
     elementos.push_back(std::make_unique<ElementoB>());
@@ -154,30 +184,44 @@ int main() {
 }
 ```
 
+
+## Compilación
+
+Desde la línea de comandos:
+
+```bash
+g++ main.cpp Elementos.cpp Visitantes.cpp -o visitor
+```
+
 ## Añadir un nuevo visitante
 
-**Para añadir una nueva operación NO modificamos las clases de los elementos.**
+Para añadir una **nueva operación**, **no se modifican los elementos**.
 
-Supongamos que queremos añadir un nuevo visitante con una operación de **exportación**.
+### Nuevo visitante: `VisitanteExportar`
 
-### Añadir un nuevo visitante en `Visitantes.hpp`
-
-Debajo de los otros visitantes, añadimos:
+#### Declaración (`Visitantes.hpp`)
 
 ```cpp
 class VisitanteExportar : public Visitante {
 public:
-    void visitar(ElementoA& e) override {
-        std::cout << "[Exportar] Exportando ElementoA en formato JSON.\n";
-    }
-
-    void visitar(ElementoB& e) override {
-        std::cout << "[Exportar] Exportando ElementoB en formato JSON.\n";
-    }
+    void visitar(ElementoA&) override;
+    void visitar(ElementoB&) override;
 };
 ```
 
-### Usarlo desde el cliente (`main.cpp`)
+#### Implementación (`Visitantes.cpp`)
+
+```cpp
+void VisitanteExportar::visitar(ElementoA&) {
+    std::cout << "[Exportar] Exportando ElementoA en formato JSON.\n";
+}
+
+void VisitanteExportar::visitar(ElementoB&) {
+    std::cout << "[Exportar] Exportando ElementoB en formato JSON.\n";
+}
+```
+
+#### Uso desde `main.cpp`
 
 ```cpp
 VisitanteExportar exportar;
@@ -187,15 +231,9 @@ for (auto& e : elementos) {
 }
 ```
 
-### Qué no hemos modificado
+## Qué no hemos modificado
 
-* No hemos modificado la interfaz `Elemento`.
-* No hemos modificado la interfaz `Visitante`.
-* No hemos modificado la lógica interna de `ElementoA` ni `ElementoB`.
-* No hemos modificado el código de `cliente`.
-
-Solo hemos:
-
-1. añadido un **nuevo visitante concreto** (`VisitanteExportar`),
-2. y opcionalmente una línea en `main.cpp` para usarlo.
-
+* No se ha modificado la interfaz `Elemento`.
+* No se ha modificado la interfaz `Visitante`.
+* No se ha modificado la lógica interna de `ElementoA` ni `ElementoB`.
+* No se ha modificado la función `cliente`.
