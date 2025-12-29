@@ -217,52 +217,65 @@ g++ main.cpp Reproductor.cpp Estados.cpp -o reproductor
 
 ## Añadir un nuevo estado
 
-Como en la versión actual **los estados se definen con sus métodos dentro de la clase**, basta con añadir una nueva clase que implemente la interfaz `EstadoReproductor`.
+Para añadir un nuevo estado, basta con:
+
+1. declarar una nueva clase de estado que implemente la interfaz `EstadoReproductor`,
+2. definir su comportamiento en el archivo de implementación,
+3. añadir una transición hacia ese estado desde otro estado existente.
+
 
 ### Nuevo estado: `EstadoSinContenido`
 
+#### Declaración (`Estados.hpp`)
+
 ```cpp
+// ----------------------------------------
+// Nuevo estado concreto: Sin contenido
+// ----------------------------------------
 class EstadoSinContenido : public EstadoReproductor {
 public:
-    void play(Reproductor&) override {
-        std::cout << "[Sin contenido] No hay contenido para reproducir.\n";
-    }
-
-    void pause(Reproductor&) override {
-        std::cout << "[Sin contenido] No se puede pausar.\n";
-    }
-
-    void stop(Reproductor&) override {
-        std::cout << "[Sin contenido] El reproductor está inactivo.\n";
-    }
+    void play(Reproductor&) override;
+    void pause(Reproductor&) override;
+    void stop(Reproductor&) override;
 };
 ```
 
-No es necesario modificar la interfaz `EstadoReproductor`, ya que el nuevo estado **se adapta a las operaciones ya definidas**.
+#### Implementación (`Estados.cpp`)
+
+```cpp
+// ----------------------------------------
+// EstadoSinContenido
+// ----------------------------------------
+void EstadoSinContenido::play(Reproductor&) {
+    std::cout << "[Sin contenido] No hay contenido para reproducir.\n";
+}
+
+void EstadoSinContenido::pause(Reproductor&) {
+    std::cout << "[Sin contenido] No se puede pausar.\n";
+}
+
+void EstadoSinContenido::stop(Reproductor&) {
+    std::cout << "[Sin contenido] El reproductor está inactivo.\n";
+}
+```
+
+No es necesario modificar la interfaz `EstadoReproductor`, ya que el nuevo estado **implementa las operaciones ya definidas**.
 
 ### Activar el nuevo estado desde otro estado
 
-Por ejemplo, desde `EstadoDetenido`:
+Para que el reproductor pueda pasar al estado **Sin contenido**, se añade una transición desde uno de los estados existentes.
+Por ejemplo, desde `EstadoDetenido`.
+
+#### Modificación en `Estados.cpp`
 
 ```cpp
-class EstadoDetenido : public EstadoReproductor {
-public:
-    void play(Reproductor& r) override {
-        std::cout << "[Detenido] No hay contenido cargado.\n";
-        r.cambiar_estado(std::make_unique<EstadoSinContenido>());
-    }
-
-    void pause(Reproductor&) override {
-        std::cout << "[Detenido] No se puede pausar.\n";
-    }
-
-    void stop(Reproductor&) override {
-        std::cout << "[Detenido] Ya está detenido.\n";
-    }
-};
+void EstadoDetenido::play(Reproductor& r) {
+    std::cout << "[Detenido] No hay contenido cargado.\n";
+    r.cambiar_estado(std::make_unique<EstadoSinContenido>());
+}
 ```
 
-La transición queda encapsulada en el propio estado, sin condicionales externos ni lógica adicional en el contexto.
+La transición queda **encapsulada en el propio estado**, manteniendo al contexto completamente ajeno a la lógica de cambio.
 
 ### Qué no hemos modificado
 
@@ -274,7 +287,7 @@ Es importante destacar que **la incorporación del nuevo estado no ha requerido 
 
 Solo hemos:
 
-1. añadido un **nuevo estado concreto**,
-2. definido su comportamiento específico,
+1. añadido un **nuevo estado concreto** (`EstadoSinContenido`),
+2. definido su comportamiento específico en su implementación,
 3. incorporado una **nueva transición** desde un estado existente.
 
