@@ -15,8 +15,10 @@ El código cliente interactúa únicamente con `Reproductor`; el cambio de compo
 El ejemplo se organiza en:
 
 * **EstadoReproductor.hpp** – interfaz común del estado
-* **Reproductor.hpp** – contexto y estados concretos
+* **Reproductor.hpp / Reproductor.cpp** – contexto
+* **Estados.cpp** – implementación de los estados concretos
 * **main.cpp** – código cliente
+
 
 ## EstadoReproductor.hpp
 
@@ -39,94 +41,156 @@ public:
 };
 ```
 
+
 ## Reproductor.hpp
-
-Este archivo contiene:
-
-* la clase **Contexto** (`Reproductor`)
-* **todas las clases de estado concretas**
-* métodos definidos **dentro de las clases**
 
 ```cpp
 #pragma once
 #include <memory>
-#include <iostream>
 #include "EstadoReproductor.hpp"
 
 // ----------------------------------------
 // Contexto
 // ----------------------------------------
 class Reproductor {
+public:
+    Reproductor();
+
+    void cambiar_estado(std::unique_ptr<EstadoReproductor> nuevoEstado);
+
+    void play();
+    void pause();
+    void stop();
+
 private:
     std::unique_ptr<EstadoReproductor> estado_;
-
-public:
-    Reproductor()
-        : estado_(std::make_unique<EstadoDetenido>()) {}
-
-    void cambiar_estado(std::unique_ptr<EstadoReproductor> nuevoEstado) {
-        estado_ = std::move(nuevoEstado);
-    }
-
-    void play()  { estado_->play(*this); }
-    void pause(){ estado_->pause(*this); }
-    void stop() { estado_->stop(*this); }
 };
+```
+
+
+## Reproductor.cpp
+
+```cpp
+#include "Reproductor.hpp"
+#include "Estados.hpp"
+
+Reproductor::Reproductor()
+    : estado_(std::make_unique<EstadoDetenido>()) {}
+
+void Reproductor::cambiar_estado(std::unique_ptr<EstadoReproductor> nuevoEstado) {
+    estado_ = std::move(nuevoEstado);
+}
+
+void Reproductor::play() {
+    estado_->play(*this);
+}
+
+void Reproductor::pause() {
+    estado_->pause(*this);
+}
+
+void Reproductor::stop() {
+    estado_->stop(*this);
+}
+```
+
+
+## Estados.hpp
+
+```cpp
+#pragma once
+#include "EstadoReproductor.hpp"
+
+// Declaraciones anticipadas
+class EstadoDetenido;
+class EstadoReproduciendo;
+class EstadoPausado;
 
 // ----------------------------------------
 // Estados concretos
 // ----------------------------------------
-
 class EstadoDetenido : public EstadoReproductor {
 public:
-    void play(Reproductor& r) override {
-        std::cout << "[Detenido] Iniciando reproducción.\n";
-        r.cambiar_estado(std::make_unique<EstadoReproduciendo>());
-    }
-
-    void pause(Reproductor&) override {
-        std::cout << "[Detenido] No se puede pausar.\n";
-    }
-
-    void stop(Reproductor&) override {
-        std::cout << "[Detenido] Ya está detenido.\n";
-    }
+    void play(Reproductor&) override;
+    void pause(Reproductor&) override;
+    void stop(Reproductor&) override;
 };
 
 class EstadoReproduciendo : public EstadoReproductor {
 public:
-    void play(Reproductor&) override {
-        std::cout << "[Reproduciendo] Ya se está reproduciendo.\n";
-    }
-
-    void pause(Reproductor& r) override {
-        std::cout << "[Reproduciendo] Pausando reproducción.\n";
-        r.cambiar_estado(std::make_unique<EstadoPausado>());
-    }
-
-    void stop(Reproductor& r) override {
-        std::cout << "[Reproduciendo] Deteniendo reproducción.\n";
-        r.cambiar_estado(std::make_unique<EstadoDetenido>());
-    }
+    void play(Reproductor&) override;
+    void pause(Reproductor&) override;
+    void stop(Reproductor&) override;
 };
 
 class EstadoPausado : public EstadoReproductor {
 public:
-    void play(Reproductor& r) override {
-        std::cout << "[Pausado] Reanudando reproducción.\n";
-        r.cambiar_estado(std::make_unique<EstadoReproduciendo>());
-    }
-
-    void pause(Reproductor&) override {
-        std::cout << "[Pausado] Ya está en pausa.\n";
-    }
-
-    void stop(Reproductor& r) override {
-        std::cout << "[Pausado] Deteniendo reproducción.\n";
-        r.cambiar_estado(std::make_unique<EstadoDetenido>());
-    }
+    void play(Reproductor&) override;
+    void pause(Reproductor&) override;
+    void stop(Reproductor&) override;
 };
 ```
+
+
+## Estados.cpp
+
+```cpp
+#include <iostream>
+#include <memory>
+#include "Estados.hpp"
+#include "Reproductor.hpp"
+
+// ----------------------------------------
+// EstadoDetenido
+// ----------------------------------------
+void EstadoDetenido::play(Reproductor& r) {
+    std::cout << "[Detenido] Iniciando reproducción.\n";
+    r.cambiar_estado(std::make_unique<EstadoReproduciendo>());
+}
+
+void EstadoDetenido::pause(Reproductor&) {
+    std::cout << "[Detenido] No se puede pausar.\n";
+}
+
+void EstadoDetenido::stop(Reproductor&) {
+    std::cout << "[Detenido] Ya está detenido.\n";
+}
+
+// ----------------------------------------
+// EstadoReproduciendo
+// ----------------------------------------
+void EstadoReproduciendo::play(Reproductor&) {
+    std::cout << "[Reproduciendo] Ya se está reproduciendo.\n";
+}
+
+void EstadoReproduciendo::pause(Reproductor& r) {
+    std::cout << "[Reproduciendo] Pausando reproducción.\n";
+    r.cambiar_estado(std::make_unique<EstadoPausado>());
+}
+
+void EstadoReproduciendo::stop(Reproductor& r) {
+    std::cout << "[Reproduciendo] Deteniendo reproducción.\n";
+    r.cambiar_estado(std::make_unique<EstadoDetenido>());
+}
+
+// ----------------------------------------
+// EstadoPausado
+// ----------------------------------------
+void EstadoPausado::play(Reproductor& r) {
+    std::cout << "[Pausado] Reanudando reproducción.\n";
+    r.cambiar_estado(std::make_unique<EstadoReproduciendo>());
+}
+
+void EstadoPausado::pause(Reproductor&) {
+    std::cout << "[Pausado] Ya está en pausa.\n";
+}
+
+void EstadoPausado::stop(Reproductor& r) {
+    std::cout << "[Pausado] Deteniendo reproducción.\n";
+    r.cambiar_estado(std::make_unique<EstadoDetenido>());
+}
+```
+
 
 ## main.cpp
 
@@ -143,6 +207,12 @@ int main() {
 
     return 0;
 }
+```
+
+Recuerda que debemos realizar la compilación de la siguiente manera:
+
+```bash
+g++ main.cpp Reproductor.cpp Estados.cpp -o reproductor
 ```
 
 ## Añadir un nuevo estado
