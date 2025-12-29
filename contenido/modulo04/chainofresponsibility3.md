@@ -209,6 +209,9 @@ std::unique_ptr<Manejador> construir_cadena_con_contenido();
 #### En `Cadena.cpp`
 
 ```cpp
+
+//Autenticación -> Permisos -> Contenido -> Formato
+
 std::unique_ptr<Manejador> construir_cadena_con_contenido() {
     auto autenticacion = std::make_unique<ValidadorAutenticacion>();
     auto permisos      = std::make_unique<ValidadorPermisos>();
@@ -226,11 +229,22 @@ std::unique_ptr<Manejador> construir_cadena_con_contenido() {
 ### Usar la nueva cadena desde el cliente (`main.cpp`)
 
 ```cpp
+#include "Cadena.hpp"
+
+void cliente(const Manejador& manejador) {
+    manejador.manejar("token-invalido");
+    manejador.manejar("sin-permisos");
+    manejador.manejar("texto con palabra prohibido dentro");
+    manejador.manejar("");
+    manejador.manejar("solicitud-correcta");
+}
+
 int main() {
     auto cadena = construir_cadena_con_contenido();
     cliente(*cadena);
     return 0;
 }
+
 ```
 
 ### Qué no hemos modificado
