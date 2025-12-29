@@ -244,12 +244,15 @@ public:
 
 #### Implementación (`Estados.cpp`)
 
+Para salir de ese estado, por ejemplo, al pulsar play, se carga contenido y se pasa a *Detenido*:
+
 ```cpp
 // ----------------------------------------
 // EstadoSinContenido
 // ----------------------------------------
-void EstadoSinContenido::play(Reproductor&) {
-    std::cout << "[Sin contenido] No hay contenido para reproducir.\n";
+void EstadoSinContenido::play(Reproductor& r) {
+    std::cout << "[Sin contenido] Cargando contenido...\n";
+    r.cambiar_estado(std::make_unique<EstadoDetenido>());
 }
 
 void EstadoSinContenido::pause(Reproductor&) {
