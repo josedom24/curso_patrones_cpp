@@ -197,12 +197,16 @@ bool ValidadorContenido::procesar(const std::string& solicitud) const {
 }
 ```
 
-### Insertar el nuevo manejador en la cadena (`Cadena.hpp` / `Cadena.cpp`)
+### Insertar el nuevo manejador en la cadena
+
+#### En `Cadena.hpp`
 
 ```cpp
 // Construye una cadena: Autenticación -> Permisos -> Contenido -> Formato
 std::unique_ptr<Manejador> construir_cadena_con_contenido();
 ```
+
+#### En `Cadena.cpp`
 
 ```cpp
 std::unique_ptr<Manejador> construir_cadena_con_contenido() {
