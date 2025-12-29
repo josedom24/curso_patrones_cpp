@@ -58,7 +58,7 @@
     * [Ejemplo: Sistema de monitoreo de temperatura](contenido/modulo04/observer3.md)
     * [Patrón State](contenido/modulo04/state.md)
     * [Implementación de State con C++](contenido/modulo04/state2.md)
-    * [Ejemplo: Flujo de estados de un documento](contenido/modulo04/state3.md)
+    * [Ejemplo: Estados de un reproductor multimedia](contenido/modulo04/state3.md)
     * [Patrón Visitor](contenido/modulo04/visitor.md)
     * [Implementación de Visitor con C++](contenido/modulo04/visitor2.md)
     * [Ejemplo: Sistema de elementos visitables (inspección de objetos)](contenido/modulo04/visitor3.md)
