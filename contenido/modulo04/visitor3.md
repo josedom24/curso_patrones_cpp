@@ -153,6 +153,7 @@ void VisitanteValidar::visitar(ElementoB&) {
 ## main.cpp
 
 ```cpp
+#include <iostream>
 #include <vector>
 #include <memory>
 #include "Visitantes.hpp"
@@ -202,6 +203,10 @@ Para añadir una **nueva operación**, **no se modifican los elementos**.
 #### Declaración (`Visitantes.hpp`)
 
 ```cpp
+// ----------------------------------------
+// Nuevo Visitante concreto: Exportar
+// ----------------------------------------
+
 class VisitanteExportar : public Visitante {
 public:
     void visitar(ElementoA&) override;
@@ -212,6 +217,10 @@ public:
 #### Implementación (`Visitantes.cpp`)
 
 ```cpp
+// ----------------------------------------
+// VisitanteExportar
+// ----------------------------------------
+
 void VisitanteExportar::visitar(ElementoA&) {
     std::cout << "[Exportar] Exportando ElementoA en formato JSON.\n";
 }
@@ -226,6 +235,7 @@ void VisitanteExportar::visitar(ElementoB&) {
 ```cpp
 VisitanteExportar exportar;
 
+std::cout << "\n--- Exportando ---\n";
 for (auto& e : elementos) {
     cliente(*e, exportar);
 }
@@ -237,3 +247,10 @@ for (auto& e : elementos) {
 * No se ha modificado la interfaz `Visitante`.
 * No se ha modificado la lógica interna de `ElementoA` ni `ElementoB`.
 * No se ha modificado la función `cliente`.
+
+Solo hemos:
+
+1. añadido un **nuevo visitante concreto** (`VisitanteExportar`),
+2. definido su comportamiento específico para cada tipo de elemento,
+3. utilizado el nuevo visitante desde el código cliente.
+
