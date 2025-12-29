@@ -18,15 +18,14 @@ La solicitud pasará de un manejador a otro hasta que alguno la procese o la cad
 
 El código se presenta en tres partes:
 
-* **Manejadores.hpp** – interfaz base y manejadores concretos
-* **Cadena.hpp** – lógica de construcción y utilidades
+* **Manejadores.hpp / Manejadores.cpp** – interfaz base y manejadores concretos
+* **Cadena.hpp / Cadena.cpp** – lógica de construcción de la cadena
 * **main.cpp** – código cliente
 
 ## Manejadores.hpp
 
 ```cpp
 #pragma once
-#include <iostream>
 #include <memory>
 #include <string>
 
@@ -37,15 +36,8 @@ class Manejador {
 public:
     virtual ~Manejador() = default;
 
-    void establecer_siguiente(std::unique_ptr<Manejador> siguiente) {
-        siguiente_ = std::move(siguiente);
-    }
-
-    void manejar(const std::string& solicitud) const {
-        if (!procesar(solicitud) && siguiente_) {
-            siguiente_->manejar(solicitud);
-        }
-    }
+    void establecer_siguiente(std::unique_ptr<Manejador> siguiente);
+    void manejar(const std::string& solicitud) const;
 
 protected:
     virtual bool procesar(const std::string& solicitud) const = 0;
@@ -57,49 +49,87 @@ private:
 // ----------------------------------------
 // Manejadores concretos
 // ----------------------------------------
-
 class ValidadorAutenticacion : public Manejador {
 protected:
-    bool procesar(const std::string& solicitud) const override {
-        if (solicitud == "token-invalido") {
-            std::cout << "Autenticación fallida.\n";
-            return true;
-        }
-        return false;
-    }
+    bool procesar(const std::string& solicitud) const override;
 };
 
 class ValidadorPermisos : public Manejador {
 protected:
-    bool procesar(const std::string& solicitud) const override {
-        if (solicitud == "sin-permisos") {
-            std::cout << "Permisos insuficientes.\n";
-            return true;
-        }
-        return false;
-    }
+    bool procesar(const std::string& solicitud) const override;
 };
 
 class ValidadorFormato : public Manejador {
 protected:
-    bool procesar(const std::string& solicitud) const override {
-        if (solicitud.empty()) {
-            std::cout << "Formato inválido: solicitud vacía.\n";
-            return true;
-        }
-        return false;
-    }
+    bool procesar(const std::string& solicitud) const override;
 };
+```
+
+## Manejadores.cpp
+
+```cpp
+#include <iostream>
+#include "Manejadores.hpp"
+
+// ----------------------------------------
+// Implementación de Manejador
+// ----------------------------------------
+void Manejador::establecer_siguiente(std::unique_ptr<Manejador> siguiente) {
+    siguiente_ = std::move(siguiente);
+}
+
+void Manejador::manejar(const std::string& solicitud) const {
+    if (!procesar(solicitud) && siguiente_) {
+        siguiente_->manejar(solicitud);
+    }
+}
+
+// ----------------------------------------
+// Manejadores concretos
+// ----------------------------------------
+bool ValidadorAutenticacion::procesar(const std::string& solicitud) const {
+    if (solicitud == "token-invalido") {
+        std::cout << "Autenticación fallida.\n";
+        return true;
+    }
+    return false;
+}
+
+bool ValidadorPermisos::procesar(const std::string& solicitud) const {
+    if (solicitud == "sin-permisos") {
+        std::cout << "Permisos insuficientes.\n";
+        return true;
+    }
+    return false;
+}
+
+bool ValidadorFormato::procesar(const std::string& solicitud) const {
+    if (solicitud.empty()) {
+        std::cout << "Formato inválido: solicitud vacía.\n";
+        return true;
+    }
+    return false;
+}
 ```
 
 ## Cadena.hpp
 
 ```cpp
 #pragma once
+#include <memory>
 #include "Manejadores.hpp"
 
 // Construye una cadena: Autenticación -> Permisos -> Formato
-inline std::unique_ptr<Manejador> construir_cadena_basica() {
+std::unique_ptr<Manejador> construir_cadena_basica();
+```
+
+## Cadena.cpp
+
+```cpp
+#include "Cadena.hpp"
+
+// Autenticación -> Permisos -> Formato
+std::unique_ptr<Manejador> construir_cadena_basica() {
     auto autenticacion = std::make_unique<ValidadorAutenticacion>();
     auto permisos      = std::make_unique<ValidadorPermisos>();
     auto formato       = std::make_unique<ValidadorFormato>();
@@ -134,78 +164,74 @@ int main() {
 
 Una de las grandes ventajas del patrón **Chain of Responsibility** es que permite añadir nuevas verificaciones sin modificar ninguna clase existente.
 
-Añadamos un nuevo validador:
-**ValidadorContenido**, que rechaza solicitudes que contengan palabras prohibidas.
+Añadamos un nuevo validador: **`ValidadorContenido`**, que rechaza solicitudes que contengan palabras prohibidas.
 
 ### Añadir el nuevo manejador en `Manejadores.hpp`
 
 ```cpp
 // ----------------------------------------
-// Nuevo Manejadores concretos
+// Nuevo manejador concreto
 // Validador que comprueba contenido prohibido
 // ----------------------------------------
-
 class ValidadorContenido : public Manejador {
 protected:
-    bool procesar(const std::string& solicitud) const override {
-        if (solicitud.find("prohibido") != std::string::npos) {
-            std::cout << "Contenido prohibido detectado.\n";
-            return true;
-        }
-        return false;
-    }
+    bool procesar(const std::string& solicitud) const override;
 };
 ```
 
-### Insertar el nuevo manejador en la cadena (`Cadena.hpp`)
+### Implementación del nuevo manejador (`Manejadores.cpp`)
 
-Por ejemplo, entre permisos y formato:
+```cpp
+bool ValidadorContenido::procesar(const std::string& solicitud) const {
+    if (solicitud.find("prohibido") != std::string::npos) {
+        std::cout << "Contenido prohibido detectado.\n";
+        return true;
+    }
+    return false;
+}
+```
+
+### Insertar el nuevo manejador en la cadena (`Cadena.hpp` / `Cadena.cpp`)
 
 ```cpp
 // Construye una cadena: Autenticación -> Permisos -> Contenido -> Formato
-inline std::unique_ptr<Manejador> construir_cadena_con_contenido() {
+std::unique_ptr<Manejador> construir_cadena_con_contenido();
+```
+
+```cpp
+std::unique_ptr<Manejador> construir_cadena_con_contenido() {
     auto autenticacion = std::make_unique<ValidadorAutenticacion>();
     auto permisos      = std::make_unique<ValidadorPermisos>();
     auto contenido     = std::make_unique<ValidadorContenido>();
     auto formato       = std::make_unique<ValidadorFormato>();
 
     contenido->establecer_siguiente(std::move(formato));
-    permisos->establecer_siguiente(std::move(contenido));   
+    permisos->establecer_siguiente(std::move(contenido));
     autenticacion->establecer_siguiente(std::move(permisos));
 
     return autenticacion;
 }
 ```
 
-### Usar el nuevo manejador desde el cliente (`main.cpp`)
+### Usar la nueva cadena desde el cliente (`main.cpp`)
 
 ```cpp
-#include "Cadena.hpp"
-
-void cliente(const Manejador& manejador) {
-    manejador.manejar("token-invalido");
-    manejador.manejar("sin-permisos");
-    manejador.manejar("texto con palabra prohibido dentro");
-    manejador.manejar("");
-    manejador.manejar("solicitud-correcta");
-}
-
 int main() {
     auto cadena = construir_cadena_con_contenido();
     cliente(*cadena);
     return 0;
 }
-
 ```
 
 ### Qué no hemos modificado
 
 * No hemos cambiado la interfaz `Manejador`.
 * No hemos modificado ninguno de los manejadores existentes.
-* Hemos cambiado el código del cliente, pero no su lógica, sólo cambia la forma de construir la cadena, no cómo se usa.
+* No hemos cambiado la lógica del código cliente.
 
 Solo hemos:
 
-1. añadido un **nuevo manejador concreto**,
+1. añadido un **nuevo manejador concreto** (`ValidadorContenido`),
 2. modificado la función de construcción de la cadena para insertarlo,
-3. y (opcionalmente) usado la nueva cadena en `main.cpp`.
+3. y utilizado la nueva cadena desde `main.cpp`.
+
