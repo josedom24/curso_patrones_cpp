@@ -1,24 +1,22 @@
-# Ejemplo: Flujo de estados de un documento
+# Ejemplo: Flujo de estados de un documento (versión definitiva)
 
 ## Introducción
 
-Para ilustrar el patrón **State** en un contexto realista, construiremos un pequeño sistema que modela el **ciclo de vida de un documento**.
-Un documento puede encontrarse en distintos estados y cada estado determina qué operaciones están permitidas:
+Para ilustrar el patrón **State** en un contexto realista, se construye un pequeño sistema que modela el **ciclo de vida de un documento**.
+Un documento puede encontrarse en distintos estados, y **cada estado determina qué operaciones están permitidas**:
 
-* **Borrador**: el documento puede seguir editándose.
-* **En revisión**: el documento ya no se puede editar, pero puede aceptarse o devolverse a borrador.
-* **Publicado**: el documento está finalizado y no permite cambios.
+* **Borrador**: el documento puede editarse.
+* **En revisión**: el documento ya no puede editarse.
+* **Publicado**: el documento está finalizado y no admite cambios.
 
-El objeto `Documento` es el *Contexto*, y delega su comportamiento en clases que representan cada estado (`EstadoBorrador`, `EstadoRevision`, `EstadoPublicado`).
+El objeto `Documento` actúa como **Contexto** y delega su comportamiento en objetos que representan cada estado concreto.
+El código cliente interactúa únicamente con `Documento`; el cambio de comportamiento se produce automáticamente al cambiar el estado interno.
 
-Cada estado implementa la interfaz común `EstadoDocumento`, que define las operaciones disponibles.
-El código cliente solo interactúa con `Documento`: el patrón garantiza que las acciones varían automáticamente según el estado interno del documento.
-
-El ejercicio se organiza en:
+El ejemplo se organiza en:
 
 * **EstadoDocumento.hpp** – interfaz del estado y estados concretos
 * **Documento.hpp** – clase Contexto
-* **main.cpp** – código cliente que interactúa con el sistema
+* **main.cpp** – código cliente
 
 
 ## EstadoDocumento.hpp
@@ -29,7 +27,7 @@ El ejercicio se organiza en:
 #include <memory>
 #include <string>
 
-// Declaración anticipada necesaria (Estado -> Documento)
+// Declaración anticipada
 class Documento;
 
 // ----------------------------------------
@@ -39,34 +37,28 @@ class EstadoDocumento {
 public:
     virtual ~EstadoDocumento() = default;
 
-    virtual void editar(Documento& doc, const std::string& nuevoTexto) = 0;
-    virtual void enviar_revision(Documento& doc) = 0;
-    virtual void publicar(Documento& doc) = 0;
+    virtual void editar(Documento&, const std::string&) = 0;
+    virtual void enviar_revision(Documento&) = 0;
+    virtual void publicar(Documento&) = 0;
 };
 
 // ----------------------------------------
-// Estado concreto: Borrador
+// Estados concretos
 // ----------------------------------------
 class EstadoBorrador : public EstadoDocumento {
 public:
-    void editar(Documento& doc, const std::string& nuevoTexto) override;
-    void enviar_revision(Documento& doc) override;
-    void publicar(Documento& doc) override;
+    void editar(Documento&, const std::string&) override;
+    void enviar_revision(Documento&) override;
+    void publicar(Documento&) override;
 };
 
-// ----------------------------------------
-// Estado concreto: En revisión
-// ----------------------------------------
 class EstadoRevision : public EstadoDocumento {
 public:
     void editar(Documento&, const std::string&) override;
     void enviar_revision(Documento&) override;
-    void publicar(Documento& doc) override;
+    void publicar(Documento&) override;
 };
 
-// ----------------------------------------
-// Estado concreto: Publicado
-// ----------------------------------------
 class EstadoPublicado : public EstadoDocumento {
 public:
     void editar(Documento&, const std::string&) override;
@@ -82,6 +74,7 @@ public:
 #pragma once
 #include <memory>
 #include <string>
+#include <iostream>
 #include "EstadoDocumento.hpp"
 
 // ----------------------------------------
@@ -93,7 +86,8 @@ private:
     std::string contenido_;
 
 public:
-    Documento();
+    Documento()
+        : estado_(std::make_unique<EstadoBorrador>()) {}
 
     void cambiar_estado(std::unique_ptr<EstadoDocumento> nuevoEstado) {
         estado_ = std::move(nuevoEstado);
@@ -121,54 +115,59 @@ public:
 };
 
 // ----------------------------------------
-// Implementaciones de los estados
+// Implementación de los estados
 // ----------------------------------------
 
-inline Documento::Documento()
-    : estado_(std::make_unique<EstadoBorrador>())
-{}
+class EstadoBorrador : public EstadoDocumento {
+public:
+    void editar(Documento& doc, const std::string& texto) override {
+        doc.set_contenido(texto);
+        std::cout << "[Borrador] Documento editado: "
+                  << doc.contenido() << "\n";
+    }
 
-// Estado Borrador
-inline void EstadoBorrador::editar(Documento& doc, const std::string& nuevoTexto) {
-    doc.set_contenido(nuevoTexto);
-    std::cout << "[Borrador] Documento editado: " << doc.contenido() << "\n";
-}
+    void enviar_revision(Documento& doc) override {
+        std::cout << "[Borrador] Enviando a revisión...\n";
+        doc.cambiar_estado(std::make_unique<EstadoRevision>());
+    }
 
-inline void EstadoBorrador::enviar_revision(Documento& doc) {
-    std::cout << "[Borrador] Enviando a revisión...\n";
-    doc.cambiar_estado(std::make_unique<EstadoRevision>());
-}
+    void publicar(Documento&) override {
+        std::cout << "[Borrador] No puede publicarse directamente.\n";
+    }
+};
 
-inline void EstadoBorrador::publicar(Documento&) {
-    std::cout << "[Borrador] No puede publicarse directamente. Debe pasar por revisión.\n";
-}
+class EstadoRevision : public EstadoDocumento {
+public:
+    void editar(Documento&, const std::string&) override {
+        std::cout << "[Revisión] No se puede editar. "
+                     "Debe volver a borrador.\n";
+    }
 
-// Estado Revisión
-inline void EstadoRevision::editar(Documento&, const std::string&) {
-    std::cout << "[Revisión] No se puede editar. Debe volver a borrador.\n";
-}
+    void enviar_revision(Documento&) override {
+        std::cout << "[Revisión] Ya está en revisión.\n";
+    }
 
-inline void EstadoRevision::enviar_revision(Documento&) {
-    std::cout << "[Revisión] Ya está en revisión.\n";
-}
+    void publicar(Documento& doc) override {
+        std::cout << "[Revisión] Publicando documento...\n";
+        doc.cambiar_estado(std::make_unique<EstadoPublicado>());
+    }
+};
 
-inline void EstadoRevision::publicar(Documento& doc) {
-    std::cout << "[Revisión] Publicando documento...\n";
-    doc.cambiar_estado(std::make_unique<EstadoPublicado>());
-}
+class EstadoPublicado : public EstadoDocumento {
+public:
+    void editar(Documento&, const std::string&) override {
+        std::cout << "[Publicado] No puede editarse "
+                     "un documento publicado.\n";
+    }
 
-// Estado Publicado
-inline void EstadoPublicado::editar(Documento&, const std::string&) {
-    std::cout << "[Publicado] No puede editarse un documento publicado.\n";
-}
+    void enviar_revision(Documento&) override {
+        std::cout << "[Publicado] No puede volver a revisión.\n";
+    }
 
-inline void EstadoPublicado::enviar_revision(Documento&) {
-    std::cout << "[Publicado] No puede volver a revisión.\n";
-}
-
-inline void EstadoPublicado::publicar(Documento&) {
-    std::cout << "[Publicado] Ya está publicado.\n";
-}
+    void publicar(Documento&) override {
+        std::cout << "[Publicado] Ya está publicado.\n";
+    }
+};
 ```
 
 
@@ -185,17 +184,16 @@ int main() {
     doc.editar("Intento de editar en revisión");
     doc.publicar();
     doc.editar("Intento de editar publicado");
-
-    return 0;
 }
 ```
 
+Este ejemplo muestra cómo el patrón State permite variar el comportamiento de un objeto en función de su estado interno, eliminando condicionales y manteniendo el código organizado y extensible.
 
-# Añadir un nuevo estado
+## Añadir el nuevo estado
 
-Supongamos que queremos añadir un estado **Archivado**, donde el documento ya no puede modificarse y queda bloqueado para operaciones futuras.
+Como en la versión actual **los estados se definen con sus métodos dentro de la clase**, basta con añadir una nueva clase que implemente la interfaz `EstadoDocumento`.
 
-### Añadir nuevo estado en `EstadoDocumento.hpp`
+### Nuevo estado: `EstadoArchivado`
 
 ```cpp
 class EstadoArchivado : public EstadoDocumento {
@@ -209,32 +207,51 @@ public:
     }
 
     void publicar(Documento&) override {
-        std::cout << "[Archivado] Ya no puede publicarse.\n";
+        std::cout << "[Archivado] El documento ya está archivado.\n";
     }
 };
 ```
 
+No es necesario modificar la interfaz `EstadoDocumento`, ya que el nuevo estado **se adapta a las operaciones ya definidas**.
+
+
 ### Activar el nuevo estado desde otro estado
 
+Para que el documento pueda pasar al estado **Archivado**, basta con añadir una transición desde uno de los estados existentes.
 Por ejemplo, desde `EstadoPublicado`:
 
 ```cpp
-inline void EstadoPublicado::publicar(Documento& doc) {
-    std::cout << "[Publicado] Archivando documento...\n";
-    doc.cambiar_estado(std::make_unique<EstadoArchivado>());
-}
+class EstadoPublicado : public EstadoDocumento {
+public:
+    void editar(Documento&, const std::string&) override {
+        std::cout << "[Publicado] No puede editarse un documento publicado.\n";
+    }
+
+    void enviar_revision(Documento&) override {
+        std::cout << "[Publicado] No puede volver a revisión.\n";
+    }
+
+    void publicar(Documento& doc) override {
+        std::cout << "[Publicado] Archivando documento...\n";
+        doc.cambiar_estado(std::make_unique<EstadoArchivado>());
+    }
+};
 ```
+
+La transición queda encapsulada en el propio estado, sin condicionales externos ni lógica adicional en el contexto.
+
 
 ### Qué no hemos modificado
 
-* La interfaz `EstadoDocumento`.
-* La clase `Documento`.
-* El código del cliente.
+Es importante destacar que **la incorporación del nuevo estado no ha requerido cambios en**:
+
+* la interfaz `EstadoDocumento`,
+* la clase `Documento`,
+* el código cliente (`main.cpp`).
 
 Solo hemos:
 
 1. añadido un **nuevo estado concreto** (`EstadoArchivado`),
-2. añadido una transición a ese estado en otro estado,
-3. y opcionalmente una llamada en `main.cpp` para probarlo.
-
+2. definido su comportamiento específico,
+3. incorporado una **nueva transición** desde un estado existente.
 
