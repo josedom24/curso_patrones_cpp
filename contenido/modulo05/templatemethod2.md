@@ -9,16 +9,15 @@ El objetivo es que el código cliente pueda ejecutar un proceso estandarizado de
 1. **abrir** el documento,
 2. **leer** el contenido,
 3. **procesar** la información,
-4. ejecutar un **hook opcional**,
-5. **cerrar** el documento,
+4. **cerrar** el documento,
 
-pero sin utilizar clases base, herencia ni métodos virtuales.
-Las variaciones de lectura, procesamiento y el hook se inyectarán como funciones invocables, permitiendo una composición flexible y sin jerarquías.
+sin utilizar clases base, herencia ni métodos virtuales.
+Las variaciones de lectura y procesamiento se inyectan como funciones invocables, permitiendo una composición flexible y sin jerarquías.
 
-A continuación se muestra el código completo dividido en:
+El ejemplo se organiza en:
 
-* **ProcesoDocumento.hpp** – implementación del algoritmo fijo con funciones inyectadas
-* **ProcesosConcretos.hpp** – configuraciones concretas del proceso
+* **ProcesoDocumento.hpp / ProcesoDocumento.cpp** – implementación del algoritmo fijo
+* **ProcesosConcretos.hpp / ProcesosConcretos.cpp** – configuraciones concretas del proceso
 * **main.cpp** – código cliente
 
 ## ProcesoDocumento.hpp
@@ -26,7 +25,6 @@ A continuación se muestra el código completo dividido en:
 ```cpp
 #pragma once
 #include <functional>
-#include <iostream>
 
 class ProcesoDocumento {
 private:
@@ -35,26 +33,41 @@ private:
 
 public:
     ProcesoDocumento(std::function<void()> leer,
-                     std::function<void()> procesar)
-        : leer_(std::move(leer)),
-          procesar_(std::move(procesar)) {}
+                     std::function<void()> procesar);
 
-    void ejecutar() const {
-        abrir();
-        leer_();
-        procesar_();
-        cerrar();
-    }
+    void ejecutar() const;
 
 private:
-    void abrir() const {
-        std::cout << "[ProcesoDocumento] Abriendo documento...\n";
-    }
-
-    void cerrar() const {
-        std::cout << "[ProcesoDocumento] Cerrando documento.\n";
-    }
+    void abrir() const;
+    void cerrar() const;
 };
+```
+
+## ProcesoDocumento.cpp
+
+```cpp
+#include "ProcesoDocumento.hpp"
+#include <iostream>
+
+ProcesoDocumento::ProcesoDocumento(std::function<void()> leer,
+                                   std::function<void()> procesar)
+    : leer_(std::move(leer)),
+      procesar_(std::move(procesar)) {}
+
+void ProcesoDocumento::ejecutar() const {
+    abrir();
+    leer_();
+    procesar_();
+    cerrar();
+}
+
+void ProcesoDocumento::abrir() const {
+    std::cout << "[ProcesoDocumento] Abriendo documento...\n";
+}
+
+void ProcesoDocumento::cerrar() const {
+    std::cout << "[ProcesoDocumento] Cerrando documento.\n";
+}
 ```
 
 ## ProcesosConcretos.hpp
@@ -62,14 +75,24 @@ private:
 ```cpp
 #pragma once
 #include "ProcesoDocumento.hpp"
+
+// Funciones factoría que configuran distintos procesos
+ProcesoDocumento crear_proceso_texto();
+ProcesoDocumento crear_proceso_csv();
+ProcesoDocumento crear_proceso_json();
+```
+
+## ProcesosConcretos.cpp
+
+```cpp
+#include "ProcesosConcretos.hpp"
 #include <iostream>
 #include <sstream>
 
-inline ProcesoDocumento crear_proceso_texto() {
+ProcesoDocumento crear_proceso_texto() {
     std::string contenido = "Ejemplo de texto plano.";
 
     return ProcesoDocumento(
-        // Captura por valor
         [contenido]() {
             std::cout << "[Texto] Leyendo texto...\n";
         },
@@ -80,7 +103,7 @@ inline ProcesoDocumento crear_proceso_texto() {
     );
 }
 
-inline ProcesoDocumento crear_proceso_csv() {
+ProcesoDocumento crear_proceso_csv() {
     std::string linea = "10,20,30";
 
     return ProcesoDocumento(
@@ -99,8 +122,8 @@ inline ProcesoDocumento crear_proceso_csv() {
     );
 }
 
-inline ProcesoDocumento crear_proceso_json() {
-    std::string contenido = R"({"clave":"valor"})";
+ProcesoDocumento crear_proceso_json() {
+    std::string contenido = "{\"clave\":\"valor\"}";
 
     return ProcesoDocumento(
         [contenido]() {
@@ -113,11 +136,11 @@ inline ProcesoDocumento crear_proceso_json() {
     );
 }
 ```
-* `inline`: se usa porque las funciones están definidas en un archivo de cabecera; así evitamos errores de multiple definition al incluirlas desde varios .cpp.
 
 ## main.cpp
 
 ```cpp
+#include <iostream>
 #include "ProcesosConcretos.hpp"
 
 int main() {
@@ -138,23 +161,27 @@ int main() {
 }
 ```
 
+Recuerda que debemos realizar la compilación de la siguiente manera:
+
+```bash
+g++ main.cpp ProcesoDocumento.cpp ProcesosConcretos.cpp -o proceso_documentos
+```
+
 ## Añadir un nuevo tipo de documento
 
-Supongamos que queremos añadir **documento XML**.
-No hay clases que heredar ni métodos virtuales que sobrescribir: basta con inyectar los pasos específicos como funciones.
+Para añadir un nuevo tipo de documento no es necesario modificar ninguna clase existente.
+Basta con definir una nueva función factoría que configure el proceso con los pasos adecuados.
 
-### En `ProcesosConcretos.hpp`
+### Ejemplo: documento XML (`ProcesosConcretos.cpp`)
 
 ```cpp
-inline ProcesoDocumento crear_proceso_xml() {
+ProcesoDocumento crear_proceso_xml() {
     std::string contenido = "<root><nodo>valor</nodo></root>";
 
     return ProcesoDocumento(
-        // leer
         [contenido]() {
             std::cout << "[XML] Leyendo XML...\n";
         },
-        // procesar
         [contenido]() {
             std::cout << "[XML] Procesando: " << contenido << "\n";
         }
@@ -162,21 +189,22 @@ inline ProcesoDocumento crear_proceso_xml() {
 }
 ```
 
-### En `main.cpp`
+Y declararla en `ProcesosConcretos.hpp`:
 
 ```cpp
-auto procXML = crear_proceso_xml();
-procXML.ejecutar();
+ProcesoDocumento crear_proceso_xml();
 ```
-### Qué no hemos modificado
 
-* No hemos cambiado `ProcesoDocumento`.
-* No hemos tocado el algoritmo fijo.
+## Qué no hemos modificado
+
+* No hemos cambiado la clase `ProcesoDocumento`.
+* No hemos tocado el algoritmo fijo de ejecución.
 * No hemos creado clases derivadas.
 * No hemos escrito métodos virtuales.
 
 Solo hemos:
 
-1. añadido una nueva función que construye un proceso con sus pasos personalizados,
-2. y una llamada en `main.cpp` para ejecutarlo.
+1. añadido una **nueva función factoría** que configura un proceso concreto,
+2. inyectado el comportamiento variable mediante funciones,
+3. utilizado el nuevo proceso desde el código cliente.
 
