@@ -200,7 +200,10 @@ Para añadir un nuevo observador no modificamos la interfaz `Observador` ni la i
 ### Nuevo observador (`ObservadorRed`) en `Observadores.hpp`:
 
 ```cpp
-// Observador que simula enviar la temperatura por red
+// ----------------------------------------
+// NUEVO Observador que simula enviar la temperatura por red
+// ----------------------------------------
+
 class ObservadorRed : public Observador {
 public:
     void actualizar(int nueva_temperatura) override {
