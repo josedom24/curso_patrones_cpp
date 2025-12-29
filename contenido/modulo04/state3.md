@@ -217,14 +217,16 @@ g++ main.cpp Reproductor.cpp Estados.cpp -o reproductor
 
 ## Añadir un nuevo estado
 
-Para añadir un nuevo estado, basta con:
+Para añadir un nuevo estado en el patrón **State**, basta con:
 
 1. declarar una nueva clase de estado que implemente la interfaz `EstadoReproductor`,
 2. definir su comportamiento en el archivo de implementación,
-3. añadir una transición hacia ese estado desde otro estado existente.
+3. **hacer que el nuevo estado forme parte del flujo de ejecución**, de modo que su efecto sea observable.
 
 
 ### Nuevo estado: `EstadoSinContenido`
+
+Este estado representa un reproductor que no tiene ningún contenido cargado y, por tanto, no puede reproducir, pausar ni detener nada.
 
 #### Declaración (`Estados.hpp`)
 
@@ -261,33 +263,33 @@ void EstadoSinContenido::stop(Reproductor&) {
 
 No es necesario modificar la interfaz `EstadoReproductor`, ya que el nuevo estado **implementa las operaciones ya definidas**.
 
-### Activar el nuevo estado desde otro estado
+### Hacer visible el nuevo estado al ejecutar el programa
 
-Para que el reproductor pueda pasar al estado **Sin contenido**, se añade una transición desde uno de los estados existentes.
-Por ejemplo, desde `EstadoDetenido`.
+Para que la incorporación del nuevo estado sea **inmediatamente observable**, se inicializa el contexto (`Reproductor`) en el nuevo estado.
 
-#### Modificación en `Estados.cpp`
+#### Modificación en `Reproductor.cpp`
 
 ```cpp
-void EstadoDetenido::play(Reproductor& r) {
-    std::cout << "[Detenido] No hay contenido cargado.\n";
-    r.cambiar_estado(std::make_unique<EstadoSinContenido>());
-}
+Reproductor::Reproductor()
+    : estado_(std::make_unique<EstadoSinContenido>()) {}
 ```
 
-La transición queda **encapsulada en el propio estado**, manteniendo al contexto completamente ajeno a la lógica de cambio.
+Con este único cambio:
+
+* no se modifica el código cliente (`main.cpp`),
+* no se alteran las transiciones existentes,
+* el comportamiento del programa cambia automáticamente al ejecutarlo.
 
 ### Qué no hemos modificado
 
 Es importante destacar que **la incorporación del nuevo estado no ha requerido cambios en**:
 
 * la interfaz `EstadoReproductor`,
-* la clase `Reproductor`,
+* la clase `Reproductor` (salvo su inicialización),
 * el código cliente (`main.cpp`).
 
-Solo hemos:
+Sólo hemos:
 
 1. añadido un **nuevo estado concreto** (`EstadoSinContenido`),
 2. definido su comportamiento específico en su implementación,
-3. incorporado una **nueva transición** desde un estado existente.
-
+3. cambiado el **estado inicial del contexto** para hacer visible el nuevo comportamiento.
