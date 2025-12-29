@@ -185,10 +185,7 @@ int main() {
 }
 ```
 
-
-## Compilación
-
-Desde la línea de comandos:
+Recuerda que debemos realizar la compilación de la siguiente manera:
 
 ```bash
 g++ main.cpp Elementos.cpp Visitantes.cpp -o visitor

@@ -160,6 +160,12 @@ int main() {
 }
 ```
 
+Recuerda que debemos realizar la compilación de la siguiente manera:
+
+```bash
+g++ main.cpp Manejadores.cpp Cadena.cpp -o manejador
+```
+
 ## Añadir un nuevo manejador
 
 Una de las grandes ventajas del patrón **Chain of Responsibility** es que permite añadir nuevas verificaciones sin modificar ninguna clase existente.
