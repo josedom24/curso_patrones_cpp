@@ -2,17 +2,19 @@
 
 ## Introducción
 
-Para ilustrar el patrón **Factory Method** en un contexto realista, construiremos un pequeño sistema de registros (loggers).
+Para ilustrar el patrón **Factory Method** en un contexto realista, construiremos un pequeño sistema de registros (*loggers*).
 El objetivo del sistema es permitir que el código cliente genere mensajes de log **sin conocer el tipo concreto de logger** que los procesa.
+
 Dependiendo del creador elegido, los mensajes podrán enviarse:
 
 * a la **consola**,
 * a un **archivo**, o
 * a un destino simulado de **red**.
 
-Cada logger es un producto concreto que implementa una interfaz común (`Logger`).
-El código cliente trabaja exclusivamente con la clase abstracta `CreadorLogger`, que define el método fábrica `crear_logger()`.
-Las clases creadoras concretas (`CreadorLoggerConsola`, `CreadorLoggerArchivo`, `CreadorLoggerRed`) son las responsables de decidir qué tipo de logger construir.
+Cada logger es un **producto concreto** que implementa una interfaz común (`Logger`).
+El código cliente trabaja exclusivamente con la **abstracción del creador**, que define el método fábrica `crear_logger()`, y con la **abstracción del producto**, que define la operación de registro.
+
+Las clases creadoras concretas son las responsables de decidir **qué tipo de logger construir**, mientras que el **uso del logger queda en manos del cliente**, reforzando la separación entre creación y uso de objetos .
 
 A continuación se muestra el código completo dividido en:
 
@@ -20,14 +22,12 @@ A continuación se muestra el código completo dividido en:
 * **Creadores.hpp** – fábricas y sus implementaciones
 * **main.cpp** – código cliente
 
-
 ## Productos.hpp
 
 ```cpp
 #pragma once
 #include <iostream>
 #include <fstream>
-#include <memory>
 #include <string>
 
 // ----------------------------------------
@@ -93,12 +93,6 @@ public:
 
     // Factory Method
     virtual std::unique_ptr<Logger> crear_logger() const = 0;
-
-    // Método que utiliza el logger sin conocer su tipo concreto
-    void registrar(const std::string& mensaje) const {
-        auto logger = crear_logger();
-        logger->log(mensaje);
-    }
 };
 
 // ----------------------------------------
@@ -139,7 +133,8 @@ public:
 #include "Creadores.hpp"
 
 void cliente(const CreadorLogger& fabrica) {
-    fabrica.registrar("Mensaje de prueba");
+    auto logger = fabrica.crear_logger();   // creación delegada
+    logger->log("Mensaje de prueba");        // uso explícito del producto
 }
 
 int main() {
@@ -157,12 +152,10 @@ int main() {
 
 ## Añadir un nuevo producto
 
-**Para añadir un nuevo producto no tocamos las interfaces base, solo añadimos clases nuevas y, como mucho, una línea en `main.cpp`.**
-Veamos los cambios para añadir un nuevo logger, por ejemplo `LoggerBD` (base de datos):
+Para añadir un nuevo tipo de logger **no es necesario modificar las abstracciones existentes** ni el código cliente.
+Basta con introducir nuevas clases concretas.
 
 ### Añadir el nuevo producto en `Productos.hpp`
-
-Debajo de los otros productos, añadimos una nueva clase que herede de `Logger`:
 
 ```cpp
 // Logger que simula escribir en una base de datos
@@ -173,9 +166,8 @@ public:
     }
 };
 ```
-### Añadir el nuevo creador en `Creadores.hpp`
 
-Debajo de los otros creadores concretos, añadimos uno nuevo para este producto:
+### Añadir el nuevo creador en `Creadores.hpp`
 
 ```cpp
 class CreadorLoggerBD : public CreadorLogger {
@@ -188,39 +180,31 @@ public:
 
 ### Usar el nuevo producto desde el cliente (`main.cpp`)
 
-En `main.cpp`, añadimos:
-
 ```cpp
-#include "Creadores.hpp"
-
-void cliente(const CreadorLogger& fabrica) {
-    fabrica.registrar("Mensaje de prueba");
-}
-
 int main() {
     CreadorLoggerConsola fabricaConsola;
     CreadorLoggerArchivo fabricaArchivo("log.txt");
     CreadorLoggerRed fabricaRed;
-    CreadorLoggerBD fabricaBD;         // <-- NUEVO
+    CreadorLoggerBD fabricaBD;  //NUEVO
 
     cliente(fabricaConsola);
     cliente(fabricaArchivo);
     cliente(fabricaRed);
-    cliente(fabricaBD);                // <-- NUEVO
+    cliente(fabricaBD); //NUEVO
 
     return 0;
 }
 ```
 
-### Qué no hemos modificado
+## Qué no hemos modificado
 
-* No hemos modificado la interfaz `Logger`.
-* No hemos modificado la interfaz `CreadorLogger`.
-* No hemos modificado el código de `cliente`.
+* No se ha modificado la interfaz `Logger`.
+* No se ha modificado la interfaz `CreadorLogger`.
+* No se ha modificado el código del cliente.
 
-Solo hemos:
+Solo se han añadido:
 
-1. añadido un **nuevo producto concreto** (`LoggerBD`),
-2. añadido un **nuevo creador concreto** (`CreadorLoggerBD`),
+1. un **nuevo producto concreto** (`LoggerBD`),
+2. un **nuevo creador concreto** (`CreadorLoggerBD`).
 3. y opcionalmente una línea en `main.cpp` para usarlo.
 

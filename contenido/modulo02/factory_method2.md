@@ -35,7 +35,7 @@ La implementación del **Factory Method** en C++ moderno se apoya en un conjunto
 
 * Declara el método de creación que devuelve un producto abstracto.
 * Define el punto de extensión donde se decide el tipo concreto del producto.
-* Puede contener lógica que utiliza el producto sin conocer su implementación.
+* Puede, opcionalmente, definir operaciones que trabajan con el producto sin conocer su implementación concreta.
 * Desacopla al cliente de las clases concretas que se instancian.
 
 ### 4. **Creadores concretos**
@@ -76,7 +76,7 @@ public:
 class ProductoConcretoA : public Producto {
 public:
     void operar() const override {
-        std::cout << "Operación del ProductoConcretoA.\n";
+        std::cout << "Operación del ProductoConcretoA\n";
     }
 };
 
@@ -84,7 +84,7 @@ public:
 class ProductoConcretoB : public Producto {
 public:
     void operar() const override {
-        std::cout << "Operación del ProductoConcretoB.\n";
+        std::cout << "Operación del ProductoConcretoB\n";
     }
 };
 
@@ -97,12 +97,6 @@ public:
 
     // Factory Method
     virtual std::unique_ptr<Producto> crear_producto() const = 0;
-
-    // Operación que utiliza el producto
-    void ejecutar() const {
-        auto producto = crear_producto();
-        producto->operar();
-    }
 };
 
 // Creador concreto A
@@ -122,10 +116,11 @@ public:
 };
 
 // ----------------------------------------
-// Función cliente
+// Código cliente
 // ----------------------------------------
 void cliente(const Creador& creador) {
-    creador.ejecutar();
+    auto producto = creador.crear_producto();  // creación delegada
+    producto->operar();                        // uso del producto
 }
 
 int main() {
@@ -137,12 +132,14 @@ int main() {
 
     return 0;
 }
+
 ```
 
 ## Puntos clave del ejemplo
 
-* El método fábrica `crear_producto()` encapsula la decisión de qué producto concreto se instancia.
-* El uso de `std::unique_ptr` garantiza una gestión automática y segura de la memoria.
-* La clase `Creador` define una operación (`ejecutar`) que trabaja con el producto sin conocer su tipo concreto, reforzando la separación entre creación y uso.
-* El cliente depende únicamente de la interfaz del creador, no de los productos concretos.
+* El cliente **trabaja con la abstracción `Creador`**, permitiendo sustituir distintos creadores concretos sin modificar el código cliente.
+* El método fábrica `crear_producto()` **encapsula la decisión de qué producto concreto se instancia dentro del creador concreto**, no en el cliente.
+* El cliente **recibe y utiliza un `Producto` a través de su abstracción**, sin conocer su tipo concreto.
+* El polimorfismo se manifiesta tanto en el **creador** como en el **producto**, reforzando la separación entre creación y uso.
+* El cliente depende únicamente de **abstracciones**, no de implementaciones concretas.
 
