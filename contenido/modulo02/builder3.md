@@ -262,11 +262,7 @@ int main() {
 
 ## Añadir una nueva configuración
 
-Supongamos que queremos añadir a la solicitud HTTP un nuevo parámetro opcional:
-**`timeout_ms`** (tiempo máximo de espera en milisegundos).
-
-Al tratarse ahora de un **producto mutable**, el cambio es **más simple** que en la versión inmutable:
-solo añadimos un nuevo atributo, su setter y propagamos la llamada desde los builders.
+Supongamos que queremos añadir a la solicitud HTTP un nuevo parámetro opcional: **`timeout_ms`** (tiempo máximo de espera en milisegundos).
 
 ### Cambios en `Solicitud.hpp`
 

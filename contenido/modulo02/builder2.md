@@ -184,6 +184,7 @@ Esta variante es más idiomática en C++ actual:
 ```cpp
 #include <iostream>
 #include <memory>
+#include <string>
 
 // =====================================================
 //                 Producto
@@ -205,7 +206,7 @@ private:
 };
 
 // =====================================================
-//                 Builder concreto
+//                 Builder concreto (fluido)
 // =====================================================
 
 class ConstructorFluido {
@@ -220,8 +221,8 @@ public:
         return *this;
     }
 
-    Producto construir() const {
-        return Producto(parteA_, parteB_);
+    std::unique_ptr<Producto> construir() const {
+        return std::make_unique<Producto>(parteA_, parteB_);
     }
 
 private:
@@ -239,8 +240,9 @@ int main() {
                 .parteB("B personalizada")
                 .construir();
 
-    p.mostrar();
+    p->mostrar();
 }
+
 ```
 
 
