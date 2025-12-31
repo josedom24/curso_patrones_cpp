@@ -99,8 +99,6 @@ int main() {
 }
 ```
 
-Aquí tienes el apartado **“Añadir un nuevo sistema de pago incompatible”**, reescrito completamente para que refleje *verdaderamente* la esencia del patrón Adapter y refuerce el objetivo pedagógico: **mostrar cómo integrar una nueva API con una interfaz incompatible sin modificar el cliente**.
-
 ## Añadir un nuevo sistema de pago incompatible
 
 Supongamos que ahora debemos integrar un **nuevo proveedor de pagos**, por ejemplo un sistema bancario que ofrece una interfaz completamente distinta de la moderna `ProcesadorPago`.
