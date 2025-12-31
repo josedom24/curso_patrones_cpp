@@ -2,38 +2,41 @@
 
 ## Definición
 
-El **Builder** es un patrón de diseño creacional que separa la **construcción compleja de un objeto** de su **representación final**, permitiendo crear objetos paso a paso y ofrecer múltiples configuraciones sin necesidad de constructores largos, difíciles de mantener o propensos a errores.
-El patrón centraliza la lógica de construcción en un objeto *builder*, mientras que el objeto final (el *producto*) permanece independiente del procedimiento concreto seguido para generarlo.
+El **Builder** es un patrón de diseño creacional que **separa la construcción de un objeto complejo de su representación final**, delegando el proceso de creación en un objeto especializado (*builder*).
+Este enfoque permite **construir objetos paso a paso**, manteniendo el producto final independiente del procedimiento concreto de construcción y evitando inicializaciones rígidas, difíciles de leer o propensas a errores.
+
+## Objetivos del patrón
+
+* **Simplificar la creación de objetos complejos**, evitando inicializaciones con muchos parámetros difíciles de interpretar.
+* **Separar la lógica de construcción** de la clase del objeto, reduciendo acoplamiento y mejorando la mantenibilidad.
+* **Permitir múltiples configuraciones válidas** de un mismo objeto mediante un proceso claro y reutilizable.
+* **Garantizar la consistencia del objeto final**, asegurando que solo se construyan instancias en estados válidos.
 
 ## Problemas que intenta solucionar
 
 El patrón Builder es especialmente útil cuando se presentan estas situaciones:
 
-* El objeto a construir tiene **muchos parámetros opcionales**, condicionales o dependientes entre sí.
-* Existen **múltiples configuraciones válidas de un mismo objeto**, lo que puede llevar a constructores difíciles de mantener o a un uso excesivo de parámetros por defecto.
-* Se quiere mantener el **estado interno del objeto en construcción** consistente durante todas las fases del proceso.
-* La creación del objeto involucra **varios pasos** (validaciones, cálculos intermedios, inicializaciones específicas) que no deberían quedar expuestos al cliente.
-* La construcción del objeto debe ser **reutilizable** en distintos contextos o escenarios.
-* Se desea permitir **diferentes representaciones** del mismo objeto siguiendo los mismos pasos de construcción (p.ej., construir un documento en formato HTML, texto o JSON).
+* La necesidad de construir objetos con **numerosos parámetros opcionales o dependientes**, complicados de manejar en una única llamada de creación.
+* El uso de **inicializaciones extensas y poco legibles**, donde el significado de cada argumento no es evidente para el cliente.
+* La existencia de procesos de creación **formados por varios pasos internos** (validaciones, cálculos, inicializaciones) que no deberían exponerse al código cliente.
+* El requisito de generar **distintas configuraciones o representaciones** de un mismo objeto sin duplicar lógica ni modificar su implementación.
 
 ## Cómo lo soluciona
 
-El patrón Builder aborda estos problemas mediante:
+El patrón Builder resuelve estos problemas mediante:
 
-* La definición de un **builder** que ofrece métodos para configurar el producto paso a paso.
-* La existencia de un **director** (opcional) que orquesta la secuencia de pasos necesaria para construir productos complejos.
-* La separación clara entre el **proceso de construcción** y el **producto final**, lo que permite que distintas implementaciones del builder generen objetos distintos.
-* La encapsulación completa de la lógica de inicialización, validación y ensamblaje del objeto.
-* La posibilidad de crear objetos **inmutables**, ya que el producto se configura completamente antes de ser construido.
-* La flexibilidad para crear múltiples variantes del mismo producto sin modificar el código cliente ni saturar la clase del producto con múltiples constructores sobrecargados.
+* La definición de un **builder** que permite **configurar el objeto de forma incremental**, encapsulando toda la lógica de inicialización, validación y ensamblaje.
+* La **separación clara entre el proceso de construcción y el producto final**, lo que permite generar distintas variantes sin modificar la clase del producto.
+* El uso opcional de un **director**, responsable de **coordinar y reutilizar la secuencia de pasos** necesarios para construir objetos complejos.
+* La creación del objeto final **solo cuando el proceso de construcción ha concluido**, garantizando que el producto se entregue en un estado completo y coherente.
 
 ## Relación con los principios SOLID 
 
-* **Single Responsibility Principle (SRP)**: El patrón aísla la lógica de construcción en el *builder*, evitando que la clase del producto asuma responsabilidades adicionales. Cada componente (builder, director, producto) mantiene una función bien delimitada.
-* **Open/Closed Principle (OCP)**: Nuevos *builders* concretos pueden añadirse sin modificar el código existente, permitiendo extender las variantes de construcción manteniendo cerradas las abstracciones ya definidas.
-* **Liskov Substitution Principle (LSP)**: Los *builders* concretos pueden sustituirse por la abstracción del builder sin afectar al proceso de construcción definido por el director.
-* **Interface Segregation Principle (ISP)**: La interfaz del *builder* define únicamente las operaciones necesarias para la construcción, evitando obligar a las implementaciones a depender de métodos irrelevantes.
-* **Dependency Inversion Principle (DIP)**: El cliente y el director dependen de la interfaz abstracta del builder, no de implementaciones concretas. Esta inversión reduce el acoplamiento y permite intercambiar estrategias de construcción de manera transparente.
+* **Single Responsibility Principle (SRP)**: El patrón separa claramente la **lógica de construcción** del objeto final, evitando que la clase del producto asuma responsabilidades adicionales. El *builder* se centra en la creación, mientras que el producto representa únicamente el resultado construido.
+* **Open/Closed Principle (OCP)**: Es posible añadir **nuevas variantes de construcción** mediante nuevos *builders* concretos, sin modificar el código existente ni las abstracciones ya definidas.
+* **Liskov Substitution Principle (LSP)**: Las implementaciones concretas del *builder* pueden utilizarse a través de su **interfaz abstracta**, sin alterar el proceso de construcción definido por el cliente o el director.
+* **Interface Segregation Principle (ISP)**: La interfaz del *builder* expone **solo las operaciones necesarias para la construcción**, evitando interfaces infladas o dependencias innecesarias.
+* **Dependency Inversion Principle (DIP)**: El cliente y el director dependen de **abstracciones**, no de implementaciones concretas de *builders*, lo que reduce el acoplamiento y facilita la sustitución de estrategias de construcción.
 
 ## Ejemplos concretos
 
