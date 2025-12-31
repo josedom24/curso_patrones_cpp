@@ -58,6 +58,10 @@ Este enfoque facilita la creación progresiva de objetos, garantiza estados vál
 
 ![uml](uml/builder.png)
 
+## Diagrama UML (sin Director)
+
+![uml](uml/builder2.png)
+
 ## Ejemplo genérico
 
 ### Variante 1 — Builder **con Director** (versión clásica)
@@ -181,6 +185,10 @@ Esta variante es más idiomática en C++ actual:
 #include <iostream>
 #include <memory>
 
+// =====================================================
+//                 Producto
+// =====================================================
+
 class Producto {
 public:
     Producto(const std::string& a, const std::string& b)
@@ -195,6 +203,10 @@ private:
     std::string parteA_;
     std::string parteB_;
 };
+
+// =====================================================
+//                 Builder concreto
+// =====================================================
 
 class ConstructorFluido {
 public:
@@ -216,6 +228,10 @@ private:
     std::string parteA_ = "A por defecto";
     std::string parteB_ = "B por defecto";
 };
+
+// =====================================================
+//                     Cliente
+// =====================================================
 
 int main() {
     auto p = ConstructorFluido{}

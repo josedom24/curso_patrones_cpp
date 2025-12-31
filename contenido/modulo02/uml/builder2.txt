@@ -1,0 +1,8 @@
+[Producto|+mostrar(): void]
+
+[ConstructorFluido|
++parteA(valor): ConstructorFluido;
++parteB(valor): ConstructorFluido;
++construir(): Producto]
+
+[ConstructorFluido]create-.->[Producto]
