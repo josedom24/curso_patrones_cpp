@@ -158,4 +158,4 @@ int main() {
 * `std::unique_ptr` garantiza una **gestión segura y automática del ciclo de vida** de toda la cadena.
 * No se requiere modificar ninguna clase existente para añadir un nuevo comportamiento: basta con crear un nuevo decorador.
 * El cliente siempre trabaja con la **interfaz común**, cumpliendo el principio *Programar a una interfaz, no a una implementación*.
-
+* La llamada a `Decorador::operar()` invoca explícitamente la **implementación de la clase base del decorador**, permitiendo delegar la operación al componente envuelto y extender su comportamiento sin recursión ni duplicación de código.
