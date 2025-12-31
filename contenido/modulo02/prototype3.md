@@ -101,11 +101,16 @@ int main() {
 }
 ```
 
+Perfecto, ahora está clarísimo 👍. A continuación tienes **el apartado reescrito exactamente con el mismo formato y los mismos títulos**, sustituyendo el ejemplo de **Triángulo** por **un prototipo con copia profunda**, y manteniendo el estilo y nivel didáctico del texto original.
+
+---
+
 ## Añadir un nuevo prototipo
 
 Añadir un nuevo prototipo es **muy sencillo** y no requiere modificar el código existente.
+Los prototipos anteriores utilizaban **copia por valor**, suficiente al no gestionar recursos dinámicos. En este caso, vamos a añadir un nuevo prototipo que **sí contiene un atributo dinámico**, por lo que necesita implementar una **copia profunda**.
 
-Supongamos que queremos añadir una nueva forma: **Triángulo**.
+Supongamos que queremos añadir una nueva forma: **Rectángulo con estilo**.
 
 ### Añadir el nuevo prototipo en `Formas.hpp`
 
@@ -113,36 +118,45 @@ Debajo de las demás formas, añadimos:
 
 ```cpp
 // ----------------------------------------
-// Prototipo concreto: Triángulo
+// Prototipo concreto: Rectángulo con estilo
 // ----------------------------------------
 
-class Triangulo : public Forma {
+class RectanguloConEstilo : public Forma {
 private:
-    int base_;
-    int altura_;
+    int ancho_;
+    int alto_;
+    std::unique_ptr<std::string> color_;  // atributo dinámico
 
 public:
-    Triangulo(int base, int altura)
-        : base_(base), altura_(altura) {}
+    RectanguloConEstilo(int ancho, int alto, std::string color)
+        : ancho_(ancho),
+          alto_(alto),
+          color_(std::make_unique<std::string>(std::move(color))) {}
 
+    // Clonación profunda: se duplica el recurso dinámico
     std::unique_ptr<Forma> clonar() const override {
-        return std::make_unique<Triangulo>(*this);
+        return std::make_unique<RectanguloConEstilo>(
+            ancho_,
+            alto_,
+            *color_
+        );
     }
 
     void dibujar() const override {
-        std::cout << "Triángulo (base=" << base_
-                  << ", altura=" << altura_ << ")\n";
+        std::cout << "Rectángulo [" << ancho_
+                  << "x" << alto_
+                  << "] color=" << *color_ << "\n";
     }
 };
 ```
 
 ### Usar el nuevo prototipo en `main.cpp`
 
-Simplemente añadimos un objeto `Triangulo` y usamos `cliente()`:
+Simplemente añadimos un objeto `RectanguloConEstilo` y usamos `cliente()`:
 
 ```cpp
-Triangulo tri(50, 80);
-cliente(tri);
+RectanguloConEstilo rectEstilado(100, 50, "rojo");
+cliente(rectEstilado);
 ```
 
 ### Qué no hemos modificado
@@ -153,6 +167,6 @@ cliente(tri);
 
 Solo hemos añadido:
 
-1. una **nueva clase prototipo** (`Triangulo`),
+1. una **nueva clase prototipo** (`RectanguloConEstilo`),
 2. y una **línea en `main.cpp`** para probarlo.
 

@@ -6,6 +6,11 @@ La implementación del **Prototype** en C++ moderno se basa en la **creación de
 
 Este enfoque resulta especialmente útil cuando la creación de objetos es costosa o compleja, y cuando es necesario preservar configuraciones ya existentes en nuevas instancias.
 
+Recuerda los diferentes tipos de copia:
+
+* **Copia superficial**: se copian los valores de los miembros, pero los recursos dinámicos gestionados manualmente o mediante punteros quedan compartidos entre el objeto original y la copia. Cualquier modificación del recurso afecta a ambas instancias.
+* **Copia profunda**: además de copiar los valores, se crean copias independientes de los recursos dinámicos, garantizando que el objeto clonado no comparte estado interno con el original.
+
 ## Elementos de C++ moderno utilizados
 
 La implementación del patrón Prototype se apoya en mecanismos de C++ moderno que permiten expresar clonación segura, control del ciclo de vida y copias correctas de objetos complejos.
@@ -77,7 +82,7 @@ public:
         : nombre_(std::move(nombre)), valor_(valor) {}
 
     std::unique_ptr<Prototipo> clone() const override {
-        return std::make_unique<PrototipoConcretoA>(*this); // copia superficial
+        return std::make_unique<PrototipoConcretoA>(*this); //Copia superficial, sin recursos compartidos
     }
 
     void mostrar() const override {
