@@ -37,7 +37,7 @@ Este enfoque facilita la reutilización de código legado o externo y desacopla 
 ### 3. **Adaptador (Adapter)**
 
 * Implementa la interfaz objetivo esperada por el cliente.
-* Contiene internamente una instancia del adaptado.
+* Contiene internamente una instancia del adaptado, normalmente mediante composición, aunque la forma concreta de propiedad depende del diseño.
 * Traduce las llamadas del cliente a operaciones del adaptado.
 * Encapsula la lógica de conversión entre interfaces.
 
@@ -92,6 +92,7 @@ public:
     }
 
 private:
+    // El adaptador posee al objeto adaptado en este ejemplo
     std::unique_ptr<Adaptado> adaptado_;
 };
 

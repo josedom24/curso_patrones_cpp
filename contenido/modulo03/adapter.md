@@ -2,37 +2,40 @@
 
 ## Definición
 
-El **Adapter** es un patrón de diseño estructural cuyo propósito es **compatibilizar interfaces incompatibles**. Permite que objetos que no fueron diseñados para trabajar juntos puedan colaborar, proporcionando una **interfaz objetivo** que el cliente espera y traduciendo internamente las llamadas hacia el objeto adaptado.
+El **Adapter** es un patrón de diseño **estructural** cuyo propósito es **compatibilizar interfaces incompatibles**. Permite que clases que no fueron diseñadas para trabajar juntas puedan colaborar, ofreciendo al cliente una **interfaz objetivo** conocida y actuando como un **puente** hacia una interfaz existente diferente.
 
-Su función esencial es actuar como un **puente** entre dos interfaces distintas: la que el cliente conoce y la que realmente ofrece una clase existente.
+## Objetivos del patrón
+
+* **Hacer compatibles interfaces distintas** sin modificar las clases existentes.
+* **Reutilizar código** ya implementado, incluyendo código legado o de terceros.
+* **Proteger al cliente** de cambios en implementaciones concretas.
+* **Unificar el acceso** a distintas clases bajo una interfaz común y estable.
 
 ## Problemas que intenta solucionar
 
 El patrón Adapter resulta útil en estas situaciones:
 
-* Se dispone de una **clase existente** cuya interfaz no coincide con la que espera el código cliente.
-* Es necesario integrar **código legado**, librerías de terceros o APIs externas que no se pueden modificar.
-* Varias clases ofrecen la misma funcionalidad pero con **interfaces distintas**, y se quiere unificar su uso.
-* El cliente debería depender de una **interfaz estable**, aunque las implementaciones concretas cambien con el tiempo.
-* Se busca **evitar reescribir** o duplicar lógica que ya existe, reutilizando componentes sin alterar su código.
+* Existe una **clase existente** cuya interfaz no coincide con la que espera el cliente.
+* Es necesario integrar **código legado, librerías externas o APIs** que no se pueden modificar.
+* Varias clases ofrecen funcionalidades similares pero con **interfaces diferentes**.
+* El cliente queda **acoplado a implementaciones concretas**, dificultando la evolución del sistema.
 
 ## Cómo lo soluciona
 
 El Adapter aporta estas soluciones:
 
-* Define una **interfaz objetivo** que representa cómo el cliente quiere interactuar con el objeto.
-* Proporciona una clase **adaptadora** que implementa esa interfaz y contiene (por composición) una instancia del objeto incompatible.
-* Traduce las llamadas del cliente a métodos compatibles con la interfaz del adaptado.
-* Permite reutilizar clases externas sin modificarlas, cumpliendo así el principio *Open/Closed*.
-* Separa claramente la **interfaz cliente** de la **implementación interna o legado**, favoreciendo el desacoplamiento.
+* Define una **interfaz objetivo** que representa cómo el cliente quiere interactuar.
+* Introduce una **clase adaptadora** que implementa esa interfaz.
+* El adaptador **traduce las llamadas** del cliente a la interfaz real del objeto adaptado.
+* Separa claramente la **interfaz del cliente** de la **implementación existente**, favoreciendo el desacoplamiento y la reutilización.
 
-# Relación con los principios SOLID
+## Relación con los principios SOLID
 
-* **Single Responsibility Principle (SRP)**: El patrón *Adapter* encapsula la lógica de adaptación entre interfaces incompatibles en una clase específica. De este modo, ni la clase cliente ni la clase adaptada asumen responsabilidades adicionales relacionadas con la conversión de interfaces, manteniendo cada componente enfocado en una única tarea bien definida.
-* **Open/Closed Principle (OCP)**: El sistema puede extenderse para soportar nuevas interfaces o clases existentes mediante la incorporación de nuevos adaptadores, sin modificar el código del cliente ni el de las clases ya implementadas. Las abstracciones permanecen cerradas a cambios y abiertas a extensión a través de adaptadores adicionales.
-* **Liskov Substitution Principle (LSP)**: Los adaptadores pueden sustituirse por cualquier implementación válida de la interfaz objetivo sin alterar el comportamiento del cliente.
-* **Interface Segregation Principle (ISP)**: La interfaz objetivo se mantiene específica y alineada con las necesidades del cliente, evitando exponer métodos innecesarios.
-* **Dependency Inversion Principle (DIP)**: El cliente depende exclusivamente de la interfaz objetivo (*Target*), no de implementaciones concretas ni de clases externas con interfaces incompatibles. El adaptador actúa como intermediario que implementa dicha abstracción, invirtiendo la dependencia y permitiendo sustituir o introducir nuevas adaptaciones sin afectar al código cliente.
+* **SRP (Single Responsibility Principle)**:
+* **OCP (Open/Closed Principle)**: se pueden añadir **nuevos adaptadores** para soportar nuevas interfaces o clases existentes **sin modificar** el cliente ni las clases ya implementadas.
+* **LSP (Liskov Substitution Principle)**: cualquier adaptador que implemente la **interfaz objetivo** puede sustituirse por otro sin cambiar el comportamiento esperado por el cliente.
+* **ISP (Interface Segregation Principle)**: la **interfaz objetivo** se diseña según lo que el cliente necesita, evitando forzarlo a depender de métodos innecesarios.
+* **DIP (Dependency Inversion Principle)**: el cliente depende de la **abstracción** (interfaz objetivo), no de implementaciones concretas ni de APIs incompatibles; el adaptador actúa como intermediario que cumple esa abstracción.
 
 ## Ejemplos concretos
 
@@ -46,3 +49,7 @@ El Adapter aporta estas soluciones:
 * **Sistemas de pago**: Adaptar distintos proveedores (Stripe, PayPal, Redsys,...) a una interfaz única del sistema de cobros.
 * **Frameworks multimedia**: Permitir que distintos decodificadores de audio/vídeo se usen intercambiablemente.
 * **Conversión de tipos o formatos**: Adaptar estructuras de datos antiguas a nuevos modelos de dominio sin reescribir toda la lógica.
+
+
+
+

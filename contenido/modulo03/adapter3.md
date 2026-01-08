@@ -23,7 +23,6 @@ A continuación se muestra el código completo dividido en:
 
 ```cpp
 #pragma once
-#include <string>
 #include <iostream>
 
 // ----------------------------------------
@@ -58,6 +57,7 @@ public:
 ```cpp
 #pragma once
 #include <memory>
+#include <utility>
 #include "Procesador.hpp"
 #include "ApiAntigua.hpp"
 
@@ -151,6 +151,7 @@ Creamos un archivo `AdaptadorBanco.hpp`:
 ```cpp
 #pragma once
 #include <memory>
+#include <utility>
 #include <string>
 #include "Procesador.hpp"
 #include "ApiBanco.hpp"
@@ -164,7 +165,7 @@ private:
     std::unique_ptr<ApiPagoBanco> api_;
 
 public:
-    AdaptadorPagoBanco(std::string iban, std::unique_ptr<ApiPagoBanco> api)
+    explicit AdaptadorPagoBanco(std::string iban, std::unique_ptr<ApiPagoBanco> api)
         : iban_destino_(std::move(iban)), api_(std::move(api)) {}
 
     void pagar(double cantidad) const override {
@@ -223,4 +224,4 @@ Solo hemos añadido:
 
 * Una nueva API incompatible (`ApiPagoBanco`).
 * Un nuevo adaptador (`AdaptadorPagoBanco`).
-* Una línea en `main.cpp` para usarlo.
+* Unas líneas en `main.cpp` para usarlo.
