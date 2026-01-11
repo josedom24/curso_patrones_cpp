@@ -41,7 +41,6 @@ A continuación se muestra el código completo dividido en:
 ```cpp
 #pragma once
 #include <iostream>
-#include <memory>
 #include <string>
 
 // ----------------------------------------
@@ -147,7 +146,7 @@ public:
 ```cpp
 #include "Notificaciones.hpp"
 
-void cliente(Notificacion& notif) {
+void cliente(const Notificacion& notif) {
     notif.enviar("Revisar el sistema de seguridad.");
 }
 
@@ -174,8 +173,7 @@ int main() {
 
 ## Añadir un nuevo canal de envío
 
-**Para añadir un nuevo canal solo hay que crear un nuevo implementador concreto.
-No se modifica ninguna abstracción existente.**
+Para añadir un nuevo canal solo hay que crear un nuevo implementador concreto. No se modifica ninguna abstracción existente.
 
 Supongamos que añadimos un canal de **notificaciones push**.
 
@@ -215,3 +213,4 @@ Solo hemos añadido:
 1. un **nuevo canal** (`CanalPush`)
 2. y opcionalmente una línea en `main.cpp` para usarlo
 
+**NOTA**: Del mismo modo que es sencillo añadir un nuevo canal de envío creando un nuevo implementador concreto, también resulta igual de simple introducir un **nuevo tipo de notificación**. Basta con definir una nueva **abstracción refinada** que extienda la clase `Notificacion` y reutilice los canales existentes, sin modificar ninguna implementación ni el código cliente. Esto demuestra que el patrón Bridge permite extender el sistema de forma independiente por ambos ejes: tipos de notificación y canales de envío.

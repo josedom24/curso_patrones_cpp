@@ -62,14 +62,6 @@ Este enfoque permite combinar distintas abstracciones con distintas implementaci
 
 ## Ejemplo genérico
 
-En este ejemplo:
-
-* `Implementador` define la **interfaz de bajo nivel**.
-* `ImplementadorConcretoA` y `ImplementadorConcretoB` son dos implementaciones distintas.
-* `Abstraccion` define la **vista de alto nivel** y mantiene un `std::unique_ptr<Implementador>`.
-* `AbstraccionRefinadaA` y `AbstraccionRefinadaB` añaden variaciones de comportamiento de alto nivel.
-* El cliente combina libremente cualquier abstracción refinada con cualquier implementador concreto.
-
 ```cpp
 #include <iostream>
 #include <memory>
