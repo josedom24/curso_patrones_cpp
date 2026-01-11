@@ -28,7 +28,7 @@
     * [Ejemplo: Integración de una API de pagos antigua](contenido/modulo03/adapter3.md)
     * [Patrón Bridge](contenido/modulo03/bridge.md)
     * [Implementación de Bridge con C++](contenido/modulo03/bridge2.md)
-    * [Ejemplo: Sistema de notificaciones con múltiples canales](contenido/modulo03/bridge2.md)
+    * [Ejemplo: Sistema de notificaciones con múltiples canales](contenido/modulo03/bridge3.md)
     * [Patrón Composite](contenido/modulo03/composite.md)
     * [Implementación de Composite con C++](contenido/modulo03/composite2.md)
     * [Ejemplo: Sistema de archivos](contenido/modulo03/composite3.md)
