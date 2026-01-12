@@ -14,7 +14,7 @@ Cada elemento del sistema implementa la interfaz común `Elemento`, que define l
 Los **Directorios** son componentes compuestos que almacenan una colección de `std::unique_ptr<Elemento>`.
 Los **Archivos** son componentes hoja.
 
-Dividiremos el código en tres partes:
+Dividiremos el código en dos partes:
 
 * **Elementos.hpp** – interfaz común y productos (hoja y compuesto)
 * **main.cpp** – código cliente que usa la estructura
@@ -87,6 +87,10 @@ public:
 ```cpp
 #include "Elementos.hpp"
 
+void cliente(const Elemento& elemento) {
+    elemento.mostrar();
+}
+
 int main() {
     // Crear directorio raíz
     auto raiz = std::make_unique<Directorio>("home");
@@ -104,19 +108,21 @@ int main() {
     raiz->agregar(std::move(documentos));
 
     // Mostrar estructura completa
-    raiz->mostrar();
+    cliente(*raiz);
 
     return 0;
 }
 ```
+
 ## Añadir un nuevo tipo de elemento
 
-El patrón Composite facilita añadir nuevos componentes sin modificar las clases existentes.
-Por ejemplo, queremos añadir un **Enlace simbólico** (`Enlace`) que apunta a otro `Elemento`.
+El patrón **Composite** permite ampliar la jerarquía de componentes incorporando nuevos tipos de elementos sin modificar las clases existentes ni el código cliente.
 
-### Nuevo producto: Enlace (hoja especial)
+En este caso añadimos un nuevo tipo de elemento al sistema de archivos: un **enlace simbólico**, que representa una referencia a otra ubicación del sistema.
 
-Añádelo al final de `Elementos.hpp`:
+### Nuevo producto Enlace simbólico
+
+Añade la siguiente clase al final de `Elementos.hpp`:
 
 ```cpp
 // ----------------------------------------
@@ -125,41 +131,46 @@ Añádelo al final de `Elementos.hpp`:
 class Enlace : public Elemento {
 private:
     std::string nombre_;
-    const Elemento* objetivo_;  // no posee, solo referencia
+    std::string destino_;
 
 public:
-    Enlace(std::string nombre, const Elemento* objetivo)
-        : nombre_(std::move(nombre)), objetivo_(objetivo) {}
+    Enlace(std::string nombre, std::string destino)
+        : nombre_(std::move(nombre)), destino_(std::move(destino)) {}
 
     void mostrar(int indentacion = 0) const override {
         std::cout << std::string(indentacion, ' ')
                   << "- " << nombre_
-                  << " -> (enlace a otro elemento)\n";
+                  << " -> " << destino_
+                  << "\n";
     }
 };
 ```
 
-### Usarlo desde `main.cpp`
+Este nuevo componente implementa la interfaz `Elemento` y se comporta como una **hoja**, ya que no contiene otros elementos.
+
+
+### Uso desde `main.cpp`
+
+El nuevo tipo de elemento puede utilizarse directamente desde el código cliente:
 
 ```cpp
-auto archivoImportante = std::make_unique<Archivo>("importante.txt");
-auto* ptrArchivoImportante = archivoImportante.get();
-
-raiz->agregar(std::move(archivoImportante));
-
-// Crear enlace simbólico al archivo anterior
-raiz->agregar(std::make_unique<Enlace>("link_importante", ptrArchivoImportante));
+raiz->agregar(std::make_unique<Enlace>("link_importante", "/home/documentos/cv.pdf"));
 ```
+
+El cliente continúa trabajando con la abstracción común `Elemento`.
+
 
 ### Qué no hemos modificado
 
-* No se ha cambiado la interfaz `Elemento`
-* No se ha cambiado `Directorio`
-* No se ha cambiado `Archivo`
-* No se ha modificado `mostrar()` en los componentes existentes
+Al añadir este nuevo tipo de elemento:
 
-Solo hemos añadido:
+* No se ha modificado la interfaz `Elemento`.
+* No se ha modificado la clase `Directorio`.
+* No se ha modificado la clase `Archivo`.
+* No se ha modificado el comportamiento de `mostrar()` en los componentes existentes.
 
-1. Una nueva clase hoja (`Enlace`)
-2. Una línea en el `main.cpp` si queremos usarla
+Solo se ha añadido:
+
+1. Un nuevo tipo de hoja (`Enlace`).
+2. Código de uso en `main.cpp`.
 

@@ -46,7 +46,7 @@ Este enfoque simplifica el código cliente, elimina distinciones artificiales en
 * Trabaja exclusivamente con la interfaz del componente.
 * No distingue entre hojas y compuestos.
 * Manipula estructuras completas de forma uniforme.
-* Gestiona la memoria de forma automática mediante RAII.
+* No se preocupa por la gestión de memoria, que queda encapsulada en la estructura mediante RAII.
 
 
 ## Diagrama UML

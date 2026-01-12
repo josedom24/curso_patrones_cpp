@@ -2,37 +2,42 @@
 
 ## Definición
 
-El **Composite** es un patrón de diseño estructural que permite tratar de forma uniforme a objetos individuales y a composiciones de objetos. Su objetivo es representar jerarquías *parte-todo* de manera que el código cliente pueda manipular elementos simples y estructuras complejas mediante una interfaz común, sin necesidad de distinguir explícitamente entre ambos casos.
+El **Composite** es un patrón de diseño estructural que permite **tratar de manera uniforme objetos individuales y conjuntos de objetos organizados jerárquicamente**. Está pensado para modelar relaciones *parte–todo* mediante una **interfaz común**, de forma que el código cliente pueda trabajar con elementos simples y estructuras complejas sin necesidad de distinguir entre ellos.
+
+## Objetivos del patrón
+
+En el diseño de muchos sistemas aparecen dificultades comunes que el patrón Composite ayuda a resolver:
+
+* La necesidad de representar **estructuras jerárquicas complejas**, como árboles de elementos que contienen otros elementos.
+* La obligación del código cliente de **distinguir entre objetos simples y compuestos**, lo que introduce acoplamiento y aumenta la complejidad.
+* La dependencia directa del cliente respecto a **clases concretas**, dificultando la evolución de la jerarquía.
+* La complejidad de **recorrer y aplicar operaciones** de forma uniforme sobre todos los elementos, independientemente de su nivel en la estructura.
 
 ## Problemas que intenta solucionar
 
-El patrón aborda principalmente estas situaciones:
+El patrón propone una solución basada en decisiones de diseño claras y coherentes:
 
-* Se necesita modelar **estructuras jerárquicas** (como árboles) donde ciertos elementos son agregaciones de otros.
-* El código cliente se ve obligado a **distinguir manualmente** entre objetos simples y objetos compuestos, introduciendo condicionales innecesarios.
-* Se dificulta la **extensibilidad** del sistema cuando la jerarquía crece o cambia, porque el cliente depende de múltiples tipos concretos.
-* Se requiere una forma clara y coherente de **recorrer**, **operar** y **modificar** elementos estructurados en niveles (por ejemplo, carpetas que contienen carpetas y archivos).
-* Se quiere mantener un diseño limpio donde cada elemento de la jerarquía se trate a través de una **interfaz unificada**.
+* Definir una **interfaz común** que represente a todos los elementos de la jerarquía, tanto hojas como compuestos.
+* Distinguir internamente entre **componentes hoja**, que no contienen otros elementos, y **componentes compuestos**, que gestionan colecciones de componentes.
+* Utilizar **polimorfismo** para que el cliente pueda operar siempre sobre la abstracción, sin conocer la estructura interna del objeto.
+* Aplicar **delegación recursiva**, de modo que los compuestos propaguen las operaciones a sus hijos y permitan procesar estructuras de cualquier profundidad.
 
 ## Cómo lo soluciona
 
 El patrón Composite propone estas soluciones:
 
-* Define una **interfaz común** para todos los elementos de la jerarquía, ya sean simples o compuestos.
-* Se introducen **componentes hoja**, que representan objetos indivisibles, y **componentes compuestos**, que gestionan colecciones de otros componentes.
-* Los objetos compuestos implementan la misma interfaz que las hojas, permitiendo que el cliente los use de manera homogénea.
-* Se reduce la necesidad de condicionales en el cliente: la **polimorfia** y la interfaz común encapsulan la diferencia entre “parte” y “todo”.
-* Facilita la **recursividad**: los objetos compuestos delegan operaciones a sus hijos, permitiendo procesar estructuras de profundidad arbitraria.
-* Favorece el principio *Open/Closed*, ya que se pueden añadir nuevos tipos de componentes sin modificar el código cliente.
+* Definir una **interfaz común** que represente a todos los elementos de la jerarquía, tanto hojas como compuestos.
+* Distinguir internamente entre **componentes hoja**, que no contienen otros elementos, y **componentes compuestos**, que gestionan colecciones de componentes.
+* Utilizar **polimorfismo** para que el cliente pueda operar siempre sobre la abstracción, sin conocer la estructura interna del objeto.
+* Aplicar **delegación recursiva**, de modo que los compuestos propaguen las operaciones a sus hijos y permitan procesar estructuras de cualquier profundidad.
 
 ## Relación con los principios SOLID
 
-* **Single Responsibility Principle (SRP)**: El patrón *Composite* separa la responsabilidad del **comportamiento individual** (componentes hoja) de la **gestión de estructuras jerárquicas** (componentes compuestos). Cada tipo de clase tiene un único motivo de cambio, manteniendo responsabilidades bien definidas.
-* **Open/Closed Principle (OCP)**: El sistema puede ampliarse incorporando nuevos tipos de componentes sin modificar el código cliente ni las clases existentes. Al trabajar siempre contra la abstracción común, la estructura queda abierta a extensión y cerrada a modificación.
-* **Liskov Substitution Principle (LSP)**: Los componentes hoja y los compuestos pueden sustituirse por la abstracción común sin alterar el comportamiento esperado por el cliente.
-* **Interface Segregation Principle (ISP)**: La interfaz del componente se mantiene uniforme y específica para las operaciones que el cliente necesita, evitando dependencias innecesarias.
-* **Dependency Inversion Principle (DIP)**: El cliente depende exclusivamente de la abstracción del componente, no de implementaciones concretas ni de si el objeto es hoja o compuesto. Tanto estructuras simples como jerárquicas se manipulan a través de la misma interfaz.
-
+* **Single Responsibility Principle (SRP)**: Facilita la separación entre el comportamiento de los elementos individuales y la gestión de la estructura jerárquica, ayudando a organizar responsabilidades de forma clara.
+* **Open/Closed Principle (OCP)**: La jerarquía puede ampliarse añadiendo nuevos tipos de componentes sin modificar el código cliente, que trabaja siempre contra la abstracción común.
+* **Liskov Substitution Principle (LSP)**:  Tanto los componentes hoja como los compuestos pueden sustituirse por la abstracción base sin alterar el comportamiento esperado por el cliente.
+* **Interface Segregation Principle (ISP)**:  El uso de una interfaz común puede respetar ISP si se diseña con cuidado para no imponer operaciones innecesarias a los componentes hoja.
+* **Dependency Inversion Principle (DIP)**:El código cliente depende únicamente de la abstracción del componente, no de implementaciones concretas ni de la estructura interna de la jerarquía.
 
 ## Ejemplos concretos
 
@@ -44,4 +49,5 @@ El patrón Composite propone estas soluciones:
 * **Árboles sintácticos y analizadores**: Nodos de expresiones y operadores compuestos usados de forma uniforme al recorrer o evaluar expresiones.
 * **Menús y submenús**: Estructuras de navegación en aplicaciones, donde cada elemento puede contener otros elementos.
 * **Componentes de juegos**: Entidades que contienen sub-entidades (por ejemplo, un vehículo con ruedas, puertas y accesorios).
+
 
