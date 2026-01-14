@@ -4,34 +4,39 @@
 
 El **Facade** es un patrón de diseño estructural cuyo propósito es **proporcionar una interfaz unificada y simplificada** a un conjunto de interfaces, componentes o subsistemas complejos. El objetivo es ocultar la complejidad interna y permitir al código cliente interactuar con un único punto de acceso, más simple y coherente, sin necesidad de conocer los detalles de implementación.
 
+## Objetivos
+
+* **Simplificar el acceso a subsistemas complejos**, ofreciendo una interfaz de alto nivel que oculte detalles internos innecesarios para el cliente.
+* **Reducir el acoplamiento entre el cliente y la implementación interna**, evitando dependencias directas con múltiples clases del subsistema.
+* **Centralizar la coordinación de operaciones**, encapsulando la lógica que combina varios componentes en un único punto de acceso.
+* **Mejorar la claridad, legibilidad y mantenibilidad del código**, proporcionando una entrada coherente y expresiva a un sistema complejo.
+
 ## Problemas que intenta solucionar
 
 El patrón aborda principalmente estas situaciones:
 
-* El sistema está formado por múltiples subsistemas o componentes con **interfaces complejas o difíciles de usar**.
-* El código cliente necesita realizar **operaciones que requieren coordinar varios objetos**, lo que lleva a código repetido y difícil de mantener.
-* Se desea **reducir el acoplamiento** entre el cliente y los subsistemas internos, evitando dependencias directas innecesarias.
-* Un módulo externo necesita una **vista simplificada** de un sistema más grande, manteniendo ocultos los detalles que no necesita conocer.
-* Es necesario mejorar la **legibilidad**, la cohesión y la organización** del código agrupando operaciones relacionadas detrás de una interfaz clara.
+* El sistema expone **interfaces complejas y poco intuitivas**, formadas por múltiples subsistemas difíciles de usar directamente.
+* El código cliente debe **coordinar varios objetos para realizar una operación**, provocando duplicación de lógica y dificultades de mantenimiento.
+* Existe un **alto acoplamiento entre el cliente y los detalles internos** del sistema, generando dependencias frágiles y poco flexibles.
+* Se necesita una **vista simplificada y coherente del sistema**, que mejore la legibilidad y organización del código y oculte detalles innecesarios.
 
 ## Cómo lo soluciona
 
-El patrón Facade aporta estas soluciones:
+El patrón *Facade* aporta estas soluciones:
 
-* Define una **clase fachada** que ofrece métodos simples que representan operaciones de alto nivel.
-* Esta clase coordina internamente las llamadas a los **subsistemas reales**, encapsulando la lógica compleja en un único punto.
-* El cliente interactúa únicamente con la fachada, sin conocer la existencia ni la estructura interna de los subsistemas.
-* Se reduce la dependencia directa entre el cliente y los componentes internos, mejorando la modularidad.
-* Facilita la **evolución del sistema**: los subsistemas pueden cambiar sin afectar al código cliente siempre que la fachada mantenga su contrato.
-* Proporciona un **punto de entrada estándar** a un sistema complejo, mejorando la experiencia de uso y la mantenibilidad.
+* Define una **interfaz unificada y de alto nivel** mediante una clase fachada que representa operaciones completas y fáciles de usar.
+* **Encapsula y centraliza la coordinación** de los subsistemas internos, ocultando la lógica compleja en un único punto.
+* Aísla al cliente de la estructura interna del sistema, **reduciendo el acoplamiento** y mejorando la modularidad.
+* Establece un **punto de entrada estable y coherente**, permitiendo que los subsistemas evolucionen sin afectar al código cliente y mejorando la mantenibilidad general.
 
 ## Relación con los principios SOLID
 
 * **Single Responsibility Principle (SRP)**: El patrón *Facade* concentra la responsabilidad de **simplificar el acceso a un subsistema complejo** en una única clase. El cliente no asume la coordinación entre múltiples componentes, y cada clase del subsistema mantiene su responsabilidad específica.
 * **Open/Closed Principle (OCP)**: El subsistema puede evolucionar internamente sin afectar al código cliente, siempre que la interfaz de la fachada se mantenga estable. Nuevas funcionalidades pueden añadirse al subsistema sin modificar a los clientes que usan la fachada.
-* **Liskov Substitution Principle (LSP)**: La fachada puede sustituirse por otra implementación equivalente (por ejemplo, una fachada alternativa o extendida) sin afectar al cliente, siempre que mantenga el mismo contrato público.
+* **Liskov Substitution Principle (LSP)**: Cuando la fachada se define mediante una interfaz o clase base, puede **sustituirse por otra implementación equivalente** (por ejemplo, una fachada alternativa o extendida) sin afectar al cliente, siempre que mantenga el mismo contrato público.
 * **Interface Segregation Principle (ISP)**: La fachada expone una **interfaz específica y adaptada al cliente**, evitando que este dependa de la complejidad o de métodos innecesarios del subsistema subyacente.
-* **Dependency Inversion Principle (DIP)**: El cliente depende únicamente de la fachada y no de las clases concretas del subsistema. La fachada actúa como punto de inversión de dependencias, reduciendo el acoplamiento entre cliente y detalles internos.
+* **Dependency Inversion Principle (DIP)**: El cliente depende de la abstracción que representa la fachada y no de las clases concretas del subsistema. Esto **reduce el acoplamiento** y limita la propagación de dependencias hacia los detalles internos.
+
 
 ## Ejemplos concretos
 

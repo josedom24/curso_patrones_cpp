@@ -174,15 +174,16 @@ md = std::make_unique<ListaMarkdown>(std::move(md));
 
 ### Qué no hemos modificado
 
-Al añadir el nuevo decorador **ListaMarkdown**:
+Al añadir el nuevo subsistema **RegistroHistorico**:
 
-* No se ha modificado la interfaz `Markdown`.
-* No se ha modificado el componente concreto `TextoMarkdown`.
-* No se ha modificado la clase base `DecoradorMarkdown`.
-* No se ha modificado el comportamiento de `render()` en los componentes existentes.
+* No se ha modificado el código cliente (`main.cpp`).
+* No se ha modificado el contrato público de la clase `GestorTareas`.
+* No se han modificado las interfaces ni el comportamiento de los subsistemas existentes.
+* No se ha alterado la forma en la que el cliente utiliza el sistema.
 
 Solo se ha añadido:
 
-1. Un nuevo decorador concreto (`ListaMarkdown`).
-2. Código de composición en `main.cpp` para aplicar el nuevo formato.
+1. Un nuevo subsistema interno (`RegistroHistorico`).
+2. Lógica adicional dentro de la fachada para coordinar su uso.
+
 
