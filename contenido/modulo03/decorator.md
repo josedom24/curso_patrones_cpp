@@ -2,30 +2,30 @@
 
 ## Definición
 
-El **Decorator** es un patrón de diseño estructural que permite **añadir responsabilidades o funcionalidades adicionales a un objeto de manera dinámica**, sin modificar su clase ni afectar a otros objetos de la misma jerarquía.
-Para ello, encapsula el objeto original dentro de una estructura envolvente (*decorador*) que implementa la misma interfaz, delega en él la funcionalidad principal y añade comportamiento extra antes o después de esa delegación.
+El **Decorator** es un patrón de diseño estructural que permite **añadir funcionalidades adicionales a un objeto de forma dinámica**, sin modificar su clase original. Para lograrlo, el objeto se **envuelve** dentro de otro objeto (el decorador) que implementa la misma interfaz y que **delegará el comportamiento base**, añadiendo funcionalidad extra antes o después de dicha delegación.
+
+## Objetivos del patrón
+
+El patrón Decorator persigue principalmente los siguientes objetivos:
+
+* **Extender el comportamiento de un objeto** sin alterar su implementación original.
+* **Evitar la proliferación de subclases**, ofreciendo una alternativa flexible a la herencia.
+* **Permitir combinaciones dinámicas de funcionalidades**, incluso en tiempo de ejecución.
+* **Mantener el código cliente desacoplado**, trabajando siempre contra una interfaz común.
 
 ## Problemas que intenta solucionar
 
-El patrón aborda principalmente estas situaciones:
-
-* Se necesita **extender funcionalidades** de un objeto sin crear una gran cantidad de subclases mediante herencia (evitando la “explosión de clases”).
-* La funcionalidad adicional debe poder aplicarse **selectivamente**, combinando decoradores de forma flexible.
-* Se requiere añadir responsabilidades **en tiempo de ejecución**, no solo al momento de compilación.
-* Se quiere evitar modificar código existente del componente base o de sus subclases (respetando el principio *Open/Closed*).
-* Existen múltiples variantes de un mismo objeto que comparten comportamiento, pero se diferencian por pequeñas responsabilidades adicionales.
-* Se busca una alternativa más flexible a la herencia para extender comportamientos, evitando acoplamiento rígido.
+* **Explosión de clases por herencia**, cuando cada nueva funcionalidad o combinación de ellas obliga a crear subclases adicionales, haciendo el diseño difícil de mantener y escalar.
+* **Falta de flexibilidad en la extensión de comportamiento**, ya que la herencia fija las variaciones en tiempo de compilación y no permite combinarlas dinámicamente.
+* **Necesidad de aplicar responsabilidades de forma selectiva**, donde no todos los objetos deben tener el mismo conjunto de funcionalidades adicionales.
+* **Imposibilidad o riesgo de modificar código existente**, especialmente cuando las clases base ya están probadas, reutilizadas o forman parte de librerías externas.
 
 ## Cómo lo soluciona
 
-El Decorator proporciona estas soluciones:
-
-* Define una **interfaz común** para el componente y sus decoradores, permitiendo que estos se intercambien sin romper el código cliente.
-* Cada **decorador envuelve** un componente concreto y **delegará** en él la operación principal.
-* Los decoradores pueden **añadir comportamiento antes o después** de llamar al componente envuelto.
-* Los decoradores pueden **componerse entre sí**, creando cadenas flexibles de funcionalidad sin necesidad de herencia múltiple o proliferación de clases.
-* Facilita el cumplimiento de *Open/Closed*: se agregan nuevas capacidades creando nuevos decoradores, sin modificar las clases base.
-* Reduce el acoplamiento entre nuevas funcionalidades y los componentes originales.
+* **Uso de una interfaz común**, de modo que tanto el componente base como los decoradores pueden tratarse de forma uniforme por el código cliente.
+* **Encapsulación del objeto original**, envolviéndolo dentro de un decorador que delega el comportamiento principal sin alterarlo.
+* **Adición incremental de funcionalidades**, permitiendo que cada decorador añada una responsabilidad concreta antes o después de la delegación.
+* **Composición flexible de decoradores**, que pueden encadenarse entre sí para construir comportamientos complejos sin recurrir a herencia múltiple.
 
 ## Relación con los principios SOLID
 

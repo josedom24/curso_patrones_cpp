@@ -4,8 +4,6 @@
 
 La implementación del **Decorator** en C++ moderno permite **añadir comportamiento a un objeto de forma dinámica** sin modificar su clase original. El patrón se basa en envolver un objeto dentro de otro que implementa la misma interfaz, formando una cadena de objetos que extienden el comportamiento original.
 
-Este enfoque favorece la extensión flexible del comportamiento, evita la proliferación de subclases y permite combinar funcionalidades de manera dinámica y controlada.
-
 ## Elementos de C++ moderno utilizados
 
 * **Clases abstractas e interfaces puras** para definir el componente común.

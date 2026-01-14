@@ -172,10 +172,17 @@ public:
 md = std::make_unique<ListaMarkdown>(std::move(md));
 ```
 
-## Qué no hemos modificado
+### Qué no hemos modificado
 
-* La interfaz `Markdown`
-* El componente concreto `TextoMarkdown`
-* La clase base `DecoradorMarkdown`
-* El código cliente
+Al añadir el nuevo decorador **ListaMarkdown**:
+
+* No se ha modificado la interfaz `Markdown`.
+* No se ha modificado el componente concreto `TextoMarkdown`.
+* No se ha modificado la clase base `DecoradorMarkdown`.
+* No se ha modificado el comportamiento de `render()` en los componentes existentes.
+
+Solo se ha añadido:
+
+1. Un nuevo decorador concreto (`ListaMarkdown`).
+2. Código de composición en `main.cpp` para aplicar el nuevo formato.
 
