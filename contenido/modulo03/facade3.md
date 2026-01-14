@@ -183,11 +183,18 @@ void crear_tarea(const std::string& nombre) {
     historico_.registrar("Tarea creada: " + nombre);
 }
 ```
-
 ### Qué no hemos modificado
 
-* El cliente.
-* La interfaz pública de `GestorTareas`.
+Al añadir el nuevo subsistema **RegistroHistorico**:
 
-Solo hemos extendido la fachada y añadido un nuevo subsistema interno.
+* No se ha modificado el código cliente (`main.cpp`).
+* No se ha modificado el contrato público de la clase `GestorTareas`.
+* No se han modificado las interfaces ni el comportamiento de los subsistemas existentes.
+* No se ha alterado la forma en la que el cliente utiliza el sistema.
+
+Solo se ha añadido:
+
+1. Un nuevo subsistema interno (`RegistroHistorico`).
+2. Lógica adicional dentro de la fachada para coordinar su uso.
+
 
