@@ -118,30 +118,6 @@ public:
     }
 };
 
-// ----------------------------------------
-// Proxy adicional: registro detallado
-// ----------------------------------------
-class ProxyServicioDatosLogger : public ServicioDatos {
-private:
-    std::unique_ptr<ServicioDatos> servicio_real_;
-
-public:
-    std::string obtener_datos(const std::string& clave) override {
-        std::cout << "[Logger] Solicitud para '" << clave << "'\n";
-
-        if (!servicio_real_) {
-            std::cout << "[Logger] Creando ServicioDatosReal bajo demanda...\n";
-            servicio_real_ = std::make_unique<ServicioDatosReal>();
-        }
-
-        auto resultado = servicio_real_->obtener_datos(clave);
-
-        std::cout << "[Logger] Resultado entregado: '"
-                  << resultado << "'\n";
-
-        return resultado;
-    }
-};
 ```
 
 
@@ -155,6 +131,8 @@ void cliente(ServicioDatos& servicio) {
     try {
         std::cout << servicio.obtener_datos("perfil") << "\n";
         std::cout << servicio.obtener_datos("estadisticas") << "\n";
+
+        // Segunda llamada repetida: vendrá de la caché
         std::cout << servicio.obtener_datos("perfil") << "\n";
     } catch (const std::exception& e) {
         std::cout << "[Cliente] Error: " << e.what() << "\n";
@@ -164,7 +142,6 @@ void cliente(ServicioDatos& servicio) {
 int main() {
     ProxyServicioDatos proxyAdmin("admin");
     ProxyServicioDatos proxyInvitado("invitado");
-    ProxyServicioDatosLogger proxyLogger;
 
     std::cout << "--- Acceso como 'admin' ---\n";
     cliente(proxyAdmin);
@@ -172,11 +149,10 @@ int main() {
     std::cout << "\n--- Acceso como 'invitado' ---\n";
     cliente(proxyInvitado);
 
-    std::cout << "\n--- Usando Proxy Logger ---\n";
-    cliente(proxyLogger);
-
     return 0;
 }
+
+
 ```
 
 ## Añadir un nuevo proxy especializado
@@ -234,6 +210,7 @@ Así, el cliente puede sustituir cualquier implementación por este proxy sin ca
 Añadimos simplemente una nueva instancia y la pasamos al cliente:
 
 ```cpp
+...
 int main() {
     ProxyServicioDatosLogger proxyLogger;
     ProxyServicioDatos proxyAdmin("admin");
@@ -246,6 +223,7 @@ int main() {
 
     return 0;
 }
+
 ```
 
 ### Qué no hemos modificado
