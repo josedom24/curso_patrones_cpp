@@ -1,9 +1,18 @@
+Perfecto. A continuación tienes **el apartado completo reescrito**, manteniendo **exactamente el mismo formato, estructura y enfoque didáctico**, pero **corrigiendo todos los problemas señalados**:
+
+* Dependencia del proxy hacia la **abstracción** (`ServicioDatos`)
+* Manejo correcto del **contrato** mediante excepciones
+* Redacción más precisa (sin afirmaciones absolutas incorrectas)
+* Proxies coherentes entre sí
+* Ejemplo explícitamente **híbrido** (Virtual + Protection + Cache + Logging)
+
+
 # Ejemplo: Acceso controlado a un servicio de datos
 
 ## Introducción
 
 Para ilustrar el patrón **Proxy** en un contexto realista, construiremos un pequeño servicio de acceso a datos.
-El objetivo del sistema es permitir que el código cliente solicite datos mediante una interfaz común (`ServicioDatos`), **sin conocer si está hablando con el objeto real o con un proxy** que controle el acceso.
+El objetivo del sistema es permitir que el código cliente solicite datos mediante una interfaz común (`ServicioDatos`), **sin necesidad de conocer si está utilizando el servicio real o un proxy** que controle el acceso.
 
 El proxy añade tres responsabilidades adicionales:
 
@@ -11,14 +20,17 @@ El proxy añade tres responsabilidades adicionales:
 * **Inicialización diferida** del servicio real, que es costoso.
 * **Caché interna** para devolver resultados inmediatamente si ya fueron consultados antes.
 
-Cada operación se hace a través de la interfaz `ServicioDatos`. El cliente nunca interactúa directamente con el servicio real (`ServicioDatosReal`).
-Todo el control extra sucede dentro del `ProxyServicioDatos`, sin que el cliente lo note.
+Cada operación se realiza a través de la interfaz `ServicioDatos`.
+El cliente interactúa únicamente con dicha interfaz y no necesita conocer qué implementación concreta se utiliza en cada caso.
+
+Este ejemplo muestra un uso **combinado del patrón Proxy**, integrando control de acceso, inicialización diferida, caché y registro mediante diferentes proxies que comparten la misma interfaz.
 
 A continuación se muestra el código completo dividido en:
 
 * **Servicio.hpp** – interfaz del servicio y objeto real
-* **Proxy.hpp** – implementación del proxy
+* **Proxy.hpp** – implementaciones de proxy
 * **main.cpp** – código cliente
+
 
 ## Servicio.hpp
 
@@ -51,6 +63,7 @@ public:
 };
 ```
 
+
 ## Proxy.hpp
 
 ```cpp
@@ -59,15 +72,16 @@ public:
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <stdexcept>
 #include "Servicio.hpp"
 
 // ----------------------------------------
-// Proxy que controla acceso, inicializa el servicio
-// bajo demanda y mantiene una pequeña caché
+// Proxy con control de acceso, inicialización
+// diferida y caché
 // ----------------------------------------
 class ProxyServicioDatos : public ServicioDatos {
 private:
-    std::unique_ptr<ServicioDatosReal> servicio_real_;
+    std::unique_ptr<ServicioDatos> servicio_real_;
     std::unordered_map<std::string, std::string> cache_;
     std::string usuario_;
 
@@ -83,11 +97,13 @@ public:
         std::cout << "[Proxy] Solicitud para '" << clave << "'.\n";
 
         if (!comprobar_acceso()) {
-            return "[Proxy] Acceso denegado para el usuario '" + usuario_ + "'";
+            throw std::runtime_error(
+                "Acceso denegado para el usuario '" + usuario_ + "'"
+            );
         }
 
-        if (cache_.find(clave) != cache_.end()) {
-            return "[Proxy] (Caché) " + cache_[clave];
+        if (auto it = cache_.find(clave); it != cache_.end()) {
+            return "[Proxy] (Caché) " + it->second;
         }
 
         if (!servicio_real_) {
@@ -96,60 +112,18 @@ public:
         }
 
         auto resultado = servicio_real_->obtener_datos(clave);
-
         cache_[clave] = resultado;
 
         return resultado;
     }
 };
-```
 
-## main.cpp
-
-```cpp
-#include <iostream>
-#include "Proxy.hpp"
-
-void cliente(ServicioDatos& servicio) {
-    std::cout << servicio.obtener_datos("perfil") << "\n";
-    std::cout << servicio.obtener_datos("estadisticas") << "\n";
-
-    // Segunda llamada repetida: vendrá de la caché
-    std::cout << servicio.obtener_datos("perfil") << "\n";
-}
-
-int main() {
-    ProxyServicioDatos proxyAdmin("admin");
-    ProxyServicioDatos proxyInvitado("invitado");
-
-    std::cout << "--- Acceso como 'admin' ---\n";
-    cliente(proxyAdmin);
-
-    std::cout << "\n--- Acceso como 'invitado' ---\n";
-    cliente(proxyInvitado);
-
-    return 0;
-}
-```
-## Añadir un nuevo proxy especializado
-
-Una de las mayores ventajas del patrón **Proxy** es que permite añadir nuevas capas de control **sin modificar el servicio real ni la interfaz común**.
-Solo añadimos un nuevo tipo de proxy que implemente la misma interfaz.
-
-Supongamos que queremos añadir un nuevo proxy:
-**Proxy de registro** (un proxy que añade *logging detallado* de todas las solicitudes realizadas).
-
-### Añadir el nuevo proxy en `Proxy.hpp`
-
-Debajo de `ProxyServicioDatos`, añadimos un nuevo proxy que también implementa `ServicioDatos`:
-
-```cpp
 // ----------------------------------------
-// Nuevo Proxy: añade registro detallado de solicitudes
+// Proxy adicional: registro detallado
 // ----------------------------------------
 class ProxyServicioDatosLogger : public ServicioDatos {
 private:
-    std::unique_ptr<ServicioDatosReal> servicio_real_;
+    std::unique_ptr<ServicioDatos> servicio_real_;
 
 public:
     std::string obtener_datos(const std::string& clave) override {
@@ -162,7 +136,82 @@ public:
 
         auto resultado = servicio_real_->obtener_datos(clave);
 
-        std::cout << "[Logger] Resultado entregado: '" 
+        std::cout << "[Logger] Resultado entregado: '"
+                  << resultado << "'\n";
+
+        return resultado;
+    }
+};
+```
+
+
+## main.cpp
+
+```cpp
+#include <iostream>
+#include "Proxy.hpp"
+
+void cliente(ServicioDatos& servicio) {
+    try {
+        std::cout << servicio.obtener_datos("perfil") << "\n";
+        std::cout << servicio.obtener_datos("estadisticas") << "\n";
+        std::cout << servicio.obtener_datos("perfil") << "\n";
+    } catch (const std::exception& e) {
+        std::cout << "[Cliente] Error: " << e.what() << "\n";
+    }
+}
+
+int main() {
+    ProxyServicioDatos proxyAdmin("admin");
+    ProxyServicioDatos proxyInvitado("invitado");
+    ProxyServicioDatosLogger proxyLogger;
+
+    std::cout << "--- Acceso como 'admin' ---\n";
+    cliente(proxyAdmin);
+
+    std::cout << "\n--- Acceso como 'invitado' ---\n";
+    cliente(proxyInvitado);
+
+    std::cout << "\n--- Usando Proxy Logger ---\n";
+    cliente(proxyLogger);
+
+    return 0;
+}
+```
+
+## Añadir un nuevo proxy especializado
+
+Una de las mayores ventajas del patrón **Proxy** es que permite añadir nuevas capas de control **sin modificar el servicio real ni la interfaz común**.
+Solo añadimos un nuevo tipo de proxy que implemente la misma interfaz.
+
+Supongamos que queremos añadir un nuevo proxy:
+**Proxy de registro** (un proxy que añade *logging detallado* de todas las solicitudes realizadas).
+
+### Añadir el nuevo proxy en `Proxy.hpp`
+
+Debajo de `ProxyServicioDatos`, añadimos un nuevo proxy que también implementa `ServicioDatos`.
+Para mantener un bajo acoplamiento, el proxy **depende de la abstracción** (`ServicioDatos`) y no del tipo concreto (`ServicioDatosReal`):
+
+```cpp
+// ----------------------------------------
+// Nuevo Proxy: añade registro detallado de solicitudes
+// ----------------------------------------
+class ProxyServicioDatosLogger : public ServicioDatos {
+private:
+    std::unique_ptr<ServicioDatos> servicio_real_;
+
+public:
+    std::string obtener_datos(const std::string& clave) override {
+        std::cout << "[Logger] Solicitud para '" << clave << "'\n";
+
+        if (!servicio_real_) {
+            std::cout << "[Logger] Creando ServicioDatosReal bajo demanda...\n";
+            servicio_real_ = std::make_unique<ServicioDatosReal>();
+        }
+
+        auto resultado = servicio_real_->obtener_datos(clave);
+
+        std::cout << "[Logger] Resultado entregado: '"
                   << resultado << "'\n";
 
         return resultado;
@@ -178,15 +227,13 @@ Este nuevo proxy:
 * Solo añade **registro detallado**
 * Conserva la misma interfaz `ServicioDatos`
 
-Así, el cliente puede sustituir cualquier proxy por este nuevo sin cambiar nada.
+Así, el cliente puede sustituir cualquier implementación por este proxy sin cambiar nada.
 
 ### Usarlo en `main.cpp`
 
-Añadimos simplemente una línea:
+Añadimos simplemente una nueva instancia y la pasamos al cliente:
 
 ```cpp
-...
-
 int main() {
     ProxyServicioDatosLogger proxyLogger;
     ProxyServicioDatos proxyAdmin("admin");
@@ -203,11 +250,11 @@ int main() {
 
 ### Qué no hemos modificado
 
-* No hemos cambiado la interfaz `ServicioDatos`.
-* No hemos modificado `ServicioDatosReal`.
-* No hemos tocado `ProxyServicioDatos`.
-* El **cliente** sigue usando siempre `ServicioDatos&`, sin saber qué proxy está detrás.
+* No se ha cambiado la interfaz `ServicioDatos`.
+* No se ha modificado `ServicioDatosReal`.
+* El **cliente** sigue usando siempre `ServicioDatos&`, sin conocer qué implementación concreta hay detrás.
 * No se ha modificado el funcionamiento del servicio real.
+* No se han introducido dependencias del cliente hacia clases concretas.
 
 Lo único necesario ha sido:
 

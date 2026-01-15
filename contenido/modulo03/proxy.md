@@ -5,41 +5,35 @@
 El **Proxy** es un patrón de diseño estructural que proporciona un **sustituto** o **representante** de otro objeto para controlar su acceso.
 El proxy implementa la misma interfaz que el objeto real (llamado *sujeto real*), pero añade una capa intermedia que puede realizar tareas adicionales, como control de acceso, inicialización diferida, registro, validación o comunicación remota, antes o después de delegar la operación en el objeto real.
 
+## Objetivos
+
+* **Controlar el acceso a un objeto**, interponiendo una capa que permita validar, restringir o autorizar las operaciones antes de delegarlas en el objeto real.
+* **Optimizar el uso de recursos**, posibilitando la creación diferida y la gestión bajo demanda de objetos costosos o de acceso limitado.
+* **Añadir responsabilidades de forma transparente**, incorporando funcionalidades como registro, monitorización, caché o auditoría sin modificar la implementación del objeto real ni el código cliente.
+* **Ocultar la complejidad del acceso al objeto real**, proporcionando al cliente una interfaz estable que abstrae detalles como acceso remoto, protección o inicialización interna.
+
+
 ## Problemas que intenta solucionar
 
-El patrón Proxy resulta útil en las siguientes situaciones:
-
-* El objeto real es **costoso de crear o cargar**, y se desea una inicialización diferida (*lazy loading*).
-* Se necesita **controlar el acceso** a un recurso sensible, restringiendo o validando las operaciones del cliente.
-* El objeto real se encuentra **en otra máquina o proceso** y se requiere una representación local para comunicarse con él sin exponer la complejidad (proxy remoto).
-* Es necesario **añadir responsabilidades adicionales** (por ejemplo, logs, métricas, conteo de referencias) sin modificar la clase real y sin que el cliente lo note.
-* Se quiere **proteger un recurso** de modificaciones no autorizadas (por ejemplo, un proxy que solo permita lectura).
-* Se deben gestionar recursos que requieren **carga bajo demanda** o liberación controlada (imágenes, conexiones, archivos, grandes estructuras de datos).
-* En bibliotecas o frameworks, se busca **interceptar llamadas** sin que el cliente conozca los detalles internos de la implementación.
+* **Gestión eficiente de recursos costosos**, permitiendo la creación diferida, la carga bajo demanda y el control del ciclo de vida de objetos pesados o limitados.
+* **Control y protección del acceso a recursos**, restringiendo operaciones, validando permisos o limitando modificaciones sin exponer estas reglas al cliente.
+* **Acceso transparente a objetos remotos o complejos**, ocultando detalles de comunicación, ubicación o infraestructura tras una representación local.
+* **Intercepción y ampliación de comportamiento sin modificar el objeto real**, incorporando funcionalidades como registro, métricas, caché o auditoría de forma transparente para el cliente.
 
 ## Cómo lo soluciona
 
-El Proxy aporta estas soluciones:
-
-* Define un **objeto intermediario** que implementa la misma interfaz que el objeto real.
-* El cliente interactúa **solo con el proxy**, sin saber si la llamada llega directamente al objeto real o si está siendo interceptada.
-* Permite realizar tareas adicionales como:
-
-  * **Creación diferida** del objeto real (Virtual Proxy).
-  * **Control de acceso** y validaciones (Protection Proxy).
-  * **Comunicación remota transparente** (Remote Proxy).
-  * **Gestión de caché** o almacenamiento temporal (Cache Proxy).
-  * **Registro o auditoría** sin modificar el sujeto real (Logging Proxy).
-* Aísla la complejidad del objeto real, permitiendo mantener un **bajo acoplamiento** y cumplir el principio *Open/Closed*.
-* Facilita que el objeto real cambie sin afectar al cliente, ya que el proxy actúa como punto estable de acceso.
+* **Introduce un objeto intermediario con la misma interfaz**, de modo que el proxy y el objeto real sean intercambiables para el cliente.
+* **Desacopla al cliente del objeto real**, ya que todas las interacciones se realizan a través del proxy sin conocer si existe lógica adicional o acceso indirecto.
+* **Centraliza responsabilidades adicionales**, como creación diferida, control de acceso, comunicación remota, caché o registro, sin modificar la clase real.
+* **Aísla cambios y complejidad interna**, proporcionando un punto de acceso estable que reduce el acoplamiento y facilita la evolución del objeto real.
 
 ## Relación con los principios SOLID
 
-* **Single Responsibility Principle (SRP)**: El patrón *Proxy* separa la responsabilidad de **controlar el acceso a un objeto** de la responsabilidad de **implementar la funcionalidad real**. El objeto real se centra en su lógica principal, mientras que el proxy asume tareas adicionales como control de acceso, inicialización diferida, registro o monitorización.
-* **Open/Closed Principle (OCP)**: Es posible introducir nuevos tipos de proxy (por ejemplo, proxy virtual, proxy de protección o proxy de registro) sin modificar la clase del objeto real ni el código cliente. El comportamiento adicional se extiende mediante nuevas clases proxy que respetan la interfaz común.
-* **Liskov Substitution Principle (LSP)**: El proxy puede sustituir al objeto real de forma transparente, ya que ambos implementan la misma interfaz. El cliente no puede distinguir si está trabajando con el objeto real o con su proxy, y el comportamiento esperado se mantiene.
-* **Interface Segregation Principle (ISP)**: El proxy implementa únicamente la interfaz necesaria para el cliente, sin forzar dependencias adicionales. El cliente no necesita conocer ni utilizar métodos relacionados con la gestión interna, el acceso o la inicialización del objeto real.
-* **Dependency Inversion Principle (DIP)**: El cliente depende de una **abstracción común** (la interfaz del sujeto), no de la implementación concreta del objeto real ni del proxy. Tanto el proxy como el objeto real dependen de esa abstracción, reduciendo el acoplamiento.
+* **Single Responsibility Principle (SRP)**: El patrón *Proxy* contribuye a separar la responsabilidad de **implementar la funcionalidad principal** de la responsabilidad de **gestionar aspectos transversales** como control de acceso, inicialización diferida, registro o monitorización. El objeto real se centra en su lógica de negocio, mientras que el proxy encapsula estas responsabilidades adicionales.
+* **Open/Closed Principle (OCP)**: Es posible introducir nuevos tipos de proxy (por ejemplo, proxy virtual, proxy de protección o proxy de registro) sin modificar la clase del objeto real ni el código cliente. El comportamiento adicional se incorpora mediante nuevas clases que respetan la interfaz común.
+* **Liskov Substitution Principle (LSP)**: El proxy puede sustituir al objeto real de forma transparente, ya que ambos implementan la misma interfaz y mantienen el contrato esperado. El cliente no necesita distinguir si interactúa con el objeto real o con su proxy.
+* **Interface Segregation Principle (ISP)**: El proxy expone la misma interfaz que el objeto real, evitando introducir métodos adicionales relacionados con la gestión interna del acceso. El cliente depende únicamente de las operaciones que realmente necesita.
+* **Dependency Inversion Principle (DIP)**: El cliente depende de una **abstracción común** (la interfaz del sujeto), no de implementaciones concretas. Tanto el proxy como el objeto real dependen de esa abstracción, lo que reduce el acoplamiento y facilita la sustitución.
 
 ## Ejemplos concretos
 
