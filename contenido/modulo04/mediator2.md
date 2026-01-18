@@ -25,7 +25,7 @@ Este enfoque reduce el acoplamiento entre componentes, concentra la lógica de i
 * Conoce a los colegas participantes.
 * Se utiliza de forma polimórfica mediante punteros inteligentes.
 
-### 2. Interfaz o clase base de los **Colegiales** (componentes)
+### 2. Interfaz o clase base de los **Colegas** (componentes)
 
 * Representa a los objetos que participan en la comunicación.
 * Mantiene una referencia al mediador en lugar de a otros colegas.
@@ -37,9 +37,9 @@ Este enfoque reduce el acoplamiento entre componentes, concentra la lógica de i
 * Implementa las reglas de interacción entre los colegas.
 * Coordina explícitamente el flujo de comunicación.
 * Decide qué acciones deben ejecutarse en respuesta a los eventos.
-* Aísla completamente a los colegas entre sí.
+* Evita dependencias directas entre los colegas.
 
-### 4. **Colegiales concretos**
+### 4. **Colegas concretos**
 
 * Implementan el comportamiento específico de cada componente.
 * Generan eventos o solicitudes hacia el mediador.

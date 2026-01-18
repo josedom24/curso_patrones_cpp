@@ -4,27 +4,30 @@
 
 El **Mediator** es un patrón de diseño de comportamiento que centraliza la comunicación entre múltiples objetos, de modo que **no se comuniquen directamente entre sí**, sino a través de un mediador común. Su finalidad es **reducir el acoplamiento** entre componentes, encapsular la lógica de interacción y simplificar la colaboración entre objetos complejos.
 
+### Objetivos del patrón
+
+* **Reducir el acoplamiento** entre objetos colaboradores, evitando que se comuniquen directamente entre sí.
+* **Centralizar la lógica de interacción** entre componentes en un único mediador, facilitando su comprensión y mantenimiento.
+* **Simplificar la evolución del sistema**, permitiendo modificar las reglas de comunicación sin alterar las clases participantes.
+* **Mejorar la cohesión de los objetos**, haciendo que cada uno se concentre en su comportamiento propio y no en la coordinación con otros.
+
 ## Problemas que intenta solucionar
 
 El patrón aborda fundamentalmente estas situaciones:
 
-* **Acoplamiento excesivo** entre objetos que se comunican directamente, dificultando la evolución del sistema.
-* **Dependencias circulares** o difíciles de rastrear entre componentes que se conocen mutuamente.
-* **Lógica de interacción dispersa** en múltiples clases, lo que complica mantenimiento, pruebas y extensibilidad.
-* **Crecimiento descontrolado** de condicionales del tipo “si el objeto A hace X, entonces B y C deben reaccionar”.
-* Necesidad de **coordinar varios objetos** cuyos comportamientos dependen de eventos o cambios producidos por otros.
-* Requerimiento de **modificar reglas de interacción** sin tener que reescribir todos los participantes.
+* **Acoplamiento elevado entre componentes**, provocado por comunicaciones directas y dependencias mutuas que dificultan la evolución del sistema.
+* **Dependencias complejas y difíciles de mantener**, como referencias cruzadas o circulares entre objetos que se conocen entre sí.
+* **Lógica de interacción dispersa**, repartida en múltiples clases mediante condicionales y reglas implícitas, lo que complica el mantenimiento y las pruebas.
+* **Dificultad para modificar o extender las reglas de colaboración**, ya que cualquier cambio en la coordinación requiere alterar varias clases simultáneamente.
 
 ## Cómo lo soluciona
 
 El patrón Mediator proporciona estas soluciones:
 
-* Introduce un **objeto mediador** que actúa como centro de comunicación.
-* Los objetos participantes (**colegas**) **ya no se refieren entre sí directamente**, sino al mediador.
-* La lógica de coordinación queda **encapsulada en el mediador**, no distribuida entre los colegas.
-* Facilita el **cambio de reglas de interacción** sustituyendo o extendiendo el mediador, en lugar de modificar múltiples clases.
-* Reduce el acoplamiento y mejora la **cohesión** en cada clase: los colegas solo gestionan su propio comportamiento.
-* Simplifica la **extensibilidad**: añadir un nuevo colega rara vez requiere modificar los demás.
+* **Centraliza la comunicación** entre objetos en un mediador único, evitando referencias directas entre los componentes colaboradores.
+* **Encapsula la lógica de coordinación** en una clase especializada, eliminando la dispersión de reglas de interacción en múltiples clases.
+* **Reduce el acoplamiento y mejora la cohesión**, haciendo que cada objeto se concentre únicamente en su comportamiento propio.
+* **Facilita la modificación y extensión de las interacciones**, permitiendo cambiar las reglas de colaboración mediante nuevos mediadores sin alterar los colegas existentes.
 
 ## Relación con los principios SOLID
 

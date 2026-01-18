@@ -2,18 +2,22 @@
 
 ## Introducción
 
-Para ilustrar el patrón **Mediator** en un contexto realista, construiremos un pequeño sistema de comunicación tipo “chat” entre varios usuarios.
-El objetivo es permitir que los usuarios puedan enviarse mensajes **sin conocerse directamente entre sí**, delegando toda la coordinación en un **Mediador** central.
+Para ilustrar el patrón **Mediator** en un contexto realista, construiremos un pequeño sistema de comunicación tipo *chat* entre varios usuarios.
+El objetivo es permitir que los usuarios puedan enviarse mensajes **sin conocerse directamente entre sí**, delegando toda la coordinación de la comunicación en un **mediador central**.
 
-El Mediador se encarga de:
+El mediador se encarga de:
 
-* registrar usuarios
-* recibir los mensajes enviados por un usuario
-* reenviarlos a los destinatarios adecuados
-* aplicar las reglas de comunicación
+* registrar a los usuarios participantes,
+* recibir los mensajes enviados por un usuario,
+* reenviarlos a los destinatarios adecuados,
+* aplicar las reglas de comunicación.
+
+En este ejemplo, el mediador implementa un modelo de **difusión (*broadcast*)**, reenviando cada mensaje a todos los usuarios registrados excepto al emisor. Este comportamiento es una decisión de diseño concreta del ejemplo; el patrón *Mediator* permite aplicar reglas de enrutamiento más complejas si fuera necesario.
 
 Cada usuario es un **colega** del mediador: conoce al mediador, pero **no conoce a los demás usuarios**.
 El código cliente configura el mediador, crea los usuarios y ejecuta la interacción.
+
+Como contrapartida, este patrón puede llevar a que el mediador concentre demasiada lógica y **crezca en complejidad** si no se diseña con cuidado, convirtiéndose en un punto difícil de mantener.
 
 El ejemplo se divide en:
 
@@ -49,6 +53,7 @@ class InterfazUsuario {
 public:
     virtual ~InterfazUsuario() = default;
 
+    virtual std::string nombre() const = 0;
     virtual void recibir(const std::string& emisor,
                          const std::string& mensaje) = 0;
 };
@@ -69,7 +74,9 @@ public:
                   << " envía mensaje: " << mensaje << "\n";
 
         for (auto& u : usuarios_) {
-            u->recibir(emisor, mensaje);
+            if (u && u->nombre() != emisor) {
+                u->recibir(emisor, mensaje);
+            }
         }
     }
 
@@ -87,6 +94,7 @@ private:
 #include <iostream>
 #include <memory>
 #include <string>
+#include <utility>
 
 // ----------------------------------------
 // Clase base: Usuario (Colega)
@@ -105,9 +113,6 @@ public:
         }
     }
 
-protected:
-    virtual std::string nombre() const = 0;
-
 private:
     std::weak_ptr<InterfazMediador> mediador_;
 };
@@ -120,18 +125,15 @@ public:
     explicit UsuarioRegular(std::string id)
         : id_(std::move(id)) {}
 
+    std::string nombre() const override {
+        return id_;
+    }
+
     void recibir(const std::string& emisor,
                  const std::string& mensaje) override
     {
-        if (emisor != id_) {
-            std::cout << "[" << id_ << "] recibe: "
-                      << mensaje << " (de " << emisor << ")\n";
-        }
-    }
-
-protected:
-    std::string nombre() const override {
-        return id_;
+        std::cout << "[" << id_ << "] recibe: "
+                  << mensaje << " (de " << emisor << ")\n";
     }
 
 private:
@@ -146,18 +148,15 @@ public:
     explicit UsuarioAdministrador(std::string id)
         : id_(std::move(id)) {}
 
+    std::string nombre() const override {
+        return id_;
+    }
+
     void recibir(const std::string& emisor,
                  const std::string& mensaje) override
     {
-        if (emisor != id_) {
-            std::cout << "[ADMIN " << id_ << "] recibe: "
-                      << mensaje << " (de " << emisor << ")\n";
-        }
-    }
-
-protected:
-    std::string nombre() const override {
-        return id_;
+        std::cout << "[ADMIN " << id_ << "] recibe: "
+                  << mensaje << " (de " << emisor << ")\n";
     }
 
 private:
@@ -198,7 +197,8 @@ int main() {
 
 ## Añadir un nuevo tipo de Usuario
 
-Para añadir un nuevo tipo de usuario **no se modifican las clases existentes**, solo se crea un nuevo colega concreto.
+Para añadir un nuevo tipo de usuario **no es necesario modificar la interfaz del mediador**, ni los usuarios existentes.
+La interfaz `InterfazMediador` **permanece estable**, y la extensión se realiza únicamente añadiendo un nuevo colega concreto.
 
 ### En `Colegas.hpp`
 
@@ -211,19 +211,16 @@ public:
     explicit UsuarioPremium(std::string id)
         : id_(std::move(id)) {}
 
+    std::string nombre() const override {
+        return id_;
+    }
+
     void recibir(const std::string& emisor,
                  const std::string& mensaje) override
     {
-        if (emisor != id_) {
-            std::cout << "[Premium " << id_
-                      << "] recibe mensaje PRIORITARIO: "
-                      << mensaje << " (de " << emisor << ")\n";
-        }
-    }
-
-protected:
-    std::string nombre() const override {
-        return id_;
+        std::cout << "[Premium " << id_
+                  << "] recibe mensaje PRIORITARIO: "
+                  << mensaje << " (de " << emisor << ")\n";
     }
 
 private:
@@ -241,15 +238,16 @@ mediador->registrar_usuario(premium);
 premium->enviar("Hola, soy usuario premium.");
 ```
 
+
 ## Qué no hemos modificado
 
-* No se ha modificado la interfaz `InterfazMediador`
+* La **interfaz `InterfazMediador` permanece estable**
 * No se ha modificado la clase base `Usuario`
 * No se han modificado los usuarios existentes
 
 Solo se ha:
 
-1. introducido una **interfaz mínima (`InterfazUsuario`)**
-2. invertido la dependencia del mediador hacia una abstracción
-3. mantenido el ejemplo **autocontenido y simple**
+1. añadido un **nuevo colega concreto** (`UsuarioPremium`)
+2. mantenido la coordinación completamente centralizada en el mediador
+3. conservado el ejemplo **simple, extensible y autocontenido**
 
