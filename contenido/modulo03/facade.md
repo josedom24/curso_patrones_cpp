@@ -4,7 +4,7 @@
 
 El **Facade** es un patrón de diseño estructural cuyo propósito es **proporcionar una interfaz unificada y simplificada** a un conjunto de interfaces, componentes o subsistemas complejos. El objetivo es ocultar la complejidad interna y permitir al código cliente interactuar con un único punto de acceso, más simple y coherente, sin necesidad de conocer los detalles de implementación.
 
-## Objetivos
+## Objetivos del patrón
 
 * **Simplificar el acceso a subsistemas complejos**, ofreciendo una interfaz de alto nivel que oculte detalles internos innecesarios para el cliente.
 * **Reducir el acoplamiento entre el cliente y la implementación interna**, evitando dependencias directas con múltiples clases del subsistema.

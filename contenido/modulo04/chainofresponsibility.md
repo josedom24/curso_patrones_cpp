@@ -4,35 +4,39 @@
 
 El **Chain of Responsibility** es un patrón de diseño de comportamiento que organiza una secuencia de objetos (manejadores) por la que circulan peticiones. Cada objeto de la cadena decide si **procesar** la petición o **delegarla** al siguiente manejador. Su propósito es **desacoplar el emisor de la petición del receptor final**, permitiendo que múltiples objetos tengan la oportunidad de gestionarla sin que el código cliente conozca cuál será el responsable último.
 
+## Objetivos del patrón
+
+* **Desacoplar el emisor de una petición de su receptor concreto**, evitando que el código cliente tenga conocimiento explícito de qué objeto es responsable de procesarla.
+* **Permitir que múltiples objetos tengan la oportunidad de manejar una misma petición**, estableciendo una cadena flexible en la que cada manejador decide si procesa o delega.
+* **Eliminar lógica condicional compleja en el código cliente**, encapsulando los criterios de decisión dentro de los propios manejadores.
+* **Facilitar la extensibilidad y reconfiguración del flujo de procesamiento**, permitiendo añadir, eliminar o reordenar manejadores sin modificar el código existente, respetando el principio *Open/Closed*.
+
+
 ## Problemas que intenta solucionar
 
 El patrón aborda principalmente estas situaciones:
 
-* El código cliente depende directamente de un receptor específico y se desea eliminar ese acoplamiento.
-* Es necesario otorgar a **varios objetos** la posibilidad de procesar una petición, sin imponer un orden rígido en el código cliente.
-* Se busca evitar estructuras extensas de `if`/`else if`/`switch` en las que se comprueban condiciones para decidir qué objeto debe manejar la petición.
-* La responsabilidad de procesar una petición puede **cambiar dinámicamente** en tiempo de ejecución o según la configuración.
-* Se requiere añadir nuevos manejadores sin modificar el código que emite o distribuye las peticiones, respetando el principio *Open/Closed*.
-* Se quiere permitir cadenas de procesamiento flexible, donde una petición pueda ser absorbida por un manejador, modificada, transformada o propagada.
+* **Acoplamiento fuerte entre el emisor de una petición y su receptor**, cuando el cliente necesita conocer explícitamente qué objeto debe procesar la solicitud.
+* **Gestión rígida de responsabilidades**, donde una petición solo puede ser tratada por un único objeto o el orden de decisión está codificado directamente en el cliente.
+* **Presencia de lógica condicional compleja** (`if`/`else`, `switch`) para decidir qué objeto debe manejar una petición, dificultando la legibilidad, el mantenimiento y la extensión del sistema.
+* **Dificultad para extender o reconfigurar el procesamiento de peticiones**, cuando es necesario añadir nuevos criterios, cambiar el orden de evaluación o introducir nuevos manejadores sin modificar código existente.
 
 ## Cómo lo soluciona
 
 El Chain of Responsibility aporta estas soluciones:
 
-* Define una **interfaz común de manejador**, que incluye un método para procesar peticiones y un enlace al **siguiente manejador** de la cadena.
-* Permite construir cadenas **dinámicas**, en las que los manejadores pueden conectarse, desconectarse o reordenarse sin afectar al cliente.
-* Cada manejador decide si procesa la petición o si la **pasa al siguiente**, reduciendo drásticamente el acoplamiento entre emisor y receptor.
-* Facilita la **extensibilidad**: nuevos manejadores pueden añadirse sin tocar el código existente, solo insertándolos en la cadena.
-* Encapsula condiciones de manejo dentro de cada objeto, eliminando estructuras condicionales masivas en el código cliente.
-* Refuerza el principio *Open/Closed* y promueve una arquitectura modular donde se pueden combinar responsabilidades mediante composición.
+* **Define una interfaz común de manejador**, que declara la operación de procesamiento de la petición y la referencia al siguiente elemento de la cadena, unificando el modo de تعاملar con todos los manejadores.
+* **Encapsula la lógica de decisión dentro de cada manejador**, permitiendo que cada objeto determine si procesa la petición o la delega, eliminando la lógica condicional del código cliente.
+* **Permite construir y modificar cadenas dinámicas de procesamiento**, donde los manejadores pueden conectarse, reordenarse o sustituirse sin afectar al emisor de la petición.
+* **Facilita la extensibilidad del sistema mediante composición**, permitiendo añadir nuevos manejadores simplemente incorporándolos a la cadena, sin modificar el código existente y respetando el principio *Open/Closed*.
 
 ## Relación con los principios SOLID
 
-* **Single Responsibility Principle (SRP)**: Cada manejador se responsabiliza de **procesar un único tipo de solicitud** o criterio, separando la lógica de decisión del flujo global de la petición.
+* **Single Responsibility Principle (SRP)**: Cada manejador **encapsula una responsabilidad concreta** (un paso/criterio) dentro del proceso, evitando concentrar la lógica de decisión y procesamiento en un único bloque.
 * **Open/Closed Principle (OCP)**: La cadena puede extenderse añadiendo nuevos manejadores sin modificar los existentes ni el código cliente.
 * **Liskov Substitution Principle (LSP)**: Cualquier manejador concreto puede sustituir a otro dentro de la cadena sin alterar el comportamiento esperado.
 * **Interface Segregation Principle (ISP)**: La interfaz del manejador es mínima y específica, evitando dependencias innecesarias.
-* **Dependency Inversion Principle (DIP)**: El cliente y los manejadores dependen de una **abstracción común**, no de implementaciones concretas, reduciendo el acoplamiento.
+* **Dependency Inversion Principle (DIP)**: El cliente interactúa con una **abstracción de manejador** y la delegación se realiza también sobre esa abstracción; las dependencias a concretos quedan confinadas al c**ódigo de composición/configuración** de la cadena.
 
 ## Ejemplos concretos
 

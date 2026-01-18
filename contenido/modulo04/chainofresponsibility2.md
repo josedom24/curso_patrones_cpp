@@ -5,6 +5,7 @@
 La implementación del **Chain of Responsibility** en C++ moderno permite **procesar una petición a través de una cadena de objetos**, donde cada elemento decide si la gestiona o la delega al siguiente. El cliente envía la petición a la cadena sin conocer qué manejador concreto será responsable de procesarla.
 
 Este enfoque desacopla el emisor de la petición de sus posibles receptores y permite añadir, eliminar o reordenar manejadores sin modificar el código cliente.
+La cadena puede finalizar sin que ningún manejador procese la petición, lo cual debe ser tenido en cuenta en el diseño del sistema.
 
 ## Elementos de C++ moderno utilizados
 
@@ -47,7 +48,7 @@ Este enfoque desacopla el emisor de la petición de sus posibles receptores y pe
 * Envía la petición al primer manejador de la cadena.
 * No conoce ni depende del número de manejadores existentes.
 * Permanece desacoplado de la lógica de decisión.
-* Gestiona los recursos de forma automática mediante RAII.
+* No participa en la gestión del ciclo de vida de los manejadores.
 
 ## Diagrama UML
 

@@ -3,7 +3,7 @@
 ## Introducción
 
 Para ilustrar el patrón **Chain of Responsibility** en un contexto práctico, construiremos un pequeño **sistema de validación**.
-El objetivo es permitir que una solicitud pase por una cadena de validadores independientes, donde **cada uno puede aprobarla, rechazarla o delegarla al siguiente**.
+El objetivo es permitir que una solicitud pase por una cadena de validadores independientes, donde **cada uno puede rechazarla o delegarla al siguiente**.
 
 La cadena de validación estará compuesta por:
 
@@ -69,6 +69,7 @@ protected:
 
 ```cpp
 #include <iostream>
+#include <utility>
 #include "Manejadores.hpp"
 
 // ----------------------------------------
@@ -210,8 +211,7 @@ std::unique_ptr<Manejador> construir_cadena_con_contenido();
 
 ```cpp
 
-//Autenticación -> Permisos -> Contenido -> Formato
-
+// Autenticación -> Permisos -> Contenido -> Formato
 std::unique_ptr<Manejador> construir_cadena_con_contenido() {
     auto autenticacion = std::make_unique<ValidadorAutenticacion>();
     auto permisos      = std::make_unique<ValidadorPermisos>();
@@ -251,7 +251,7 @@ int main() {
 
 * No hemos cambiado la interfaz `Manejador`.
 * No hemos modificado ninguno de los manejadores existentes.
-* No hemos cambiado la lógica del código cliente.
+* No hemos modificado la función cliente como interfaz de uso.
 
 Solo hemos:
 

@@ -5,7 +5,7 @@
 El **Proxy** es un patrón de diseño estructural que proporciona un **sustituto** o **representante** de otro objeto para controlar su acceso.
 El proxy implementa la misma interfaz que el objeto real (llamado *sujeto real*), pero añade una capa intermedia que puede realizar tareas adicionales, como control de acceso, inicialización diferida, registro, validación o comunicación remota, antes o después de delegar la operación en el objeto real.
 
-## Objetivos
+## Objetivos del patrón
 
 * **Controlar el acceso a un objeto**, interponiendo una capa que permita validar, restringir o autorizar las operaciones antes de delegarlas en el objeto real.
 * **Optimizar el uso de recursos**, posibilitando la creación diferida y la gestión bajo demanda de objetos costosos o de acceso limitado.
