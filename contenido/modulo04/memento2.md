@@ -159,4 +159,5 @@ int main() {
 * El **Cuidador** almacena mementos sin conocer su estructura interna, cumpliendo el principio de responsabilidad única.
 * El uso de **`std::unique_ptr`** garantiza que cada memento tenga un propietario claro y evita fugas de memoria.
 * La implementación soporta un historial completo de estados con un mecanismo simple y seguro.
+* No se utiliza `std::make_unique` en el método `crear_memento()` para crear el memento porque su constructor es no público y solo es accesible desde el originador, reforzando así el control de creación y el encapsulamiento del estado.
 

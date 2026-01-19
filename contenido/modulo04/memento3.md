@@ -56,6 +56,7 @@ public:
 #pragma once
 #include <string>
 #include <memory>
+#include <iostream>
 #include "Memento.hpp"
 
 // ------------------------------------------------------------
@@ -222,9 +223,9 @@ No se modifica el `Memento` original ni la lógica existente de guardado de text
 
 ```cpp
 #pragma once
-#include <iostream>
 #include <string>
 #include <memory>
+#include <iostream>
 
 #include "Memento.hpp"
 #include "MementoFormato.hpp"

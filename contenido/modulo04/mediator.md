@@ -4,7 +4,7 @@
 
 El **Mediator** es un patrón de diseño de comportamiento que centraliza la comunicación entre múltiples objetos, de modo que **no se comuniquen directamente entre sí**, sino a través de un mediador común. Su finalidad es **reducir el acoplamiento** entre componentes, encapsular la lógica de interacción y simplificar la colaboración entre objetos complejos.
 
-### Objetivos del patrón
+## Objetivos del patrón
 
 * **Reducir el acoplamiento** entre objetos colaboradores, evitando que se comuniquen directamente entre sí.
 * **Centralizar la lógica de interacción** entre componentes en un único mediador, facilitando su comprensión y mantenimiento.
