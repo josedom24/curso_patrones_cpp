@@ -36,7 +36,7 @@ Este enfoque elimina grandes estructuras condicionales, localiza el comportamien
 ### 3. **Contexto**
 
 * Mantiene una referencia al estado actual.
-* Delegan en el estado activo las operaciones dependientes del estado.
+* Delega en el estado activo las operaciones dependientes del estado.
 * Controla el ciclo de vida del estado mediante propiedad exclusiva.
 * Permanece desacoplado de las implementaciones concretas de los estados.
 
@@ -156,6 +156,6 @@ int main() {
 * Cada estado define su comportamiento particular y las posibles transiciones.
 * El contexto desconoce los detalles internos de cada estado y solo delega operaciones.
 * Las clases de estado manejan explícitamente las transiciones, eliminando condicionales externos.
-* El diseño es totalmente extensible: basta con añadir nuevas clases de estado sin modificar el código existente, cumpliendo el principio *Open/Closed*.
+* El diseño es totalmente extensible: basta con añadir nuevas clases de estado sin modificar la estructura del contexto.
 
 

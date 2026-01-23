@@ -4,26 +4,30 @@
 
 El **State** es un patrón de diseño de comportamiento que permite que un objeto **modifique su comportamiento en tiempo de ejecución** según su estado interno. Desde fuera, parecerá que el objeto cambia de clase. Su propósito es encapsular los diferentes estados posibles en **clases separadas**, delegando en ellas la lógica asociada a cada estado.
 
+## Objetivos del patrón
+
+* **Permitir que un objeto varíe su comportamiento en función de su estado interno**, sin recurrir a grandes estructuras condicionales ni a comprobaciones explícitas del estado en el código cliente.
+* **Encapsular la lógica asociada a cada estado en clases independientes**, mejorando la legibilidad, mantenibilidad y cohesión del diseño.
+* **Centralizar y controlar las transiciones entre estados**, evitando que el código cliente tenga que conocer o gestionar los cambios de estado del objeto.
+* **Facilitar la extensión del sistema mediante la incorporación de nuevos estados**, respetando el principio *Open/Closed* y minimizando el impacto sobre el código existente.
+
 ## Problemas que intenta solucionar
 
 El patrón aborda principalmente estas situaciones:
 
-* Un objeto presenta **comportamientos diferentes** dependiendo de su estado interno (por ejemplo, “inicial”, “procesando”, “bloqueado”, “finalizado”), y mezclar toda la lógica en la misma clase provoca código complejo y difícil de mantener.
-* Se ve la necesidad de múltiples condicionales (`if`/`switch`) que verifican el estado una y otra vez para decidir cómo actuar.
-* Se requiere una **transición clara y controlada** entre estados, evitando que el código cliente tenga que gestionarlas manualmente.
-* El comportamiento asociado a cada estado se vuelve suficientemente complejo como para justificar su separación en clases propias.
-* Se desea **evitar violar el principio Open/Closed**, permitiendo añadir nuevos estados sin modificar la lógica del objeto principal.
+* Un objeto cuyo **comportamiento depende de su estado interno**, lo que provoca que una única clase acumule múltiples variantes de comportamiento difíciles de comprender y mantener.
+* La presencia de **estructuras condicionales repetitivas** (`if` / `switch`) para comprobar el estado antes de cada operación, generando código rígido, poco legible y propenso a errores.
+* La necesidad de **gestionar transiciones entre estados de forma explícita y segura**, evitando que el código cliente tenga que conocer los estados posibles o decidir cuándo y cómo cambiar entre ellos.
+* La dificultad para **extender el comportamiento del objeto con nuevos estados** sin modificar código existente, lo que puede derivar en violaciones del principio *Open/Closed* y en un aumento del acoplamiento.
 
 ## Cómo lo soluciona
 
-El patrón State aporta estas soluciones:
+El patrón *State* aporta las siguientes soluciones:
 
-* Encapsula cada estado en una **clase concreta** que implementa una interfaz común (p. ej., `Estado`).
-* El objeto principal (el *contexto*) mantiene una **referencia al estado actual**, delegando en él las operaciones relevantes.
-* Los estados pueden **cambiar el estado del contexto**, controlando así las transiciones de manera explícita y local.
-* Se eliminan los condicionales repetitivos: el comportamiento varía automáticamente según el objeto estado activo.
-* Mejora la mantenibilidad y extensibilidad: para añadir un nuevo estado basta con crear una nueva clase, sin modificar el resto del sistema.
-* Refuerza el principio *Single Responsibility*: cada clase gestiona solo la lógica de un estado específico.
+* **Encapsula cada estado en una clase independiente**, que implementa una interfaz común y concentra exclusivamente el comportamiento asociado a ese estado concreto.
+* El objeto principal (*contexto*) **mantiene una referencia al estado actual y delega en él su comportamiento**, eliminando la necesidad de condicionales basados en el estado interno.
+* **Las transiciones entre estados se definen de forma explícita y localizada**, normalmente dentro de las propias clases de estado, manteniendo el control del ciclo de vida del objeto.
+* **Facilita la extensibilidad del sistema**, ya que añadir un nuevo estado implica crear una nueva clase sin modificar el contexto ni los estados existentes, mejorando la mantenibilidad y el cumplimiento del principio *Open/Closed*.
 
 ## Relación con los principios SOLID
 

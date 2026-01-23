@@ -5,7 +5,7 @@
 El **Observer** es un patrón de diseño de comportamiento que establece una relación de **dependencia uno-a-muchos** entre objetos, de modo que cuando un objeto (“sujeto”) cambia de estado, **notifica automáticamente** a todos sus “observadores” asociados.
 Su objetivo es permitir que múltiples componentes reaccionen a cambios sin acoplarse directamente entre sí.
 
-## Objetivos del patrón Observer
+## Objetivos del patrón
 
 * **Desacoplar el sujeto de sus dependientes**, permitiendo que el objeto que cambia de estado no conozca las implementaciones concretas de los componentes que reaccionan a dicho cambio.
 * **Notificar automáticamente cambios de estado**, garantizando que todos los observadores registrados se mantengan sincronizados sin necesidad de llamadas explícitas desde el código cliente.
