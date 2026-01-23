@@ -64,6 +64,7 @@
     * [Ejemplo: Sistema de elementos visitables (inspección de objetos)](contenido/modulo04/visitor3.md)
 
 5. Patrones clásicos y alternativas modernas en C++
+
     * [Por qué algunos patrones se simplifican en C++ moderno](contenido/modulo05/introduccion.md)
     * [Patrón Singleton](contenido/modulo05/singleton.md)
     * [Ejemplo: Logger global del sistema](contenido/modulo05/singleton2.md)

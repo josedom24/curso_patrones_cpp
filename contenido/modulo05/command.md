@@ -2,38 +2,45 @@
 
 ## Definición
 
-El **Command** es un patrón de diseño de comportamiento que encapsula una petición u operación dentro de un objeto independiente, llamado *comando*. Este objeto contiene toda la información necesaria para ejecutar la acción: el receptor, los parámetros y la lógica asociada.
-Su propósito es **desacoplar al emisor de una petición** (por ejemplo, un botón o un menú) del código que ejecuta realmente la operación.
+El **Command** es un patrón de diseño de comportamiento que encapsula una **operación o petición como un objeto independiente**, permitiendo que una acción se trate como una entidad separada del objeto que la invoca. Su objetivo principal es **desacoplar al emisor de la acción del código que la ejecuta**, facilitando la parametrización, el almacenamiento y la ejecución diferida de operaciones.
 
-## Problemas que intenta solucionar
+## Objetivos
 
-El patrón Command aborda especialmente estas situaciones:
+* **Desacoplar el objeto que invoca una acción del objeto que la ejecuta**, evitando dependencias directas entre ambos.
+* **Encapsular acciones como entidades intercambiables**, permitiendo tratarlas de forma uniforme y parametrizable.
+* **Permitir la ejecución diferida y el almacenamiento de operaciones**, facilitando su encolado, registro o programación.
+* **Soportar funcionalidades como undo/redo**, manteniendo un historial de acciones ejecutadas sin acoplar la lógica al invocador.
 
-* Se quiere **desacoplar** el objeto que invoca una acción del objeto que la realiza.
-* Existe la necesidad de **parametrizar acciones** en tiempo de ejecución, tratándolas como objetos de primera clase.
-* Se requiere **deshacer o rehacer** operaciones, lo que exige registrar acciones ejecutadas.
-* Se quiere **encolar, programar o registrar** peticiones para su ejecución diferida.
-* Se necesita unificar el tratamiento de distintas operaciones bajo una **interfaz común**, evitando estructuras rígidas basadas en `if`/`switch`.
-* Se desea permitir que nuevas operaciones puedan añadirse sin modificar el código existente, favoreciendo el cumplimiento del principio *Open/Closed*.
+## Cuándo usarlo
 
-## Cómo lo soluciona C++ moderno
+El patrón Command es adecuado cuando:
 
-En C++ moderno, los problemas que aborda el patrón Command (desacoplar una acción del invocador, ejecutar comportamientos diferidos, almacenar operaciones, implementar undo/redo…) se resuelven de manera natural mediante **inyección de comportamiento**.
-El comportamiento deseado se representa mediante:
+* Un objeto debe invocar acciones **sin conocer cómo se implementan**.
+* Las operaciones deben **almacenarse, programarse o deshacerse**.
+* Se quiere parametrizar objetos con **acciones intercambiables**.
+* Es necesario desacoplar interfaces de usuario (botones, menús, eventos) de la lógica de negocio.
 
-* **lambdas** que capturan los datos necesarios,
-* **`std::function<void()>`** como interfaz común para almacenar y ejecutar comandos,
-* **contenedores estándar** como colas, vectores o pilas para gestionar la secuencia de operaciones.
+En muchos casos modernos, el patrón no se aplica de forma explícita, sino mediante **funciones y lambdas**.
 
-Con este enfoque moderno:
+## Cómo se implementa en C++ moderno
 
-* Las acciones se encapsulan fácilmente en lambdas, sin necesidad de clases de comando.
-* El invocador solo mantiene funciones, no tipos concretos.
-* La ejecución diferida es trivial: basta con almacenar la función para invocarla más tarde.
-* Es sencillo implementar *undo/redo*: se guardan funciones que deshacen las operaciones.
-* No se requiere herencia ni jerarquías complejas; la composición sustituye a la estructura clásica.
-* Cualquier acción que pueda expresarse como invocable se convierte automáticamente en un "comando" moderno.
+En C++ moderno, Command se implementa de forma natural mediante **inyección de comportamiento**, sin necesidad de jerarquías de clases.
 
+Las técnicas habituales son:
+
+* **Lambdas**, que encapsulan la acción y capturan el estado necesario.
+* **`std::function<void()>`** como tipo común para almacenar y ejecutar comandos.
+* **Contenedores estándar** (`std::vector`, `std::queue`, `std::stack`) para gestionar secuencias de acciones.
+
+Con este enfoque:
+
+* El invocador almacena y ejecuta funciones, no clases concretas.
+* La ejecución diferida se logra almacenando el callable.
+* *Undo/redo* se implementa guardando funciones inversas.
+* Se elimina la herencia en favor de composición.
+* Cualquier acción invocable se convierte en un **comando moderno**.
+
+Este estilo refleja mejor el uso real de Command en C++ moderno: **simple, flexible y expresivo**, apoyado directamente por el lenguaje.
 
 ## Ejemplos concretos
 

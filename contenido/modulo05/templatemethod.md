@@ -2,28 +2,37 @@
 
 ## Definición
 
-El **Template Method** es un patrón de diseño **de comportamiento** que define el *esqueleto* de un algoritmo en una clase base, delegando a las subclases la implementación de ciertos pasos concretos.
-El objetivo es **fijar la estructura general del proceso**, permitiendo al mismo tiempo que partes específicas puedan variar sin alterar la secuencia global del algoritmo.
+El **Template Method** es un patrón de diseño de comportamiento que define el **esqueleto de un algoritmo**, fijando su secuencia general, mientras permite que **algunos pasos concretos varíen**. La idea central es mantener estable la estructura del proceso y delegar las partes variables sin alterar el flujo global.
 
-## Problemas que intenta solucionar
+## Objetivos
 
-El patrón se emplea para resolver situaciones como:
+* Definir una **estructura común y estable** para un algoritmo.
+* Evitar la **duplicación de código** en algoritmos con pasos compartidos.
+* Permitir que ciertos pasos del proceso **varíen de forma controlada**.
+* Garantizar que el **orden del algoritmo no pueda alterarse** accidentalmente.
 
-* Se tiene un **algoritmo cuya estructura es estable**, pero algunos pasos pueden variar según el contexto o tipo concreto.
-* La implementación del algoritmo en diferentes clases produce **duplicación de código**, ya que todas comparten la misma secuencia general.
-* Se desea **controlar** los pasos críticos de un proceso, impidiendo que las subclases modifiquen el orden del algoritmo.
-* Se quiere aplicar el principio *Open/Closed*: permitir variaciones sin cambiar la lógica general establecida en la clase base.
-* Se necesita garantizar un conjunto de pasos obligatorios, combinados con otros opcionales o redefinibles.
+## Cuándo usarlo
 
-#Aquí tienes el apartado **“Cómo lo soluciona C++ moderno”** reescrito de forma **más breve**, **sin ejemplos**, y centrado exclusivamente en la idea moderna.
+El patrón Template Method es adecuado cuando:
 
-## Cómo lo soluciona C++ moderno
+* Existe un algoritmo con una **secuencia fija**, pero con pasos que dependen del contexto.
+* Varias implementaciones comparten la misma lógica general con **pequeñas variaciones**.
+* Se quiere controlar el flujo del algoritmo y **restringir modificaciones estructurales**.
+* Es importante reutilizar una lógica común manteniendo coherencia en el proceso.
 
-En C++ moderno, los problemas que aborda el Template Method se resuelven mediante **composición** e **inyección de comportamiento**, evitando herencia y métodos virtuales.
-En lugar de definir un método plantilla en una clase base, la estructura del algoritmo se implementa en una única función o clase ligera, y los pasos variables se proporcionan desde fuera mediante: **lambdas**, **`std::function`** u otros objetos invocables.
+En diseños modernos, estos escenarios no siempre requieren herencia explícita.
 
-El algoritmo principal mantiene la **secuencia fija**, mientras que los pasos concretos se pasan como parámetros invocables.
-Esto elimina jerarquías complejas, centraliza la lógica común y permite personalizar pasos sin modificar el esqueleto del proceso, logrando una solución más flexible, expresiva y fácil de extender.
+## Cómo se implementa en C++ moderno
+
+En C++ moderno, el Template Method suele implementarse mediante **composición e inyección de comportamiento**, evitando jerarquías de clases y métodos virtuales.
+
+La estructura del algoritmo se define en una función o clase que mantiene la **secuencia fija**, mientras que los pasos variables se proporcionan desde el exterior mediante:
+
+* **Lambdas**
+* **`std::function`**
+* Otros objetos invocables
+
+Este enfoque conserva el control del flujo, elimina la herencia innecesaria y permite personalizar partes del algoritmo de forma **más flexible, explícita y fácil de mantener**, reflejando mejor el estilo de diseño recomendado en C++ moderno.
 
 ## Ejemplos concretos
 

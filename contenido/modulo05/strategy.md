@@ -2,28 +2,40 @@
 
 ## Definición
 
-El **Strategy** es un patrón de diseño de comportamiento que permite encapsular **algoritmos intercambiables** dentro de objetos independientes, proporcionando una interfaz común para todos ellos. Su objetivo es permitir que un objeto cambie su comportamiento en tiempo de ejecución delegando la operación a una estrategia seleccionada dinámicamente.
+El **Strategy** es un patrón de diseño de comportamiento que permite **definir algoritmos intercambiables** y encapsularlos de forma independiente, de modo que un objeto pueda **variar su comportamiento en tiempo de ejecución** delegando la operación en una estrategia seleccionada dinámicamente.
 
-## Problemas que intenta solucionar
 
-El patrón aborda principalmente estas situaciones:
+## Objetivos
 
-* Un objeto necesita realizar una tarea cuyo **algoritmo puede variar**, pero mezclar todas las variantes dentro de la misma clase genera código rígido y difícil de mantener.
-* Existen múltiples **condicionales (`if`/`switch`) que seleccionan una variante del algoritmo**, dispersos por el código cliente.
-* Se quiere **evitar duplicación** de lógica cuando varias clases necesitan comportamientos similares pero con pequeñas variaciones.
-* Es necesario **cambiar el comportamiento de un objeto en tiempo de ejecución**, sin reconstruirlo completamente ni usar herencia múltiple.
-* El sistema debe ser **extensible**, permitiendo añadir nuevos algoritmos sin modificar el código ya existente, cumpliendo el principio *Open/Closed*.
-* Se desea separar claramente la **lógica del algoritmo** de la clase que lo utiliza, favoreciendo la cohesión y la reutilización.
+* Permitir cambiar el **algoritmo o comportamiento** de un objeto sin modificar su código.
+* Eliminar **condicionales** que seleccionan variantes de un algoritmo.
+* Separar la **lógica del algoritmo** de la clase que lo utiliza.
+* Facilitar la **extensión del sistema** añadiendo nuevos comportamientos sin alterar el código existente.
 
-## Cómo lo soluciona C++ moderno
+## Cuándo usarlo
 
-En C++ moderno, el patrón Strategy se implementa mediante **inyección de comportamiento**, evitando la necesidad de jerarquías de clases. El contexto recibe un *callable* que representa la estrategia, y ese callable puede adoptar distintas formas, todas intercambiables mientras cumplan la misma firma. Las técnicas principales, entre otras, son:
+El patrón Strategy es adecuado cuando:
 
-* **Lambdas**: expresiones concisas que permiten definir el comportamiento directamente en el lugar donde se necesita, con capacidad de capturar estado de forma controlada.
-* **`std::function`**: contenedor genérico que permite almacenar cualquier callable compatible con la firma requerida, proporcionando polimorfismo dinámico sin necesidad de clases base.
-* **Functores (objetos función)**: objetos que implementan `operator()`, útiles cuando la estrategia requiere mantener estado interno o cuando se busca mayor eficiencia evitando el coste de `std::function`.
+* Un objeto puede realizar una operación de **distintas maneras** según el contexto.
+* Existen varias variantes de un algoritmo que se seleccionan dinámicamente.
+* Se quiere evitar herencia o grandes bloques de `if` / `switch`.
+* El comportamiento debe poder **cambiarse en tiempo de ejecución**.
 
-En este enfoque, el contexto simplemente almacena y ejecuta el callable recibido, sin depender de una interfaz ni de una jerarquía de clases, lo que resulta en un diseño más flexible, más simple y más eficiente en C++ moderno.
+En muchos casos, especialmente en **C++ moderno**, no es necesario aplicar Strategy como patrón formal, sino simplemente **inyectar comportamiento** de forma flexible.
+
+## Cómo se implementa en C++ moderno
+
+En C++ moderno, Strategy se implementa habitualmente **sin jerarquías de clases**, utilizando mecanismos del lenguaje para pasar comportamiento como un objeto de primera clase.
+
+Las formas más comunes son:
+
+* **Lambdas**, para definir estrategias de forma concisa y local.
+* **`std::function`**, para almacenar y cambiar dinámicamente cualquier callable con la firma adecuada.
+* **Functores**, cuando la estrategia necesita estado interno o se busca mayor control sobre rendimiento.
+
+El objeto que utiliza la estrategia (**contexto**) se limita a **almacenar y ejecutar el comportamiento recibido**, sin conocer su implementación concreta.
+
+Este enfoque suele ser **más simple, más flexible y más eficiente** que la versión clásica basada en clases abstractas, y refleja mejor el estilo de diseño recomendado en C++ moderno.
 
 ## Ejemplos concretos
 

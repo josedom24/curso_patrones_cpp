@@ -2,22 +2,23 @@
 
 ## Introducción
 
-Construiremos un pequeño sistema que permite realizar **distintos cálculos** sobre números enteros mediante **comportamientos inyectados dinámicamente**.
+Construimos un pequeño sistema que permite realizar **distintos cálculos** sobre números enteros mediante **comportamientos inyectados dinámicamente**.
 El sistema no conoce los algoritmos concretos: cada operación se proporciona como un **comportamiento intercambiable**.
 
 Dependiendo del comportamiento inyectado, el cálculo podrá ser:
 
 * una **suma**,
 * un **producto**,
-* o un cálculo más complejo, como una **potencia**.
+* una **potencia**,
+* u otras operaciones añadidas posteriormente.
 
-El sistema utiliza **inyección de comportamiento basada en `std::function` y expresiones lambda**, lo que permite definir, sustituir o ampliar algoritmos **sin jerarquías de clases ni herencia**.
+El sistema utiliza **inyección de comportamiento basada en `std::function` y expresiones lambda**, lo que permite definir, sustituir o ampliar algoritmos **sin jerarquías de clases ni herencia**, y sin modificar el contexto.
 
 El código se organiza en:
 
-* **Estrategias.hpp / Estrategias.cpp** – definición de las estrategias de cálculo
+* **Estrategias.hpp** – definición de la firma común y fábricas de estrategias
 * **Contexto.hpp** – contexto que ejecuta el comportamiento inyectado
-* **main.cpp** – código cliente que selecciona y cambia estrategias
+* **main.cpp** – código cliente
 
 
 ## Estrategias.hpp
@@ -27,16 +28,16 @@ El código se organiza en:
 #include <functional>
 
 // ----------------------------------------
-// Definición de la firma común
+// Firma común de las estrategias
 // ----------------------------------------
 using EstrategiaCalculo = std::function<int(int, int)>;
 
 // ----------------------------------------
-// Declaración de estrategias disponibles
+// Fábricas de estrategias
 // ----------------------------------------
-extern EstrategiaCalculo estrategia_suma;
-extern EstrategiaCalculo estrategia_producto;
-extern EstrategiaCalculo estrategia_potencia;
+EstrategiaCalculo estrategia_suma();
+EstrategiaCalculo estrategia_producto();
+EstrategiaCalculo estrategia_potencia();
 ```
 
 
@@ -46,26 +47,29 @@ extern EstrategiaCalculo estrategia_potencia;
 #include "Estrategias.hpp"
 
 // ----------------------------------------
-// Definición de estrategias
+// Implementación de estrategias
 // ----------------------------------------
-EstrategiaCalculo estrategia_suma =
-    [](int a, int b) {
+EstrategiaCalculo estrategia_suma() {
+    return [](int a, int b) {
         return a + b;
     };
+}
 
-EstrategiaCalculo estrategia_producto =
-    [](int a, int b) {
+EstrategiaCalculo estrategia_producto() {
+    return [](int a, int b) {
         return a * b;
     };
+}
 
-EstrategiaCalculo estrategia_potencia =
-    [](int a, int b) {
+EstrategiaCalculo estrategia_potencia() {
+    return [](int a, int b) {
         int resultado = 1;
         for (int i = 0; i < b; ++i) {
             resultado *= a;
         }
         return resultado;
     };
+}
 ```
 
 
@@ -73,6 +77,7 @@ EstrategiaCalculo estrategia_potencia =
 
 ```cpp
 #pragma once
+#include <utility>
 #include "Estrategias.hpp"
 
 class ContextoCalculo {
@@ -108,15 +113,15 @@ void cliente(ContextoCalculo& contexto) {
 
 int main() {
     // Contexto con estrategia de suma
-    ContextoCalculo contexto(estrategia_suma);
+    ContextoCalculo contexto(estrategia_suma());
     cliente(contexto);
 
     // Cambiar estrategia a producto
-    contexto.establecer_estrategia(estrategia_producto);
+    contexto.establecer_estrategia(estrategia_producto());
     cliente(contexto);
 
     // Cambiar estrategia a potencia
-    contexto.establecer_estrategia(estrategia_potencia);
+    contexto.establecer_estrategia(estrategia_potencia());
     cliente(contexto);
 
     return 0;
@@ -124,7 +129,7 @@ int main() {
 ```
 
 
-Recuerda que debemos realizar la compilación de la siguiente manera:
+## Compilación
 
 ```bash
 g++ main.cpp Estrategias.cpp -o calculadora
@@ -133,31 +138,34 @@ g++ main.cpp Estrategias.cpp -o calculadora
 
 ## Añadir una nueva estrategia
 
-Para añadir una nueva operación **no es necesario modificar el contexto ni el código existente**.
-Basta con definir una nueva estrategia que cumpla la firma esperada.
+Para añadir una nueva operación **no es necesario modificar el contexto**.
+Basta con definir una nueva estrategia que cumpla la firma esperada y usarla desde el cliente.
 
 ### Nueva operación: módulo (`a % b`)
+
+> Precondición: `b != 0`
 
 #### En `Estrategias.hpp`
 
 ```cpp
-extern EstrategiaCalculo estrategia_modulo;
+EstrategiaCalculo estrategia_modulo();
 ```
 
 #### En `Estrategias.cpp`
 
 ```cpp
-EstrategiaCalculo estrategia_modulo =
-    [](int a, int b) {
+EstrategiaCalculo estrategia_modulo() {
+    return [](int a, int b) {
+        // Se asume b != 0
         return a % b;
     };
+}
 ```
 
-
-### Usarla desde `main.cpp`
+#### Uso desde `main.cpp`
 
 ```cpp
-contexto.establecer_estrategia(estrategia_modulo);
+contexto.establecer_estrategia(estrategia_modulo());
 cliente(contexto);
 ```
 
@@ -167,11 +175,11 @@ cliente(contexto);
 * No se ha modificado `ContextoCalculo`.
 * No se ha cambiado la forma de ejecutar el cálculo.
 * No se han añadido clases ni jerarquías.
-* No se ha alterado el código cliente existente.
+* No se ha alterado la lógica existente del contexto.
 
-Solo hemos:
+Solo se ha:
 
 1. definido una **nueva estrategia de cálculo**,
-2. implementado el comportamiento como una función intercambiable,
-3. utilizado dicha estrategia desde el contexto.
+2. implementado el algoritmo como un comportamiento intercambiable,
+3. seleccionado dicha estrategia desde el código cliente.
 

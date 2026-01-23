@@ -20,20 +20,22 @@ El ejemplo se organiza en:
 * **ProcesosConcretos.hpp / ProcesosConcretos.cpp** – configuraciones concretas del proceso
 * **main.cpp** – código cliente
 
+
 ## ProcesoDocumento.hpp
 
 ```cpp
 #pragma once
 #include <functional>
+#include <string>
 
 class ProcesoDocumento {
 private:
-    std::function<void()> leer_;
-    std::function<void()> procesar_;
+    std::function<std::string()> leer_;
+    std::function<void(const std::string&)> procesar_;
 
 public:
-    ProcesoDocumento(std::function<void()> leer,
-                     std::function<void()> procesar);
+    ProcesoDocumento(std::function<std::string()> leer,
+                     std::function<void(const std::string&)> procesar);
 
     void ejecutar() const;
 
@@ -43,21 +45,24 @@ private:
 };
 ```
 
+
 ## ProcesoDocumento.cpp
 
 ```cpp
 #include "ProcesoDocumento.hpp"
 #include <iostream>
+#include <utility>
 
-ProcesoDocumento::ProcesoDocumento(std::function<void()> leer,
-                                   std::function<void()> procesar)
+ProcesoDocumento::ProcesoDocumento(
+    std::function<std::string()> leer,
+    std::function<void(const std::string&)> procesar)
     : leer_(std::move(leer)),
       procesar_(std::move(procesar)) {}
 
 void ProcesoDocumento::ejecutar() const {
     abrir();
-    leer_();
-    procesar_();
+    auto contenido = leer_();
+    procesar_(contenido);
     cerrar();
 }
 
@@ -69,6 +74,7 @@ void ProcesoDocumento::cerrar() const {
     std::cout << "[ProcesoDocumento] Cerrando documento.\n";
 }
 ```
+
 
 ## ProcesosConcretos.hpp
 
@@ -82,6 +88,7 @@ ProcesoDocumento crear_proceso_csv();
 ProcesoDocumento crear_proceso_json();
 ```
 
+
 ## ProcesosConcretos.cpp
 
 ```cpp
@@ -90,13 +97,12 @@ ProcesoDocumento crear_proceso_json();
 #include <sstream>
 
 ProcesoDocumento crear_proceso_texto() {
-    std::string contenido = "Ejemplo de texto plano.";
-
     return ProcesoDocumento(
-        [contenido]() {
+        []() {
             std::cout << "[Texto] Leyendo texto...\n";
+            return std::string("Ejemplo de texto plano.");
         },
-        [contenido]() {
+        [](const std::string& contenido) {
             std::cout << "[Texto] Procesando contenido: "
                       << contenido << "\n";
         }
@@ -104,13 +110,12 @@ ProcesoDocumento crear_proceso_texto() {
 }
 
 ProcesoDocumento crear_proceso_csv() {
-    std::string linea = "10,20,30";
-
     return ProcesoDocumento(
-        [linea]() {
+        []() {
             std::cout << "[CSV] Leyendo línea CSV...\n";
+            return std::string("10,20,30");
         },
-        [linea]() {
+        [](const std::string& linea) {
             std::cout << "[CSV] Procesando valores: ";
             std::stringstream ss(linea);
             std::string valor;
@@ -123,19 +128,19 @@ ProcesoDocumento crear_proceso_csv() {
 }
 
 ProcesoDocumento crear_proceso_json() {
-    std::string contenido = "{\"clave\":\"valor\"}";
-
     return ProcesoDocumento(
-        [contenido]() {
+        []() {
             std::cout << "[JSON] Simulando lectura...\n";
+            return std::string("{\"clave\":\"valor\"}");
         },
-        [contenido]() {
+        [](const std::string& contenido) {
             std::cout << "[JSON] Procesando JSON: "
                       << contenido << "\n";
         }
     );
 }
 ```
+
 
 ## main.cpp
 
@@ -161,29 +166,31 @@ int main() {
 }
 ```
 
-Recuerda que debemos realizar la compilación de la siguiente manera:
+
+## Compilación
 
 ```bash
 g++ main.cpp ProcesoDocumento.cpp ProcesosConcretos.cpp -o proceso_documentos
 ```
 
+
 ## Añadir un nuevo tipo de documento
 
-Para añadir un nuevo tipo de documento no es necesario modificar ninguna clase existente.
+Para añadir un nuevo tipo de documento **no es necesario modificar la clase `ProcesoDocumento` ni el algoritmo fijo**.
 Basta con definir una nueva función factoría que configure el proceso con los pasos adecuados.
 
 ### Ejemplo: documento XML (`ProcesosConcretos.cpp`)
 
 ```cpp
 ProcesoDocumento crear_proceso_xml() {
-    std::string contenido = "<root><nodo>valor</nodo></root>";
-
     return ProcesoDocumento(
-        [contenido]() {
+        []() {
             std::cout << "[XML] Leyendo XML...\n";
+            return std::string("<root><nodo>valor</nodo></root>");
         },
-        [contenido]() {
-            std::cout << "[XML] Procesando: " << contenido << "\n";
+        [](const std::string& contenido) {
+            std::cout << "[XML] Procesando: "
+                      << contenido << "\n";
         }
     );
 }
@@ -195,16 +202,18 @@ Y declararla en `ProcesosConcretos.hpp`:
 ProcesoDocumento crear_proceso_xml();
 ```
 
+
 ## Qué no hemos modificado
 
 * No hemos cambiado la clase `ProcesoDocumento`.
-* No hemos tocado el algoritmo fijo de ejecución.
+* No hemos tocado el **esqueleto del algoritmo**.
 * No hemos creado clases derivadas.
-* No hemos escrito métodos virtuales.
+* No hemos usado herencia ni métodos virtuales.
 
 Solo hemos:
 
-1. añadido una **nueva función factoría** que configura un proceso concreto,
+1. añadido una **nueva configuración del proceso**,
 2. inyectado el comportamiento variable mediante funciones,
-3. utilizado el nuevo proceso desde el código cliente.
+3. reutilizado el mismo flujo de ejecución fijo.
+
 
