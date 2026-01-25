@@ -143,7 +143,7 @@ Basta con definir una nueva estrategia que cumpla la firma esperada y usarla des
 
 ### Nueva operación: módulo (`a % b`)
 
-> Precondición: `b != 0`
+Vamos a considerar que `b != 0`.
 
 #### En `Estrategias.hpp`
 
