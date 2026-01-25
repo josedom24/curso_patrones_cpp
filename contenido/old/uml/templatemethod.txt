@@ -1,2 +1,0 @@
-[ClaseBase|+metodo_plantilla();+paso1();+paso2();+hook1()]^-.-[ClaseDerivadaA|+paso1();+paso2();+hook1()]
-[ClaseBase]^-.-[ClaseDerivadaB|+paso1();+paso2()]

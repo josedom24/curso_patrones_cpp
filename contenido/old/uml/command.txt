@@ -1,5 +1,0 @@
-[Invocador]uses->[<<interface>> Comando|+void ejecutar()]
-[<<interface>> Comando]^-[ComandoConcretoA|-Receptor receptor;+void ejecutar()]
-[<<interface>> Comando]^-[ComandoConcretoB|-Receptor receptor;+void ejecutar()]
-[ComandoConcretoA]uses->[Receptor]
-[ComandoConcretoB]uses->[Receptor]

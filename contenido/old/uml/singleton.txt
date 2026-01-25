@@ -1,2 +1,0 @@
-// Singleton
-[MiSingleton|- MiSingleton();+ instance() : MiSingleton;+ operacion() : void]
