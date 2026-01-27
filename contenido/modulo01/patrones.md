@@ -10,7 +10,7 @@ Los patrones proporcionan un **lenguaje común**, una colección de **buenas pr�
 El uso de patrones aporta múltiples ventajas:
 
 * **Reutilización del conocimiento:** aprovechan soluciones ampliamente contrastadas.
-* **Mejor comunicación:** permiten describir arquitecturas complejas mediante un vocabulario compartido (“esto es un *Factory Method*”, “esto funciona igual que *Observer*”, etc.).
+* **Mejor comunicación:** permiten describir arquitecturas complejas mediante un vocabulario compartido ("esto es un *Factory Method*", "esto funciona igual que *Observer*", etc.).
 * **Diseño más flexible:** fomentan la separación de responsabilidades y las abstracciones.
 * **Evolución más sencilla:** se alinean con principios como SOLID, facilitando cambios futuros.
 * **Contexto histórico y conceptual:** ayudan a entender cómo evolucionó el diseño orientado a objetos y por qué ciertas técnicas se consideran buenas prácticas.
@@ -27,7 +27,7 @@ Ejemplo: un patrón no te dice cómo ordenar una lista, pero sí cómo permitir 
 
 ## Clasificación clásica de los patrones
 
-El catálogo clásico del “Gang of Four” distingue tres grandes familias de patrones:
+El catálogo clásico del "Gang of Four" distingue tres grandes familias de patrones:
 
 1. **Patrones creacionales**
    Se ocupan de la creación de objetos, encapsulando la lógica de construcción y el ciclo de vida.

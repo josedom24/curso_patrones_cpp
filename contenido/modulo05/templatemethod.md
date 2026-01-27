@@ -36,7 +36,7 @@ Este enfoque conserva el control del flujo, elimina la herencia innecesaria y pe
 
 ## Ejemplos concretos
 
-* **Procesamiento de archivos**: leer–parsear–procesar, donde distintos formatos implementan pasos concretos, pero la secuencia es siempre la misma.
+* **Procesamiento de archivos**: leer, parsear, procesar, donde distintos formatos implementan pasos concretos, pero la secuencia es siempre la misma.
 * **Motores de juegos**: ciclo de actualización (update) con pasos fijos como entrada → lógica → física → render, permitiendo variaciones por entidad.
 * **Generadores de reportes**: estructura de generación fija, pero cada tipo de informe implementa su formato concreto (HTML, PDF, CSV).
 * **Algoritmos de IA o heurísticas**: un esqueleto común para búsqueda, donde las subclases redefinen la función de evaluación.

@@ -2,7 +2,7 @@
 
 ## Definición
 
-El **Composite** es un patrón de diseño estructural que permite **tratar de manera uniforme objetos individuales y conjuntos de objetos organizados jerárquicamente**. Está pensado para modelar relaciones *parte–todo* mediante una **interfaz común**, de forma que el código cliente pueda trabajar con elementos simples y estructuras complejas sin necesidad de distinguir entre ellos.
+El **Composite** es un patrón de diseño estructural que permite **tratar de manera uniforme objetos individuales y conjuntos de objetos organizados jerárquicamente**. Está pensado para modelar relaciones *parte-todo* mediante una **interfaz común**, de forma que el código cliente pueda trabajar con elementos simples y estructuras complejas sin necesidad de distinguir entre ellos.
 
 ## Objetivos del patrón
 

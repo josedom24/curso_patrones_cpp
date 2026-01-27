@@ -14,10 +14,10 @@ El adaptador (`AdaptadorPago`) implementa la interfaz moderna y traduce las llam
 
 A continuación se muestra el código completo dividido en:
 
-* **Procesador.hpp** – interfaz moderna del sistema
-* **ApiAntigua.hpp** – clase adaptada (legado)
-* **Adaptador.hpp** – adaptador que conecta ambas
-* **main.cpp** – código cliente
+* **Procesador.hpp**: interfaz moderna del sistema.
+* **ApiAntigua.hpp**: clase adaptada (legado).
+* **Adaptador.hpp**: adaptador que conecta ambas.
+* **main.cpp**: código cliente.
 
 ## Procesador.hpp
 

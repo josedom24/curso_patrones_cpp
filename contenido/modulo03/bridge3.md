@@ -8,8 +8,8 @@ El objetivo es permitir que el código cliente envíe notificaciones **sin depen
 
 En este ejemplo separamos:
 
-* la **abstracción**: el tipo de notificación que quiere enviar el cliente
-* la **implementación**: el canal concreto mediante el cual se envía el mensaje
+* La **abstracción**: el tipo de notificación que quiere enviar el cliente.
+* La **implementación**: el canal concreto mediante el cual se envía el mensaje.
 
 Los canales disponibles serán:
 
@@ -32,9 +32,9 @@ sin crear jerarquías rígidas del tipo `AlertaEmail`, `AlertaSMS`, `Recordatori
 
 A continuación se muestra el código completo dividido en:
 
-* **Canales.hpp** – implementación (Implementor)
-* **Notificaciones.hpp** – abstracción y extensiones (Abstraction)
-* **main.cpp** – código cliente
+* **Canales.hpp**: implementación (Implementor).
+* **Notificaciones.hpp**: abstracción y extensiones (Abstraction).
+* **main.cpp**: código cliente.
 
 ## Canales.hpp
 

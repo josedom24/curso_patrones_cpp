@@ -8,18 +8,18 @@ El objetivo del sistema es permitir que distintos componentes reaccionen automá
 
 Dependiendo de los observadores registrados, la temperatura podrá:
 
-* mostrarse en una **pantalla**,
-* registrarse en un **archivo de log**,
-* generar **alertas** cuando supera ciertos valores.
+* Mostrarse en una **pantalla**.
+* Registrarse en un **archivo de log**.
+* Generar **alertas** cuando supera ciertos valores.
 
 Cada observador implementa la interfaz común `Observador`, que define el método `actualizar()`.
 El **sujeto concreto**, `SensorTemperatura`, mantiene una lista de observadores y los notifica cuando cambia la temperatura.
 
 A continuación se muestra el código completo dividido en:
 
-* **Observadores.hpp** – interfaz `Observador` y observadores concretos
-* **Sujetos.hpp** – interfaz `Sujeto` y sujeto concreto
-* **main.cpp** – código cliente
+* **Observadores.hpp**: interfaz `Observador` y observadores concretos.
+* **Sujetos.hpp**: interfaz `Sujeto` y sujeto concreto.
+* **main.cpp**: código cliente.
 
 ## Observadores.hpp
 

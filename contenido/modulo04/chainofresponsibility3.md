@@ -7,10 +7,10 @@ El objetivo es permitir que una solicitud pase por una cadena de validadores ind
 
 La cadena de validación estará compuesta por:
 
-* un validador de **autenticación**,
-* un validador de **permisos**,
-* un validador de **formato**,
-* y cualquier otro que deseemos añadir en el futuro.
+* Un validador de **autenticación**.
+* Un validador de **permisos**.
+* Un validador de **formato**.
+* Cualquier otro que deseemos añadir en el futuro.
 
 Cada validador es un manejador concreto que implementa la interfaz común `Manejador`.
 El código cliente solo conoce el primer elemento de la cadena y le envía peticiones.
@@ -18,9 +18,9 @@ La solicitud pasará de un manejador a otro hasta que alguno la procese o la cad
 
 El código se presenta en tres partes:
 
-* **Manejadores.hpp / Manejadores.cpp** – interfaz base y manejadores concretos
-* **Cadena.hpp / Cadena.cpp** – lógica de construcción de la cadena
-* **main.cpp** – código cliente
+* **Manejadores.hpp / Manejadores.cpp**: interfaz base y manejadores concretos.
+* **Cadena.hpp / Cadena.cpp**: lógica de construcción de la cadena.
+* **main.cpp**: código cliente.
 
 ## Manejadores.hpp
 

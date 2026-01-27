@@ -8,7 +8,7 @@ Este apartado presenta algunos de estos patrones y explica por qué, en C++ mode
 
 ## Patrones con alternativas modernas en C++
 
-Los siguientes son patrones clásicos. Su **idea de diseño sigue siendo válida**, pero su implementación tradicional puede ser sustituida —en muchos casos— por mecanismos propios del lenguaje o de la biblioteca estándar.
+Los siguientes son patrones clásicos. Su **idea de diseño sigue siendo válida**, pero su implementación tradicional puede ser sustituida, en muchos casos, por mecanismos propios del lenguaje o de la biblioteca estándar.
 
 ### Singleton
 

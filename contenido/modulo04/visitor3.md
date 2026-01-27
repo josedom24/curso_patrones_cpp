@@ -8,9 +8,9 @@ El objetivo es permitir añadir **nuevas operaciones** (mostrar información, va
 
 El ejemplo se organiza en:
 
-* **Elementos.hpp / Elementos.cpp** – jerarquía de elementos visitables
-* **Visitantes.hpp / Visitantes.cpp** – interfaz visitante y visitantes concretos
-* **main.cpp** – código cliente
+* **Elementos.hpp / Elementos.cpp**: jerarquía de elementos visitables.
+* **Visitantes.hpp / Visitantes.cpp**: interfaz visitante y visitantes concretos.
+* **main.cpp**: código cliente.
 
 
 ## Elementos.hpp

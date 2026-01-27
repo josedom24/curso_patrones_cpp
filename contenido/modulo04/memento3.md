@@ -6,23 +6,23 @@ Para ilustrar el patrón **Memento** en un contexto realista, construiremos un p
 
 El objetivo del sistema es permitir que el editor pueda:
 
-* **guardar** su estado actual (el texto completo),
-* **restaurar** un estado anterior cuando el usuario solicita un **"Undo"**,
+* **Guardar** su estado actual (el texto completo).
+* **Restaurar** un estado anterior cuando el usuario solicita un **"Undo"**,
 * sin exponer los detalles internos de cómo el editor almacena su estado.
 
 Cada estado guardado será un **memento**, que mantiene encapsulado el contenido del texto.
 El código cliente trabajará exclusivamente con:
 
-* la clase `Editor` (Originador),
-* la clase `Historial` (Cuidador), encargada de almacenar los mementos,
-* y la clase `Memento`, que captura el estado del editor sin exponerlo.
+* La clase `Editor` (Originador).
+* La clase `Historial` (Cuidador), encargada de almacenar los mementos.
+* La clase `Memento`, que captura el estado del editor sin exponerlo.
 
 A continuación se muestra el código completo dividido en:
 
-* **Memento.hpp** – clase que encapsula el estado
-* **Editor.hpp** – originador
-* **Historial.hpp** – cuidador que gestiona el historial
-* **main.cpp** – código cliente
+* **Memento.hpp**: clase que encapsula el estado.
+* **Editor.hpp**: originador.
+* **Historial.hpp**: cuidador que gestiona el historial.
+* **main.cpp**: código cliente.
 
 
 ## Memento.hpp

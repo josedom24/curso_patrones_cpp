@@ -6,19 +6,19 @@ Para ilustrar la idea del **Template Method** desde una perspectiva moderna en C
 
 El objetivo es que el código cliente pueda ejecutar un proceso estandarizado de:
 
-1. **abrir** el documento,
-2. **leer** el contenido,
-3. **procesar** la información,
-4. **cerrar** el documento,
+1. **Abrir** el documento,
+2. **Leer** el contenido,
+3. **Procesar** la información,
+4. **Cerrar** el documento,
 
 sin utilizar clases base, herencia ni métodos virtuales.
 Las variaciones de lectura y procesamiento se inyectan como funciones invocables, permitiendo una composición flexible y sin jerarquías.
 
 El ejemplo se organiza en:
 
-* **ProcesoDocumento.hpp / ProcesoDocumento.cpp** – implementación del algoritmo fijo
-* **ProcesosConcretos.hpp / ProcesosConcretos.cpp** – configuraciones concretas del proceso
-* **main.cpp** – código cliente
+* **ProcesoDocumento.hpp / ProcesoDocumento.cpp**: implementación del algoritmo fijo.
+* **ProcesosConcretos.hpp / ProcesosConcretos.cpp**: configuraciones concretas del proceso.
+* **main.cpp**: código cliente.
 
 
 ## ProcesoDocumento.hpp

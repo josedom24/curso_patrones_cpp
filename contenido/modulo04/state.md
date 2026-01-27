@@ -40,13 +40,13 @@ El patrón *State* aporta las siguientes soluciones:
 
 ## Ejemplos concretos
 
-* **Máquinas expendedoras**: Estados como “esperando moneda”, “producto seleccionado”, “sin stock”, “entregando”.
-* **Reproductores multimedia**: Estados como “reproduciendo”, “pausado”, “detenido”.
-* **Edición de documentos**: Comportamientos distintos según si el documento está en modo “lectura”, “edición” o “solo lectura”.
-* **Conexiones de red**: Estados “desconectado”, “conectando”, “conectado”, “fallo de conexión”.
-* **Gestión de pedidos** en comercio electrónico: “pendiente”, “preparación”, “enviado”, “entregado”, “cancelado”.
+* **Máquinas expendedoras**: Estados como "esperando moneda", "producto seleccionado", "sin stock", "entregando".
+* **Reproductores multimedia**: Estados como "reproduciendo", "pausado", "detenido".
+* **Edición de documentos**: Comportamientos distintos según si el documento está en modo "lectura", "edición" o "solo lectura".
+* **Conexiones de red**: Estados "desconectado", "conectando", "conectado", "fallo de conexión".
+* **Gestión de pedidos** en comercio electrónico: "pendiente", "preparación", "enviado", "entregado", "cancelado".
 * **Videojuegos**: Estados de un personaje (parado, caminando, atacando, herido, muerto) o estados del propio juego (menú, jugando, pausa, game over).
-* **Sistemas de autenticación**: Estados “no autenticado”, “autenticado”, “token caducado”.
+* **Sistemas de autenticación**: Estados "no autenticado", "autenticado", "token caducado".
 * **Procesos administrativos** o workflows: Estados que representan fases de un trámite, cada uno con reglas distintas.
-* **Sistemas de impresión**: Estados “lista”, “imprimiendo”, “sin papel”, “atascada”, “offline”.
+* **Sistemas de impresión**: Estados "lista", "imprimiendo", "sin papel", "atascada", "offline".
 * **Automatismos industriales**: Estados de máquinas o robots (inicialización, activo, error, apagado), con comportamientos específicos.

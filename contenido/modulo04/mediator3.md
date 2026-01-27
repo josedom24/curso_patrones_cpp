@@ -7,10 +7,10 @@ El objetivo es permitir que los usuarios puedan enviarse mensajes **sin conocers
 
 El mediador se encarga de:
 
-* registrar a los usuarios participantes,
-* recibir los mensajes enviados por un usuario,
-* reenviarlos a los destinatarios adecuados,
-* aplicar las reglas de comunicación.
+* Registrar a los usuarios participantes.
+* Recibir los mensajes enviados por un usuario.
+* Reenviarlos a los destinatarios adecuados.
+* Aplicar las reglas de comunicación.
 
 En este ejemplo, el mediador implementa un modelo de **difusión (*broadcast*)**, reenviando cada mensaje a todos los usuarios registrados excepto al emisor. Este comportamiento es una decisión de diseño concreta del ejemplo; el patrón *Mediator* permite aplicar reglas de enrutamiento más complejas si fuera necesario.
 
@@ -21,9 +21,9 @@ Como contrapartida, este patrón puede llevar a que el mediador concentre demasi
 
 El ejemplo se divide en:
 
-* **Mediador.hpp** – interfaz del mediador y mediador concreto
-* **Colegas.hpp** – interfaz del usuario, clase base y usuarios concretos
-* **main.cpp** – código cliente
+* **Mediador.hpp**: interfaz del mediador y mediador concreto.
+* **Colegas.hpp**: interfaz del usuario, clase base y usuarios concretos.
+* **main.cpp**: código cliente.
 
 
 ## Mediador.hpp

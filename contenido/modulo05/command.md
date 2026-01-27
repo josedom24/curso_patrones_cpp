@@ -52,5 +52,5 @@ Este estilo refleja mejor el uso real de Command en C++ moderno: **simple, flexi
 * **Automatización de procesos**: Registrar secuencias de comandos para crear macros o flujos repetibles.
 * **Servidores o middleware**: Encapsular peticiones recibidas para que puedan ser procesadas por distintos manejadores.
 * **Frameworks de pruebas**: Representar casos o pasos de prueba como comandos ejecutables y re-ejecutables.
-* **Procesadores de órdenes o transacciones**: Encapsular acciones como “crear pedido”, “cancelar pedido”, “aplicar descuento” para permitir control transaccional.
+* **Procesadores de órdenes o transacciones**: Encapsular acciones como "crear pedido", "cancelar pedido", "aplicar descuento" para permitir control transaccional.
 * **Robótica**: Enviar comandos discretos a un robot (mover, girar, sujetar) y registrar su historial de ejecución.

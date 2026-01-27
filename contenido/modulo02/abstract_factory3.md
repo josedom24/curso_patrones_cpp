@@ -4,7 +4,7 @@
 
 Para ilustrar el patrón **Abstract Factory** en un escenario realista, construiremos un pequeño sistema de componentes gráficos (*widgets*).
 
-El objetivo es permitir que el código cliente construya y utilice componentes de interfaz gráfica —botones, casillas de verificación, etc.— **sin conocer la plataforma concreta** para la que están diseñados.
+El objetivo es permitir que el código cliente construya y utilice componentes de interfaz gráfica, botones, casillas de verificación, etc., **sin conocer la plataforma concreta** para la que están diseñados.
 
 Dependiendo de la fábrica seleccionada, los widgets serán:
 
@@ -21,9 +21,9 @@ Las fábricas concretas (`WindowsFactory`, `LinuxFactory`) se encargan de produc
 
 A continuación se muestra el código completo dividido en:
 
-* **Productos.hpp** – productos e interfaces
-* **Fabricas.hpp** – fábricas y sus implementaciones
-* **main.cpp** – código cliente
+* **Productos.hpp**: productos e interfaces.
+* **Fabricas.hpp**: fábricas y sus implementaciones.
+* **main.cpp**: código cliente.
 
 ## Productos.hpp
 

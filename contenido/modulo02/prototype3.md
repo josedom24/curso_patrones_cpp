@@ -7,15 +7,15 @@ El objetivo del sistema es permitir que el código cliente pueda **duplicar form
 
 Cada forma es un **prototipo** capaz de generar copias de sí misma. Esto permite:
 
-* clonar objetos complejos sin reconstruirlos desde cero,
-* evitar dependencias con clases concretas,
-* añadir nuevas formas sin modificar el código existente,
-* demostrar el uso práctico del polimorfismo con `std::unique_ptr`.
+* Clonar objetos complejos sin reconstruirlos desde cero.
+* Evitar dependencias con clases concretas.
+* Añadir nuevas formas sin modificar el código existente.
+* Demostrar el uso práctico del polimorfismo con `std::unique_ptr`.
 
 El ejemplo se divide en:
 
-* **Formas.hpp** – interfaz base y prototipos concretos
-* **main.cpp** – código cliente
+* **Formas.hpp**: interfaz base y prototipos concretos.
+* **main.cpp**: código cliente.
 
 ## Formas.hpp
 
@@ -100,10 +100,6 @@ int main() {
     return 0;
 }
 ```
-
-Perfecto, ahora está clarísimo 👍. A continuación tienes **el apartado reescrito exactamente con el mismo formato y los mismos títulos**, sustituyendo el ejemplo de **Triángulo** por **un prototipo con copia profunda**, y manteniendo el estilo y nivel didáctico del texto original.
-
----
 
 ## Añadir un nuevo prototipo
 

@@ -5,11 +5,11 @@
 Para ilustrar el patrón **Command** desde una perspectiva moderna en C++, construiremos un pequeño **sistema de control remoto programable**.
 El objetivo es permitir que el código cliente asigne acciones a los botones del control remoto **inyectando directamente el comportamiento**, sin necesidad de clases de comando ni jerarquías complejas.
 
-Cada botón del control remoto recibirá una **función invocable** —por ejemplo, una *lambda*— que encapsula:
+Cada botón del control remoto recibirá una **función invocable**, por ejemplo, una *lambda*, que encapsula:
 
-1. la operación a realizar,
-2. el dispositivo sobre el que actúa,
-3. y los parámetros necesarios.
+* La operación a realizar.
+* El dispositivo sobre el que actúa.
+* Los parámetros necesarios.
 
 El control remoto simplemente almacena y ejecuta estas funciones.
 Los dispositivos (luz, persiana, ventilador, etc.) proporcionan los métodos reales que operan sobre el hardware simulado.
@@ -18,9 +18,9 @@ La técnica de inyección de comportamiento utilizada será: Inyección directa 
 
 A continuación se muestra el código completo dividido en:
 
-* **Receptor.hpp** – dispositivos que realizan las acciones reales
-* **ControlRemoto.hpp** – invocador que almacena funciones
-* **main.cpp** – código cliente que inyecta el comportamiento
+* **Receptor.hpp**: dispositivos que realizan las acciones reales.
+* **ControlRemoto.hpp**: invocador que almacena funciones.
+* **main.cpp**: código cliente que inyecta el comportamiento.
 
 ## Receptor.hpp
 

@@ -7,18 +7,18 @@ El sistema no conoce los algoritmos concretos: cada operación se proporciona co
 
 Dependiendo del comportamiento inyectado, el cálculo podrá ser:
 
-* una **suma**,
-* un **producto**,
-* una **potencia**,
-* u otras operaciones añadidas posteriormente.
+* Una **suma**.
+* Un **producto**.
+* Una **potencia**.
+* Otras operaciones añadidas posteriormente.
 
 El sistema utiliza **inyección de comportamiento basada en `std::function` y expresiones lambda**, lo que permite definir, sustituir o ampliar algoritmos **sin jerarquías de clases ni herencia**, y sin modificar el contexto.
 
 El código se organiza en:
 
-* **Estrategias.hpp** – definición de la firma común y fábricas de estrategias
-* **Contexto.hpp** – contexto que ejecuta el comportamiento inyectado
-* **main.cpp** – código cliente
+* **Estrategias.hpp**: definición de la firma común y fábricas de estrategias.
+* **Contexto.hpp**: contexto que ejecuta el comportamiento inyectado.
+* **main.cpp**: código cliente.
 
 
 ## Estrategias.hpp

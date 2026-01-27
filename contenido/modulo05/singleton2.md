@@ -6,17 +6,17 @@ Para ilustrar el uso de un **logger global** en un contexto realista, construire
 
 El objetivo es asegurar que exista **una única instancia del logger**, lo que garantiza:
 
-* una fuente única y coherente de mensajes,
-* una configuración compartida,
-* un acceso centralizado y consistente,
-* y la ausencia de múltiples flujos o archivos abiertos simultáneamente.
+* Una fuente única y coherente de mensajes.
+* Una configuración compartida.
+* Un acceso centralizado y consistente.
+* La ausencia de múltiples flujos o archivos abiertos simultáneamente.
 
 Para conseguirlo de forma clara y flexible, el logger se crea en un punto bien definido del programa y se proporciona a los módulos que lo necesitan mediante **inyección de dependencias**. Esta técnica permite mantener una única instancia, controlar su ciclo de vida y evitar dependencias globales implícitas.
 
 El código se presenta dividido en:
 
-* **Logger.hpp** — interfaz y clase concreta del logger
-* **main.cpp** — código cliente
+* **Logger.hpp**: interfaz y clase concreta del logger.
+* **main.cpp**: código cliente.
 
 ## Logger.hpp
 

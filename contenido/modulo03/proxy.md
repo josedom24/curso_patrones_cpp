@@ -37,7 +37,7 @@ El proxy implementa la misma interfaz que el objeto real (llamado *sujeto real*)
 
 ## Ejemplos concretos
 
-* **Carga diferida de imágenes** en aplicaciones gráficas: mostrar un “placeholder” mientras la imagen real se carga bajo demanda.
+* **Carga diferida de imágenes** en aplicaciones gráficas: mostrar un "placeholder" mientras la imagen real se carga bajo demanda.
 * **Proxy virtual para objetos pesados**: construir el objeto real solo cuando el cliente lo necesita.
 * **Control de acceso** a un recurso protegido: un proxy que verifica permisos antes de delegar la operación al objeto real.
 * **Proxy remoto**: representar un objeto que realmente vive en un servidor remoto, manejando la comunicación de red de forma transparente.

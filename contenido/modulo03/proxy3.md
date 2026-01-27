@@ -1,12 +1,3 @@
-Perfecto. A continuación tienes **el apartado completo reescrito**, manteniendo **exactamente el mismo formato, estructura y enfoque didáctico**, pero **corrigiendo todos los problemas señalados**:
-
-* Dependencia del proxy hacia la **abstracción** (`ServicioDatos`)
-* Manejo correcto del **contrato** mediante excepciones
-* Redacción más precisa (sin afirmaciones absolutas incorrectas)
-* Proxies coherentes entre sí
-* Ejemplo explícitamente **híbrido** (Virtual + Protection + Cache + Logging)
-
-
 # Ejemplo: Acceso controlado a un servicio de datos
 
 ## Introducción
@@ -27,9 +18,9 @@ Este ejemplo muestra un uso **combinado del patrón Proxy**, integrando control 
 
 A continuación se muestra el código completo dividido en:
 
-* **Servicio.hpp** – interfaz del servicio y objeto real
-* **Proxy.hpp** – implementaciones de proxy
-* **main.cpp** – código cliente
+* **Servicio.hpp**: interfaz del servicio y objeto real.
+* **Proxy.hpp**: implementaciones de proxy.
+* **main.cpp**: código cliente.
 
 
 ## Servicio.hpp

@@ -16,8 +16,8 @@ Los **Archivos** son componentes hoja.
 
 Dividiremos el código en dos partes:
 
-* **Elementos.hpp** – interfaz común y productos (hoja y compuesto)
-* **main.cpp** – código cliente que usa la estructura
+* **Elementos.hpp**: interfaz común y productos (hoja y compuesto).
+* **main.cpp**: código cliente que usa la estructura.
 
 ## Elementos.hpp
 

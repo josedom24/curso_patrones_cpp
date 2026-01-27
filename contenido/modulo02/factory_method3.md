@@ -18,9 +18,9 @@ Las clases creadoras concretas son las responsables de decidir **qué tipo de lo
 
 A continuación se muestra el código completo dividido en:
 
-* **Productos.hpp** – productos y su interfaz
-* **Creadores.hpp** – fábricas y sus implementaciones
-* **main.cpp** – código cliente
+* **Productos.hpp**: productos y su interfaz.
+* **Creadores.hpp**: fábricas y sus implementaciones.
+* **main.cpp**: código cliente.
 
 ## Productos.hpp
 

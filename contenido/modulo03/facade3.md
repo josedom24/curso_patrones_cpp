@@ -10,10 +10,10 @@ Para ilustrar el patrón **Facade** en un contexto realista, construiremos un pe
 
 El cliente solo quiere ejecutar operaciones de alto nivel como:
 
-* **crear una tarea**,
-* **completar una tarea**,
-* **notificar cambios**,
-* **obtener un resumen del sistema**.
+* Crear una tarea.
+* Completar una tarea.
+* Notificar cambios.
+* Obtener un resumen del sistema.
 
 Sin embargo, cada una de estas operaciones implica múltiples pasos dentro de los subsistemas, los cuales no deberían ser visibles para el código cliente.
 
@@ -21,9 +21,9 @@ El patrón **Facade** permite crear una clase fachada (`GestorTareas`) que ofrez
 
 A continuación se muestra el código completo dividido en:
 
-* **Subsistemas.hpp** – subsistemas y su lógica individual
-* **Fachada.hpp** – implementación de la fachada
-* **main.cpp** – código cliente
+* **Subsistemas.hpp**: subsistemas y su lógica individual.
+* **Fachada.hpp**: implementación de la fachada.
+* **main.cpp**: código cliente.
 
 ## Subsistemas.hpp
 

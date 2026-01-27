@@ -45,8 +45,8 @@ El patrón *Facade* aporta estas soluciones:
 * **Frameworks de redes**: Una fachada que ofrece `enviar_mensaje()` mientras gestiona sockets, serialización, colas y reintentos.
 * **Sistemas de compilación**: Un único comando (p. ej., `compilar_proyecto()`) que invoca preprocessors, compiladores, enlazadores y empaquetadores.
 * **APIs de bases de datos**: Métodos como `consultar()` o `guardar()` que internamente gestionan conexiones, transacciones y validaciones.
-* **Motores de videojuegos**: Una fachada de “motor de juego” que coordina subsistemas de física, IA, renderizado y audio con llamadas simples.
-* **Sistemas de domótica**: Un método “poner_modo_noche()” que coordina luces, persianas, alarmas y sensores con una única acción del usuario.
+* **Motores de videojuegos**: Una fachada de "motor de juego" que coordina subsistemas de física, IA, renderizado y audio con llamadas simples.
+* **Sistemas de domótica**: Un método "poner_modo_noche()" que coordina luces, persianas, alarmas y sensores con una única acción del usuario.
 * **Envío de correos electrónicos**: Un método `enviar_email_simple()` que oculta la autenticación SMTP, el formateo MIME y la gestión de adjuntos.
 * **Automatización industrial**: Métodos de control que simplifican la interacción con múltiples sensores, actuadores y sistemas de seguridad.
 * **Servicios en la nube**: SDKs que exponen operaciones simples mientras gestionan internamente autenticación, red, formatos y errores distribuidos.

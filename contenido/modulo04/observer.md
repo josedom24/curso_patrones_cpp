@@ -2,7 +2,7 @@
 
 ## Definición
 
-El **Observer** es un patrón de diseño de comportamiento que establece una relación de **dependencia uno-a-muchos** entre objetos, de modo que cuando un objeto (“sujeto”) cambia de estado, **notifica automáticamente** a todos sus “observadores” asociados.
+El **Observer** es un patrón de diseño de comportamiento que establece una relación de **dependencia uno-a-muchos** entre objetos, de modo que cuando un objeto ("sujeto") cambia de estado, **notifica automáticamente** a todos sus "observadores" asociados.
 Su objetivo es permitir que múltiples componentes reaccionen a cambios sin acoplarse directamente entre sí.
 
 ## Objetivos del patrón

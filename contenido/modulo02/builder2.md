@@ -64,7 +64,7 @@ Este enfoque facilita la creación progresiva de objetos, garantiza estados vál
 
 ## Ejemplo genérico
 
-### Variante 1 — Builder **con Director** (versión clásica)
+### Variante 1: Builder **con Director** (versión clásica)
 
 ```cpp
 #include <iostream>
@@ -172,7 +172,7 @@ int main() {
 }
 ```
 
-### Variante 2 — Builder **sin Director** (builder fluido moderno)
+### Variante 2: Builder **sin Director** (builder fluido moderno)
 
 Esta variante es más idiomática en C++ actual:
 

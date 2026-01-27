@@ -4,10 +4,10 @@
 
 En este ejemplo construimos un **generador de Markdown** que permite partir de un contenido base y **añadir dinámicamente capas de formato**, como:
 
-* títulos
-* texto en negrita
-* cursiva
-* bloques de código
+* Títulos
+* Texto en negrita
+* Cursiva
+* Bloques de código
 
 Cada formato se implementa como un **decorador independiente**, que envuelve al componente anterior y añade su responsabilidad sin modificar ninguna clase existente.
 
@@ -15,8 +15,8 @@ El cliente trabaja únicamente con la interfaz común `Markdown`, sin conocer cu
 
 El código se divide en:
 
-* `Markdown.hpp` – interfaz base, componente concreto y decoradores
-* `main.cpp` – código cliente y composición dinámica
+* `Markdown.hpp`: interfaz base, componente concreto y decoradores.
+* `main.cpp`: código cliente y composición dinámica.
 
 ## Markdown.hpp
 

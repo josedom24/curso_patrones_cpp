@@ -2,7 +2,7 @@
 
 ## Definición
 
-El **Bridge** es un patrón de diseño **estructural** cuyo propósito es **desacoplar una abstracción de su implementación**, permitiendo que **ambas evolucionen de forma independiente**. El patrón separa dos ejes de variación distintos —el **qué hace** un objeto y el **cómo lo hace**— evitando que queden ligados en una única jerarquía rígida y difícil de extender.
+El **Bridge** es un patrón de diseño **estructural** cuyo propósito es **desacoplar una abstracción de su implementación**, permitiendo que **ambas evolucionen de forma independiente**. El patrón separa dos ejes de variación distintos, el **qué hace** un objeto y el **cómo lo hace**, evitando que queden ligados en una única jerarquía rígida y difícil de extender.
 
 ## Objetivos del patrón
 
@@ -32,7 +32,7 @@ El Bridge aporta estas soluciones:
 ## Relación con los principios SOLID
 
 * **Single Responsibility Principle (SRP)**: el Bridge separa claramente la responsabilidad de la abstracción y la de la implementación, evitando clases con múltiples motivos de cambio.
-* **Open/Closed Principle (OCP)**: el sistema puede extenderse por ambos ejes —abstracciones e implementaciones— sin modificar código existente.
+* **Open/Closed Principle (OCP)**: el sistema puede extenderse por ambos ejes, abstracciones e implementaciones, sin modificar código existente.
 * **Liskov Substitution Principle (LSP)**: cualquier implementación concreta puede sustituirse por la interfaz de implementación sin afectar al comportamiento esperado.
 * **Interface Segregation Principle (ISP)**: la interfaz de implementación se mantiene reducida y específica, ajustada a las necesidades reales de la abstracción.
 * **Dependency Inversion Principle (DIP)**: la abstracción depende de una interfaz y no de implementaciones concretas; tanto el alto nivel como el bajo nivel dependen de abstracciones.

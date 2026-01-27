@@ -14,10 +14,10 @@ El código cliente interactúa únicamente con `Reproductor`; el cambio de compo
 
 El ejemplo se organiza en:
 
-* **EstadoReproductor.hpp** – interfaz común del estado
-* **Reproductor.hpp / Reproductor.cpp** – contexto
-* **Estados.cpp** – implementación de los estados concretos
-* **main.cpp** – código cliente
+* **EstadoReproductor.hpp**: interfaz común del estado.
+* **Reproductor.hpp / Reproductor.cpp**: contexto.
+* **Estados.cpp**: implementación de los estados concretos.
+* **main.cpp**: código cliente.
 
 
 ## EstadoReproductor.hpp
