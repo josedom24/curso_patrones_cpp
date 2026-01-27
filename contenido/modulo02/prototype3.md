@@ -167,6 +167,6 @@ cliente(rectEstilado);
 
 Solo hemos añadido:
 
-1. una **nueva clase prototipo** (`RectanguloConEstilo`),
-2. y una **línea en `main.cpp`** para probarlo.
+* Una **nueva clase prototipo** (`RectanguloConEstilo`),
+* Una **línea en `main.cpp`** para probarlo.
 

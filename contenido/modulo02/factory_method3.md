@@ -202,9 +202,9 @@ int main() {
 * No se ha modificado la interfaz `CreadorLogger`.
 * No se ha modificado el código del cliente.
 
-Solo se han añadido:
+Solo hemos añadido:
 
-1. un **nuevo producto concreto** (`LoggerBD`),
-2. un **nuevo creador concreto** (`CreadorLoggerBD`).
-3. y opcionalmente una línea en `main.cpp` para usarlo.
+* Un **nuevo producto concreto** (`LoggerBD`),
+* Un **nuevo creador concreto** (`CreadorLoggerBD`).
+* Opcionalmente, una línea en `main.cpp` para usarlo.
 

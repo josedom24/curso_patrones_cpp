@@ -226,7 +226,7 @@ cliente(macUI);
 
 Solo hemos añadido:
 
-1. una **familia completa de productos** (MacButton, MacCheckbox),
-2. una **fábrica concreta** (MacFactory),
-3. y opcionalmente una línea en `main.cpp` para usarla.
+* Una **familia completa de productos** (MacButton, MacCheckbox),
+* Una **fábrica concreta** (MacFactory),
+* Opcionalmente, una línea en `main.cpp` para usarla.
 

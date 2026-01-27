@@ -400,10 +400,10 @@ int main() {
 * El flujo de construcción existente.
 * El código cliente previo (salvo para probar el nuevo parámetro).
 
-### Qué se ha añadido realmente
+Solo hemos añadido:
 
-1. Un **nuevo atributo mutable** en el producto.
-2. Un **nuevo setter y getter** públicos.
-3. Un **nuevo paso de construcción** en los builders.
-4. (Opcionalmente) su uso desde el Director o el cliente.
+* Un **nuevo atributo mutable** en el producto.
+* Un **nuevo setter y getter** públicos.
+* Un **nuevo paso de construcción** en los builders.
+* Opcionalmente, su uso desde el Director o el cliente.
 
