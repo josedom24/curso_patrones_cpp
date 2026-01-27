@@ -169,9 +169,9 @@ Al añadir este nuevo tipo de elemento:
 * No se ha modificado la clase `Archivo`.
 * No se ha modificado el comportamiento de `mostrar()` en los componentes existentes.
 
-Solo se ha añadido:
+Solo hemos añadido:
 
-1. Un nuevo tipo de hoja (`Enlace`).
-2. Código de uso en `main.cpp`.
+* Un nuevo tipo de hoja (`Enlace`).
+* Código de uso en `main.cpp`.
 
 

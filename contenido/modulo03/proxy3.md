@@ -234,8 +234,8 @@ int main() {
 * No se ha modificado el funcionamiento del servicio real.
 * No se han introducido dependencias del cliente hacia clases concretas.
 
-Lo único necesario ha sido:
+Solo hemos añadido:
 
-1. Crear un **nuevo proxy** que implemente la interfaz.
-2. Usarlo en `main.cpp` si se desea.
+* Un **nuevo proxy** que implemente la interfaz.
+* Opcionalmente, una línea en en `main.cpp` para usarlo.
 

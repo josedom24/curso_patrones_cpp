@@ -181,8 +181,8 @@ Al añadir el nuevo decorador **ListaMarkdown**:
 * No se ha modificado la clase base `DecoradorMarkdown`.
 * No se ha modificado el comportamiento de `render()` en los componentes existentes.
 
-Solo se ha añadido:
+Solo hemos añadido:
 
-1. Un nuevo decorador concreto (`ListaMarkdown`).
-2. Código de composición en `main.cpp` para aplicar el nuevo formato.
+* Un nuevo decorador concreto (`ListaMarkdown`).
+* Código de composición en `main.cpp` para aplicar el nuevo formato.
 

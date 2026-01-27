@@ -192,9 +192,9 @@ Al añadir el nuevo subsistema **RegistroHistorico**:
 * No se han modificado las interfaces ni el comportamiento de los subsistemas existentes.
 * No se ha alterado la forma en la que el cliente utiliza el sistema.
 
-Solo se ha añadido:
+Solo hemos añadido:
 
-1. Un nuevo subsistema interno (`RegistroHistorico`).
-2. Lógica adicional dentro de la fachada para coordinar su uso.
+* Un nuevo subsistema interno (`RegistroHistorico`).
+* Lógica adicional dentro de la fachada para coordinar su uso.
 
 
