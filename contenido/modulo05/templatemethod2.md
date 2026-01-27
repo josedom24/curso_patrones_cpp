@@ -237,10 +237,10 @@ int main() {
 * No hemos creado clases derivadas.
 * No hemos usado herencia ni métodos virtuales.
 
-Solo hemos:
+Solo hemos añadido:
 
-1. añadido una **nueva configuración del proceso**,
-2. inyectado el comportamiento variable mediante funciones,
-3. reutilizado el mismo flujo de ejecución fijo.
+* Una **nueva configuración del proceso**.
+* La inyección de comportamiento variable mediante funciones.
+
 
 

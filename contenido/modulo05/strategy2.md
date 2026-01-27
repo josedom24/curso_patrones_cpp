@@ -177,9 +177,9 @@ cliente(contexto);
 * No se han añadido clases ni jerarquías.
 * No se ha alterado la lógica existente del contexto.
 
-Solo se ha:
+Solo hemos añadido:
 
-1. definido una **nueva estrategia de cálculo**,
-2. implementado el algoritmo como un comportamiento intercambiable,
-3. seleccionado dicha estrategia desde el código cliente.
+* La definición de una **nueva estrategia de cálculo**.
+* La implementación del algoritmo como un comportamiento intercambiable.
+* El uso de dicha estrategia desde el código cliente.
 
