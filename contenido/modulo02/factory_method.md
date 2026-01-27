@@ -2,7 +2,7 @@
 
 ## Definición
 
-El **Factory Method** es un patrón de **diseño creacional** cuyo propósito es **separar la responsabilidad de crear objetos de la responsabilidad de usarlos**. Con esto conseguimos:
+El **Factory Method** es un patrón de **diseño creacional** cuyo propósito es **separar la responsabilidad de crear objetos de la responsabilidad de usarlos**. 
 
 ## Objetivos
 
