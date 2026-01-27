@@ -245,9 +245,7 @@ premium->enviar("Hola, soy usuario premium.");
 * No se ha modificado la clase base `Usuario`
 * No se han modificado los usuarios existentes
 
-Solo se ha:
+Solo hemos añadido:
 
-1. añadido un **nuevo colega concreto** (`UsuarioPremium`)
-2. mantenido la coordinación completamente centralizada en el mediador
-3. conservado el ejemplo **simple, extensible y autocontenido**
-
+* Un **nuevo colega concreto** (`UsuarioPremium`).
+* Una línea en `main.cpp` para usarlo.

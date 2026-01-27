@@ -210,7 +210,7 @@ alertaPush.enviar("Servidor reiniciado.");
 
 Solo hemos añadido:
 
-* Un **nuevo canal** (`CanalPush`)
-* Opcionalmente, una línea en `main.cpp` para usarlo
+* Un **nuevo canal** (`CanalPush`).
+* Opcionalmente, una línea en `main.cpp` para usarlo.
 
 **NOTA**: Del mismo modo que es sencillo añadir un nuevo canal de envío creando un nuevo implementador concreto, también resulta igual de simple introducir un **nuevo tipo de notificación**. Basta con definir una nueva **abstracción refinada** que extienda la clase `Notificacion` y reutilice los canales existentes, sin modificar ninguna implementación ni el código cliente. Esto demuestra que el patrón Bridge permite extender el sistema de forma independiente por ambos ejes: tipos de notificación y canales de envío.

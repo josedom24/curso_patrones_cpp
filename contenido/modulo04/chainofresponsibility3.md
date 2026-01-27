@@ -253,9 +253,9 @@ int main() {
 * No hemos modificado ninguno de los manejadores existentes.
 * No hemos modificado la función cliente como interfaz de uso.
 
-Solo hemos:
+Solo hemos añadido:
 
-1. añadido un **nuevo manejador concreto** (`ValidadorContenido`),
-2. modificado la función de construcción de la cadena para insertarlo,
-3. y utilizado la nueva cadena desde `main.cpp`.
+* Un **nuevo manejador concreto** (`ValidadorContenido`).
+* La modificación de la función de construcción de la cadena para insertarlo.
+* Una línea en `main.cpp` para usarlo.
 

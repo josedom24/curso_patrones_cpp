@@ -291,8 +291,8 @@ Es importante destacar que **la incorporación del nuevo estado no ha requerido 
 * la clase `Reproductor` (salvo su inicialización),
 * el código cliente (`main.cpp`).
 
-Sólo hemos:
+Sólo hemos añadido:
 
-1. añadido un **nuevo estado concreto** (`EstadoSinContenido`),
-2. definido su comportamiento específico en su implementación,
-3. cambiado el **estado inicial del contexto** para hacer visible el nuevo comportamiento.
+* Un **nuevo estado concreto** (`EstadoSinContenido`).
+* La definición de un comportamiento específico en su implementación.
+* Un nuevo **estado inicial del contexto** para hacer visible el nuevo comportamiento.

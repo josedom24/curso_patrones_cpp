@@ -347,10 +347,10 @@ Este uso explícito refuerza que **la política de undo no forma parte del patr�
 * Lógica general de undo
 * Interfaz pública del patrón
 
-Se ha creado únicamente:
+Solo hemos añadido:
 
-1. Un **nuevo memento concreto**
-2. Métodos opcionales en el `Editor`
-3. Uso explícito desde el cliente
+* Un **nuevo memento concreto**.
+* Métodos opcionales en el `Editor`.
+* Uso explícito desde el cliente.
 
 

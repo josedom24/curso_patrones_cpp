@@ -245,9 +245,9 @@ for (auto& e : elementos) {
 * No se ha modificado la lógica interna de `ElementoA` ni `ElementoB`.
 * No se ha modificado la función `cliente`.
 
-Solo hemos:
+Solo hemos añadido:
 
-1. añadido un **nuevo visitante concreto** (`VisitanteExportar`),
-2. definido su comportamiento específico para cada tipo de elemento,
-3. utilizado el nuevo visitante desde el código cliente.
+* Un **nuevo visitante concreto** (`VisitanteExportar`).
+* Un nuevo comportamiento específico para cada tipo de elemento.
+* El uso desde el cliente del nuevo visitante.
 

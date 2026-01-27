@@ -226,8 +226,8 @@ sensor.adjuntar(red);
 * No hemos modificado la interfaz `Sujeto`.
 * No hemos modificado `SensorTemperatura` ni los observadores ya existentes.
 
-Solo hemos:
+Solo hemos añadido:
 
-1. añadido un **nuevo observador concreto**,
-2. registrado ese observador en el sujeto,
-3. y opcionalmente añadido una línea en `main.cpp` para probarlo.
+* Un **nuevo observador concreto**.
+* El registro de ese observador en el sujeto.
+* Opcionalmente, se ha añadido una línea en `main.cpp` para probarlo.
