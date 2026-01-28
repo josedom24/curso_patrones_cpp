@@ -2,6 +2,3 @@
 [<<interface>> Estado|+accion(Contexto)]^-[EstadoConcretoB]
 [Contexto|+accion(); -estado: Estado]uses-> [<<interface>> Estado]
 
-// Transiciones
-[EstadoConcretoA] --> [EstadoConcretoB]
-[EstadoConcretoB] --> [EstadoConcretoA]

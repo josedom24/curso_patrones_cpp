@@ -2,50 +2,22 @@
 
 ## Estructura general
 
-La implementación del **State** en C++ moderno permite **modelar comportamientos variables como objetos independientes**, encapsulando cada estado en una clase distinta. El objeto principal, denominado *contexto*, delega su comportamiento en el estado activo y cambia dinámicamente dicho estado cuando es necesario.
+La implementación del **State** se basa en:
 
-Este enfoque elimina grandes estructuras condicionales, localiza el comportamiento dependiente del estado y facilita la extensión del sistema mediante la incorporación de nuevos estados.
-
-## Elementos de C++ moderno utilizados
-
-* **Clases abstractas e interfaces puras** para definir el contrato común de los estados.
-* **Métodos virtuales y virtuales puros** para permitir comportamiento polimórfico.
-* **Polimorfismo dinámico** para delegar la ejecución al estado activo.
-* **Destructores virtuales** para destrucción segura mediante punteros a la interfaz.
-* **`std::unique_ptr`** para expresar propiedad exclusiva del estado por parte del contexto.
-* **RAII** para garantizar la gestión automática del ciclo de vida de los estados.
-* Uso de **`std::make_unique`** para crear estados de forma segura.
-* **Movimiento de objetos (`std::move`)** para realizar transiciones entre estados.
+* Una **interfaz o clase base Estado** que declara las operaciones dependientes del estado.
+* Uno o varios **Estados concretos** que implementan la interfaz `Estado`.
+* Un **Contexto** que expone las operaciones al código cliente.
+* El **Contexto mantiene el Estado actual por composición** (típicamente mediante un puntero al tipo base `Estado`) y delega en él las operaciones.
+* Una **transición de estado** que sustituye el objeto `Estado` mantenido por el contexto por otra instancia de `Estado`.
+* Uso de **polimorfismo dinámico** para ejecutar el comportamiento a través de la interfaz `Estado`.
 
 ## Componentes del patrón y responsabilidades
 
-### 1. Interfaz o clase base del **Estado**
+* **Estado (interfaz o clase base):** declara las operaciones cuyo comportamiento depende del estado y que serán invocadas por el contexto.
+* **Estados concretos:** implementan las operaciones del estado y pueden solicitar una transición sustituyendo el estado activo.
+* **Contexto:** mantiene el estado activo y delega en él las operaciones expuestas al cliente.
+* **Código cliente:** utiliza el contexto a través de su interfaz pública.
 
-* Define las operaciones cuyo comportamiento depende del estado.
-* Establece un contrato común para todos los estados concretos.
-* Permite al contexto delegar sin conocer el estado activo concreto.
-* Se utiliza de forma polimórfica mediante punteros inteligentes.
-
-### 2. **Estados concretos**
-
-* Implementan el comportamiento específico de cada estado.
-* Deciden cómo responder a cada operación.
-* Pueden provocar transiciones a otros estados.
-* Encapsulan completamente la lógica asociada a su estado.
-
-### 3. **Contexto**
-
-* Mantiene una referencia al estado actual.
-* Delega en el estado activo las operaciones dependientes del estado.
-* Controla el ciclo de vida del estado mediante propiedad exclusiva.
-* Permanece desacoplado de las implementaciones concretas de los estados.
-
-### 4. **Código cliente**
-
-* Interactúa únicamente con el contexto.
-* No conoce los estados concretos ni las transiciones internas.
-* Utiliza el comportamiento del contexto de forma transparente.
-* Permanece estable ante la incorporación de nuevos estados.
 
 ## Diagrama UML
 
