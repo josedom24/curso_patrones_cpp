@@ -2,50 +2,20 @@
 
 ## Estructura general
 
-La implementación del **Proxy** en C++ moderno permite **controlar el acceso a un objeto** proporcionando un intermediario que implementa la misma interfaz que el objeto real. El cliente interactúa con la interfaz; en tiempo de ejecución puede recibir un proxy o el objeto real.
+La implementación del **Proxy** se basa en:
 
-Este enfoque permite introducir control de acceso, inicialización diferida o lógica adicional sin modificar la implementación original del objeto real.
-
-## Elementos de C++ moderno utilizados
-
-* **Clases abstractas e interfaces puras** para definir un contrato común entre proxy y objeto real.
-* **Métodos virtuales y virtuales puros** para permitir sustitución transparente.
-* **Polimorfismo dinámico** para que el cliente no distinga entre proxy y objeto real.
-* **Destructores virtuales** para destrucción segura mediante punteros a la interfaz.
-* **Composición** para encapsular el objeto real dentro del proxy.
-* **`std::unique_ptr`** para expresar propiedad exclusiva del objeto real.
-* **RAII** para gestionar correctamente los recursos asociados al objeto real.
-* **Inicialización diferida** del objeto real mediante creación bajo demanda.
+* Una **interfaz común Sujeto** que define las operaciones utilizadas por el código cliente.
+* Un **Sujeto real** que implementa la interfaz común y contiene la funcionalidad real.
+* Un **Proxy** que implementa la misma interfaz `Sujeto`.
+* El **Proxy mantiene un Sujeto real por composición** (referencia o puntero a la interfaz o al tipo concreto) y delega en él las operaciones cuando corresponde.
+* Uso de **polimorfismo dinámico** para utilizar indistintamente el proxy o el sujeto real a través de `Sujeto`.
 
 ## Componentes del patrón y responsabilidades
 
-### 1. Interfaz común (**Sujeto**)
-
-* Define las operaciones que deben implementar tanto el proxy como el objeto real.
-* Establece un contrato único e independiente de las implementaciones concretas.
-* Permite al cliente trabajar sin conocer la clase concreta utilizada.
-* Se utiliza de forma polimórfica mediante punteros o referencias.
-
-### 2. **Objeto real**
-
-* Implementa la funcionalidad completa del sistema.
-* Puede representar un recurso costoso, remoto o restringido.
-* Encapsula el comportamiento real sin conocer la existencia del proxy.
-* Gestiona sus recursos de forma segura mediante RAII.
-
-### 3. **Proxy**
-
-* Implementa la misma interfaz que el objeto real.
-* Contiene internamente una referencia o puntero al objeto real.
-* Controla el acceso y decide cuándo delegar la operación.
-* Puede añadir lógica adicional antes o después de la delegación.
-
-### 4. **Código cliente**
-
-* Trabaja exclusivamente con la interfaz común.
-* No conoce si está utilizando un proxy o el objeto real.
-* Permanece independiente de la estrategia de acceso utilizada.
-* Gestiona el ciclo de vida de los objetos de forma segura.
+* **Sujeto (interfaz común):** declara las operaciones que comparten el proxy y el objeto real.
+* **Sujeto real (objeto real):** implementa las operaciones definidas por `Sujeto`.
+* **Proxy:** implementa `Sujeto`, mantiene un objeto real por composición y decide la delegación de las operaciones hacia el sujeto real.
+* **Código cliente:** utiliza objetos a través de la interfaz `Sujeto`.
 
 ## Diagrama UML
 
