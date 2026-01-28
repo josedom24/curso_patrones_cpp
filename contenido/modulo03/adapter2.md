@@ -2,51 +2,20 @@
 
 ## Estructura general
 
-La implementación del **patrón Adapter** en C++ moderno permite **compatibilizar interfaces incompatibles** sin modificar el código existente. El patrón introduce una capa intermedia que traduce la interfaz que el cliente espera a la interfaz real de una clase ya existente.
+La implementación del **Adapter** se basa en:
 
-Este enfoque facilita la reutilización de código legado o externo y desacopla al cliente de detalles concretos de implementación, manteniendo estable el diseño del sistema.
-
-## Elementos de C++ moderno utilizados
-
-* **Clases abstractas e interfaces puras** para definir la interfaz objetivo.
-* **Métodos virtuales y virtuales puros** como contrato estable para el cliente.
-* **Polimorfismo dinámico** para permitir el uso transparente del adaptador.
-* **Destructores virtuales** para destrucción segura a través de interfaces.
-* **Composición** para encapsular el objeto adaptado.
-* **`std::unique_ptr` o referencias** para expresar propiedad o dependencia.
-* **Constructores explícitos** para evitar conversiones implícitas no deseadas.
-* Uso explícito de **`override`** en los métodos adaptados.
-* **RAII** para garantizar una gestión correcta del ciclo de vida.
+* Una **interfaz Target** que define las operaciones que utiliza el código cliente.
+* Una clase existente **Adaptee** con una interfaz distinta a la esperada por el cliente.
+* Un **Adapter** que implementa la interfaz `Target`.
+* El **Adapter mantiene un Adaptee por composición** (referencia, puntero o smart pointer) y reexpone la funcionalidad del adaptee mediante las operaciones de `Target`.
+* Uso de **polimorfismo dinámico** para utilizar el adapter a través de `Target`.
 
 ## Componentes del patrón y responsabilidades
 
-### 1. **Interfaz objetivo (Target)**
-
-* Define la interfaz que el cliente espera utilizar.
-* Establece un contrato estable independiente de las implementaciones concretas.
-* Permite tratar adaptadores y posibles implementaciones nativas de forma uniforme.
-* Se utiliza de forma polimórfica mediante punteros o referencias.
-
-### 2. **Clase adaptada (Adaptee)**
-
-* Representa una clase existente con una interfaz incompatible.
-* No se modifica para adaptarse al nuevo sistema.
-* Puede ser código legado, externo o ajeno al diseño actual.
-* Proporciona la funcionalidad real que se desea reutilizar.
-
-### 3. **Adaptador (Adapter)**
-
-* Implementa la interfaz objetivo esperada por el cliente.
-* Contiene internamente una instancia del adaptado, normalmente mediante composición, aunque la forma concreta de propiedad depende del diseño.
-* Traduce las llamadas del cliente a operaciones del adaptado.
-* Encapsula la lógica de conversión entre interfaces.
-
-### 4. **Código cliente**
-
-* Trabaja exclusivamente con la interfaz objetivo.
-* No conoce ni depende de la clase adaptada.
-* Utiliza el adaptador de forma transparente.
-* Permanece estable ante cambios o sustituciones del adaptado.
+* **Target (interfaz objetivo):** declara la interfaz con la que opera el código cliente.
+* **Adaptee (clase adaptada):** proporciona la funcionalidad existente con una interfaz no compatible con `Target`.
+* **Adapter (adaptador):** implementa `Target`, mantiene un `Adaptee` por composición y traduce las operaciones de `Target` a llamadas sobre `Adaptee`.
+* **Código cliente:** utiliza objetos a través de la interfaz `Target`.
 
 
 ## Diagrama UML
