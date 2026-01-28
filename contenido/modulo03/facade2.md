@@ -2,40 +2,18 @@
 
 ## Estructura general
 
-La implementación del **Facade** en C++ moderno permite **simplificar el acceso a un sistema complejo** proporcionando una interfaz única y de alto nivel. El patrón encapsula la interacción entre varios subsistemas y expone al cliente únicamente las operaciones necesarias para su uso habitual.
+La implementación del **Facade** se basa en:
 
-Este enfoque reduce el acoplamiento, mejora la legibilidad del código cliente y protege al sistema frente a cambios internos, manteniendo una interfaz estable y controlada.
-
-## Elementos de C++ moderno utilizados
-
-* **Constructores y listas de inicialización** para crear los subsistemas en estados válidos desde la construcción.
-* **RAII** para gestionar automáticamente los recursos asociados a los subsistemas.
-* **Composición** para agrupar subsistemas dentro de la fachada.
-* **Objetos con duración automática** como miembros de la clase fachada.
-* **Encapsulación** para ocultar la complejidad interna del sistema.
+* Uno o varios **Subsistemas** que exponen operaciones de bajo nivel.
+* Una **clase Fachada** que define las operaciones de uso para el cliente.
+* La **Fachada mantiene los subsistemas por composición** (como miembros, referencias o punteros) y realiza llamadas coordinadas a sus operaciones.
+* Un **código cliente** que utiliza la fachada como punto de acceso al sistema.
 
 ## Componentes del patrón y responsabilidades
 
-### 1. **Subsistemas internos**
-
-* Representan componentes que realizan tareas específicas del sistema.
-* Mantienen responsabilidades claras y bien delimitadas.
-* No están diseñados para ser utilizados directamente por el cliente.
-* Pueden evolucionar internamente sin afectar a la fachada.
-
-### 2. **Clase Fachada**
-
-* Proporciona una interfaz simple y de alto nivel al cliente.
-* Coordina la interacción entre los distintos subsistemas.
-* Encapsula secuencias complejas de operaciones en métodos claros.
-* Aísla al cliente de cambios en la estructura interna del sistema.
-
-### 3. **Código cliente**
-
-* Trabaja exclusivamente con la clase fachada.
-* No conoce ni gestiona los subsistemas internos.
-* Utiliza el sistema de forma más legible y directa.
-* Permanece estable ante modificaciones internas del sistema.
+* **Subsistemas:** proporcionan las operaciones internas que utiliza la fachada para realizar el trabajo.
+* **Fachada:** expone operaciones de alto nivel y coordina llamadas a los subsistemas.
+* **Código cliente:** utiliza la fachada para invocar las operaciones del sistema.
 
 ## Diagrama UML
 
