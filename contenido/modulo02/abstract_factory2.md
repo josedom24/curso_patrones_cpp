@@ -2,57 +2,20 @@
 
 ## Estructura general
 
-La implementación del **Abstract Factory** en C++ moderno permite crear **familias de productos relacionados** sin que el código cliente dependa de clases concretas. El patrón agrupa la creación de varios tipos de objetos bajo una única abstracción, garantizando que los productos creados sean coherentes entre sí.
+La implementación del **Abstract Factory** se basa en:
 
-Este enfoque desacopla la selección de una familia concreta del uso de los productos y permite sustituir una familia completa de objetos sin modificar el código cliente.
-
-## Elementos de C++ moderno utilizados
-
-* **Clases abstractas e interfaces puras** para definir contratos estables de productos y fábricas.
-* **Métodos virtuales y virtuales puros** como puntos de extensión.
-* **Herencia** para definir variantes concretas de productos y fábricas.
-* **Polimorfismo dinámico** para trabajar con familias sin conocer tipos concretos.
-* **Destructores virtuales** para destrucción segura de jerarquías polimórficas.
-* **`std::unique_ptr`** para expresar propiedad exclusiva de los productos creados.
-* **RAII** para garantizar liberación automática de recursos.
-* Uso explícito de **`override`** en las implementaciones concretas.
+* Varias **jerarquías de productos**, una por cada tipo de producto, definidas mediante clases abstractas o interfaces puras
+* Una **interfaz de fábrica abstracta** que declara un método de creación por cada producto perteneciente a una **familia de productos**
+* Varias **fábricas concretas** que implementan la interfaz de la fábrica abstracta
+* Uso de **polimorfismo dinámico** para crear y manipular productos a través de sus interfaces base
 
 ## Componentes del patrón y responsabilidades
 
-### 1. Interfaces base de los **Productos**
-
-* Definen el comportamiento común de cada tipo de producto.
-* Establecen contratos estables independientes de las implementaciones concretas.
-* Permiten tratar productos de distintas familias de forma uniforme.
-* No conocen ni dependen del proceso de creación
-
-### 2. **Productos concretos** (por familia)
-
-* Implementan las interfaces base de los productos.
-* Representan variantes coherentes dentro de una misma familia.
-* Encapsulan los detalles de implementación y los recursos internos.
-* Garantizan compatibilidad entre los productos de la misma familia.
-
-### 3. Interfaz base de la **Fábrica abstracta**
-
-* Declara métodos de creación para todos los tipos de producto.
-* Define el contrato común que deben cumplir todas las fábricas concretas.
-* Centraliza la creación de familias completas de productos.
-* Aísla al cliente de las clases concretas de los productos.
-
-### 4. **Fábricas concretas**
-
-* Implementan la creación de una familia completa y coherente de productos.
-* Deciden qué clases concretas de producto se instancian.
-* Conocen exclusivamente las implementaciones concretas de su familia.
-* Aíslan la lógica de creación del resto del sistema.
-
-### 5. **Código cliente**
-
-* Trabaja únicamente con la fábrica abstracta y las interfaces de los productos.
-* No conoce ni depende de las familias concretas.
-* Utiliza los productos sin gestionar manualmente su ciclo de vida.
-* Permanece estable ante la incorporación de nuevas familias.
+* **Producto (interfaces base de productos):** definen la interfaz común de cada tipo de producto que puede ser creado por la fábrica abstracta y constituyen los tipos abstractos usados por el cliente.
+* **Productos concretos:** implementan las interfaces de los productos y representan las variantes concretas pertenecientes a una misma familia.
+* **Fábrica abstracta:** declara los métodos de creación para cada tipo de producto y define la interfaz común que utilizan las fábricas concretas.
+* **Fábricas concretas:** implementan los métodos de creación definidos en la fábrica abstracta y construyen los productos concretos de una familia determinada.
+* **Código cliente:** utiliza la fábrica abstracta para crear productos y trabaja exclusivamente con las interfaces de los productos obtenidos.
 
 ## Diagrama UML
 
@@ -188,8 +151,8 @@ int main() {
 * La **fábrica abstracta** define los métodos para crear todos los productos de una familia (crearProductoA, crearProductoB)
 * Cada **fábrica concreta** produce versiones coherentes de toda su familia:
 
-  * `FabricaFamiliaA` → productos *ProductoA_FamiliaA*, *ProductoB_FamiliaA*
-  * `FabricaFamiliaB` → productos *ProductoA_FamiliaB*, *ProductoB_FamiliaB*
+  * `FabricaFamiliaA`: productos *ProductoA_FamiliaA*, *ProductoB_FamiliaA*
+  * `FabricaFamiliaB`: productos *ProductoA_FamiliaB*, *ProductoB_FamiliaB*
 * El cliente trabaja solo con **interfaces abstractas** (`ProductoA`, `ProductoB`, `FabricaAbstracta`)
 * `std::unique_ptr` garantiza seguridad, propiedad clara y ausencia de fugas
 * Añadir una **nueva familia** solo requiere escribir otra fábrica concreta y sus productos
