@@ -2,52 +2,20 @@
 
 ## Estructura general
 
-La implementación del **Composite** en C++ moderno permite **tratar de forma uniforme objetos simples y objetos compuestos** mediante una interfaz común. El patrón organiza los elementos en una **estructura jerárquica**, normalmente en forma de árbol, donde tanto las hojas como los compuestos se manipulan de la misma manera.
+La implementación del **Composite** se basa en:
 
-Este enfoque simplifica el código cliente, elimina distinciones artificiales entre tipos de objetos y facilita la construcción de estructuras recursivas complejas.
-
-## Elementos de C++ moderno utilizados
-
-* **Clases abstractas e interfaces puras** para definir el componente común.
-* **Métodos virtuales y virtuales puros** para unificar el comportamiento.
-* **Polimorfismo dinámico** para tratar hojas y compuestos de forma uniforme.
-* **Destructores virtuales** para destrucción segura de jerarquías.
-* **Composición** para construir estructuras jerárquicas.
-* **`std::unique_ptr`** para expresar propiedad exclusiva de los componentes.
-* **Contenedores estándar** como `std::vector` para almacenar hijos.
-* **RAII** para garantizar liberación automática de recursos.
-* Uso explícito de **`override`** en implementaciones concretas.
+* Una **interfaz base Componente** que define las operaciones comunes de la jerarquía.
+* Uno o varios **Componentes hoja** que implementan la interfaz base y no contienen otros componentes.
+* Uno o varios **Componentes compuestos** que implementan la interfaz base y mantienen una colección de componentes hijos.
+* Una **relación recursiva de composición**, donde los compuestos almacenan y gestionan otros componentes a través de la interfaz común.
+* Uso de **polimorfismo dinámico** para manipular hojas y compuestos mediante el tipo base `Componente`.
 
 ## Componentes del patrón y responsabilidades
 
-### 1. **Interfaz base Componente**
-
-* Define las operaciones comunes a todos los elementos de la jerarquía.
-* Establece un contrato único para hojas y compuestos.
-* Permite al cliente interactuar sin conocer la estructura interna.
-* Se utiliza de forma polimórfica mediante punteros o referencias.
-
-### 2. **Componente hoja**
-
-* Representa elementos indivisibles de la estructura.
-* Implementa directamente las operaciones del componente base.
-* No contiene otros componentes.
-* Encapsula comportamiento simple y autónomo.
-
-### 3. **Componente compuesto**
-
-* Representa elementos que contienen otros componentes.
-* Mantiene una colección de componentes hijos.
-* Implementa las operaciones delegando recursivamente en sus hijos.
-* Permite construir estructuras jerárquicas arbitrarias.
-
-### 4. **Código cliente**
-
-* Trabaja exclusivamente con la interfaz del componente.
-* No distingue entre hojas y compuestos.
-* Manipula estructuras completas de forma uniforme.
-* No se preocupa por la gestión de memoria, que queda encapsulada en la estructura mediante RAII.
-
+* **Componente (interfaz o clase base):** declara las operaciones comunes que deben soportar todos los elementos de la jerarquía.
+* **Hoja:** implementa las operaciones del componente base y representa un elemento sin hijos.
+* **Compuesto:** implementa las operaciones del componente base y mantiene una colección de componentes hijos gestionados a través de la interfaz común.
+* **Código cliente:** utiliza objetos a través de la interfaz del componente y construye o recorre la estructura jerárquica.
 
 ## Diagrama UML
 
