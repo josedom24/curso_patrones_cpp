@@ -2,50 +2,19 @@
 
 ## Estructura general
 
-La implementación del **Prototype** en C++ moderno se basa en la **creación de nuevos objetos a partir de instancias existentes**, delegando el proceso de copia en el propio objeto. El patrón permite duplicar objetos sin conocer su tipo concreto ni los detalles internos de su construcción.
+La implementación del **Prototype** se basa en:
 
-Este enfoque resulta especialmente útil cuando la creación de objetos es costosa o compleja, y cuando es necesario preservar configuraciones ya existentes en nuevas instancias.
-
-Recuerda los diferentes tipos de copia:
-
-* **Copia superficial**: se copian los valores de los miembros, pero los recursos dinámicos gestionados manualmente o mediante punteros quedan compartidos entre el objeto original y la copia. Cualquier modificación del recurso afecta a ambas instancias.
-* **Copia profunda**: además de copiar los valores, se crean copias independientes de los recursos dinámicos, garantizando que el objeto clonado no comparte estado interno con el original.
-
-## Elementos de C++ moderno utilizados
-
-La implementación del patrón Prototype se apoya en mecanismos de C++ moderno que permiten expresar clonación segura, control del ciclo de vida y copias correctas de objetos complejos.
-
-* **Clases abstractas e interfaces puras** para definir el contrato de clonación.
-* **Métodos virtuales puros**, en particular el método `clone()`.
-* **Polimorfismo dinámico** para clonar objetos sin conocer su tipo concreto.
-* **Destructores virtuales** para destrucción segura a través de interfaces.
-* **`std::unique_ptr`** para expresar propiedad exclusiva de la copia creada.
-* **Constructores de copia** para implementar copias superficiales o profundas.
-* **RAII** para garantizar gestión correcta de recursos durante la clonación.
-* Uso explícito de **`override`** en las implementaciones concretas.
+* Una **interfaz o clase base Prototipo** que declara una operación de clonación (por ejemplo, `clone()`) y permite su uso polimórfico mediante un destructor virtual.
+* Uno o varios **Prototipos concretos** que implementan la operación `clone()` y construyen un nuevo objeto del mismo tipo dinámico.
+* Uso de **polimorfismo dinámico** para clonar objetos a través del tipo base, sin referirse a las clases concretas.
+* Un **código cliente** que obtiene nuevas instancias invocando `clone()` sobre un prototipo existente.
 
 ## Componentes del patrón y responsabilidades
 
-### 1. Interfaz o clase base del **Prototipo**
+* **Prototipo (interfaz o clase base):** declara la operación `clone()` y actúa como tipo base a través del cual se solicita la clonación.
+* **Prototipos concretos:** implementan `clone()` y crean una nueva instancia del mismo tipo concreto, incluyendo la duplicación del estado que consideren necesaria.
+* **Código cliente:** mantiene una referencia al prototipo a través de su tipo base e invoca `clone()` para obtener nuevas instancias.
 
-* Define el contrato común que deben cumplir todos los objetos clonables.
-* Declara el método `clone()` como operación fundamental del patrón.
-* Permite crear nuevas instancias sin conocer el tipo dinámico concreto.
-* Garantiza un uso polimórfico seguro mediante un destructor virtual.
-
-### 2. **Prototipos concretos**
-
-* Implementan el método `clone()` devolviendo una nueva instancia del mismo tipo.
-* Deciden si la clonación se realiza mediante copia superficial o copia profunda.
-* Encapsulan la lógica necesaria para duplicar recursos internos.
-* Mantienen las invariantes del objeto original en la copia creada.
-
-### 3. **Código cliente**
-
-* Trabaja exclusivamente con la interfaz del prototipo.
-* Solicita nuevas instancias mediante la operación `clone()`.
-* No conoce la clase concreta ni la lógica interna de copia.
-* Gestiona el ciclo de vida de los objetos clonados de forma segura mediante RAII.
 
 
 
