@@ -1,4 +1,4 @@
-[Cliente] -> [<<abstracta>> Manejador|-siguiente: Manejador;+void manejar()]
+[<<abstracta>> Manejador|-siguiente: Manejador;+void manejar()]
 [<<abstracta>> Manejador]^-[ManejadorConcretoA|+procesar()]
 [<<abstracta>> Manejador]^-[ManejadorConcretoB|+procesar()]
 [<<abstracta>> Manejador]++->[<<abstracta>> Manejador]
