@@ -1,12 +1,8 @@
-[Cliente]-.->[<<interface>> Elemento]
-[Cliente]-.->[<<interface>> Visitante]
-
 [<<interface>> Visitante|+void visitar(ElementoA);+void visitar(ElementoB)]
 [<<interface>> Elemento|+void accept(Visitante)]
 
 // Relations
-[ElementoA|+void accept(Visitante)]^-.-[<<interface>> Elemento]
-[ElementoB|+void accept(Visitante)]^-.-[<<interface>> Elemento]
-[VisitanteConcreto1|+void visitar(ElementoA);+void visitar(ElementoB)]^-.-[<<interface>> Visitante]
-[VisitanteConcreto2|+void visitar(ElementoA);+void visitar(ElementoB)]^-.-[<<interface>> Visitante]
-
+[<<interface>> Elemento]^-[ElementoA|+void accept(Visitante)]
+[<<interface>> Elemento]^-[ElementoB|+void accept(Visitante)]
+[<<interface>> Visitante]^-[VisitanteConcreto1|+void visitar(ElementoA);+void visitar(ElementoB)]
+[<<interface>> Visitante]^-[VisitanteConcreto2|+void visitar(ElementoA);+void visitar(ElementoB)]

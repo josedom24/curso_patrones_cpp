@@ -2,56 +2,22 @@
 
 ## Estructura general
 
-La implementación del **Visitor** en C++ moderno permite **definir nuevas operaciones sobre una estructura de objetos sin modificar las clases de dichos objetos**. El patrón separa la estructura de datos de las operaciones que se aplican sobre ella, organizando estas últimas en una jerarquía independiente.
+La implementación del **Visitor** se basa en:
 
-Este enfoque resulta especialmente útil cuando la estructura de elementos es estable, pero las operaciones que deben aplicarse sobre ella evolucionan con frecuencia.
-
-## Elementos de C++ moderno utilizados
-
-* **Clases abstractas e interfaces puras** para definir contratos de elementos y visitantes.
-* **Métodos virtuales** para habilitar el doble despacho.
-* **Polimorfismo dinámico** para seleccionar la operación adecuada en tiempo de ejecución.
-* **Destructores virtuales** para destrucción segura en jerarquías polimórficas.
-* **RAII** para la gestión automática de recursos en visitantes con estado.
-* **Contenedores de la STL** para almacenar colecciones heterogéneas de elementos.
-* **`std::unique_ptr`** para gestionar elementos polimórficos de forma segura.
+* Una **interfaz Elemento** que declara una operación `accept(Visitante&)`.
+* Uno o varios **Elementos concretos** que implementan `accept`.
+* Una **interfaz Visitante** que declara una operación `visit(...)` por cada tipo concreto de elemento.
+* Uno o varios **Visitantes concretos** que implementan la interfaz `Visitante`.
+* Uso de **doble despacho**, donde `Elemento::accept` invoca el método `Visitante::visit` correspondiente al tipo concreto del elemento.
+* Uso de **polimorfismo dinámico** para tratar elementos y visitantes a través de sus interfaces base.
 
 ## Componentes del patrón y responsabilidades
 
-### 1. Interfaz base de **Elemento**
-
-* Define el método `accept` que recibe un visitante.
-* Establece el punto de entrada para el doble despacho.
-* Permite aplicar operaciones externas sin modificar la clase.
-* Se utiliza de forma polimórfica mediante punteros o referencias.
-
-### 2. **Elementos concretos**
-
-* Representan los distintos tipos de la estructura de objetos.
-* Implementan el método `accept` delegando en el visitante.
-* Encapsulan sus propios datos y estado.
-* No contienen la lógica de las operaciones externas.
-
-### 3. Interfaz base del **Visitante**
-
-* Declara un método de visita por cada tipo concreto de elemento.
-* Define el conjunto de operaciones aplicables a la estructura.
-* Permite añadir nuevas operaciones sin modificar los elementos.
-* Se utiliza de forma polimórfica.
-
-### 4. **Visitantes concretos**
-
-* Implementan operaciones específicas sobre cada tipo de elemento.
-* Agrupan lógica relacionada dentro de un mismo visitante.
-* Pueden mantener estado interno durante el recorrido.
-* Aplican algoritmos sin alterar la estructura visitada.
-
-### 5. **Código cliente**
-
-* Crea y gestiona la estructura de elementos.
-* Aplica uno o varios visitantes a dicha estructura.
-* No modifica ni conoce la lógica interna de las operaciones.
-* Gestiona la memoria de forma automática mediante RAII.
+* **Elemento (interfaz o clase base):** declara `accept(Visitante&)` como punto de entrada para aplicar un visitante.
+* **Elementos concretos:** implementan `accept` e invocan el método `visit` correspondiente sobre el visitante recibido.
+* **Visitante (interfaz o clase base):** declara una operación `visit` por cada tipo concreto de elemento.
+* **Visitantes concretos:** implementan las operaciones `visit` definidas por la interfaz de visitante.
+* **Código cliente:** construye la estructura de elementos y aplica visitantes invocando `accept` sobre los elementos.
 
 ## Diagrama UML
 
@@ -92,7 +58,7 @@ public:
 class ElementoA : public Elemento {
 public:
     void accept(Visitante& v) override {
-        v.visitar(*this); // double dispatch
+        v.visitar(*this); // doble despacho
     }
 
     void accion_especifica_A() const {
@@ -103,7 +69,7 @@ public:
 class ElementoB : public Elemento {
 public:
     void accept(Visitante& v) override {
-        v.visitar(*this); // double dispatch
+        v.visitar(*this); // doble despacho
     }
 
     void accion_especifica_B() const {
