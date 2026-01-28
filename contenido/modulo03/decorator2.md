@@ -2,58 +2,22 @@
 
 ## Estructura general
 
-La implementación del **Decorator** en C++ moderno permite **añadir comportamiento a un objeto de forma dinámica** sin modificar su clase original. El patrón se basa en envolver un objeto dentro de otro que implementa la misma interfaz, formando una cadena de objetos que extienden el comportamiento original.
+La implementación del **Decorator** se basa en:
 
-## Elementos de C++ moderno utilizados
-
-* **Clases abstractas e interfaces puras** para definir el componente común.
-* **Métodos virtuales y virtuales puros** para permitir extensión polimórfica.
-* **Polimorfismo dinámico** para sustituir componentes por decoradores de forma transparente.
-* **Destructores virtuales** para destrucción segura de jerarquías polimórficas.
-* **Composición** como mecanismo central del patrón.
-* **`std::unique_ptr`** para expresar propiedad exclusiva de los componentes envueltos.
-* **RAII** para garantizar liberación automática de recursos.
-* Uso de **constructores `explicit`** para evitar conversiones implícitas.
-* Uso explícito de **`override`** en los decoradores concretos.
-* **Composición dinámica de decoradores mediante transferencia de propiedad (`std::move`)**.
+* Una **interfaz base Componente** que define las operaciones comunes.
+* Un **Componente concreto** que implementa la interfaz base y proporciona el comportamiento base.
+* Una **clase base Decorador** que implementa la interfaz `Componente`.
+* El **Decorador mantiene un Componente por composición** (referencia o puntero a la interfaz).
+* Uno o varios **Decoradores concretos** que extienden la clase base Decorador.
+* Uso de **polimorfismo dinámico** para tratar componentes y decoradores a través de la interfaz `Componente`.
 
 ## Componentes del patrón y responsabilidades
 
-### 1. Interfaz o clase base del **Componente**
-
-* Define las operaciones comunes que pueden ejecutar componentes y decoradores.
-* Establece un contrato único para toda la jerarquía.
-* Permite que el cliente interactúe sin conocer si el objeto está decorado.
-* Se utiliza de forma polimórfica mediante punteros o referencias.
-
-### 2. **Componente concreto**
-
-* Implementa la funcionalidad principal del sistema.
-* Representa el objeto base que puede ser decorado.
-* Encapsula un comportamiento simple y bien definido.
-* No conoce la existencia de decoradores.
-
-### 3. Clase base **Decorador**
-
-* Implementa la misma interfaz que el componente.
-* Contiene internamente otro componente al que delega las llamadas.
-* Sirve como base común para todos los decoradores concretos.
-* Permite añadir comportamiento antes o después de la delegación.
-
-### 4. **Decoradores concretos**
-
-* Extienden el comportamiento del componente de forma específica.
-* Añaden responsabilidades adicionales de manera independiente.
-* Pueden combinarse libremente formando cadenas de decoradores.
-* Mantienen el contrato definido por la interfaz del componente.
-
-### 5. **Código cliente**
-
-* Trabaja exclusivamente con la interfaz del componente.
-* No distingue entre componentes simples y decorados.
-* Construye dinámicamente combinaciones de decoradores.
-* Gestiona el ciclo de vida de los objetos de forma automática mediante RAII.
-
+* **Componente (interfaz o clase base):** declara las operaciones comunes que pueden ejecutar tanto los componentes base como los decoradores.
+* **Componente concreto:** implementa las operaciones definidas por el componente base y representa el objeto que puede ser decorado.
+* **Decorador (clase base):** implementa la interfaz del componente y mantiene un componente por composición al que delega las operaciones.
+* **Decoradores concretos:** heredan del decorador base y añaden comportamiento alrededor de la delegación al componente envuelto.
+* **Código cliente:** utiliza objetos a través de la interfaz del componente y construye dinámicamente la cadena de decoradores.
 
 ## Diagrama UML
 
