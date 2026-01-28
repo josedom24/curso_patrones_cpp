@@ -2,55 +2,21 @@
 
 ## Estructura general 
 
-La implementación del **Factory Method** en C++ moderno se apoya en un conjunto reducido de mecanismos del lenguaje que permiten desacoplar la creación de objetos de su uso, garantizando seguridad, extensibilidad y una gestión correcta de recursos.
+La implementación del **Factory Method** se basa en:
 
-## Elementos de C++ moderno utilizados
-
-* **Clases abstractas e interfaces puras** para definir contratos estables.
-* **Métodos virtuales y virtuales puros** como puntos de extensión.
-* **Herencia** para especializar el proceso de creación.
-* **Polimorfismo dinámico** para trabajar con objetos sin conocer su tipo concreto.
-* **Destructores virtuales** para destrucción segura a través de punteros base.
-* **`std::unique_ptr`** para expresar propiedad exclusiva de los objetos creados.
-* **RAII** para garantizar liberación automática de recursos.
-* Uso explícito de **`override`** en las redefiniciones.
+* Una **jerarquía de productos**, definida a partir de una clase abstracta o interfaz pura
+* Una **jerarquía de creadores**, definida a partir de una clase abstracta
+* Un **método de creación virtual** declarado en el creador base
+* La **redefinición del método de creación** en los creadores concretos
+* Uso de **polimorfismo dinámico** para crear y manipular productos a través de su tipo abstracto
 
 ## Componentes del patrón y responsabilidades
 
-### 1. Interfaz o clase base del **Producto**
-
-* Define el comportamiento común que deben ofrecer todos los productos.
-* Establece un contrato estable independiente de las implementaciones concretas.
-* Permite que el código cliente trate todos los productos de forma uniforme.
-* No conoce ni controla el proceso de creación de las instancias.
-
-### 2. **Productos concretos**
-
-* Implementan el comportamiento definido por la interfaz del producto.
-* Representan variantes específicas dentro de la misma familia de productos.
-* Encapsulan los detalles de implementación y los recursos internos.
-* Cumplen las invariantes definidas por la abstracción base.
-
-### 3. Interfaz o clase base **Creador**
-
-* Declara el método de creación que devuelve un producto abstracto.
-* Define el punto de extensión donde se decide el tipo concreto del producto.
-* Puede, opcionalmente, definir operaciones que trabajan con el producto sin conocer su implementación concreta.
-* Desacopla al cliente de las clases concretas que se instancian.
-
-### 4. **Creadores concretos**
-
-* Especializan el proceso de creación definido por el creador base.
-* Deciden qué tipo concreto de producto se instancia.
-* Centralizan el conocimiento sobre las clases concretas del producto.
-* Aíslan la lógica de creación del resto del sistema.
-
-### 5. **Código cliente**
-
-* Trabaja exclusivamente con las abstracciones del creador y del producto.
-* No conoce ni depende de los tipos concretos creados.
-* Utiliza los objetos obtenidos sin gestionar manualmente su ciclo de vida.
-* Permanece estable frente a la introducción de nuevos productos o creadores.
+* **Producto (interfaz o clase base):** define la interfaz común de los objetos que pueden ser creados por el creador y es el tipo abstracto con el que operan el creador y el código cliente.
+* **Productos concretos:** implementan la interfaz del producto y proporcionan el comportamiento específico de cada variante instanciable.
+* **Creador (interfaz o clase base):** declara el método de creación que devuelve un producto abstracto y contiene la lógica que utiliza el producto sin conocer su tipo concreto.
+* **Creadores concretos:** redefinen el método de creación y construyen una instancia de un producto concreto.
+* **Código cliente:** utiliza el creador a través de su interfaz y trabaja con los productos obtenidos mediante el método de creación.
 
 ## Diagrama UML
 
