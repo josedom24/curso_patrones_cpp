@@ -2,49 +2,21 @@
 
 ## Estructura general
 
-La implementación del **Memento** en C++ moderno permite **capturar y restaurar el estado interno de un objeto** sin violar su encapsulamiento. El patrón separa claramente la responsabilidad de guardar el estado, restaurarlo y gestionarlo externamente.
+La implementación del **Memento** se basa en:
 
-Este enfoque es habitual en funcionalidades como deshacer/rehacer, históricos de estado o recuperación ante errores, manteniendo ocultos los detalles internos del objeto original.
-
-## Elementos de C++ moderno utilizados
-
-* **Encapsulación estricta** mediante atributos privados.
-* **Constructores privados** para restringir la creación de mementos.
-* Uso controlado de **`friend`** para permitir acceso exclusivo al originador.
-* **`std::unique_ptr`** para expresar propiedad exclusiva del estado guardado.
-* **RAII** para garantizar la gestión automática del ciclo de vida.
-* **Contenedores de la STL** como `std::vector` para almacenar historiales de estado.
-* **Tipos estándar** como `std::string` y tipos integrales para representar el estado.
+* Un **Originador** que contiene el estado y define operaciones para guardar y restaurar dicho estado.
+* Un **Memento** que almacena una instantánea del estado del originador.
+* Una relación donde el **Originador crea Mementos** y también **restaura su estado** a partir de un memento.
+* Un **Cuidador (Caretaker)** que mantiene y gestiona una colección de mementos sin interpretarlos.
+* Un **código cliente** que interactúa con originador y cuidador para solicitar guardados y restauraciones.
 
 ## Componentes del patrón y responsabilidades
 
-### 1. **Originador**
+* **Originador:** crea mementos a partir de su estado actual y restaura su estado a partir de un memento.
+* **Memento:** almacena el estado capturado del originador para que pueda ser utilizado posteriormente en una restauración.
+* **Cuidador (Caretaker):** almacena y recupera mementos, gestionando el historial de estados.
+* **Código cliente:** solicita operaciones de guardado y restauración utilizando originador y cuidador.
 
-* Representa el objeto cuyo estado debe guardarse y restaurarse.
-* Define el estado interno que se desea preservar.
-* Crea mementos que capturan su estado actual.
-* Restaura su estado a partir de un memento válido.
-
-### 2. **Memento**
-
-* Almacena una instantánea del estado del originador.
-* Tiene **constructores privados** para impedir su creación desde el exterior.
-* No expone información interna ni operaciones de modificación.
-* Solo es accesible por el originador mediante `friend`.
-
-### 3. **Cuidador (Caretaker)**
-
-* Gestiona los mementos creados por el originador.
-* Almacena historiales de estado usando **contenedores de la STL**.
-* No accede ni modifica el contenido interno de los mementos.
-* Proporciona mementos cuando se solicita una restauración.
-
-### 4. **Código cliente**
-
-* Interactúa con el originador y el cuidador.
-* No conoce ni manipula el estado interno almacenado.
-* Dispara operaciones de guardado y restauración.
-* Permanece desacoplado de la representación del estado.
 
 ## Diagrama UML
 
