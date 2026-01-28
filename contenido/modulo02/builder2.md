@@ -2,57 +2,25 @@
 
 ## Estructura general
 
-La implementación del **Builder** en C++ moderno separa el **proceso de construcción** de un objeto complejo de su **representación final**. El patrón permite construir un mismo tipo de objeto mediante distintos pasos o configuraciones, sin sobrecargar constructores ni exponer detalles internos al código cliente.
+La implementación del **Builder** se basa en:
 
-Este enfoque facilita la creación progresiva de objetos, garantiza estados válidos durante la construcción y permite reutilizar el proceso de construcción en distintos contextos.
+* Un **Producto** cuya construcción se realiza mediante varios pasos.
+* Una **interfaz Builder** que declara los pasos de construcción del producto.
+* Uno o varios **Builders concretos** que implementan la interfaz del builder.
 
-## Elementos de C++ moderno utilizados
+Opcionalmente, podemos tener un componente **Director** que se encarga de controlar la secuencia de construcción:
 
-* **Clases abstractas e interfaces puras** para definir el proceso de construcción.
-* **Métodos virtuales** para representar pasos configurables.
-* **Herencia** para definir distintos builders concretos.
-* **Fluidez de métodos** para permitir configuraciones encadenadas.
-* **Constructores no públicos** para controlar la creación del producto.
-* **`std::unique_ptr`** para expresar propiedad del objeto construido.
-* **RAII** para garantizar liberación automática de recursos.
-* Uso explícito de **`override`** en builders concretos.
+* El **Director** es una **clase concreta** que, por **composición**, mantiene como atributo un objeto del tipo **Builder** (habitualmente a través de una referencia o puntero a la interfaz) y ejecuta una secuencia de construcción invocando los métodos del builder en un orden predefinido.
+* Si no se utiliza **Director**, el control de la secuencia recae en el código cliente. En esta variante, el builder concreto suele adoptar un **constructor fluido**, es decir, una interfaz en la que los métodos de configuración devuelven el propio builder (o una referencia a él) para permitir llamadas encadenadas. De este modo, el cliente invoca los pasos de construcción en el orden deseado y finaliza el proceso mediante una operación explícita que devuelve el **Producto** construido.
 
 ## Componentes del patrón y responsabilidades
 
-### 1. **Producto**
+* **Producto:** representa el objeto que se construye y constituye el resultado final del proceso de construcción.
+* **Builder (interfaz o clase base):** declara los pasos de construcción del producto y la operación mediante la cual se obtiene el resultado construido.
+* **Builders concretos:** implementan los pasos de construcción definidos por el builder y mantienen el estado necesario para ensamblar una variante concreta del producto.
+* **Director (opcional):** mantiene un builder por composición y ejecuta una secuencia de pasos de construcción invocando sus métodos.
+* **Código cliente:** selecciona el builder y controla la construcción del producto, bien delegando la secuencia en un director o invocando directamente los pasos del builder.
 
-* Representa el objeto complejo que se desea construir.
-* Define la estructura y el estado final del objeto.
-* No expone el proceso de construcción al exterior.
-* Garantiza sus invariantes una vez finalizada la construcción.
-
-### 2. Interfaz base del **Builder**
-
-* Declara los pasos necesarios para construir el producto.
-* Define una interfaz común para distintas estrategias de construcción.
-* Permite configurar el producto de forma progresiva.
-* No expone detalles de la representación final.
-
-### 3. **Builders concretos**
-
-* Implementan los pasos de construcción definidos por la interfaz.
-* Construyen variantes específicas del producto.
-* Encapsulan la lógica de construcción concreta.
-* Deciden cuándo el producto está listo para ser devuelto.
-
-### 4. **Director** (opcional)
-
-* Define el orden en el que se ejecutan los pasos de construcción.
-* Encapsula secuencias de construcción reutilizables.
-* Trabaja únicamente con la interfaz del builder.
-* No conoce la representación concreta del producto.
-
-### 5. **Código cliente**
-
-* Decide qué builder utilizar según el contexto.
-* Puede construir directamente el producto o delegar en un director.
-* No conoce los detalles internos de la construcción.
-* Utiliza el producto final ya construido y válido.
 
 ## Diagrama UML (con Director)
 
@@ -64,7 +32,7 @@ Este enfoque facilita la creación progresiva de objetos, garantiza estados vál
 
 ## Ejemplo genérico
 
-### Variante 1: Builder **con Director** (versión clásica)
+### Variante 1: Builder con Director (versión clásica)
 
 ```cpp
 #include <iostream>
@@ -172,14 +140,7 @@ int main() {
 }
 ```
 
-### Variante 2: Builder **sin Director** (builder fluido moderno)
-
-Esta variante es más idiomática en C++ actual:
-
-* El builder y el cliente trabajan directamente.
-* Los métodos devuelven `*this` para permitir **encadenamiento fluido**.
-* El cliente decide libremente el orden de construcción.
-
+### Variante 2: Builder sin Director (builder fluido moderno)
 
 ```cpp
 #include <iostream>
