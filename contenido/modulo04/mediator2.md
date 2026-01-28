@@ -12,7 +12,6 @@ La implementación del **Mediator** se basa en:
 * El **Mediador mantiene referencias a los Colegas** que coordina, normalmente almacenadas en una colección.
 * Uso de **polimorfismo dinámico** para interactuar a través de las interfaces base.
 
----
 
 ## Componentes del patrón y responsabilidades
 
