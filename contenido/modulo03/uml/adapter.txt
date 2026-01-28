@@ -1,4 +1,2 @@
-[Cliente] -> [InterfazObjetivo]
-
-[InterfazObjetivo]^-[Adaptador]
-[Adaptador] -->[Adaptado]
+[<<Interface>> Interfaz Objetivo Target]^-[Adaptador (Adapter)]
+[Adaptador (Adapter)] -->[Adaptado (Adaptee)]
