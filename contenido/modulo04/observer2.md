@@ -2,58 +2,22 @@
 
 ## Estructura general
 
-La implementación del **Observer** en C++ moderno permite **definir una dependencia uno-a-muchos** entre objetos, de modo que cuando el estado de un sujeto cambia, todos sus observadores son notificados automáticamente. El sujeto no conoce los detalles concretos de los observadores, solo que cumplen una interfaz común.
+La implementación del **Observer** se basa en:
 
-Este enfoque desacopla la fuente de los cambios de las reacciones a dichos cambios y facilita añadir o eliminar observadores sin modificar el sujeto.
-
-## Elementos de C++ moderno utilizados
-
-* **Clases abstractas e interfaces puras** para definir los contratos de sujeto y observador.
-* **Métodos virtuales y virtuales puros** para permitir notificación polimórfica.
-* **Polimorfismo dinámico** para tratar observadores de forma uniforme.
-* **Destructores virtuales** para destrucción segura mediante punteros a la interfaz.
-* **`std::shared_ptr`** para gestionar la propiedad compartida de los observadores.
-* **`std::weak_ptr`** para evitar ciclos de referencia entre sujeto y observadores.
-* **RAII** para la gestión automática del ciclo de vida.
-* **Contenedores de la STL** como `std::vector` para almacenar observadores.
-* Algoritmos de la STL como **`std::remove_if`** para limpiar observadores caducados.
+* Una **interfaz Observador** que declara la operación de notificación.
+* Una **interfaz Sujeto (Observable)** que declara las operaciones de suscripción, desuscripción y notificación.
+* Uno o varios **Observadores concretos** que implementan la interfaz de observador.
+* Uno o varios **Sujetos concretos** que implementan la interfaz de sujeto.
+* El **Sujeto mantiene una colección de Observadores** almacenados y gestionados a través de la interfaz `Observador`.
+* Uso de **polimorfismo dinámico** para notificar observadores a través de la interfaz base.
 
 ## Componentes del patrón y responsabilidades
 
-### 1. Interfaz base del **Observador**
-
-* Define la operación que el sujeto utilizará para notificar cambios.
-* Establece un contrato común para todos los observadores.
-* Permite implementar reacciones heterogéneas ante un mismo evento.
-* Se utiliza de forma polimórfica mediante punteros inteligentes.
-
-### 2. Interfaz base del **Sujeto (Observable)**
-
-* Declara las operaciones de suscripción y desuscripción de observadores.
-* Define el mecanismo de notificación de cambios.
-* Mantiene una colección de observadores registrados.
-* No conoce las implementaciones concretas de los observadores.
-
-### 3. **Sujetos concretos**
-
-* Implementan la lógica específica del dominio.
-* Mantienen el estado que será observado.
-* Notifican a los observadores cuando el estado cambia.
-* Gestionan internamente la lista de observadores de forma segura.
-
-### 4. **Observadores concretos**
-
-* Implementan la reacción ante las notificaciones del sujeto.
-* Interpretan los cambios según sus propias responsabilidades.
-* Mantienen su propio estado interno de forma encapsulada.
-* No modifican directamente el estado del sujeto.
-
-### 5. **Código cliente**
-
-* Crea el sujeto y los observadores concretos.
-* Registra y desregistra observadores en el sujeto.
-* No conoce los detalles internos de la notificación.
-* Se beneficia de la gestión automática de recursos mediante RAII.
+* **Observador (interfaz):** declara la operación que invoca el sujeto para notificar un cambio.
+* **Sujeto / Observable (interfaz):** declara las operaciones para registrar y eliminar observadores, y la operación de notificación.
+* **Sujeto concreto:** mantiene el estado observado y ejecuta la notificación a los observadores registrados cuando corresponde.
+* **Observadores concretos:** implementan la operación de notificación y ejecutan su reacción cuando reciben una actualización.
+* **Código cliente:** crea sujetos y observadores, y establece las suscripciones entre ellos.
 
 ## Diagrama UML
 
