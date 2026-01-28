@@ -6,5 +6,4 @@
 [Prototipo]^-^[PrototipoConcretoA]
 [Prototipo]^-^[PrototipoConcretoB]
 
-[PrototipoConcretoA]create-.->[Prototipo]
-[PrototipoConcretoB]create-.->[Prototipo]
+
