@@ -1,4 +1,3 @@
-[<<interface>> Sujeto]^-[ObjetoReal]
+[<<interface>> Sujeto]^-[Sujeto Real]
 [<<interface>> Sujeto]^-[Proxy]
-[Cliente]->[<<interface>> Sujeto]
-[Proxy]->[ObjetoReal]
+[Proxy]->[Sujeto Real]
