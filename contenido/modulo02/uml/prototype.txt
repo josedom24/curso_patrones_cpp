@@ -3,7 +3,7 @@
 [PrototipoConcretoA|-nombre_: string;-valor_: int|+clone(): Prototipo;+mostrar(): void]
 [PrototipoConcretoB|-etiqueta_: string;-dato_: int|+clone(): Prototipo;+mostrar(): void]
 
-[Prototipo]^-^[PrototipoConcretoA]
-[Prototipo]^-^[PrototipoConcretoB]
+[Prototipo]^--[PrototipoConcretoA]
+[Prototipo]^--[PrototipoConcretoB]
 
 
