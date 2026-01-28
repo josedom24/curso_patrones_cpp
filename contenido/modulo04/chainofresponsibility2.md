@@ -2,53 +2,21 @@
 
 ## Estructura general
 
-La implementación del **Chain of Responsibility** en C++ moderno permite **procesar una petición a través de una cadena de objetos**, donde cada elemento decide si la gestiona o la delega al siguiente. El cliente envía la petición a la cadena sin conocer qué manejador concreto será responsable de procesarla.
+La implementación del **Chain of Responsibility** se basa en:
 
-Este enfoque desacopla el emisor de la petición de sus posibles receptores y permite añadir, eliminar o reordenar manejadores sin modificar el código cliente.
-La cadena puede finalizar sin que ningún manejador procese la petición, lo cual debe ser tenido en cuenta en el diseño del sistema.
-
-## Elementos de C++ moderno utilizados
-
-* **Clases abstractas e interfaces puras** para definir un contrato común de manejo.
-* **Métodos virtuales** para permitir especialización del comportamiento.
-* **Polimorfismo dinámico** para tratar todos los manejadores de forma uniforme.
-* **Destructores virtuales** para destrucción segura en jerarquías polimórficas.
-* **Composición** para enlazar manejadores formando la cadena.
-* **`std::unique_ptr`** para expresar propiedad exclusiva del siguiente manejador.
-* **RAII** para garantizar gestión automática del ciclo de vida.
-* **Movimiento de objetos (`std::move`)** para transferir la propiedad al construir la cadena.
-* Uso explícito de **`override`** en manejadores concretos.
-
+* Una **interfaz o clase base Manejador** que declara la operación de manejo de una petición.
+* Uno o varios **Manejadores concretos** que implementan la operación de manejo.
+* Cada manejador mantiene, por **composición**, una **única referencia al siguiente manejador** de la cadena, expresada mediante el tipo base.
+* Los manejadores se **enlazan secuencialmente**, formando una **lista enlazada simple** de objetos del tipo Manejador.
+* El **código cliente** envía la petición al primer manejador de la secuencia a través de la interfaz base.
 
 ## Componentes del patrón y responsabilidades
 
-### 1. Interfaz o clase base del **Manejador**
+* **Manejador (interfaz o clase base):** declara la operación de manejo y define el enlace hacia el siguiente manejador.
+* **Manejadores concretos:** implementan la operación de manejo y deciden si procesan la petición o la delegan al siguiente manejador.
+* **Cadena (configuración/enlace):** define el orden de los manejadores enlazando instancias mediante el puntero al siguiente.
+* **Código cliente:** envía la petición al primer manejador a través de la interfaz del manejador.
 
-* Define la operación común para procesar o delegar una petición.
-* Establece el punto de entrada de la cadena.
-* Permite enlazar dinámicamente el siguiente manejador.
-* Se utiliza de forma polimórfica mediante punteros o referencias.
-
-### 2. **Manejadores concretos**
-
-* Implementan la lógica específica para decidir si procesan la petición.
-* Delegan la petición al siguiente manejador cuando no pueden gestionarla.
-* Encapsulan las condiciones de manejo sin exponerlas al cliente.
-* Mantienen el contrato definido por la interfaz base.
-
-### 3. **Construcción de la cadena**
-
-* Define el orden en el que se evaluarán los manejadores.
-* Enlaza los manejadores mediante composición.
-* Permite configurar la cadena de forma flexible y dinámica.
-* Facilita la extensión del sistema sin modificar código existente.
-
-### 4. **Código cliente**
-
-* Envía la petición al primer manejador de la cadena.
-* No conoce ni depende del número de manejadores existentes.
-* Permanece desacoplado de la lógica de decisión.
-* No participa en la gestión del ciclo de vida de los manejadores.
 
 ## Diagrama UML
 
