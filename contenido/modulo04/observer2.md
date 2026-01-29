@@ -4,8 +4,8 @@
 
 La implementación del **Observer** se basa en:
 
-* Una **jerarquía de Observadores** que declara e implementan  la operación de notificación.
-* Una **jerarquía de Sujetos (Observables)** que declara e implementan las operaciones de suscripción, desuscripción y notificación.
+* Una **jerarquía de Observadores** que declara e implementa la operación de notificación.
+* Una **jerarquía de Sujetos (Observables)** que declara e implementa las operaciones de suscripción, desuscripción y notificación.
 * Uso de **polimorfismo dinámico** para notificar observadores a través de la interfaz base.
 
 ## Componentes del patrón y responsabilidades
