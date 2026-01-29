@@ -4,10 +4,10 @@
 
 La implementación del **Abstract Factory** se basa en:
 
-* Varias **jerarquías de productos**, una por cada tipo de producto, definidas mediante clases abstractas o interfaces puras
-* Una **interfaz de fábrica abstracta** que declara un método de creación por cada producto perteneciente a una **familia de productos**
-* Varias **fábricas concretas** que implementan la interfaz de la fábrica abstracta
-* Uso de **polimorfismo dinámico** para crear y manipular productos a través de sus interfaces base
+* Varias **jerarquías de productos**, una por cada tipo de producto, definidas mediante clases abstractas o interfaces puras.
+* Una **interfaz de fábrica abstracta** que declara un método de creación por cada producto perteneciente a una **familia de productos**.
+* Varias **fábricas concretas** que implementan la interfaz de la fábrica abstracta.
+* Uso de **polimorfismo dinámico** para crear y manipular productos a través de sus interfaces base.
 
 ## Componentes del patrón y responsabilidades
 
