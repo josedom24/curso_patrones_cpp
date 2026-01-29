@@ -4,10 +4,7 @@
 
 La implementación del **Proxy** se basa en:
 
-* Una **interfaz común Sujeto** que define las operaciones utilizadas por el código cliente.
-* Un **Sujeto real** que implementa la interfaz común y contiene la funcionalidad real.
-* Un **Proxy** que implementa la misma interfaz Sujeto.
-* El **Proxy mantiene un Sujeto real por composición** (referencia o puntero a la interfaz o al tipo concreto) y delega en él las operaciones cuando corresponde.
+* Una **jerarquía de Sujetos**, definida a partir de una interfaz o clase base, con dos implementaciones concretas: el **Sujeto real** y el **Proxy**.
 * Uso de **polimorfismo dinámico** para utilizar indistintamente el proxy o el sujeto real a través de Sujeto.
 
 ## Componentes del patrón y responsabilidades
