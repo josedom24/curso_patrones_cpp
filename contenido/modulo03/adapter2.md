@@ -15,7 +15,7 @@ La implementación del **Adapter** se basa en:
 * **Target (interfaz objetivo):** declara la interfaz con la que opera el código cliente.
 * **Adaptee (clase adaptada):** proporciona la funcionalidad existente con una interfaz no compatible con Target.
 * **Adapter (adaptador):** implementa Target, mantiene un Adaptee por composición y traduce las operaciones de Target a llamadas sobre Adaptee.
-* **Código cliente:** utiliza objetos a través de la interfaz `Target`.
+* **Código cliente:** utiliza objetos a través de la interfaz Target.
 
 
 ## Diagrama UML
