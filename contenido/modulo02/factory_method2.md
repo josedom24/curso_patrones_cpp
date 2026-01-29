@@ -4,11 +4,11 @@
 
 La implementación del **Factory Method** se basa en:
 
-* Una **jerarquía de productos**, definida a partir de una clase abstracta o interfaz pura
-* Una **jerarquía de creadores**, definida a partir de una clase abstracta
-* Un **método de creación virtual** declarado en el creador base
-* La **redefinición del método de creación** en los creadores concretos
-* Uso de **polimorfismo dinámico** para crear y manipular productos a través de su tipo abstracto
+* Una **jerarquía de productos**, definida a partir de una clase abstracta o interfaz pura.
+* Una **jerarquía de creadores**, definida a partir de una clase abstracta.
+* Un **método de creación virtual** declarado en el creador base.
+* La **redefinición del método de creación** en los creadores concretos.
+* Uso de **polimorfismo dinámico** para crear y manipular productos a través de su tipo abstracto.
 
 ## Componentes del patrón y responsabilidades
 
