@@ -4,11 +4,8 @@
 
 La implementación del **Decorator** se basa en:
 
-* Una **interfaz base Componente** que define las operaciones comunes.
-* Un **Componente concreto** que implementa la interfaz base y proporciona el comportamiento base.
-* Una **clase base Decorador** que implementa la interfaz Componente.
-* El **Decorador mantiene un Componente por composición** (referencia o puntero a la interfaz).
-* Uno o varios **Decoradores concretos** que extienden la clase base Decorador.
+* Una **jerarquía de Componentes** que define las operaciones comunes de los componentes.
+* Una **jerarquía de Decoradores** que definen nuevas operaciones.
 * Uso de **polimorfismo dinámico** para tratar componentes y decoradores a través de la interfaz Componente.
 
 ## Componentes del patrón y responsabilidades
