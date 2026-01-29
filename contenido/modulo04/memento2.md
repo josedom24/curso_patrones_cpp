@@ -6,13 +6,11 @@ La implementación del **Memento** se basa en:
 
 * Un **Originador** que contiene el estado y define operaciones para guardar y restaurar dicho estado.
 * Un **Memento** que almacena una instantánea del estado del originador.
-* Una relación donde el **Originador crea Mementos** y también **restaura su estado** a partir de un memento.
 * Un **Cuidador (Caretaker)** que mantiene y gestiona una colección de mementos sin interpretarlos.
-* Un **código cliente** que interactúa con originador y cuidador para solicitar guardados y restauraciones.
 
 ## Componentes del patrón y responsabilidades
 
-* **Originador:** crea mementos a partir de su estado actual y restaura su estado a partir de un memento.
+* **Originador:** **crea mementos** a partir de su estado actual y **restaura su estado** a partir de un memento.
 * **Memento:** almacena el estado capturado del originador para que pueda ser utilizado posteriormente en una restauración.
 * **Cuidador (Caretaker):** almacena y recupera mementos, gestionando el historial de estados.
 * **Código cliente:** solicita operaciones de guardado y restauración utilizando originador y cuidador.
