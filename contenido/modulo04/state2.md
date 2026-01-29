@@ -4,20 +4,16 @@
 
 La implementación del **State** se basa en:
 
-* Una **interfaz o clase base Estado** que declara las operaciones dependientes del estado.
-* Uno o varios **Estados concretos** que implementan la interfaz `Estado`.
-* Un **Contexto** que expone las operaciones al código cliente.
-* El **Contexto mantiene el Estado actual por composición** (típicamente mediante un puntero al tipo base `Estado`) y delega en él las operaciones.
-* Una **transición de estado** que sustituye el objeto `Estado` mantenido por el contexto por otra instancia de `Estado`.
-* Uso de **polimorfismo dinámico** para ejecutar el comportamiento a través de la interfaz `Estado`.
+* Una **jerarquía de Estados** que declara e implementa las operaciones dependientes del estado.
+* Un **Contexto** que expone las operaciones al código cliente y delega su ejecución en el estado activo.
+* Uso de **polimorfismo dinámico** para ejecutar el comportamiento a través de la interfaz Estado.
 
 ## Componentes del patrón y responsabilidades
 
 * **Estado (interfaz o clase base):** declara las operaciones cuyo comportamiento depende del estado y que serán invocadas por el contexto.
-* **Estados concretos:** implementan las operaciones del estado y pueden solicitar una transición sustituyendo el estado activo.
-* **Contexto:** mantiene el estado activo y delega en él las operaciones expuestas al cliente.
+* **Estados concretos:** implementan el comportamiento específico de cada estado y pueden solicitar un cambio de estado al contexto.
+* **Contexto:** mantiene el estado activo por composición, delega en él las operaciones expuestas al cliente y realiza la transición sustituyendo el objeto Estado activo por otra instancia de Estado.
 * **Código cliente:** utiliza el contexto a través de su interfaz pública.
-
 
 ## Diagrama UML
 
