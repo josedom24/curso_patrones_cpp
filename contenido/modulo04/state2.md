@@ -5,7 +5,7 @@
 La implementación del **State** se basa en:
 
 * Una **jerarquía de Estados** que declara e implementa las operaciones dependientes del estado.
-* Un **Contexto** que expone las operaciones al código cliente y delega su ejecución en el estado activo.
+* Una clase **Contexto** que expone las operaciones al código cliente y delega su ejecución en el estado activo.
 * Uso de **polimorfismo dinámico** para ejecutar el comportamiento a través de la interfaz Estado.
 
 ## Componentes del patrón y responsabilidades
