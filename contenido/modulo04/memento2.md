@@ -4,9 +4,9 @@
 
 La implementación del **Memento** se basa en:
 
-* Un **Originador** que contiene el estado y define operaciones para guardar y restaurar dicho estado.
-* Un **Memento** que almacena una instantánea del estado del originador.
-* Un **Cuidador (Caretaker)** que mantiene y gestiona una colección de mementos sin interpretarlos.
+* Una clase **Originador** que contiene el estado y define operaciones para guardar y restaurar dicho estado.
+* Una clase **Memento** que almacena una instantánea del estado del originador.
+* Una clase **Cuidador (Caretaker)** que mantiene y gestiona una colección de mementos sin interpretarlos.
 
 ## Componentes del patrón y responsabilidades
 
