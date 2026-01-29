@@ -13,7 +13,6 @@ La implementación del **Chain of Responsibility** se basa en:
 
 * **Manejador (interfaz o clase base):** declara la operación de manejo y define el enlace hacia el siguiente manejador.
 * **Manejadores concretos:** implementan la operación de manejo y deciden si procesan la petición o la delegan al siguiente manejador.
-* **Cadena (configuración/enlace):** define el orden de los manejadores enlazando instancias mediante el puntero al siguiente.
 * **Código cliente:** envía la petición al primer manejador a través de la interfaz del manejador.
 
 
