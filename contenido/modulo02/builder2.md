@@ -5,7 +5,7 @@
 La implementación del **Builder** se basa en:
 
 * Un **Producto** cuya construcción se realiza mediante varios pasos.
-* Una **jerarquía de constructores (Builder)interfaz Builder** que declara las distintas implementaciones de construcción del producto.
+* Una **jerarquía de constructores (Builder)** que declara las distintas implementaciones de construcción del producto.
 
 Opcionalmente, podemos tener un componente **Director** que se encarga de controlar la secuencia de construcción:
 
