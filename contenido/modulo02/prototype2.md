@@ -4,8 +4,7 @@
 
 La implementación del **Prototype** se basa en:
 
-* Una **interfaz o clase base Prototipo** que declara una operación de clonación (por ejemplo, `clone()`) y permite su uso polimórfico mediante un destructor virtual.
-* Uno o varios **Prototipos concretos** que implementan la operación `clone()` y construyen un nuevo objeto del mismo tipo dinámico.
+* Una **jerarquía de Prototipos** que declara  e implementa la operación de clonación (por ejemplo, `clone()`).
 * Uso de **polimorfismo dinámico** para clonar objetos a través del tipo base, sin referirse a las clases concretas.
 
 ## Componentes del patrón y responsabilidades
