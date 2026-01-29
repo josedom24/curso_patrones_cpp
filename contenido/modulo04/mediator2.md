@@ -4,19 +4,15 @@
 
 La implementación del **Mediator** se basa en:
 
-* Una **interfaz o clase base Mediador** que declara las operaciones de coordinación.
-* Uno o varios **Mediadores concretos** que implementan la lógica de interacción.
-* Una **interfaz o clase base Colega** que representa a los objetos participantes.
-* Uno o varios **Colegas concretos** que implementan el comportamiento específico.
-* Cada **Colega mantiene una referencia al Mediador** (por composición) y no mantiene referencias a otros colegas.
-* El **Mediador mantiene referencias a los Colegas** que coordina, normalmente almacenadas en una colección.
+* Una **jerarquía de Mediadores** que declara e implementan las operaciones de coordinación.
+* Una **jerarquía de Colegas** que representa a los objetos participantes.
 * Uso de **polimorfismo dinámico** para interactuar a través de las interfaces base.
 
 
 ## Componentes del patrón y responsabilidades
 
 * **Mediador (interfaz o clase base):** declara las operaciones mediante las cuales se coordina la comunicación entre los colegas.
-* **Mediador concreto:** implementa las reglas de interacción y coordina las acciones entre los colegas registrados.
+* **Mediador concreto:** implementa las reglas de interacción y coordina las acciones entre los colegas registrados, por lo tanto mantiene referencias a los Colegas.
 * **Colega (interfaz o clase base):** define la interfaz común de los objetos participantes y mantiene una referencia al mediador.
 * **Colegas concretos:** implementan el comportamiento específico y notifican al mediador cuando se produce un evento relevante.
 * **Código cliente:** crea el mediador y los colegas, establece las relaciones entre ellos y pone en marcha el sistema.
