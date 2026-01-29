@@ -7,7 +7,6 @@ La implementación del **Facade** se basa en:
 * Uno o varios **Subsistemas** que exponen operaciones de bajo nivel.
 * Una **clase Fachada** que define las operaciones de uso para el cliente.
 * La **Fachada mantiene los subsistemas por composición** (como miembros, referencias o punteros) y realiza llamadas coordinadas a sus operaciones.
-* Un **código cliente** que utiliza la fachada como punto de acceso al sistema.
 
 ## Componentes del patrón y responsabilidades
 
