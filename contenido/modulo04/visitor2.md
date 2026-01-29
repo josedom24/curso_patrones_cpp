@@ -4,17 +4,14 @@
 
 La implementación del **Visitor** se basa en:
 
-* Una **interfaz Elemento** que declara una operación `accept(Visitante&)`.
-* Uno o varios **Elementos concretos** que implementan `accept`.
-* Una **interfaz Visitante** que declara una operación `visit(...)` por cada tipo concreto de elemento.
-* Uno o varios **Visitantes concretos** que implementan la interfaz `Visitante`.
-* Uso de **doble despacho**, donde `Elemento::accept` invoca el método `Visitante::visit` correspondiente al tipo concreto del elemento.
+* Una **jerarquía de Elementos** que declara e implementa una operación `accept(Visitante&)`.
+* Una **jerarquía de Visitantes** que declara e implementan una operación `visit(...)` por cada tipo concreto de elemento.
 * Uso de **polimorfismo dinámico** para tratar elementos y visitantes a través de sus interfaces base.
 
 ## Componentes del patrón y responsabilidades
 
 * **Elemento (interfaz o clase base):** declara `accept(Visitante&)` como punto de entrada para aplicar un visitante.
-* **Elementos concretos:** implementan `accept` e invocan el método `visit` correspondiente sobre el visitante recibido.
+* **Elementos concretos:** implementan `accept` e invocan el método `visit` (**doble despacho**) correspondiente sobre el visitante recibido.
 * **Visitante (interfaz o clase base):** declara una operación `visit` por cada tipo concreto de elemento.
 * **Visitantes concretos:** implementan las operaciones `visit` definidas por la interfaz de visitante.
 * **Código cliente:** construye la estructura de elementos y aplica visitantes invocando `accept` sobre los elementos.
