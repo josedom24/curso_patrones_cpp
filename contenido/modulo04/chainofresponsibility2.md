@@ -4,14 +4,11 @@
 
 La implementación del **Chain of Responsibility** se basa en:
 
-* Una **interfaz o clase base Manejador** que declara la operación de manejo de una petición.
-* Uno o varios **Manejadores concretos** que implementan la operación de manejo.
-* Cada manejador mantiene, por **composición**, una **única referencia al siguiente manejador** de la cadena, expresada mediante el tipo base.
-* Los manejadores se **enlazan secuencialmente**, formando una **lista enlazada simple** de objetos del tipo Manejador.
+* Una **jerarquía de Manejadores** que declara e implementa la operación de manejo de una petición.
 
 ## Componentes del patrón y responsabilidades
 
-* **Manejador (interfaz o clase base):** declara la operación de manejo y define el enlace hacia el siguiente manejador.
+* **Manejador (interfaz o clase base):** declara la operación de manejo y define el enlace hacia el siguiente manejador por composición. Los manejadores se **enlazan secuencialmente**, formando una **lista enlazada simple** de objetos del tipo Manejador.
 * **Manejadores concretos:** implementan la operación de manejo y deciden si procesan la petición o la delegan al siguiente manejador.
 * **Código cliente:** envía la petición al primer manejador a través de la interfaz del manejador.
 
