@@ -4,18 +4,15 @@
 
 La implementación del **Observer** se basa en:
 
-* Una **interfaz Observador** que declara la operación de notificación.
-* Una **interfaz Sujeto (Observable)** que declara las operaciones de suscripción, desuscripción y notificación.
-* Uno o varios **Observadores concretos** que implementan la interfaz de observador.
-* Uno o varios **Sujetos concretos** que implementan la interfaz de sujeto.
-* El **Sujeto mantiene una colección de Observadores** almacenados y gestionados a través de la interfaz `Observador`.
+* Una **jerarquía de Observadores** que declara e implementan  la operación de notificación.
+* Una **jerarquía de Sujetos (Observables)** que declara e implementan las operaciones de suscripción, desuscripción y notificación.
 * Uso de **polimorfismo dinámico** para notificar observadores a través de la interfaz base.
 
 ## Componentes del patrón y responsabilidades
 
 * **Observador (interfaz):** declara la operación que invoca el sujeto para notificar un cambio.
 * **Sujeto / Observable (interfaz):** declara las operaciones para registrar y eliminar observadores, y la operación de notificación.
-* **Sujeto concreto:** mantiene el estado observado y ejecuta la notificación a los observadores registrados cuando corresponde.
+* **Sujeto concreto:** mantiene el estado observado y ejecuta la notificación a los observadores registrados cuando corresponde. Mantiene una colección de Observadores almacenados y gestionados a través de la interfaz Observador.
 * **Observadores concretos:** implementan la operación de notificación y ejecutan su reacción cuando reciben una actualización.
 * **Código cliente:** crea sujetos y observadores, y establece las suscripciones entre ellos.
 
