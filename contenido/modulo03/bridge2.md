@@ -6,9 +6,6 @@ La implementación del **Bridge** se basa en:
 
 * Una **jerarquía de Abstracciones** que define la interfaz utilizada por el código cliente.
 * Una **jerarquía de Implementadores** que define las operaciones de bajo nivel.
-* Una **Abstracción** que mantiene un **Implementador por composición** (referencia o puntero a la interfaz).
-* Varias **Abstracciones refinadas** que extienden la jerarquía de abstracción.
-* Varios **Implementadores concretos** que implementan la jerarquía de implementación.
 * Uso de **polimorfismo dinámico** para sustituir implementadores sin modificar la abstracción.
 
 
