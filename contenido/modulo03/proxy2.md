@@ -14,7 +14,7 @@ La implementación del **Proxy** se basa en:
 
 * **Sujeto (interfaz común):** declara las operaciones que comparten el proxy y el objeto real.
 * **Sujeto real (objeto real):** implementa las operaciones definidas por Sujeto.
-* **Proxy:** implementa `Sujeto`, mantiene un objeto real por composición y decide la delegación de las operaciones hacia el sujeto real.
+* **Proxy:** implementa Sujeto, mantiene un objeto real por composición y decide la delegación de las operaciones hacia el sujeto real.
 * **Código cliente:** utiliza objetos a través de la interfaz Sujeto.
 
 ## Diagrama UML
