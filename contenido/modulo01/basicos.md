@@ -31,6 +31,7 @@ Si una clase realiza un cálculo que depende de una regla de negocio cambiante (
 ## 2. Programa a una interfaz, no a una implementación
 
 ### Motivación
+
 Acoplar el código directamente a clases concretas dificulta el cambio y la reutilización: sustituir una implementación exige modificar el código cliente. Si el cliente trabaja con abstracciones, es posible sustituir implementaciones sin alterar el uso.
 
 ### Principio
@@ -39,10 +40,8 @@ Define las dependencias en términos de abstracciones, no de clases concretas.
 
 ### Aplicación en C++ moderno
 
-* Uso de **clases abstractas** para definir contratos que admiten múltiples implementaciones.
-* Uso de **plantillas genéricas** como mecanismo de abstracción en tiempo de compilación.
+* Uso de **clases abstractas** o **interfaces puras** para definir contratos que admiten múltiples implementaciones.
 * Inyección de comportamiento mediante `std::function`, funtores o lambdas.
-* Aplicación coherente de la inversión de dependencias: los módulos de alto nivel dependen de abstracciones y reciben el comportamiento desde fuera.
 
 ### Ejemplo conceptual
 
