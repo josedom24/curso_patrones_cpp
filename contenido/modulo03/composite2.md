@@ -4,10 +4,7 @@
 
 La implementación del **Composite** se basa en:
 
-* Una **interfaz base Componente** que define las operaciones comunes de la jerarquía.
-* Uno o varios **Componentes hoja** que implementan la interfaz base y no contienen otros componentes.
-* Uno o varios **Componentes compuestos** que implementan la interfaz base y mantienen una colección de componentes hijos.
-* Una **relación recursiva de composición**, donde los compuestos almacenan y gestionan otros componentes a través de la interfaz común.
+* Una **jerarquía de Componentes** que define los distintos componentes del sistema. Tenemos componentes que no contienen otros componentes (**Hojas**) y componentes **compuestos**.
 * Uso de **polimorfismo dinámico** para manipular hojas y compuestos mediante el tipo base Componente.
 
 ## Componentes del patrón y responsabilidades
