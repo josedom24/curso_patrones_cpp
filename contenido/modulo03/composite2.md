@@ -8,7 +8,7 @@ La implementación del **Composite** se basa en:
 * Uno o varios **Componentes hoja** que implementan la interfaz base y no contienen otros componentes.
 * Uno o varios **Componentes compuestos** que implementan la interfaz base y mantienen una colección de componentes hijos.
 * Una **relación recursiva de composición**, donde los compuestos almacenan y gestionan otros componentes a través de la interfaz común.
-* Uso de **polimorfismo dinámico** para manipular hojas y compuestos mediante el tipo base `Componente`.
+* Uso de **polimorfismo dinámico** para manipular hojas y compuestos mediante el tipo base Componente.
 
 ## Componentes del patrón y responsabilidades
 
