@@ -6,9 +6,9 @@ La implementación del **Adapter** se basa en:
 
 * Una **interfaz Objetivo Target** que define las operaciones que utiliza el código cliente.
 * Una clase existente **Adaptee** con una interfaz distinta a la esperada por el cliente.
-* Un **Adapter** que implementa la interfaz `Target`.
-* El **Adapter mantiene un Adaptee por composición** (referencia, puntero o smart pointer) y reexpone la funcionalidad del adaptee mediante las operaciones de `Target`.
-* Uso de **polimorfismo dinámico** para utilizar el adapter a través de `Target`.
+* Un **Adapter** que implementa la interfaz Target.
+* El **Adapter mantiene un Adaptee por composición** (referencia, puntero o smart pointer) y reexpone la funcionalidad del adaptee mediante las operaciones de Target.
+* Uso de **polimorfismo dinámico** para utilizar el adapter a través de Target.
 
 ## Componentes del patrón y responsabilidades
 
