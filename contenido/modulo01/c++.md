@@ -1,4 +1,4 @@
-# Repaso de conceptos de C++ moderno
+# Implementación de patrones de diseño con C++ moderno
 
 Vamos a repasar los conceptos fundamentes de C++ moderno que utilizaremos en la implementación de los distintos patrones de diseño:
 

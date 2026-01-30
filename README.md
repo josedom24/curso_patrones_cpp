@@ -3,10 +3,10 @@
 * [Ejercicios](https://github.com/josedom24/ejercicios_curso_patrones_cpp)
 
 1. Principios SOLID y patrones de diseño
-    * [Repaso de conceptos de C++ moderno](contenido/modulo01/c++.md)
     * [Principios básicos de diseño](contenido/modulo01/basicos.md)
     * [SOLID: Principios de diseño orientado a objetos](contenido/modulo01/solid.md)
     * [Patrones de diseño](contenido/modulo01/patrones.md)
+    * [Implementación de patrones de diseño con C++ moderno](contenido/modulo01/c++.md)
 
 2. Patrones Creacionales
 
