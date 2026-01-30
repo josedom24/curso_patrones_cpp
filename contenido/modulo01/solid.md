@@ -20,17 +20,9 @@ Una clase con múltiples responsabilidades tiende a volverse frágil: cambios en
 
 Una clase debe tener una y solo una razón para cambiar.
 
-### Aplicación en C++ moderno
-
-* Diseñar clases pequeñas y enfocadas, que representen una sola responsabilidad clara.
-* Separar lógica de negocio, lógica de presentación, acceso a datos, validación, etc. en componentes distintos.
-* Delegar comportamiento y dependencias mediante interfaces, lambdas o `std::function`.
-* Aprovechar el *rule of zero*: clases que delegan responsabilidad en tipos RAII especializados, sin gestionar recursos directamente, por lo que no tienen que definir destructores, constructores de copia, constructores de movimiento ni operadores de asignación.
-
 ### Ejemplo conceptual
 
 Un componente que genera informes no debería encargarse también de enviarlos o almacenarlos. Cada responsabilidad corresponde a un módulo distinto.
-
 
 ## O: Principio Abierto/Cerrado (OCP)
 
@@ -41,16 +33,9 @@ Modificar código existente para añadir nuevos comportamientos aumenta el riesg
 
 Los componentes deben estar abiertos a la extensión, pero cerrados a la modificación.
 
-### Aplicación en C++ moderno
-
-* Extender comportamiento mediante **composición** o, cuando sea apropiado, **herencia**, en lugar de alterar código ya probado.
-* Inyectar comportamiento y dependencias mediante interfaces, lambdas o `std::function`.
-* Configurar comportamientos mediante inyección de dependencias (`std::unique_ptr`, `std::function`, lambdas).
-
 ### Ejemplo conceptual
 
 Un módulo de cálculo de impuestos debería permitir añadir nuevos tipos impositivos mediante nuevas clases o funciones, sin modificar el cálculo original.
-
 
 ## L: Principio de Sustitución de Liskov (LSP)
 
@@ -60,32 +45,19 @@ Las clases derivadas deben poder reemplazar a sus clases base sin alterar el com
 
 Este principio asegura que una jerarquía de clases sea coherente: si un cliente trabaja con una interfaz o clase base, debe poder utilizar cualquier implementación concreta sin sorpresas.
 
-### Aplicación en C++ moderno
-
-* Asegurar que las subclases respetan los invariantes, precondiciones y poscondiciones establecidos por la clase base.
-* Evitar redefinir métodos virtuales con un comportamiento que contradiga las expectativas establecidas por la clase base.
-* Usar clases abstractas bien definidas con contratos claros.
-* Minimizar jerarquías innecesarias: muchas violaciones de LSP se evitan favoreciendo composición.
-
 ### Ejemplo conceptual
 
 Si un algoritmo espera un objeto `Figura` con `calcular_area()`, entonces `Circulo`, `Rectangulo` o cualquier otra figura deben cumplir esa interfaz sin producir efectos inesperados.
 
-
 ## I: Principio de Segregación de Interfaces (ISP)
 
 ### Motivación
+
 Las interfaces demasiado grandes obligan a las clases que las implementan a depender de métodos que no necesitan. Esto aumenta el acoplamiento y reduce la cohesión.
 
 ### Principio
 
 Es preferible tener muchas interfaces pequeñas y específicas antes que una interfaz general y extensa.
-
-### Aplicación en C++ moderno
-
-* Dividir interfaces amplias en interfaces pequeñas y especializadas.
-* Diseñar clases abstractas con responsabilidades bien delimitadas.
-* Evitar clases base "omnipotentes" que fuerzan a las implementaciones a proporcionar métodos irrelevantes.
 
 ### Ejemplo conceptual
 
@@ -94,17 +66,12 @@ Una impresora multifunción no debería estar obligada a implementar métodos de
 ## D: Principio de Inversión de Dependencias (DIP)
 
 ### Motivación
+
 En un diseño tradicional, los módulos de alto nivel dependen directamente de módulos de bajo nivel. Esto produce un sistema rígido, difícil de probar y de extender. El principio DIP invierte esta tendencia. 
+
 ### Principio
 
 Los módulos de alto nivel no deben depender de módulos de bajo nivel. Ambos deben depender de abstracciones. Las abstracciones deben mantenerse estables y no depender de implementaciones concretas.
-
-### Aplicación en C++ moderno
-
-* Inyectar comportamiento y dependencias mediante interfaces, lambdas o `std::function`.
-* Inyectar dependencias mediante constructores, setters o parámetros de función, en lugar de crearlas internamente.
-* Usar `std::unique_ptr` o `std::shared_ptr` para gestionar dependencias polimórficas sin gestionar manualmente memoria.
-
 
 ### Ejemplo conceptual
 
