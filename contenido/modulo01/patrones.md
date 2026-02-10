@@ -47,7 +47,7 @@ Conviene considerar un patrón cuando:
 * El problema aparece de forma recurrente en otros sistemas.
 * Se requiere una solución flexible, extensible y mantenible.
 * Es útil emplear un vocabulario común de diseño para comunicar ideas.
-* Se quiere aplicar principios como OCP y DIP de manera sistemática.
+* Se quiere aplicar principios de buen diseño de manera sistemática.
 * Existe una solución compleja que ya ha sido estudiada y formalizada.
 
 En cambio, **no** se debe aplicar un patrón cuando:
