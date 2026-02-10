@@ -53,7 +53,8 @@ Si un algoritmo espera un objeto `Figura` con `calcular_area()`, entonces `Circu
 
 ### Motivación
 
-Las interfaces demasiado grandes obligan a las clases que las implementan a depender de métodos que no necesitan. Esto aumenta el acoplamiento y reduce la cohesión.
+Las interfaces demasiado grandes obligan a las clases que las implementan a depender de métodos que no necesitan. Esto aumenta el acoplamiento y reduce la cohesión. Una interfaz no debe obligar a implementar métodos que no necesita.
+
 
 ### Principio
 
