@@ -13,7 +13,12 @@ Identifica los aspectos de tu aplicación que varían y sepáralos del resto del
 
 ### Ejemplo conceptual
 
-Si una clase realiza un cálculo que depende de una regla de negocio cambiante (por ejemplo, una política de descuento), esta política debe extraerse en un objeto independiente o una función inyectada, de modo que pueda modificarse sin alterar la clase principal.
+Tu app de pagos tiene el código necesario para pagar con **tarjeta bancaria** mezclado por toda la aplicación: en el carrito, en confirmaciones, en reportes.
+
+Llega el requisito: "Ahora también aceptamos PayPal".
+
+* **Si no encapsulaste lo que varía**: tienes que buscar y modificar decenas de lugares. El código se llena de condicionales por cada proveedor.
+* **Si lo encapsulaste**: creaste una abstracción "Procesador de Pagos" independiente del proveedor. Añadir PayPal es solo crear una nueva implementación sin tocar el resto del código.
 
 ## 2. Programa a una interfaz, no a una implementación
 
@@ -55,5 +60,8 @@ Diseña componentes que dependan lo menos posible de los detalles internos de ot
 
 ### Ejemplo conceptual
 
-Si un componente necesita valores de configuración, no debe leer archivos directamente. En su lugar, recibe una abstracción que proporciona la configuración. Así puede cambiar la fuente (archivo, red, memoria, valores por defecto) sin modificar el componente.
+Tu servicio de pedidos necesita calcular impuestos. Actualmente accede directamente a la base de datos para obtener la tabla de impuestos de cada región.
 
+Problema: el servicio conoce detalles de la base de datos (esquema, conexión, queries). Si cambias la BD o la estructura, el servicio se rompe.
+
+Si en lugar de eso, el servicio recibiera un objeto `RepositorioImpuestos` que abstrae dónde vienen los datos (BD, API externa, archivo), entonces cambiar la fuente no afecta al servicio. El acoplamiento es débil.
