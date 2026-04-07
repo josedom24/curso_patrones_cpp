@@ -1,6 +1,6 @@
 ## SOLID: Principios de diseño orientado a objetos
 
-Los principios SOLID constituyen un conjunto de cinco directrices fundamentales para diseñar sistemas orientados a objetos que sean **flexibles**, **extensibles** y **fáciles de mantener**. Propuestos originalmente por Robert C. Martin (Uncle Bob), estos principios permiten reducir el acoplamiento, mejorar la cohesión y facilitar la evolución del software.
+Los principios SOLID constituyen un conjunto de cinco directrices fundamentales para diseñar sistemas orientados a objetos que sean **flexibles**, **extensibles** y **fáciles de mantener**, por lo tanto permiten reducir el acoplamiento, mejorar la cohesión y facilitar la evolución del software.
 
 El acrónimo **SOLID** representa los siguientes principios:
 
