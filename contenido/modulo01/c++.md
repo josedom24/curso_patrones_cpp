@@ -40,7 +40,7 @@ Relación *tiene-un*. Construye sistemas flexibles mediante cooperación de obje
 Relación *es-un*. Define jerarquías de tipos relacionados para reutilización y polimorfismo. Se usa principalmente para definir interfaces.
 
 ## Clases abstractas y métodos virtuales puros
-Definen interfaces comunes sin implementación. Contienen métodos virtuales puros, sin implementación.
+Definen interfaces comunes sin implementación. Contienen métodos virtuales puros, sin implementación (al menos uno).
 
 El especificador `override` se utiliza en las clases derivadas para indicar explícitamente que un método redefine un método virtual de la clase base. El especificador `final` cierra puntos de extensión.
 
