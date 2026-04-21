@@ -16,12 +16,6 @@ Crear este tipo de objetos mediante constructores tradicionales puede conducir a
 
 Por ello emplearemos el patrón **Builder**, separando la **construcción paso a paso** de la **representación final**.
 
-En este ejemplo además, el objeto `SolicitudHTTP` será **inmutable**, con atributos `const`
-
-* Todos sus campos internos serán constantes.
-* Su constructor será **privado**.
-* Solo el builder podrá crear instancias válidas.
-
 Mostraremos dos variantes:
 
 1. **Builder con Director** (versión clásica del patrón)
