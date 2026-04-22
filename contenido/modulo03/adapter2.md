@@ -5,8 +5,8 @@
 La implementación del **Adapter** se basa en:
 
 * Una clase existente **Adaptee** con una interfaz distinta a la esperada por el cliente.
-* Una **jerarquía de Target**, definida a partir de una interfaz que declara las operaciones utilizadas por el código cliente.
-* Uso de **polimorfismo dinámico** para utilizar el adapter a través de Target.
+* Una **jerarquía de Target**, definida a partir de una interfaz que declara las operaciones utilizadas por el código cliente. Las clase**Adapter** implementa la interfaz **Target**.
+* Uso de **polimorfismo dinámico** para utilizar el **Adapter** a través de **Target**.
 
 ## Componentes del patrón y responsabilidades
 
