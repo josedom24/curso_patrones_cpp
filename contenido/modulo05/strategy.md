@@ -30,7 +30,7 @@ En C++ moderno, Strategy se implementa habitualmente **sin jerarquías de clases
 Las formas más comunes son:
 
 * **Lambdas**, para definir estrategias de forma concisa y local.
-* **`std::function`**, para almacenar y cambiar dinámicamente cualquier callable con la firma adecuada.
+* **`std::function`**, para almacenar y cambiar dinámicamente cualquier que se pueda  con la firma adecuada.
 * **Functores**, cuando la estrategia necesita estado interno o se busca mayor control sobre rendimiento.
 
 El objeto que utiliza la estrategia (**contexto**) se limita a **almacenar y ejecutar el comportamiento recibido**, sin conocer su implementación concreta.

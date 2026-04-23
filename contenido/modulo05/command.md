@@ -20,8 +20,6 @@ El patrón Command es adecuado cuando:
 * Se quiere parametrizar objetos con **acciones intercambiables**.
 * Es necesario desacoplar interfaces de usuario (botones, menús, eventos) de la lógica de negocio.
 
-En muchos casos modernos, el patrón no se aplica de forma explícita, sino mediante **funciones y lambdas**.
-
 ## Cómo se implementa en C++ moderno
 
 En C++ moderno, Command se implementa de forma natural mediante **inyección de comportamiento**, sin necesidad de jerarquías de clases.
@@ -29,13 +27,13 @@ En C++ moderno, Command se implementa de forma natural mediante **inyección de 
 Las técnicas habituales son:
 
 * **Lambdas**, que encapsulan la acción y capturan el estado necesario.
-* **`std::function<void()>`** como tipo común para almacenar y ejecutar comandos.
+* **`std::function`** como tipo común para almacenar y ejecutar comandos.
 * **Contenedores estándar** (`std::vector`, `std::queue`, `std::stack`) para gestionar secuencias de acciones.
 
 Con este enfoque:
 
 * El invocador almacena y ejecuta funciones, no clases concretas.
-* La ejecución diferida se logra almacenando el callable.
+* La ejecución diferida se logra almacenando el objeto que se puede llamar.
 * *Undo/redo* se implementa guardando funciones inversas.
 * Se elimina la herencia en favor de composición.
 * Cualquier acción invocable se convierte en un **comando moderno**.

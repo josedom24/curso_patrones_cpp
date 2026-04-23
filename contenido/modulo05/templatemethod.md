@@ -28,9 +28,9 @@ En C++ moderno, el Template Method suele implementarse mediante **composición e
 
 La estructura del algoritmo se define en una función o clase que mantiene la **secuencia fija**, mientras que los pasos variables se proporcionan desde el exterior mediante:
 
-* **Lambdas**
-* **`std::function`**
-* Otros objetos invocables
+* **Lambdas**: Inyectan los pasos variables.
+* **`std::function`**, almacena comportamientos intercambiables.
+* Otros objetos invocables.
 
 Este enfoque conserva el control del flujo, elimina la herencia innecesaria y permite personalizar partes del algoritmo de forma **más flexible, explícita y fácil de mantener**, reflejando mejor el estilo de diseño recomendado en C++ moderno.
 
