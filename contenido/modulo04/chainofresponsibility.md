@@ -25,7 +25,7 @@ El patrón aborda principalmente estas situaciones:
 
 El Chain of Responsibility aporta estas soluciones:
 
-* **Define una interfaz común de manejador**, que declara la operación de procesamiento de la petición y la referencia al siguiente elemento de la cadena, unificando el modo de تعاملar con todos los manejadores.
+* **Define una interfaz común de manejador**, que declara la operación de procesamiento de la petición y la referencia al siguiente elemento de la cadena, unificando el modo de trabajar con todos los manejadores.
 * **Encapsula la lógica de decisión dentro de cada manejador**, permitiendo que cada objeto determine si procesa la petición o la delega, eliminando la lógica condicional del código cliente.
 * **Permite construir y modificar cadenas dinámicas de procesamiento**, donde los manejadores pueden conectarse, reordenarse o sustituirse sin afectar al emisor de la petición.
 * **Facilita la extensibilidad del sistema mediante composición**, permitiendo añadir nuevos manejadores simplemente incorporándolos a la cadena, sin modificar el código existente y respetando el principio *Open/Closed*.
