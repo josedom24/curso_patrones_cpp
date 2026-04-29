@@ -63,7 +63,7 @@
     * [Ejemplo: Estados de un reproductor multimedia](contenido/modulo04/state3.md)
     * [Patrón Visitor](contenido/modulo04/visitor.md)
     * [Implementación de Visitor con C++](contenido/modulo04/visitor2.md)
-    * [Ejemplo: Sistema de elementos visitables (inspección de objetos)](contenido/modulo04/visitor3.md)
+    * [Ejemplo: Sistema de procesamiento de documentos](contenido/modulo04/visitor3.md)
 
 5. Patrones clásicos y alternativas modernas en C++
 
