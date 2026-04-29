@@ -262,8 +262,6 @@ public:
 #### Implementación (`Visitantes.cpp`)
 
 ```cpp
-#include <iostream>
-
 // ----------------------------------------
 // VisitanteExportar
 // ----------------------------------------
