@@ -207,10 +207,9 @@ int main() {
 }
 ```
 
-1. **La unicidad no la garantiza la clase ni el lenguaje**, sino la arquitectura del programa: se crea un único logger en un punto central y se reutiliza en todas partes.
-2. **La inyección de dependencias consiste en recibir el logger desde fuera**, en lugar de crearlo dentro de cada módulo o función.
-3. **Las funciones consumidoras no instancian loggers**, solo usan el que reciben, lo que mantiene la coherencia y evita duplicaciones accidentales.
-4. **La inyección de dependencias no busca garantizar unicidad**, sino reducir acoplamiento, hacer el diseño más claro y facilitar el reemplazo del logger.
-5. **Este enfoque evita estado global oculto**, hace explícito el ciclo de vida del objeto y mejora notablemente la testabilidad.
-6. **La unicidad se controla mediante diseño**, no mediante restricciones técnicas como en el patrón Singleton.
+* **No actúa como una variable global encubierta**: `ConsoleLogger` se crea explícitamente en `main` y se pasa a las funciones, evitando estado global implícito.
+* **Hace explícitas las dependencias**: funciones como `procesar(ILogger& logger)` declaran claramente que dependen de un logger en su interfaz.
+* **Facilita la sustitución en pruebas**: permite usar otras implementaciones de `ILogger` (por ejemplo, mocks) sin modificar el código cliente.
+* **Hace explícito el flujo de creación y uso**: el objeto `ConsoleLogger logger;` se crea en un punto central y su ciclo de vida es visible y controlado.
+
 
