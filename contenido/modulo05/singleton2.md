@@ -18,8 +18,6 @@ El código se presenta dividido en:
 
 ## Versión clásica
 
-Aquí tienes la **versión clásica con Singleton** del mismo ejemplo, seguida de una explicación clara de sus implicaciones en diseño.
-
 En esta variante, implementamos el logger como un **Singleton clásico**, es decir, una clase que:
 
 * Impide la creación de instancias desde el exterior.
