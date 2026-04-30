@@ -51,17 +51,17 @@ public:
 // ----------------------------------------
 // Implementación Singleton
 // ----------------------------------------
-class SingletonLogger : public ILogger {
+class ConsoleLogger : public ILogger {
 public:
     // Punto de acceso global
-    static SingletonLogger& instance() {
-        static SingletonLogger instance; // Inicialización segura desde C++11
+    static ConsoleLogger& instance() {
+        static ConsoleLogger instance; // Inicialización segura desde C++11
         return instance;
     }
 
     // Eliminamos copia y asignación
-    SingletonLogger(const SingletonLogger&) = delete;
-    SingletonLogger& operator=(const SingletonLogger&) = delete;
+    ConsoleLogger(const ConsoleLogger&) = delete;
+    ConsoleLogger& operator=(const ConsoleLogger&) = delete;
 
     // Implementación de ILogger
     void log(const std::string& msg) override {
@@ -78,7 +78,7 @@ public:
 
 private:
     // Constructor privado: impide creación externa
-    SingletonLogger() = default;
+    ConsoleLogger() = default;
 };
 ```
 
@@ -93,15 +93,15 @@ private:
 // ----------------------------
 
 void inicializar() {
-    SingletonLogger::instance().log("Iniciando el sistema...");
+    ConsoleLogger::instance().log("Iniciando el sistema...");
 }
 
 void procesar() {
-    SingletonLogger::instance().warning("El rendimiento está por debajo del esperado.");
+    ConsoleLogger::instance().warning("El rendimiento está por debajo del esperado.");
 }
 
 void finalizar() {
-    SingletonLogger::instance().error("Finalización inesperada detectada.");
+    ConsoleLogger::instance().error("Finalización inesperada detectada.");
 }
 
 // ----------------------------
@@ -118,10 +118,10 @@ int main() {
 ```
 Aunque funcional, este diseño introduce varias limitaciones importantes:
 
-* **Actúa como una variable global encubierta**: `SingletonLogger::instance()` puede usarse desde cualquier parte sin declararlo, manteniendo estado compartido durante toda la ejecución.
-* **Introduce dependencias ocultas difíciles de rastrear**: funciones como `procesar()` dependen de `SingletonLogger` sin indicarlo en sus parámetros.
-* **Complica la sustitución en pruebas**: no permite reemplazar `SingletonLogger` por otra implementación de `ILogger`, obligando a usar siempre la instancia real.
-* **Hace menos explícito el flujo de creación y uso**: `SingletonLogger` se crea automáticamente en el primer acceso y no existe un punto claro que controle su ciclo de vida.
+* **Actúa como una variable global encubierta**: `ConsoleLogger::instance()` puede usarse desde cualquier parte sin declararlo, manteniendo estado compartido durante toda la ejecución.
+* **Introduce dependencias ocultas difíciles de rastrear**: funciones como `procesar()` dependen de `ConsoleLogger` sin indicarlo en sus parámetros.
+* **Complica la sustitución en pruebas**: no permite reemplazar `ConsoleLogger` por otra implementación de `ILogger`, obligando a usar siempre la instancia real.
+* **Hace menos explícito el flujo de creación y uso**: `ConsoleLogger` se crea automáticamente en el primer acceso y no existe un punto claro que controle su ciclo de vida.
 
 ## Versión moderna
 
