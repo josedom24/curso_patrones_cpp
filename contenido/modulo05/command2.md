@@ -14,13 +14,14 @@ Cada botón del control remoto recibirá una **función invocable**, por ejemplo
 El control remoto simplemente almacena y ejecuta estas funciones.
 Los dispositivos (luz, persiana, ventilador, etc.) proporcionan los métodos reales que operan sobre el hardware simulado.
 
-La técnica de inyección de comportamiento utilizada será: Inyección directa mediante funciones invocables (`std::function<void()>`) y lambdas con captura.
+La técnica de inyección de comportamiento utilizada será: **inyección directa mediante funciones invocables (`std::function<void()>`) y lambdas con captura**.
 
 A continuación se muestra el código completo dividido en:
 
 * **Receptor.hpp**: dispositivos que realizan las acciones reales.
 * **ControlRemoto.hpp**: invocador que almacena funciones.
 * **main.cpp**: código cliente que inyecta el comportamiento.
+
 
 ## Receptor.hpp
 
@@ -53,6 +54,7 @@ public:
 };
 ```
 
+
 ## ControlRemoto.hpp
 
 ```cpp
@@ -67,22 +69,36 @@ public:
 
 class ControlRemoto {
 private:
-    std::function<void()> accion_;
+    std::function<void()> boton1_;
+    std::function<void()> boton2_;
 
 public:
-    void asignar_accion(std::function<void()> f) {
-        accion_ = std::move(f);
+    void asignar_boton1(std::function<void()> f) {
+        boton1_ = std::move(f);
     }
 
-    void pulsar_boton() const {
-        if (accion_) {
-            accion_();
+    void asignar_boton2(std::function<void()> f) {
+        boton2_ = std::move(f);
+    }
+
+    void pulsar_boton1() const {
+        if (boton1_) {
+            boton1_();
         } else {
-            std::cout << "ControlRemoto: no hay acción asignada.\n";
+            std::cout << "Botón 1: sin acción asignada.\n";
+        }
+    }
+
+    void pulsar_boton2() const {
+        if (boton2_) {
+            boton2_();
+        } else {
+            std::cout << "Botón 2: sin acción asignada.\n";
         }
     }
 };
 ```
+
 
 ## main.cpp
 
@@ -96,25 +112,30 @@ int main() {
 
     ControlRemoto control;
 
-    // Encender luz
-    control.asignar_accion([&]() { luz.encender(); });
-    control.pulsar_boton();
+    // ----------------------------
+    // Configuración inicial
+    // ----------------------------
 
-    // Apagar luz
-    control.asignar_accion([&]() { luz.apagar(); });
-    control.pulsar_boton();
+    control.asignar_boton1([&]() { luz.encender(); });
+    control.asignar_boton2([&]() { persiana.subir(); });
 
-    // Subir persiana
-    control.asignar_accion([&]() { persiana.subir(); });
-    control.pulsar_boton();
+    control.pulsar_boton1(); // Luz encendida
+    control.pulsar_boton2(); // Persiana subida
 
-    // Bajar persiana
-    control.asignar_accion([&]() { persiana.bajar(); });
-    control.pulsar_boton();
+    // ----------------------------
+    // Reconfiguración dinámica
+    // ----------------------------
+
+    control.asignar_boton1([&]() { luz.apagar(); });
+    control.asignar_boton2([&]() { persiana.bajar(); });
+
+    control.pulsar_boton1(); // Luz apagada
+    control.pulsar_boton2(); // Persiana bajada
 
     return 0;
 }
 ```
+
 
 ## Añadir un nuevo "comando"
 
@@ -134,19 +155,21 @@ public:
 };
 ```
 
+
 ### Usarlo en `main.cpp`
 
 ```cpp
 Ventilador ventilador;
 
-control.asignar_accion([&]() { ventilador.activar(); });
-control.pulsar_boton();
+control.asignar_boton1([&]() { ventilador.activar(); });
+control.asignar_boton2([&]() { ventilador.desactivar(); });
 
-control.asignar_accion([&]() { ventilador.desactivar(); });
-control.pulsar_boton();
+control.pulsar_boton1();
+control.pulsar_boton2();
 ```
 
-### Qué no hemos modificado
+
+## Qué no hemos modificado
 
 * No hemos cambiado **ControlRemoto.hpp**.
 * No hemos añadido **nuevas clases de comando**.
