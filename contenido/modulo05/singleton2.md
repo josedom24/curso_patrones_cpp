@@ -2,8 +2,7 @@
 
 ## Introducción
 
-Para ilustrar el uso de un **logger global** en un contexto realista, construiremos un componente centralizado que gestiona la escritura de mensajes de diagnóstico de toda la aplicación.
-
+Para ilustrar el uso del patrón Singleton en un contexto realista, construiremos un componente centralizado (**Logger global**) que gestiona la escritura de mensajes de diagnóstico de toda la aplicación.
 El objetivo es asegurar que exista **una única instancia del logger**, lo que garantiza:
 
 * Una fuente única y coherente de mensajes.
