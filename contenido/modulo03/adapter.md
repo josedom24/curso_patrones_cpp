@@ -31,7 +31,7 @@ El Adapter aporta estas soluciones:
 
 ## Relación con los principios SOLID
 
-* **SRP (Single Responsibility Principle)**:
+* **SRP (Single Responsibility Principle)**: el Adapter tiene una única responsabilidad: **adaptar una interfaz a otra**, sin añadir lógica de negocio ni modificar la clase original.
 * **OCP (Open/Closed Principle)**: se pueden añadir **nuevos adaptadores** para soportar nuevas interfaces o clases existentes **sin modificar** el cliente ni las clases ya implementadas.
 * **LSP (Liskov Substitution Principle)**: cualquier adaptador que implemente la **interfaz objetivo** puede sustituirse por otro sin cambiar el comportamiento esperado por el cliente.
 * **ISP (Interface Segregation Principle)**: la **interfaz objetivo** se diseña según lo que el cliente necesita, evitando forzarlo a depender de métodos innecesarios.
@@ -49,7 +49,3 @@ El Adapter aporta estas soluciones:
 * **Sistemas de pago**: Adaptar distintos proveedores (Stripe, PayPal, Redsys,...) a una interfaz única del sistema de cobros.
 * **Frameworks multimedia**: Permitir que distintos decodificadores de audio/vídeo se usen intercambiablemente.
 * **Conversión de tipos o formatos**: Adaptar estructuras de datos antiguas a nuevos modelos de dominio sin reescribir toda la lógica.
-
-
-
-
