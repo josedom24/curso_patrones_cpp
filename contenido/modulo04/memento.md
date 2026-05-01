@@ -33,9 +33,9 @@ El patrón Memento aporta estas soluciones:
 
 * **Single Responsibility Principle (SRP)**: El patrón *Memento* separa claramente las responsabilidades involucradas en la gestión del estado. El **originador** se centra en su lógica de negocio y en definir cómo capturar y restaurar su estado, el **memento** encapsula una instantánea del estado, y el **cuidador (caretaker)** se encarga exclusivamente de gestionar el historial de estados.
 * **Open/Closed Principle (OCP)**: El patrón permite **extender la forma en que se gestionan los estados** (por ejemplo, distintos tipos de historiales, políticas de almacenamiento o persistencia) sin modificar la implementación del originador. La extensibilidad se produce principalmente en la gestión de los mementos, no en su estructura interna.
-* **Interface Segregation Principle (ISP)**: El memento expone una **interfaz mínima o incluso opaca**, evitando que otros componentes dependan de operaciones o detalles internos del estado. De este modo, solo el originador conoce y utiliza el contenido real del memento.
-* **Liskov Substitution Principle (LSP) y Dependency Inversion Principle (DIP)**: Estos principios **no son el foco principal** del patrón *Memento*. No obstante, pueden aplicarse de forma complementaria si se definen interfaces comunes para originadores o cuidadores. En ese caso, distintas implementaciones pueden sustituirse y el código cliente puede depender de abstracciones, aunque esto no es un requisito inherente al patrón.
-* **Dependency Inversion Principle (DIP)**: El código cliente depende de **abstracciones conceptuales** (originador y cuidador) y no del detalle concreto del estado almacenado. El estado queda completamente encapsulado dentro del memento.
+* **Liskov Substitution Principle (LSP)**: Aunque no es obligatorio, si trabajamos con interfaces comunes para originadores o cuidadores, podemos tener distintas implementaciones que pueden sustituirse,  y el código cliente puede depender de abstracciones, aunque esto no es un requisito inherente al patrón.
+* **Interface Segregation Principle (ISP)**: El memento expone una **interfaz mínima o incluso opaca**, evitando que otros componentes dependan de operaciones o detalles internos del estado. De este modo, solo el originador conoce y utiliza el contenido real del memento
+* **Dependency Inversion Principle (DIP)**: El código cliente puede depender de **abstracciones conceptuales** (originador y cuidador) y no del detalle concreto del estado almacenado. El estado queda completamente encapsulado dentro del memento.
 
 ## Ejemplos concretos
 
@@ -49,4 +49,3 @@ El patrón Memento aporta estas soluciones:
 * **Gestores de documentos**: mantener versiones internas sin necesidad de persistencia inmediata en disco.
 * **Herramientas de depuración**: recrear el estado de un componente para analizar fallos específicos.
 * **Interfaces interactivas**: permitir que el usuario pruebe cambios (tema, layout, opciones) y los revierta fácilmente.
-
